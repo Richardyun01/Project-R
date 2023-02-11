@@ -32,15 +32,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.RogueArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ScaleArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.WarriorArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AESARadar;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.Artifact;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CapeOfThorns;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ChaliceOfBlood;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.EtherealChains;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.LloydsBeacon;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
@@ -89,7 +88,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
-import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfFear;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAugmentation;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfBlast;
@@ -98,6 +96,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfClairvoyance
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfDeepSleep;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfDisarming;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfFear;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfFlock;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfShock;
@@ -117,10 +116,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfTransfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BattleAxe;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Chainsaw;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CommonBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dirk;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Executioner;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.FusionLance;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
@@ -128,18 +131,28 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greataxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatshield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandAxe;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Krystallos;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Longsword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lunge;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Mace;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MoonlightBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PsionicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Rapier;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RipperWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RuinSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sai;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scripture;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SurrationSaw;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ThunderSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Whip;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
@@ -159,11 +172,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSt
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Tomahawk;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Trident;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Blindweed;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Mageroyal;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Fadeleaf;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Firebloom;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Icecap;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Mageroyal;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Sorrowmoss;
@@ -344,18 +357,25 @@ public class Generator {
 					WornShortsword.class,
 					MagesStaff.class,
 					Dagger.class,
-					Gloves.class
+					Gloves.class,
+					CommonBlade.class,
+					RuinSpear.class,
+					Krystallos.class,
+					PsionicBlade.class
 			};
-			WEP_T1.probs = new float[]{ 1, 0, 1, 1 };
+			WEP_T1.probs = new float[]{ 1, 0, 1, 1, 1, 1, 1, 0 };
 			
 			WEP_T2.classes = new Class<?>[]{
 					Shortsword.class,
 					HandAxe.class,
 					Spear.class,
 					Quarterstaff.class,
-					Dirk.class
+					Dirk.class,
+					Lunge.class,
+					SurrationSaw.class,
+					Rapier.class,
 			};
-			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4 };
+			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4 };
 			
 			WEP_T3.classes = new Class<?>[]{
 					Sword.class,
@@ -363,9 +383,11 @@ public class Generator {
 					Scimitar.class,
 					RoundShield.class,
 					Sai.class,
-					Whip.class
+					Whip.class,
+					RipperWeapon.class,
+					Scripture.class
 			};
-			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4 };
+			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 };
 			
 			WEP_T4.classes = new Class<?>[]{
 					Longsword.class,
@@ -373,9 +395,11 @@ public class Generator {
 					Flail.class,
 					RunicBlade.class,
 					AssassinsBlade.class,
-					Crossbow.class
+					Crossbow.class,
+					Chainsaw.class,
+					ThunderSpear.class
 			};
-			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 4 };
+			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4 };
 			
 			WEP_T5.classes = new Class<?>[]{
 					Greatsword.class,
@@ -383,9 +407,12 @@ public class Generator {
 					Glaive.class,
 					Greataxe.class,
 					Greatshield.class,
-					Gauntlet.class
+					Gauntlet.class,
+					Executioner.class,
+					MoonlightBlade.class,
+					FusionLance.class
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4 };
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 4 };
 			
 			//see Generator.randomArmor
 			ARMOR.classes = new Class<?>[]{
@@ -470,9 +497,10 @@ public class Generator {
 					SandalsOfNature.class,
 					TalismanOfForesight.class,
 					TimekeepersHourglass.class,
-					UnstableSpellbook.class
+					UnstableSpellbook.class,
+					AESARadar.class
 			};
-			ARTIFACT.defaultProbs = new float[]{ 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1 };
+			ARTIFACT.defaultProbs = new float[]{ 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 			ARTIFACT.probs = ARTIFACT.defaultProbs.clone();
 		}
 	}

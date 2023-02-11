@@ -114,6 +114,20 @@ public class Combo extends Buff implements ActionIndicator.Action {
 		comboTime += time;
 	}
 
+	public void bounshit(Char charR) {
+		this.count++;
+		this.comboTime = 5.0f;
+		if (!charR.isAlive() || (charR.buff(Corruption.class) != null && charR.HP == charR.HT)) {
+			this.comboTime = Math.max(this.comboTime, (float) (((Hero) this.target).pointsInTalent(Talent.CLEAVE) * 15));
+		}
+		this.initialComboTime = this.comboTime;
+		if (getHighestMove() != null) {
+			ActionIndicator.setAction(this);
+			Badges.validateMasteryCombo(this.count);
+		}
+		BuffIndicator.refreshHero();
+	}
+
 	@Override
 	public void detach() {
 		super.detach();

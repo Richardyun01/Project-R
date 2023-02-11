@@ -49,7 +49,7 @@ public class DangerIndicator extends Tag {
 		super( 0xFF4C4C );
 		
 		setSize( SIZE, HEIGHT );
-		
+
 		visible = false;
 	}
 	

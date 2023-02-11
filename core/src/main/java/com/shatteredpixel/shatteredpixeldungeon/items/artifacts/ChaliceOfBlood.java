@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -136,6 +137,7 @@ public class ChaliceOfBlood extends Artifact {
 			image = ItemSpriteSheet.ARTIFACT_CHALICE3;
 		else if (level() >= 2)
 			image = ItemSpriteSheet.ARTIFACT_CHALICE2;
+		GLog.p(Messages.get(Level.class, "hidden_trap", "Upgrade2 "+level()));
 		return super.upgrade();
 	}
 

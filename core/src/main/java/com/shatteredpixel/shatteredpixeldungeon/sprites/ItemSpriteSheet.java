@@ -66,16 +66,16 @@ public class ItemSpriteSheet {
 		assignItemRect(ARMOR_HOLDER,    14, 12);
 		assignItemRect(MISSILE_HOLDER,  15, 15);
 		assignItemRect(WAND_HOLDER,     14, 14);
-		assignItemRect(RING_HOLDER,     8,  10);
-		assignItemRect(ARTIFACT_HOLDER, 15, 15);
+		assignItemRect(RING_HOLDER,     8,  11);
+		assignItemRect(ARTIFACT_HOLDER, 15, 13);
 		assignItemRect(FOOD_HOLDER,     15, 11);
-		assignItemRect(BOMB_HOLDER,     10, 13);
-		assignItemRect(POTION_HOLDER,   12, 14);
-		assignItemRect(SEED_HOLDER,     10, 10);
-		assignItemRect(SCROLL_HOLDER,   15, 14);
-		assignItemRect(STONE_HOLDER,    14, 12);
+		assignItemRect(BOMB_HOLDER,     12, 12);
+		assignItemRect(POTION_HOLDER,   12, 12);
+		assignItemRect(SEED_HOLDER,     13, 15);
+		assignItemRect(SCROLL_HOLDER,   12, 16);
+		assignItemRect(STONE_HOLDER,    16, 16);
 		assignItemRect(CATA_HOLDER,     6,  15);
-		assignItemRect(ELIXIR_HOLDER,   12, 14);
+		assignItemRect(ELIXIR_HOLDER,   12, 16);
 		assignItemRect(SPELL_HOLDER,    8,  16);
 	}
 
@@ -91,13 +91,13 @@ public class ItemSpriteSheet {
 	public static final int TENGU_BOMB      = UNCOLLECTIBLE+8;
 	public static final int TENGU_SHOCKER   = UNCOLLECTIBLE+9;
 	static{
-		assignItemRect(GOLD,        15, 13);
+		assignItemRect(GOLD,        13, 14);
 		assignItemRect(ENERGY,      16, 16);
 
-		assignItemRect(DEWDROP,     10, 10);
-		assignItemRect(PETAL,       8,  8);
+		assignItemRect(DEWDROP,     9, 13);
+		assignItemRect(PETAL,       7,  8);
 		assignItemRect(SANDBAG,     10, 10);
-		assignItemRect(SPIRIT_ARROW,11, 11);
+		assignItemRect(SPIRIT_ARROW,10, 10);
 		
 		assignItemRect(TENGU_BOMB,      10, 10);
 		assignItemRect(TENGU_SHOCKER,   10, 10);
@@ -115,8 +115,8 @@ public class ItemSpriteSheet {
 	static{
 		assignItemRect(BONES,           14, 11);
 		assignItemRect(REMAINS,         14, 11);
-		assignItemRect(TOMB,            14, 15);
-		assignItemRect(GRAVE,           14, 15);
+		assignItemRect(TOMB,            12, 15);
+		assignItemRect(GRAVE,           12, 15);
 		assignItemRect(CHEST,           16, 14);
 		assignItemRect(LOCKED_CHEST,    16, 14);
 		assignItemRect(CRYSTAL_CHEST,   16, 14);
@@ -141,22 +141,22 @@ public class ItemSpriteSheet {
 	public static final int MASTERY         = MISC_CONSUMABLE +14;
 	public static final int KIT             = MISC_CONSUMABLE +15;
 	static{
-		assignItemRect(ANKH,            10, 16);
-		assignItemRect(STYLUS,          12, 13);
+		assignItemRect(ANKH,            13, 16);
+		assignItemRect(STYLUS,          10, 10);
 		
-		assignItemRect(SEAL,            9,  15);
+		assignItemRect(SEAL,            13,  13);
 		assignItemRect(TORCH,           12, 15);
 		assignItemRect(BEACON,          16, 15);
 		
 		assignItemRect(HONEYPOT,        14, 12);
 		assignItemRect(SHATTPOT,        14, 12);
-		assignItemRect(IRON_KEY,        8,  14);
-		assignItemRect(GOLDEN_KEY,      8,  14);
-		assignItemRect(CRYSTAL_KEY,     8,  14);
-		assignItemRect(SKELETON_KEY,    8,  14);
-		assignItemRect(MASK,            11,  9);
-		assignItemRect(CROWN,           13,  7);
-		assignItemRect(AMULET,          16, 16);
+		assignItemRect(IRON_KEY,        11,  14);
+		assignItemRect(GOLDEN_KEY,      11,  14);
+		assignItemRect(CRYSTAL_KEY,     11,  14);
+		assignItemRect(SKELETON_KEY,    11,  14);
+		assignItemRect(MASK,            15,  13);
+		assignItemRect(CROWN,           14,  14);
+		assignItemRect(AMULET,          16, 14);
 		assignItemRect(MASTERY,         13, 16);
 		assignItemRect(KIT,             16, 15);
 	}
@@ -176,35 +176,58 @@ public class ItemSpriteSheet {
 	public static final int SHRAPNEL_BOMB   = BOMBS+11;
 	
 	static{
-		assignItemRect(BOMB,            10, 13);
+		assignItemRect(BOMB,            12, 13);
 		assignItemRect(DBL_BOMB,        14, 13);
-		assignItemRect(FIRE_BOMB,       13, 12);
-		assignItemRect(FROST_BOMB,      13, 12);
-		assignItemRect(REGROWTH_BOMB,   13, 12);
-		assignItemRect(FLASHBANG,       13, 12);
-		assignItemRect(SHOCK_BOMB,      10, 13);
-		assignItemRect(HOLY_BOMB,       10, 13);
-		assignItemRect(WOOLY_BOMB,      10, 13);
-		assignItemRect(NOISEMAKER,      10, 13);
-		assignItemRect(ARCANE_BOMB,     10, 13);
-		assignItemRect(SHRAPNEL_BOMB,   10, 13);
+		assignItemRect(FIRE_BOMB,       10, 16);
+		assignItemRect(FROST_BOMB,      10, 16);
+		assignItemRect(REGROWTH_BOMB,   10, 16);
+		assignItemRect(FLASHBANG,       10, 16);
+		assignItemRect(SHOCK_BOMB,      12, 13);
+		assignItemRect(HOLY_BOMB,       12, 13);
+		assignItemRect(WOOLY_BOMB,      12, 13);
+		assignItemRect(NOISEMAKER,      12, 13);
+		assignItemRect(ARCANE_BOMB,     12, 13);
+		assignItemRect(SHRAPNEL_BOMB,   12, 13);
 	}
 
+	private static final int SPECIAL_ITEMS      =                               xy(1, 6);   //16 slots
+	public static final int SPEED_RELOADER     	= SPECIAL_ITEMS+0;
+	public static final int TELESCOPE     		= SPECIAL_ITEMS+1;
+	public static final int TAC_MAP     		= SPECIAL_ITEMS+2;
+	public static final int BALE_EYE     		= SPECIAL_ITEMS+3;
+	public static final int PRINCESS_MIRROR     = SPECIAL_ITEMS+4;
+	public static final int PSIONIC_NODE     	= SPECIAL_ITEMS+5;
+
+	static{
+		assignItemRect(SPEED_RELOADER,          12, 13);
+		assignItemRect(TELESCOPE,        		14, 13);
+		assignItemRect(TAC_MAP,       			15, 13);
+		assignItemRect(BALE_EYE,      			10, 16);
+		assignItemRect(PRINCESS_MIRROR,   		12, 14);
+		assignItemRect(PSIONIC_NODE,       		10, 16);
+	}
 	
 	                                                                                    //16 free slots
 
 	private static final int WEP_TIER1      =                               xy(1, 7);   //8 slots
 	public static final int WORN_SHORTSWORD = WEP_TIER1+0;
-	public static final int CUDGEL          = WEP_TIER1+1;
+	public static final int COMMONBLADE     = WEP_TIER1+1;
 	public static final int GLOVES          = WEP_TIER1+2;
-	public static final int RAPIER          = WEP_TIER1+3;
+	public static final int RUINSPEAR       = WEP_TIER1+3;
+	//public static final int RAPIER        = WEP_TIER1+4;
 	public static final int DAGGER          = WEP_TIER1+4;
 	public static final int MAGES_STAFF     = WEP_TIER1+5;
+	public static final int KRYSTALLOS      = WEP_TIER1+6;
+	public static final int PSIONIC_BLADE   = WEP_TIER1+7;
 	static{
-		assignItemRect(WORN_SHORTSWORD, 13, 13);
-		assignItemRect(GLOVES,          12, 16);
-		assignItemRect(DAGGER,          12, 13);
-		assignItemRect(MAGES_STAFF,     15, 16);
+		assignItemRect(WORN_SHORTSWORD, 13, 14);
+		assignItemRect(COMMONBLADE, 	14, 14);
+		assignItemRect(GLOVES,          12, 15);
+		assignItemRect(RUINSPEAR,       16, 16);
+		assignItemRect(DAGGER,          15, 15);
+		assignItemRect(MAGES_STAFF,     16, 16);
+		assignItemRect(KRYSTALLOS,      16, 16);
+		assignItemRect(PSIONIC_BLADE,   15, 15);
 	}
 
 	private static final int WEP_TIER2      =                               xy(9, 7);   //8 slots
@@ -213,12 +236,18 @@ public class ItemSpriteSheet {
 	public static final int SPEAR           = WEP_TIER2+2;
 	public static final int QUARTERSTAFF    = WEP_TIER2+3;
 	public static final int DIRK            = WEP_TIER2+4;
+	public static final int LUNGE           = WEP_TIER2+5;
+	public static final int SURRATION       = WEP_TIER2+6;
+	public static final int RAPIER          = WEP_TIER2+7;
 	static{
-		assignItemRect(SHORTSWORD,      13, 13);
-		assignItemRect(HAND_AXE,        12, 14);
+		assignItemRect(SHORTSWORD,      13, 14);
+		assignItemRect(HAND_AXE,        16, 16);
 		assignItemRect(SPEAR,           16, 16);
 		assignItemRect(QUARTERSTAFF,    16, 16);
-		assignItemRect(DIRK,            13, 14);
+		assignItemRect(DIRK,            15, 15);
+		assignItemRect(LUNGE,           13, 14);
+		assignItemRect(SURRATION,       14, 15);
+		assignItemRect(RAPIER,          14, 15);
 	}
 
 	private static final int WEP_TIER3      =                               xy(1, 8);   //8 slots
@@ -228,13 +257,17 @@ public class ItemSpriteSheet {
 	public static final int ROUND_SHIELD    = WEP_TIER3+3;
 	public static final int SAI             = WEP_TIER3+4;
 	public static final int WHIP            = WEP_TIER3+5;
+	public static final int RIPPER          = WEP_TIER3+6;
+	public static final int SCRIPTURE       = WEP_TIER3+7;
 	static{
-		assignItemRect(SWORD,           14, 14);
+		assignItemRect(SWORD,           15, 15);
 		assignItemRect(MACE,            15, 15);
-		assignItemRect(SCIMITAR,        13, 16);
-		assignItemRect(ROUND_SHIELD,    16, 16);
-		assignItemRect(SAI,             16, 16);
-		assignItemRect(WHIP,            14, 14);
+		assignItemRect(SCIMITAR,        16, 16);
+		assignItemRect(ROUND_SHIELD,    14, 16);
+		assignItemRect(SAI,             15, 16);
+		assignItemRect(WHIP,            13, 15);
+		assignItemRect(RIPPER,          15, 14);
+		assignItemRect(SCRIPTURE,       12, 16);
 	}
 
 	private static final int WEP_TIER4      =                               xy(9, 8);   //8 slots
@@ -244,13 +277,17 @@ public class ItemSpriteSheet {
 	public static final int RUNIC_BLADE     = WEP_TIER4+3;
 	public static final int ASSASSINS_BLADE = WEP_TIER4+4;
 	public static final int CROSSBOW        = WEP_TIER4+5;
+	public static final int CHAINSAW        = WEP_TIER4+6;
+	public static final int THUNDERSPEAR    = WEP_TIER4+7;
 	static{
 		assignItemRect(LONGSWORD,       15, 15);
-		assignItemRect(BATTLE_AXE,      16, 16);
-		assignItemRect(FLAIL,           14, 14);
-		assignItemRect(RUNIC_BLADE,     14, 14);
+		assignItemRect(BATTLE_AXE,      15, 15);
+		assignItemRect(FLAIL,           16, 16);
+		assignItemRect(RUNIC_BLADE,     16, 16);
 		assignItemRect(ASSASSINS_BLADE, 14, 15);
-		assignItemRect(CROSSBOW,        15, 15);
+		assignItemRect(CROSSBOW,        16, 16);
+		assignItemRect(CHAINSAW,        16, 16);
+		assignItemRect(THUNDERSPEAR,    15, 15);
 	}
 
 	private static final int WEP_TIER5      =                               xy(1, 9);   //8 slots
@@ -260,15 +297,127 @@ public class ItemSpriteSheet {
 	public static final int GREATAXE        = WEP_TIER5+3;
 	public static final int GREATSHIELD     = WEP_TIER5+4;
 	public static final int GAUNTLETS       = WEP_TIER5+5;
+	public static final int EXECUTIONER     = WEP_TIER5+6;
+	public static final int MOONLIGHT       = WEP_TIER5+7;
+	public static final int FUSION_LANCE    = WEP_TIER5+8;
 	static{
 		assignItemRect(GREATSWORD,  16, 16);
 		assignItemRect(WAR_HAMMER,  16, 16);
 		assignItemRect(GLAIVE,      16, 16);
-		assignItemRect(GREATAXE,    12, 16);
+		assignItemRect(GREATAXE,    14, 16);
 		assignItemRect(GREATSHIELD, 12, 16);
-		assignItemRect(GAUNTLETS,   13, 15);
+		assignItemRect(GAUNTLETS,   13, 16);
+		assignItemRect(EXECUTIONER, 16, 16);
+		assignItemRect(MOONLIGHT,   16, 16);
+		assignItemRect(FUSION_LANCE,16, 16);
 	}
 
+	private static final int HANDGUNS     =                                 xy(1, 33);
+	public static final int APACHE_PISTOL = HANDGUNS+0;
+	public static final int REVOLVER	  = HANDGUNS+1;
+	public static final int DRAGOON       = HANDGUNS+2;
+	public static final int FLASHBACK     = HANDGUNS+3;
+	public static final int HUSH          = HANDGUNS+4;
+	public static final int FENCER        = HANDGUNS+5;
+	static{
+		assignItemRect(APACHE_PISTOL      ,16, 16);
+		assignItemRect(REVOLVER		  	  ,13, 15);
+		assignItemRect(DRAGOON  		  ,15, 16);
+		assignItemRect(FLASHBACK          ,13, 16);
+		assignItemRect(HUSH         	  ,13, 16);
+		assignItemRect(FENCER    		  ,14, 15);
+	}
+
+	private static final int PRECISION        =                               xy(9, 33);
+	public static final int TAT 		      = PRECISION+0;
+	public static final int ELEGUN            = PRECISION+1;
+	public static final int SEEKER		 	  = PRECISION+2;
+	public static final int LAURIA 	          = PRECISION+3;
+	public static final int ARIA 	 	      = PRECISION+4;
+	static{
+		assignItemRect(REVOLVER 			  ,16, 16);
+		assignItemRect(ELEGUN  				  ,13, 16);
+		assignItemRect(SEEKER		 		  ,15, 16);
+		assignItemRect(LAURIA 				  ,15, 16);
+		assignItemRect(ARIA 	 			  ,16, 16);
+	}
+
+	private static final int AUTOMATIC         =                               xy(1, 34);
+	public static final int NOT_MACHINE_GUN    = AUTOMATIC+0;
+	public static final int SHORT_CARBINE      = AUTOMATIC+1;
+	public static final int ARM_RIFLE      	   = AUTOMATIC+2;
+	public static final int STANDARD  		   = AUTOMATIC+3;
+	public static final int THIN_LINE          = AUTOMATIC+4;
+	public static final int TRENCH     		   = AUTOMATIC+5;
+	static{
+		assignItemRect(NOT_MACHINE_GUN        ,15, 16);
+		assignItemRect(SHORT_CARBINE     	  ,13, 15);
+		assignItemRect(ARM_RIFLE      		  ,16, 16);
+		assignItemRect(STANDARD  			  ,16, 15);
+		assignItemRect(THIN_LINE	     	  ,15, 16);
+		assignItemRect(TRENCH     			  ,16, 16);
+	}
+
+	private static final int SHOTGUN         =                               xy(9, 34);
+	public static final int BLUNDERBUST      = SHOTGUN+0;
+	public static final int OVERFLOW  		 = SHOTGUN+1;
+	public static final int WAVE    		 = SHOTGUN+2;
+	public static final int SUPER_SHOTGUN    = SHOTGUN+3;
+	public static final int MAX_THUNDER      = SHOTGUN+4;
+
+	static{
+		assignItemRect(BLUNDERBUST              ,14, 16);
+		assignItemRect(OVERFLOW      			,14, 15);
+		assignItemRect(WAVE        				,15, 16);
+		assignItemRect(SUPER_SHOTGUN         	,16, 16);
+		assignItemRect(MAX_THUNDER        		,16, 16);
+	}
+
+	private static final int EXPLOSIVE         =                               xy(1, 35);
+	public static final int HARMONICA          = EXPLOSIVE+0;
+	public static final int HYDRA    		   = EXPLOSIVE+1;
+	public static final int JUSTICE 		   = EXPLOSIVE+2;
+	public static final int AAWS_M             = EXPLOSIVE+3;
+	public static final int FIRESTORM   	   = EXPLOSIVE+4;
+	public static final int BIG_BARREL   	   = EXPLOSIVE+5;
+	static{
+		assignItemRect(HARMONICA               ,14, 14);
+		assignItemRect(HYDRA       			   ,16, 16);
+		assignItemRect(JUSTICE    			   ,16, 16);
+		assignItemRect(AAWS_M                  ,16, 16);
+		assignItemRect(FIRESTORM      		   ,16, 16);
+		assignItemRect(BIG_BARREL      		   ,16, 16);
+	}
+
+	private static final int LASER              =                               xy(9, 35);
+	public static final int VEGA  				= LASER+0;
+	public static final int KALEIDOSCOPE    	= LASER+1;
+	public static final int KARASAWA   			= LASER+2;
+	public static final int SPARK    			= LASER+3;
+	public static final int SUPERNOVA    		= LASER+4;
+	static{
+		assignItemRect(VEGA      				,16, 16);
+		assignItemRect(KALEIDOSCOPE            	,16, 16);
+		assignItemRect(KARASAWA        		 	,16, 16);
+		assignItemRect(SPARK          			,15, 16);
+		assignItemRect(SUPERNOVA          		,16, 16);
+	}
+
+	private static final int ETC_WEAPONS        =                               xy(1, 36);
+	public static final int CLEANSER 			= ETC_WEAPONS+0;
+	static{
+		assignItemRect(CLEANSER 				,16, 16);
+	}
+
+	private static final int PSIONIC_WEAPONS    =                               xy(1, 37);
+	public static final int PSIONIC_BLADE1 		= PSIONIC_WEAPONS+0;
+	public static final int PSIONIC_BLADE2 		= PSIONIC_WEAPONS+1;
+	public static final int PSIONIC_BLADE3 		= PSIONIC_WEAPONS+2;
+	static{
+		assignItemRect(PSIONIC_BLADE1 			,14, 14);
+		assignItemRect(PSIONIC_BLADE2 			,15, 15);
+		assignItemRect(PSIONIC_BLADE3 			,16, 16);
+	}
 	                                                                                    //8 free slots
 
 	private static final int MISSILE_WEP    =                               xy(1, 10);  //16 slots. 3 per tier + boomerang
@@ -295,26 +444,26 @@ public class ItemSpriteSheet {
 	public static final int FORCE_CUBE      = MISSILE_WEP+15;
 	
 	static{
-		assignItemRect(SPIRIT_BOW,      16, 16);
+		assignItemRect(SPIRIT_BOW,      15, 15);
 		
 		assignItemRect(DART,            15, 15);
 		assignItemRect(THROWING_KNIFE,  12, 13);
-		assignItemRect(THROWING_STONE,  12, 10);
+		assignItemRect(THROWING_STONE,  12, 13);
 		
-		assignItemRect(FISHING_SPEAR,   11, 11);
-		assignItemRect(SHURIKEN,        12, 12);
-		assignItemRect(THROWING_CLUB,   12, 12);
+		assignItemRect(FISHING_SPEAR,   14, 14);
+		assignItemRect(SHURIKEN,        14, 14);
+		assignItemRect(THROWING_CLUB,   11, 11);
 		
-		assignItemRect(THROWING_SPEAR,  13, 13);
+		assignItemRect(THROWING_SPEAR,  16, 16);
 		assignItemRect(BOLAS,           15, 14);
-		assignItemRect(KUNAI,           15, 15);
+		assignItemRect(KUNAI,           14, 14);
 		
 		assignItemRect(JAVELIN,         16, 16);
-		assignItemRect(TOMAHAWK,        13, 13);
+		assignItemRect(TOMAHAWK,        16, 16);
 		assignItemRect(BOOMERANG,       14, 14);
 		
 		assignItemRect(TRIDENT,         16, 16);
-		assignItemRect(THROWING_HAMMER, 12, 12);
+		assignItemRect(THROWING_HAMMER, 16, 16);
 		assignItemRect(FORCE_CUBE,      11, 12);
 	}
 	
@@ -348,14 +497,14 @@ public class ItemSpriteSheet {
 	public static final int ARMOR_HUNTRESS  = ARMOR+8;
 	static{
 		assignItemRect(ARMOR_CLOTH,     15, 12);
-		assignItemRect(ARMOR_LEATHER,   14, 13);
-		assignItemRect(ARMOR_MAIL,      14, 12);
-		assignItemRect(ARMOR_SCALE,     14, 11);
-		assignItemRect(ARMOR_PLATE,     12, 12);
-		assignItemRect(ARMOR_WARRIOR,   12, 12);
-		assignItemRect(ARMOR_MAGE,      15, 15);
-		assignItemRect(ARMOR_ROGUE,     14, 12);
-		assignItemRect(ARMOR_HUNTRESS,  13, 15);
+		assignItemRect(ARMOR_LEATHER,   12, 12);
+		assignItemRect(ARMOR_MAIL,      14, 13);
+		assignItemRect(ARMOR_SCALE,     14, 13);
+		assignItemRect(ARMOR_PLATE,     14, 13);
+		assignItemRect(ARMOR_WARRIOR,   14, 14);
+		assignItemRect(ARMOR_MAGE,      13, 15);
+		assignItemRect(ARMOR_ROGUE,     12, 14);
+		assignItemRect(ARMOR_HUNTRESS,  16, 16);
 	}
 
 	                                                                                    //16 free slots
@@ -394,7 +543,7 @@ public class ItemSpriteSheet {
 	public static final int RING_DIAMOND    = RINGS+11;
 	static {
 		for (int i = RINGS; i < RINGS+16; i++)
-			assignItemRect(i, 8, 10);
+			assignItemRect(i, 8, 11);
 	}
 
 	private static final int ARTIFACTS          =                            xy(1, 16);  //32 slots
@@ -421,30 +570,32 @@ public class ItemSpriteSheet {
 	public static final int ARTIFACT_ROSE1      = ARTIFACTS+20;
 	public static final int ARTIFACT_ROSE2      = ARTIFACTS+21;
 	public static final int ARTIFACT_ROSE3      = ARTIFACTS+22;
+	public static final int ARTIFACT_RADAR		= ARTIFACTS+23;
 	static{
 		assignItemRect(ARTIFACT_CLOAK,      9,  15);
-		assignItemRect(ARTIFACT_ARMBAND,    16, 13);
+		assignItemRect(ARTIFACT_ARMBAND,    16, 11);
 		assignItemRect(ARTIFACT_CAPE,       16, 14);
 		assignItemRect(ARTIFACT_TALISMAN,   15, 13);
 		assignItemRect(ARTIFACT_HOURGLASS,  13, 16);
-		assignItemRect(ARTIFACT_TOOLKIT,    15, 13);
-		assignItemRect(ARTIFACT_SPELLBOOK,  13, 16);
+		assignItemRect(ARTIFACT_TOOLKIT,    16, 16);
+		assignItemRect(ARTIFACT_SPELLBOOK,  14, 16);
 		assignItemRect(ARTIFACT_BEACON,     16, 16);
 		assignItemRect(ARTIFACT_CHAINS,     16, 16);
-		assignItemRect(ARTIFACT_HORN1,      15, 15);
-		assignItemRect(ARTIFACT_HORN2,      15, 15);
-		assignItemRect(ARTIFACT_HORN3,      15, 15);
-		assignItemRect(ARTIFACT_HORN4,      15, 15);
-		assignItemRect(ARTIFACT_CHALICE1,   12, 15);
-		assignItemRect(ARTIFACT_CHALICE2,   12, 15);
-		assignItemRect(ARTIFACT_CHALICE3,   12, 15);
+		assignItemRect(ARTIFACT_HORN1,      16, 16);
+		assignItemRect(ARTIFACT_HORN2,      16, 16);
+		assignItemRect(ARTIFACT_HORN3,      16, 16);
+		assignItemRect(ARTIFACT_HORN4,      16, 16);
+		assignItemRect(ARTIFACT_CHALICE1,   10, 10);
+		assignItemRect(ARTIFACT_CHALICE2,   12, 12);
+		assignItemRect(ARTIFACT_CHALICE3,   15, 15);
 		assignItemRect(ARTIFACT_SANDALS,    16, 6 );
 		assignItemRect(ARTIFACT_SHOES,      16, 6 );
 		assignItemRect(ARTIFACT_BOOTS,      16, 9 );
 		assignItemRect(ARTIFACT_GREAVES,    16, 14);
-		assignItemRect(ARTIFACT_ROSE1,      14, 14);
-		assignItemRect(ARTIFACT_ROSE2,      14, 14);
-		assignItemRect(ARTIFACT_ROSE3,      14, 14);
+		assignItemRect(ARTIFACT_ROSE1,      13, 15);
+		assignItemRect(ARTIFACT_ROSE2,      13, 15);
+		assignItemRect(ARTIFACT_ROSE3,      13, 15);
+		assignItemRect(ARTIFACT_RADAR,      16, 16);
 	}
 
 	                                                                                    //16 free slots
@@ -467,7 +618,7 @@ public class ItemSpriteSheet {
 	public static final int ARCANE_RESIN    = SCROLLS+14;
 	static {
 		for (int i = SCROLLS; i < SCROLLS+16; i++)
-			assignItemRect(i, 15, 14);
+			assignItemRect(i, 12, 16);
 		assignItemRect(SCROLL_CATALYST, 12, 11);
 		assignItemRect(ARCANE_RESIN   , 12, 11);
 	}
@@ -487,7 +638,7 @@ public class ItemSpriteSheet {
 	public static final int EXOTIC_TIWAZ    = EXOTIC_SCROLLS+11;
 	static {
 		for (int i = EXOTIC_SCROLLS; i < EXOTIC_SCROLLS+16; i++)
-			assignItemRect(i, 15, 14);
+			assignItemRect(i, 12, 16);
 	}
 	
 	private static final int STONES             =                           xy(1, 21);  //16 slots
@@ -505,7 +656,7 @@ public class ItemSpriteSheet {
 	public static final int STONE_SHOCK         = STONES+11;
 	static {
 		for (int i = STONES; i < STONES+16; i++)
-			assignItemRect(i, 14, 12);
+			assignItemRect(i, 16, 16);
 	}
 
 	private static final int POTIONS        =                               xy(1, 22);  //16 slots
@@ -525,7 +676,7 @@ public class ItemSpriteSheet {
 	public static final int LIQUID_METAL    = POTIONS+14;
 	static {
 		for (int i = POTIONS; i < POTIONS+16; i++)
-			assignItemRect(i, 12, 14);
+			assignItemRect(i, 12, 12);
 		assignItemRect(POTION_CATALYST, 6, 15);
 		assignItemRect(LIQUID_METAL,    8, 15);
 	}
@@ -545,7 +696,7 @@ public class ItemSpriteSheet {
 	public static final int EXOTIC_IVORY    = EXOTIC_POTIONS+11;
 	static {
 		for (int i = EXOTIC_POTIONS; i < EXOTIC_POTIONS+16; i++)
-			assignItemRect(i, 12, 13);
+			assignItemRect(i, 16, 16);
 	}
 
 	private static final int SEEDS              =                           xy(1, 24);  //16 slots
@@ -563,7 +714,7 @@ public class ItemSpriteSheet {
 	public static final int SEED_BLINDWEED      = SEEDS+11;
 	static{
 		for (int i = SEEDS; i < SEEDS+16; i++)
-			assignItemRect(i, 10, 10);
+			assignItemRect(i, 13, 15);
 	}
 	
 	private static final int BREWS          =                               xy(1, 25);  //8 slots
@@ -582,7 +733,7 @@ public class ItemSpriteSheet {
 	public static final int ELIXIR_ARCANE   = ELIXIRS+6;
 	static{
 		for (int i = BREWS; i < BREWS+16; i++)
-			assignItemRect(i, 12, 14);
+			assignItemRect(i, 12, 16);
 	}
 	
 	                                                                                    //16 free slots
@@ -642,10 +793,10 @@ public class ItemSpriteSheet {
 		assignItemRect(OVERPRICED,  14, 11);
 		assignItemRect(CARPACCIO,   15, 11);
 		assignItemRect(RATION,      16, 12);
-		assignItemRect(PASTY,       16, 11);
+		assignItemRect(PASTY,       16, 16);
 		assignItemRect(PUMPKIN_PIE, 16, 12);
 		assignItemRect(CANDY_CANE,  13, 16);
-		assignItemRect(MEAT_PIE,    16, 12);
+		assignItemRect(MEAT_PIE,    16, 13);
 		assignItemRect(BLANDFRUIT,  9,  12);
 		assignItemRect(BLAND_CHUNKS,14, 6);
 		assignItemRect(BERRY,       9,  11);
@@ -663,14 +814,50 @@ public class ItemSpriteSheet {
 	public static final int SHARD   = QUEST+8;
 	static{
 		assignItemRect(SKULL,   16, 11);
-		assignItemRect(DUST,    12, 11);
-		assignItemRect(CANDLE,  12, 12);
-		assignItemRect(EMBER,   12, 11);
-		assignItemRect(PICKAXE, 14, 14);
+		assignItemRect(DUST,    10, 13);
+		assignItemRect(CANDLE,  12, 15);
+		assignItemRect(EMBER,   10, 13);
+		assignItemRect(PICKAXE, 16, 16);
 		assignItemRect(ORE,     15, 15);
 		assignItemRect(TOKEN,   12, 12);
 		assignItemRect(BLOB,    10,  9);
 		assignItemRect(SHARD,    8, 10);
+	}
+
+	private static final int BULLETS      	=                                       xy(1, 30);  //16 slots
+	public static final int SINGLE_BULLET 	= BULLETS+0;
+	public static final int DUAL_BULLET   	= BULLETS+1;
+	public static final int TRIPLE_BULLET 	= BULLETS+2;
+	public static final int SNIPER_BULLET 	= BULLETS+3;
+	public static final int ROCKET        	= BULLETS+4;
+	public static final int ENERGY_BULLET_1 = BULLETS+5;
+	public static final int ENERGY_BULLET_2 = BULLETS+6;
+	public static final int ENERGY_BULLET_3 = BULLETS+7;
+	public static final int WIND_ARROW		= BULLETS+8;
+	public static final int NATURAL_ARROW	= BULLETS+9;
+	public static final int GOLDEN_ARROW	= BULLETS+10;
+	public static final int	POISON_ARROW	= BULLETS+11;
+	public static final int GRENADE 		= BULLETS+12;
+	public static final int HE_GRENADE 		= BULLETS+13;
+	public static final int SMOKE_GRENADE 	= BULLETS+14;
+	public static final int SPIRIT_BULLET 	= BULLETS+15;
+	static{
+		assignItemRect(SINGLE_BULLET,   8,  8 );
+		assignItemRect(DUAL_BULLET,     11, 10);
+		assignItemRect(TRIPLE_BULLET,   11, 11);
+		assignItemRect(SNIPER_BULLET,   8,  8 );
+		assignItemRect(ROCKET,          9,  9 );
+		assignItemRect(ENERGY_BULLET_1, 10, 10);
+		assignItemRect(ENERGY_BULLET_2, 12, 12);
+		assignItemRect(ENERGY_BULLET_3, 12, 12);
+		assignItemRect(WIND_ARROW,		11, 11);
+		assignItemRect(NATURAL_ARROW,	11, 11);
+		assignItemRect(GOLDEN_ARROW,	11, 11);
+		assignItemRect(POISON_ARROW,	11, 11);
+		assignItemRect(GRENADE,			7,  7 );
+		assignItemRect(HE_GRENADE,		7,  7 );
+		assignItemRect(SMOKE_GRENADE,	7,  7 );
+		assignItemRect(SPIRIT_BULLET,	8,  8);
 	}
 
 	private static final int BAGS       =                                   xy(1, 31);  //16 slots
@@ -681,14 +868,16 @@ public class ItemSpriteSheet {
 	public static final int BANDOLIER   = BAGS+4;
 	public static final int HOLSTER     = BAGS+5;
 	public static final int VIAL        = BAGS+6;
+	public static final int ICEBOX      = BAGS+7;
 	static{
-		assignItemRect(WATERSKIN,   16, 14);
+		assignItemRect(WATERSKIN,   15, 14);
 		assignItemRect(BACKPACK,    16, 16);
 		assignItemRect(POUCH,       14, 15);
 		assignItemRect(HOLDER,      16, 16);
 		assignItemRect(BANDOLIER,   15, 16);
-		assignItemRect(HOLSTER,     15, 16);
+		assignItemRect(HOLSTER,     16, 16);
 		assignItemRect(VIAL,        12, 12);
+		assignItemRect(ICEBOX,      15, 15);
 	}
 
 	private static final int DOCUMENTS  =                                   xy(1, 32);  //16 slots

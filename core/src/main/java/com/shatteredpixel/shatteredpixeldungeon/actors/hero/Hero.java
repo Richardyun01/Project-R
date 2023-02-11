@@ -54,6 +54,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tacsight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
@@ -78,6 +79,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Brimstone;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AESARadar;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CapeOfThorns;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
@@ -125,7 +127,6 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ShadowCaster;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.AlchemyScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -1552,7 +1553,10 @@ public class Hero extends Char {
 
 		MasterThievesArmband.Thievery armband = buff(MasterThievesArmband.Thievery.class);
 		if (armband != null) armband.gainCharge(percent);
-		
+
+		AESARadar.radarCharge radar = buff(AESARadar.radarCharge.class);
+		if (radar != null) radar.gainExp(percent);
+
 		Berserk berserk = buff(Berserk.class);
 		if (berserk != null) berserk.recover(percent);
 		
@@ -1972,6 +1976,18 @@ public class Hero extends Char {
 			circular = true;
 		}
 
+		boolean tacsight = buff(Tacsight.class) != null;
+		boolean tacsightScan = tacsight && !Dungeon.level.mapped[pos];
+
+		if (tacsightScan){
+			Dungeon.level.mapped[pos] = true;
+		}
+
+		if (tacsight) {
+			distance = Tacsight.DISTANCE;
+			circular = true;
+		}
+
 		Point c = Dungeon.level.cellToPoint(pos);
 
 		TalismanOfForesight.Foresight talisman = buff( TalismanOfForesight.Foresight.class );
@@ -1997,15 +2013,17 @@ public class Hero extends Char {
 			left = Math.max(0, left);
 			for (curr = left + y * Dungeon.level.width(); curr <= right + y * Dungeon.level.width(); curr++){
 
-				if ((foresight || fieldOfView[curr]) && curr != pos) {
+				if ((foresight || tacsight || fieldOfView[curr]) && curr != pos) {
 
 					if ((foresight && (!Dungeon.level.mapped[curr] || foresightScan))){
 						GameScene.effectOverFog(new CheckedCell(curr, foresightScan ? pos : curr));
+					} else if ((tacsight && (!Dungeon.level.mapped[curr] || tacsightScan))) {
+						GameScene.effectOverFog(new CheckedCell(curr, tacsightScan ? pos : curr));
 					} else if (intentional) {
 						GameScene.effectOverFog(new CheckedCell(curr, pos));
 					}
 
-					if (foresight){
+					if (foresight || tacsight){
 						Dungeon.level.mapped[curr] = true;
 					}
 					
@@ -2015,7 +2033,7 @@ public class Hero extends Char {
 						float chance;
 
 						//searches aided by foresight always succeed, even if trap isn't searchable
-						if (foresight){
+						if (foresight || tacsight){
 							chance = 1f;
 
 						//otherwise if the trap isn't searchable, searching always fails
@@ -2092,6 +2110,10 @@ public class Hero extends Char {
 
 		if (foresight){
 			GameScene.updateFog(pos, Foresight.DISTANCE+1);
+		}
+
+		if (tacsight){
+			GameScene.updateFog(pos, Tacsight.DISTANCE+1);
 		}
 		
 		return smthFound;

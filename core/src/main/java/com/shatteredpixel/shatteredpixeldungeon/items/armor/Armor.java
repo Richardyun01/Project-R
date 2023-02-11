@@ -57,7 +57,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Swiftness;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Thorns;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
@@ -356,7 +355,7 @@ public class Armor extends EquipableItem {
 			}
 			if (!enemyNear) speed *= (1.2f + 0.04f * buffedLvl()) * RingOfArcana.enchantPowerMultiplier(owner);
 		} else if (hasGlyph(Flow.class, owner) && Dungeon.level.water[owner.pos]){
-			speed *= (2f + 0.25f*buffedLvl()) * RingOfArcana.enchantPowerMultiplier(owner);
+			speed *= (2f + 0.5f*buffedLvl()) * RingOfArcana.enchantPowerMultiplier(owner);
 		}
 		
 		if (hasGlyph(Bulk.class, owner) &&

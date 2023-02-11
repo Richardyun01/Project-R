@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
+import com.shatteredpixel.shatteredpixeldungeon.items.bags.IceBox;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.PotionBandolier;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.ScrollHolder;
@@ -48,12 +49,10 @@ import com.watabou.input.KeyEvent;
 import com.watabou.input.PointerEvent;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.ColorBlock;
-import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.NinePatch;
 import com.watabou.noosa.PointerArea;
 import com.watabou.noosa.ui.Component;
-import com.watabou.utils.Point;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Signal;
 
@@ -474,6 +473,8 @@ public class InventoryPane extends Component {
 			return Icons.get( Icons.WAND_HOLSTER );
 		} else if (bag instanceof PotionBandolier) {
 			return Icons.get( Icons.POTION_BANDOLIER );
+		} else if (bag instanceof IceBox) {
+			return Icons.get( Icons.ICEBOX );
 		} else {
 			return Icons.get( Icons.BACKPACK );
 		}

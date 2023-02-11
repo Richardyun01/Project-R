@@ -89,6 +89,7 @@ public enum Icons {
 	SCROLL_HOLDER,
 	WAND_HOLSTER,
 	POTION_BANDOLIER,
+	ICEBOX,
 
 	//icons that appear in the game itself, variable spacing
 	TARGET,
@@ -155,16 +156,16 @@ public enum Icons {
 				icon.frame( icon.texture.uvRectBySize( 0, 16, 13, 16 ) );
 				break;
 			case WARRIOR:
-				icon.frame( icon.texture.uvRectBySize( 16, 16, 9, 15 ) );
+				icon.frame( icon.texture.uvRectBySize( 16, 16, 13, 13 ) );
 				break;
 			case MAGE:
-				icon.frame( icon.texture.uvRectBySize( 32, 16, 15, 14 ) );
+				icon.frame( icon.texture.uvRectBySize( 32, 16, 16, 16 ) );
 				break;
 			case ROGUE:
-				icon.frame( icon.texture.uvRectBySize( 48, 16, 9, 15 ) );
+				icon.frame( icon.texture.uvRectBySize( 48, 16, 9, 16 ) );
 				break;
 			case HUNTRESS:
-				icon.frame( icon.texture.uvRectBySize( 64, 16, 16, 16 ) );
+				icon.frame( icon.texture.uvRectBySize( 64, 16, 15, 15 ) );
 				break;
 
 			case EXIT:
@@ -287,6 +288,9 @@ public enum Icons {
 				break;
 			case POTION_BANDOLIER:
 				icon.frame( icon.texture.uvRectBySize( 241, 64, 10, 10 ) );
+				break;
+			case ICEBOX:
+				icon.frame( icon.texture.uvRectBySize( 201, 79, 9, 9 ) );
 				break;
 
 			case TARGET:

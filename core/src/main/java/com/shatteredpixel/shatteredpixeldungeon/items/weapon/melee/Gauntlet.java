@@ -32,7 +32,7 @@ public class Gauntlet extends MeleeWeapon {
 		hitSoundPitch = 1.2f;
 		
 		tier = 5;
-		DLY = 0.5f; //2x speed
+		DLY = 0.33f; //3x speed
 	}
 	
 	@Override

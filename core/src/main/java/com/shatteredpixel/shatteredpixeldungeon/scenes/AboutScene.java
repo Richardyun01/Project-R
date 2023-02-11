@@ -36,7 +36,6 @@ import com.watabou.noosa.Group;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.PointerArea;
 import com.watabou.noosa.ui.Component;
-import com.watabou.utils.DeviceCompat;
 
 public class AboutScene extends PixelScene {
 
@@ -206,6 +205,32 @@ public class AboutScene extends PixelScene {
 
 		addLine(transifex.bottom() + 4, content);
 
+		//*** Music Credits ***
+
+		CreditsBlock music = new CreditsBlock(true,
+				Window.TITLE_COLOR,
+				null,
+				null,
+				"This mod uses the following musics from variant sources: \n\n" +
+
+				"Music Atelier Amacha\n" +
+				"H/MIX GALLERY\n" +
+				"M-ART\n" +
+				"Music-Note.jp\n" +
+				"Peritune\n" +
+				"Ucchii Ø\n" +
+				"YouFulca\n\n",
+				"https://amachamusic.chagasi.com/\n" +
+				"http://www.hmix.net/\n" +
+				"https://mart.kitunebi.com/\n" +
+				"http://www.music-note.jp/\n" +
+				"https://peritune.com/\n" +
+				"https://ucchii0artist.wixsite.com/ucchii0\n" +
+				"https://youfulca.com/\n\n",
+				"");
+		music.setRect((w - fullWidth)/2f, 8+transifex.bottom(), 120, 0);
+		content.add(music);
+
 		//*** Freesound Credits ***
 
 		CreditsBlock freesound = new CreditsBlock(true,
@@ -236,7 +261,7 @@ public class AboutScene extends PixelScene {
 				"_Lemon,Squeeze,Squishy,Fruit.wav_ by _Filipe Chagas_",
 				"www.freesound.org",
 				"https://www.freesound.org");
-		freesound.setRect(transifex.left()-10, transifex.bottom() + 8, colWidth+20, 0);
+		freesound.setRect(transifex.left()-10, music.bottom() + 8, colWidth+20, 0);
 		content.add(freesound);
 
 		content.setSize( fullWidth, freesound.bottom()+10 );
