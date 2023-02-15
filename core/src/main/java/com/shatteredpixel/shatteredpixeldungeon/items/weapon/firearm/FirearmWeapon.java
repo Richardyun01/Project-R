@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
+package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
@@ -35,12 +35,15 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
@@ -50,30 +53,94 @@ import com.watabou.utils.Random;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ApachePistol extends MeleeWeapon {
+abstract class FirearmWeapon extends MeleeWeapon {
 
-    public static final String AC_SHOOT = "SHOOT";
-    public static final String AC_RELOAD = "RELOAD";
+    public enum FirearmType {
+        FirearmPistol,
+        FirearmPrecision,
+        FirearmAuto,
+        FirearmShotgun,
+        FirearmExplosive,
+        FirearmEnergy,
+        FirearmEtc;
+    }
+
+    public FirearmType type;
+
+    public static final String AC_SHOOT		= "SHOOT";
+    public static final String AC_RELOAD    = "RELOAD";
 
     public int max_round;
     public int round = 0;
+    public int shot = 1;
     public float reload_time;
+    public int bullet_image = ItemSpriteSheet.SINGLE_BULLET;
+    public String bullet_sound = Assets.Sounds.PUFF;
+
     private static final String TXT_STATUS = "%d/%d";
-
-    {
-        defaultAction = AC_SHOOT;
-        usesTargeting = true;
-
-        image = ItemSpriteSheet.APACHE_PISTOL;
-        hitSound = Assets.Sounds.HIT_CRUSH;
-        hitSoundPitch = 0.8f;
-
-        tier = 1;
-    }
-
     private static final String ROUND = "round";
     private static final String MAX_ROUND = "max_round";
     private static final String RELOAD_TIME = "reload_time";
+
+    public int tier;
+
+    public void setReloadTime() {
+        reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);
+    }
+
+    @Override
+    public int min(int lvl) {
+        return  tier +  //base
+                lvl;    //level scaling
+    }
+
+    @Override
+    public int max(int lvl) {
+        return  3*(tier+1) +    //base
+                lvl*(tier+1);   //level scaling
+    }
+
+    public int Bulletmin(int lvl) {
+        switch (type) {
+            case FirearmPrecision:
+                return 3 * tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            case FirearmShotgun:
+                return 1 + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            case FirearmExplosive:
+                return (tier+5) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            case FirearmEnergy:
+                return tier + lvl;
+            case FirearmPistol:
+            case FirearmAuto:
+            case FirearmEtc:
+            default:
+                return tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        }
+    }
+
+    public int Bulletmax(int lvl) {
+        switch (type) {
+            case FirearmPrecision:
+                return 6 * (tier+3) + lvl * (tier+3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            case FirearmAuto:
+                return 2 * (tier) + lvl * (tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            case FirearmShotgun:
+                return (tier+2) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            case FirearmExplosive:
+                return 8 * (tier+6) + lvl * (tier+6) + RingOfSharpshooting.levelDamageBonus(hero);
+            case FirearmEnergy:
+                return Math.round((3 * (tier + 1) + lvl * 3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)));
+            case FirearmEtc:
+                return 5 * (tier + 1) + lvl * 3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            case FirearmPistol:
+            default:
+                return 5 * (tier) + lvl * (tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        }
+    }
+
+    public int STRReq(int lvl){
+        return STRReq(tier, lvl);
+    }
 
     @Override
     public void storeInBundle(Bundle bundle) {
@@ -94,7 +161,7 @@ public class ApachePistol extends MeleeWeapon {
     @Override
     public ArrayList<String> actions(Hero hero) {
         ArrayList<String> actions = super.actions(hero);
-        if (isEquipped(hero)) {
+        if (isEquipped( hero )) {
             actions.add(AC_SHOOT);
             actions.add(AC_RELOAD);
         }
@@ -108,13 +175,28 @@ public class ApachePistol extends MeleeWeapon {
 
         if (action.equals(AC_SHOOT)) {
 
-            if (!isEquipped(hero)) {
+            if (!isEquipped( hero )) {
                 usesTargeting = false;
                 GLog.w(Messages.get(this, "not_equipped"));
+            } else {
+                setReloadTime();
+                if (round <= 0) {
+                    reload();
+                } else {
+                    usesTargeting = true;
+                    curUser = hero;
+                    curItem = this;
+                    GameScene.selectCell(shooter);
+                }
             }
         }
         if (action.equals(AC_RELOAD)) {
-            max_round = 3;
+            if (false) { //if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+                max_round += 2f; // * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+            }
+            if (false) { //if (Dungeon.hero.hasTalent(Talent.DRUM_MAGAZINE)) {
+                max_round += 2f; // * Dungeon.hero.pointsInTalent(Talent.DRUM_MAGAZINE);
+            }
             if (round == max_round) {
                 GLog.w(Messages.get(this, "already_loaded"));
             } else {
@@ -124,7 +206,12 @@ public class ApachePistol extends MeleeWeapon {
     }
 
     public void reload() {
-        max_round = 3;
+        if (false) { //if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 2f; // * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }
+        if (false) { //if (Dungeon.hero.hasTalent(Talent.DRUM_MAGAZINE)) {
+            max_round += 2f; // * Dungeon.hero.pointsInTalent(Talent.DRUM_MAGAZINE);
+        }
         curUser.spend(reload_time);
         curUser.busy();
         Sample.INSTANCE.play(Assets.Sounds.UNLOCK, 2, 1.1f);
@@ -136,68 +223,63 @@ public class ApachePistol extends MeleeWeapon {
         updateQuickslot();
     }
 
-    public int getRound() {
-        return this.round;
-    }
+    public int getRound() { return this.round; }
 
     @Override
     public String status() {
-        max_round = 3;
+        if (false) { //if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 2f; // * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }
+        if (false) { //if (Dungeon.hero.hasTalent(Talent.DRUM_MAGAZINE)) {
+            max_round += 2f; // * Dungeon.hero.pointsInTalent(Talent.DRUM_MAGAZINE);
+        }
+
         return Messages.format(TXT_STATUS, round, max_round);
     }
 
     @Override
-    public int STRReq(int lvl) {
-        int needSTR = STRReq(tier, lvl);
-        return needSTR;
-    }
+    public int damageRoll(Char owner) {
+        int damage = augment.damageFactor(super.damageRoll(owner));
 
-    public int min(int lvl) {
-        return tier +
-                lvl;
-    }
+        if (owner instanceof Hero) {
+            int exStr = ((Hero)owner).STR() - STRReq();
+            if (exStr > 0) {
+                damage += Random.IntRange( 0, exStr );
+            }
+        }
 
-    public int max(int lvl) {
-        return 3 * (tier + 1) +
-                lvl;
-    }
-
-    public int Bulletmin(int lvl) {
-        return 2 * tier +
-                lvl +
-                RingOfSharpshooting.levelDamageBonus(hero);
-    }
-
-    public int Bulletmax(int lvl) {
-        return 4 * (tier + 1) +
-                lvl * (tier + 1) +
-                RingOfSharpshooting.levelDamageBonus(hero);
-    }
+        return damage;
+    }                           //초과 힘에 따른 추가 데미지
 
     @Override
     public String info() {
 
-        max_round = 3;
-        reload_time = 2f;
+        if (false) { //if (Dungeon.hero.hasTalent(Talent.LARGER_MAGAZINE)) {
+            max_round += 2f; // * Dungeon.hero.pointsInTalent(Talent.LARGER_MAGAZINE);
+        }
+        if (false) { //if (Dungeon.hero.hasTalent(Talent.DRUM_MAGAZINE)) {
+            max_round += 2f; // * Dungeon.hero.pointsInTalent(Talent.DRUM_MAGAZINE);
+        }
+        setReloadTime();
         String info = desc();
 
         if (levelKnown) {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
-            if (STRReq() > hero.STR()) {
+            if (STRReq() > Dungeon.hero.STR()) {
                 info += " " + Messages.get(Weapon.class, "too_heavy");
-            } else if (hero.STR() > STRReq()) {
-                info += " " + Messages.get(Weapon.class, "excess_str", hero.STR() - STRReq());
+            } else if (Dungeon.hero.STR() > STRReq()){
+                info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
             }
-            info += "\n\n" + Messages.get(ApachePistol.class, "stats_known",
-                    Bulletmin(ApachePistol.this.buffedLvl()),
-                    Bulletmax(ApachePistol.this.buffedLvl()),
+            info += "\n\n" + Messages.get(FirearmWeapon.class, "stats_known",
+                    Bulletmin(FirearmWeapon.this.buffedLvl()),
+                    Bulletmax(FirearmWeapon.this.buffedLvl()),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
         } else {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
-            if (STRReq(0) > hero.STR()) {
+            if (STRReq(0) > Dungeon.hero.STR()) {
                 info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
             }
-            info += "\n\n" + Messages.get(ApachePistol.class, "stats_unknown",
+            info += "\n\n" + Messages.get(FirearmWeapon.class, "stats_unknown",
                     Bulletmin(0),
                     Bulletmax(0),
                     round, max_round, new DecimalFormat("#.##").format(reload_time));
@@ -216,79 +298,60 @@ public class ApachePistol extends MeleeWeapon {
             case NONE:
         }
 
-        if (enchantment != null && (cursedKnown || !enchantment.curse())) {
+        if (enchantment != null && (cursedKnown || !enchantment.curse())){
             info += "\n\n" + Messages.get(Weapon.class, "enchanted", enchantment.name());
             info += " " + Messages.get(enchantment, "desc");
         }
 
-        if (cursed && isEquipped(hero)) {
+        if (cursed && isEquipped( Dungeon.hero )) {
             info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
         } else if (cursedKnown && cursed) {
             info += "\n\n" + Messages.get(Weapon.class, "cursed");
-        } else if (!isIdentified() && cursedKnown) {
+        } else if (!isIdentified() && cursedKnown){
             info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
         }
 
         return info;
     }
 
-    @Override
-    public int targetingPos(Hero user, int dst) {
-        return knockBullet().targetingPos(user, dst);
-    }
-
-    private int targetPos;
-
-    @Override
-    public int damageRoll(Char owner) {
-        int damage = augment.damageFactor(super.damageRoll(owner));
-
-        if (owner instanceof Hero) {
-            int exStr = ((Hero) owner).STR() - STRReq();
-            if (exStr > 0) {
-                damage += Random.IntRange(0, exStr);
-            }
-        }
-
-        return damage;
+    public String statsInfo(){
+        return Messages.get(this, "stats_desc");
     }
 
     @Override
     protected float baseDelay(Char owner) {
         float delay = augment.delayFactor(this.DLY);
         if (owner instanceof Hero) {
-            int encumbrance = STRReq() - ((Hero) owner).STR();
-            if (encumbrance > 0) {
-                delay *= Math.pow(1.2, encumbrance);
+            int encumbrance = STRReq() - ((Hero)owner).STR();
+            if (encumbrance > 0){
+                delay *= Math.pow( 1.2, encumbrance );
             }
         }
         return delay;
     }
 
-    public ApachePistol.Bullet knockBullet() {
-        return new ApachePistol.Bullet();
+    public FirearmWeapon.Bullet knockBullet(){
+        return new FirearmWeapon.Bullet();
     }
 
     public class Bullet extends MissileWeapon {
 
         {
-            image = ItemSpriteSheet.SINGLE_BULLET;
-
-            hitSound = Assets.Sounds.PUFF;
-            tier = 4;
+            image = bullet_image;
+            hitSound = bullet_sound;
         }
 
         @Override
         public int buffedLvl() {
-            return ApachePistol.this.buffedLvl();
+            return FirearmWeapon.this.buffedLvl();
         }
 
         @Override
         public int damageRoll(Char owner) {
-            Hero hero = (Hero) owner;
-            Char enemy = hero.enemy();
-            int bulletdamage = Random.NormalIntRange(Bulletmin(ApachePistol.this.buffedLvl()),
-                    Bulletmax(ApachePistol.this.buffedLvl()));
+            //Hero hero = (Hero)owner;
+            //Char enemy = hero.enemy();
+            int bulletdamage = Random.NormalIntRange(Bulletmin(FirearmWeapon.this.buffedLvl()),
+                    Bulletmax(FirearmWeapon.this.buffedLvl()));
 
             if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
                 bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
@@ -299,58 +362,62 @@ public class ApachePistol extends MeleeWeapon {
 
         @Override
         public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
-            return ApachePistol.this.hasEnchant(type, owner);
+            return FirearmWeapon.this.hasEnchant(type, owner);
         }
 
         @Override
         public int proc(Char attacker, Char defender, int damage) {
             SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
-            if (ApachePistol.this.enchantment == null
+            if (FirearmWeapon.this.enchantment == null
                     && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
                     && hero.buff(MagicImmune.class) == null
                     && bow != null
                     && bow.enchantment != null) {
                 return bow.enchantment.proc(this, attacker, defender, damage);
             } else {
-                return ApachePistol.this.proc(attacker, defender, damage);
+                return FirearmWeapon.this.proc(attacker, defender, damage);
             }
         }
 
         @Override
         public float delayFactor(Char user) {
-            return ApachePistol.this.delayFactor(user);
+            return FirearmWeapon.this.delayFactor(user);
         }
 
         @Override
         public float accuracyFactor(Char owner, Char target) {
-            float accFactor = super.accuracyFactor(owner, target);
-            return accFactor;
+            return super.accuracyFactor(owner, target);
         }
 
         @Override
         public int STRReq(int lvl) {
-            return ApachePistol.this.STRReq();
+            return FirearmWeapon.this.STRReq();
         }
 
         @Override
-        protected void onThrow(int cell) {
-            Char enemy = Actor.findChar(cell);
-            if (enemy == null || enemy == curUser) {
-                parent = null;
-                CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-            } else {
-                if (!curUser.shoot(enemy, this)) {
+        protected void onThrow( int cell ) {
+            for (int i = 0; i < shot; i++) {
+                if (round <= 0) break;
+                round--;
+
+                Char enemy = Actor.findChar(cell);
+                if (enemy == null || enemy == curUser) {
+                    parent = null;
                     CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
                     CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                } else {
+                    if (!curUser.shoot(enemy, this)) {
+                        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                        CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                    }
                 }
             }
-            round--;
-            for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {
+
+            for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
                 if (mob.paralysed <= 0
                         && Dungeon.level.distance(curUser.pos, mob.pos) <= 4
                         && mob.state != mob.HUNTING) {
-                    mob.beckon(curUser.pos);
+                    mob.beckon( curUser.pos );
                 }
             }
             updateQuickslot();
@@ -358,7 +425,7 @@ public class ApachePistol extends MeleeWeapon {
 
         @Override
         public void throwSound() {
-            Sample.INSTANCE.play(Assets.Sounds.HIT_CRUSH, 1, Random.Float(0.33f, 0.66f));
+            Sample.INSTANCE.play( Assets.Sounds.HIT_CRUSH, 1, Random.Float(0.33f, 0.66f) );
         }
 
         @Override
@@ -369,10 +436,12 @@ public class ApachePistol extends MeleeWeapon {
 
     private CellSelector.Listener shooter = new CellSelector.Listener() {
         @Override
-        public void onSelect(Integer target) {
+        public void onSelect( Integer target ) {
             if (target != null) {
                 if (target == curUser.pos) {
                     reload();
+                } else {
+                    knockBullet().cast(curUser, target);
                 }
             }
         }
@@ -381,4 +450,5 @@ public class ApachePistol extends MeleeWeapon {
             return Messages.get(SpiritBow.class, "prompt");
         }
     };
+
 }

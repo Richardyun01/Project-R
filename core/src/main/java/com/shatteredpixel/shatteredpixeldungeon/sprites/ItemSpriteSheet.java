@@ -350,7 +350,7 @@ public class ItemSpriteSheet {
 	public static final int THIN_LINE          = AUTOMATIC+4;
 	public static final int TRENCH     		   = AUTOMATIC+5;
 	static{
-		assignItemRect(NOT_MACHINE_GUN        ,15, 16);
+		assignItemRect(NOT_MACHINE_GUN        ,10, 16);
 		assignItemRect(SHORT_CARBINE     	  ,13, 15);
 		assignItemRect(ARM_RIFLE      		  ,16, 16);
 		assignItemRect(STANDARD  			  ,16, 15);
@@ -405,8 +405,10 @@ public class ItemSpriteSheet {
 
 	private static final int ETC_WEAPONS        =                               xy(1, 36);
 	public static final int CLEANSER 			= ETC_WEAPONS+0;
+	public static final int MADNESS 			= ETC_WEAPONS+1;
 	static{
 		assignItemRect(CLEANSER 				,16, 16);
+		assignItemRect(MADNESS 					,16, 16);
 	}
 
 	private static final int PSIONIC_WEAPONS    =                               xy(1, 37);
@@ -541,6 +543,7 @@ public class ItemSpriteSheet {
 	public static final int RING_QUARTZ     = RINGS+9;
 	public static final int RING_AGATE      = RINGS+10;
 	public static final int RING_DIAMOND    = RINGS+11;
+	public static final int RING_IRON 		= RINGS+12;
 	static {
 		for (int i = RINGS; i < RINGS+16; i++)
 			assignItemRect(i, 8, 11);
@@ -829,7 +832,7 @@ public class ItemSpriteSheet {
 	public static final int DUAL_BULLET   	= BULLETS+1;
 	public static final int TRIPLE_BULLET 	= BULLETS+2;
 	public static final int SNIPER_BULLET 	= BULLETS+3;
-	public static final int ROCKET        	= BULLETS+4;
+	public static final int KOJIMA_PARTICLE = BULLETS+4;
 	public static final int ENERGY_BULLET_1 = BULLETS+5;
 	public static final int ENERGY_BULLET_2 = BULLETS+6;
 	public static final int ENERGY_BULLET_3 = BULLETS+7;
@@ -846,9 +849,9 @@ public class ItemSpriteSheet {
 		assignItemRect(DUAL_BULLET,     11, 10);
 		assignItemRect(TRIPLE_BULLET,   11, 11);
 		assignItemRect(SNIPER_BULLET,   8,  8 );
-		assignItemRect(ROCKET,          9,  9 );
+		assignItemRect(KOJIMA_PARTICLE, 9,  9 );
 		assignItemRect(ENERGY_BULLET_1, 10, 10);
-		assignItemRect(ENERGY_BULLET_2, 12, 12);
+		assignItemRect(ENERGY_BULLET_2, 10, 10);
 		assignItemRect(ENERGY_BULLET_3, 12, 12);
 		assignItemRect(WIND_ARROW,		11, 11);
 		assignItemRect(NATURAL_ARROW,	11, 11);
@@ -930,6 +933,7 @@ public class ItemSpriteSheet {
 		public static final int RING_SHARPSHOOT = RINGS+9;
 		public static final int RING_TENACITY   = RINGS+10;
 		public static final int RING_WEALTH     = RINGS+11;
+		public static final int RING_RELOAD     = RINGS+12;
 		static {
 			assignIconRect( RING_ACCURACY,      7, 7 );
 			assignIconRect( RING_ARCANA,        7, 7 );
@@ -943,6 +947,7 @@ public class ItemSpriteSheet {
 			assignIconRect( RING_SHARPSHOOT,    7, 7 );
 			assignIconRect( RING_TENACITY,      6, 6 );
 			assignIconRect( RING_WEALTH,        7, 6 );
+			assignIconRect( RING_RELOAD,        7, 8 );
 		}
 
 		                                                                                //16 free slots

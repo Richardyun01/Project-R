@@ -24,22 +24,34 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class NotMachineGun extends FirearmWeapon {
+public class Madness extends FirearmWeapon {
 
     {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.NOT_MACHINE_GUN;
+        image = ItemSpriteSheet.MADNESS;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 1;
-        type = FirearmType.FirearmAuto;
-        max_round = 8;
-        shot = 2;
+        tier = 6;
+        type = FirearmType.FirearmEtc;
+        max_round = 1;
+    }
 
-        bullet_image = ItemSpriteSheet.DUAL_BULLET;
+    @Override
+    public void setReloadTime() {
+        reload_time = 50;
+    }
+
+    @Override
+    public int Bulletmin(int lvl) {
+        return 200 + (tier*25);
+    }
+
+    @Override
+    public int Bulletmax(int lvl) {
+        return 200 + (tier*25);
     }
 
 }

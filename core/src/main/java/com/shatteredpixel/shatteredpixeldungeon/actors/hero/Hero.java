@@ -468,6 +468,7 @@ public class Hero extends Char {
 		} else {
 			return (int)(attackSkill * accuracy);
 		}
+
 	}
 	
 	@Override

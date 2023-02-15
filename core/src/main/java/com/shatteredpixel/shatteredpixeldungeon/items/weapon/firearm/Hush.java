@@ -24,22 +24,21 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class NotMachineGun extends FirearmWeapon {
+public class Hush extends FirearmWeapon {
 
     {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.NOT_MACHINE_GUN;
+        image = ItemSpriteSheet.HUSH;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 1;
-        type = FirearmType.FirearmAuto;
-        max_round = 8;
-        shot = 2;
-
-        bullet_image = ItemSpriteSheet.DUAL_BULLET;
+        tier = 5;
+        type = FirearmType.FirearmPistol;
+        max_round = 3;
     }
 
 }
+
+

@@ -71,6 +71,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfTenacity;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
@@ -114,6 +115,21 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfPrismaticLight
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfTransfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ApachePistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ArmRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Dragoon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.EleGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Flashback;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Hush;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Lauria;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Madness;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.NotMachineGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Revolver;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Seeker;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ShortCarbine;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Standard;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Tat;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ThinLine;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BattleAxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Chainsaw;
@@ -201,6 +217,13 @@ public class Generator {
 		WEP_T3	( 0, 0, MeleeWeapon.class),
 		WEP_T4	( 0, 0, MeleeWeapon.class),
 		WEP_T5	( 0, 0, MeleeWeapon.class),
+
+		GUN_T1		( 0, 0, MeleeWeapon.class),
+		GUN_T2		( 0, 0, MeleeWeapon.class),
+		GUN_T3		( 0, 0, MeleeWeapon.class),
+		GUN_T4		( 0, 0, MeleeWeapon.class),
+		GUN_T5		( 0, 0, MeleeWeapon.class),
+		GUN_T6 	( 0, 0, MeleeWeapon.class),
 		
 		ARMOR	( 2, 1, Armor.class ),
 		
@@ -361,7 +384,7 @@ public class Generator {
 					CommonBlade.class,
 					RuinSpear.class,
 					Krystallos.class,
-					PsionicBlade.class
+					PsionicBlade.class,
 			};
 			WEP_T1.probs = new float[]{ 1, 0, 1, 1, 1, 1, 1, 0 };
 			
@@ -385,7 +408,7 @@ public class Generator {
 					Sai.class,
 					Whip.class,
 					RipperWeapon.class,
-					Scripture.class
+					Scripture.class,
 			};
 			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 };
 			
@@ -413,6 +436,45 @@ public class Generator {
 					FusionLance.class
 			};
 			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 4 };
+
+			GUN_T1.classes = new Class<?>[]{
+					ApachePistol.class,
+					NotMachineGun.class
+			};
+			GUN_T1.probs = new float[]{ 1, 1 };
+
+			GUN_T2.classes = new Class<?>[]{
+					Revolver.class,
+					Tat.class,
+					ShortCarbine.class
+			};
+			GUN_T2.probs = new float[]{ 2, 1, 1 };
+
+			GUN_T3.classes = new Class<?>[]{
+					Dragoon.class,
+					EleGun.class,
+					ArmRifle.class
+			};
+			GUN_T3.probs = new float[]{ 2, 1, 1 };
+
+			GUN_T4.classes = new Class<?>[]{
+					Flashback.class,
+					Seeker.class,
+					Standard.class
+			};
+			GUN_T4.probs = new float[]{ 2, 1, 1 };
+
+			GUN_T5.classes = new Class<?>[]{
+					Hush.class,
+					Lauria.class,
+					ThinLine.class,
+			};
+			GUN_T5.probs = new float[]{ 6 ,4 ,4 };
+
+			GUN_T6.classes = new Class<?>[]{
+					Madness.class,
+			};
+			GUN_T6.probs = new float[]{ 1 };
 			
 			//see Generator.randomArmor
 			ARMOR.classes = new Class<?>[]{
@@ -483,8 +545,9 @@ public class Generator {
 					RingOfMight.class,
 					RingOfSharpshooting.class,
 					RingOfTenacity.class,
-					RingOfWealth.class};
-			RING.probs = new float[]{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+					RingOfWealth.class,
+					RingOfReload.class};
+			RING.probs = new float[]{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 			
 			ARTIFACT.classes = new Class<?>[]{
 					AlchemistsToolkit.class,
@@ -506,11 +569,11 @@ public class Generator {
 	}
 
 	private static final float[][] floorSetTierProbs = new float[][] {
-			{0, 75, 20,  4,  1},
-			{0, 25, 50, 20,  5},
-			{0,  0, 40, 50, 10},
-			{0,  0, 20, 40, 40},
-			{0,  0,  0, 20, 80}
+			{0, 75, 20,  4,  1, 0},
+			{0, 25, 50, 20,  5, 0},
+			{0,  0, 40, 50, 10, 0},
+			{0,  0, 19, 40, 40, 1},
+			{0,  0,  0, 15, 80, 5}
 	};
 
 	private static boolean usingFirstDeck = false;
@@ -626,6 +689,15 @@ public class Generator {
 			Category.WEP_T5
 	};
 
+	public static final Category[] gunTiers = new Category[]{
+			Category.GUN_T1,
+			Category.GUN_T2,
+			Category.GUN_T3,
+			Category.GUN_T4,
+			Category.GUN_T5,
+			Category.GUN_T6
+	};
+
 	public static MeleeWeapon randomWeapon(){
 		return randomWeapon(Dungeon.depth / 5);
 	}
@@ -635,6 +707,20 @@ public class Generator {
 		floorSet = (int)GameMath.gate(0, floorSet, floorSetTierProbs.length-1);
 		
 		Category c = wepTiers[Random.chances(floorSetTierProbs[floorSet])];
+		MeleeWeapon w = (MeleeWeapon)Reflection.newInstance(c.classes[Random.chances(c.probs)]);
+		w.random();
+		return w;
+	}
+
+	public static MeleeWeapon randomGun(){
+		return randomWeapon(Dungeon.depth / 5);
+	}
+
+	public static MeleeWeapon randomGun(int floorSet) {
+
+		floorSet = (int)GameMath.gate(0, floorSet, floorSetTierProbs.length-1);
+
+		Category c = gunTiers[Random.chances(floorSetTierProbs[floorSet])];
 		MeleeWeapon w = (MeleeWeapon)Reflection.newInstance(c.classes[Random.chances(c.probs)]);
 		w.random();
 		return w;

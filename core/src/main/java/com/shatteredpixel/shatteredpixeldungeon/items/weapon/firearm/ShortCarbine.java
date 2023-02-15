@@ -24,17 +24,17 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class NotMachineGun extends FirearmWeapon {
+public class ShortCarbine extends FirearmWeapon {
 
     {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.NOT_MACHINE_GUN;
+        image = ItemSpriteSheet.SHORT_CARBINE;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 1;
+        tier = 2;
         type = FirearmType.FirearmAuto;
         max_round = 8;
         shot = 2;

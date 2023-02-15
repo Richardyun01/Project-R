@@ -24,20 +24,20 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class NotMachineGun extends FirearmWeapon {
+public class ThinLine extends FirearmWeapon {
 
     {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.NOT_MACHINE_GUN;
+        image = ItemSpriteSheet.THIN_LINE;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 1;
+        tier = 5;
         type = FirearmType.FirearmAuto;
-        max_round = 8;
-        shot = 2;
+        max_round = 15;
+        shot = 3;
 
         bullet_image = ItemSpriteSheet.DUAL_BULLET;
     }
