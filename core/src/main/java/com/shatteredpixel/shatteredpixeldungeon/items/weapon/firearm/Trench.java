@@ -21,25 +21,32 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Seeker extends FirearmWeapon {
+public class Trench extends FirearmWeapon {
 
     {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.SEEKER;
+        image = ItemSpriteSheet.TRENCH;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 4;
-        type = FirearmType.FirearmPrecision;
-        max_round = 1;
+        tier = 6;
+        type = FirearmType.FirearmAuto;
+        max_round = 30;
+        shot = 6;
 
-        bullet_image = ItemSpriteSheet.SNIPER_BULLET;
+        bullet_image = ItemSpriteSheet.DUAL_BULLET;
+    }
+
+    @Override
+    public void setReloadTime() {
+        reload_time = 5f * RingOfReload.reloadMultiplier(Dungeon.hero);
     }
 
 }

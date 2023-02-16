@@ -48,12 +48,13 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-abstract class FirearmWeapon extends MeleeWeapon {
+public class FirearmWeapon extends MeleeWeapon {
 
     public enum FirearmType {
         FirearmPistol,
@@ -125,7 +126,7 @@ abstract class FirearmWeapon extends MeleeWeapon {
             case FirearmAuto:
                 return 2 * (tier) + lvl * (tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             case FirearmShotgun:
-                return (tier+2) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                return (tier+2) + lvl * 3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             case FirearmExplosive:
                 return 8 * (tier+6) + lvl * (tier+6) + RingOfSharpshooting.levelDamageBonus(hero);
             case FirearmEnergy:
@@ -273,7 +274,8 @@ abstract class FirearmWeapon extends MeleeWeapon {
             info += "\n\n" + Messages.get(FirearmWeapon.class, "stats_known",
                     Bulletmin(FirearmWeapon.this.buffedLvl()),
                     Bulletmax(FirearmWeapon.this.buffedLvl()),
-                    round, max_round, new DecimalFormat("#.##").format(reload_time));
+                    round, max_round,
+                    new DecimalFormat("#.##").format(reload_time));
         } else {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
             if (STRReq(0) > Dungeon.hero.STR()) {
@@ -334,6 +336,10 @@ abstract class FirearmWeapon extends MeleeWeapon {
         return new FirearmWeapon.Bullet();
     }
 
+    public float accuracyFactorBullet(Char owner, Char target) {
+        return 1f;
+    }
+
     public class Bullet extends MissileWeapon {
 
         {
@@ -386,7 +392,7 @@ abstract class FirearmWeapon extends MeleeWeapon {
 
         @Override
         public float accuracyFactor(Char owner, Char target) {
-            return super.accuracyFactor(owner, target);
+            return accuracyFactorBullet(owner, target);
         }
 
         @Override
@@ -396,21 +402,58 @@ abstract class FirearmWeapon extends MeleeWeapon {
 
         @Override
         protected void onThrow( int cell ) {
-            for (int i = 0; i < shot; i++) {
-                if (round <= 0) break;
-                round--;
-
-                Char enemy = Actor.findChar(cell);
-                if (enemy == null || enemy == curUser) {
-                    parent = null;
+            switch (type) {
+                case FirearmExplosive:
+                    ArrayList<Char> targets = new ArrayList<>();
+                    if (Actor.findChar(cell) != null) targets.add(Actor.findChar(cell));
+                    for (int i : PathFinder.NEIGHBOURS8){
+                        if (Actor.findChar(cell + i) != null) targets.add(Actor.findChar(cell + i));
+                    }
+                    for (Char target : targets){
+                        curUser.shoot(target, this);
+                        if (target == hero && !target.isAlive()){
+                            Dungeon.fail(getClass());
+                            GLog.n(Messages.get(FirearmWeapon.class, "ondeath"));
+                        }
+                    }
                     CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
                     CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                } else {
-                    if (!curUser.shoot(enemy, this)) {
-                        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                        CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                    ArrayList<Char> affected = new ArrayList<>();
+                    for (int n : PathFinder.NEIGHBOURS9) {
+                        int c = cell + n;
+                        if (c >= 0 && c < Dungeon.level.length()) {
+                            if (Dungeon.level.heroFOV[c]) {
+                                CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);
+                                CellEmitter.center(cell).burst(BlastParticle.FACTORY, 4);
+                            }
+                            if (Dungeon.level.flamable[c]) {
+                                Dungeon.level.destroy(c);
+                                GameScene.updateMap(c);
+                            }
+                            Char ch = Actor.findChar(c);
+                            if (ch != null) {
+                                affected.add(ch);
+                            }
+                        }
                     }
-                }
+                    Sample.INSTANCE.play( Assets.Sounds.BLAST );
+                default:
+                    for (int i = 0; i < shot; i++) {
+                        if (round <= 0) break;
+                        round--;
+
+                        Char enemy = Actor.findChar(cell);
+                        if (enemy == null || enemy == curUser) {
+                            parent = null;
+                            CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                            CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                        } else {
+                            if (!curUser.shoot(enemy, this)) {
+                                CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                                CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                            }
+                        }
+                    }
             }
 
             for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
@@ -450,5 +493,23 @@ abstract class FirearmWeapon extends MeleeWeapon {
             return Messages.get(SpiritBow.class, "prompt");
         }
     };
+
+    @Override
+    public int value() {
+        int price = 20 * tier;
+        if (hasGoodEnchant()) {
+            price *= 1.5;
+        }
+        if (cursedKnown && (cursed || hasCurseEnchant())) {
+            price /= 2;
+        }
+        if (levelKnown && level() > 0) {
+            price *= (level() + 1);
+        }
+        if (price < 1) {
+            price = 1;
+        }
+        return price;
+    }
 
 }

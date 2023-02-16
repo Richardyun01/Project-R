@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -54,6 +56,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LifeLink;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MurakumoCharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
@@ -97,6 +100,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazin
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kinetic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Aria;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Fencer;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Murakumo;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RipperWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
@@ -340,6 +346,9 @@ public abstract class Char extends Actor {
 				if (h.belongings.weapon instanceof RipperWeapon) {
 					dr = 0;
 				}
+				if (h.belongings.weapon instanceof Fencer.Bullet) {
+					dr = 0;
+				}
 			}
 
 			//we use a float here briefly so that we don't have to constantly round while
@@ -362,6 +371,21 @@ public abstract class Char extends Actor {
 
 			if (buff( Fury.class ) != null) {
 				dmg *= 1.5f;
+			}
+
+			if (this instanceof Hero && hero.belongings.weapon != null && hero.belongings.weapon() instanceof MissileWeapon) {
+				if (this instanceof Hero) {
+					if (Dungeon.hero.belongings.weapon() instanceof Aria.Bullet) {
+						//int distance = Dungeon.level.distance(hero.pos, enemy.pos) - 1;
+						float multiplier = Math.min(4f, (float)Math.pow(1.2f, dr + 1));
+						dmg = Math.round(dmg * multiplier);
+					}
+				}
+			}
+
+			if (this instanceof Hero && hero.buff(MurakumoCharge.class) != null && hero.belongings.weapon() instanceof Murakumo) {
+				dmg *= 1f + hero.buff(MurakumoCharge.class).getDamageFactor();
+				Buff.detach(this, MurakumoCharge.class);
 			}
 
 			for (ChampionEnemy buff : buffs(ChampionEnemy.class)){

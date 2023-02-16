@@ -38,6 +38,8 @@ public class EleGun extends FirearmWeapon{
         tier = 3;
         type = FirearmType.FirearmPrecision;
         max_round = 1;
+
+        bullet_image = ItemSpriteSheet.SNIPER_BULLET;
     }
 
 }

@@ -61,16 +61,34 @@ public enum Catalog {
 		for (Class weapon : Generator.Category.WEP_T1.classes){
 			WEAPONS.seen.put( weapon, false);
 		}
+		for (Class weapon : Generator.Category.GUN_T1.classes){
+			WEAPONS.seen.put( weapon, false);
+		}
 		for (Class weapon : Generator.Category.WEP_T2.classes){
+			WEAPONS.seen.put( weapon, false);
+		}
+		for (Class weapon : Generator.Category.GUN_T2.classes){
 			WEAPONS.seen.put( weapon, false);
 		}
 		for (Class weapon : Generator.Category.WEP_T3.classes){
 			WEAPONS.seen.put( weapon, false);
 		}
+		for (Class weapon : Generator.Category.GUN_T3.classes){
+			WEAPONS.seen.put( weapon, false);
+		}
 		for (Class weapon : Generator.Category.WEP_T4.classes){
 			WEAPONS.seen.put( weapon, false);
 		}
+		for (Class weapon : Generator.Category.GUN_T4.classes){
+			WEAPONS.seen.put( weapon, false);
+		}
 		for (Class weapon : Generator.Category.WEP_T5.classes){
+			WEAPONS.seen.put( weapon, false);
+		}
+		for (Class weapon : Generator.Category.GUN_T5.classes){
+			WEAPONS.seen.put( weapon, false);
+		}
+		for (Class weapon : Generator.Category.GUN_T6.classes){
 			WEAPONS.seen.put( weapon, false);
 		}
 

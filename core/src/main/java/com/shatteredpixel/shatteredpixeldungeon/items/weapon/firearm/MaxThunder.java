@@ -21,25 +21,46 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Random;
 
-public class Seeker extends FirearmWeapon {
+public class MaxThunder extends FirearmWeapon{
 
     {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.SEEKER;
+        image = ItemSpriteSheet.MAX_THUNDER;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 4;
-        type = FirearmType.FirearmPrecision;
-        max_round = 1;
+        tier = 6;
+        type = FirearmType.FirearmShotgun;
+        max_round = 10;
+        shot = 10;
 
-        bullet_image = ItemSpriteSheet.SNIPER_BULLET;
+        bullet_image = ItemSpriteSheet.TRIPLE_BULLET;
+    }
+
+    @Override
+    public void setReloadTime() {
+        reload_time = 1f * RingOfReload.reloadMultiplier(Dungeon.hero);
+    }
+
+    @Override
+    public int proc(Char attacker, Char defender, int damage) {
+
+        Buff.affect(defender, Burning.class).reignite(defender, 8f);
+        int burnDamage = Random.NormalIntRange( 1, 3 + Dungeon.scalingDepth()/4 );
+        defender.damage( Math.round(burnDamage * 0.67f), this );
+
+        return super.proc(attacker, defender, damage);
     }
 
 }

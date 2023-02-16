@@ -21,25 +21,33 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Seeker extends FirearmWeapon {
+public class Fencer extends FirearmWeapon {
 
     {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.SEEKER;
+        image = ItemSpriteSheet.FENCER;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 4;
-        type = FirearmType.FirearmPrecision;
-        max_round = 1;
+        tier = 6;
+        type = FirearmType.FirearmPistol;
+        max_round = 3;
+    }
 
-        bullet_image = ItemSpriteSheet.SNIPER_BULLET;
+    @Override
+    public int Bulletmin(int lvl) {
+        return (2*tier) + (6*lvl) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+    }
+    @Override
+    public int Bulletmax(int lvl) {
+        return (3*tier) + (9*lvl) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
 }

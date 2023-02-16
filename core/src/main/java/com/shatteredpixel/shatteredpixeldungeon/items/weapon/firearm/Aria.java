@@ -23,23 +23,54 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Seeker extends FirearmWeapon {
+public class Aria extends FirearmWeapon{
 
     {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.SEEKER;
+        image = ItemSpriteSheet.ARIA;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 4;
+        tier = 6;
         type = FirearmType.FirearmPrecision;
         max_round = 1;
 
         bullet_image = ItemSpriteSheet.SNIPER_BULLET;
     }
 
+    @Override
+    public int Bulletmin(int lvl) {
+        return (3*tier) + (6*lvl) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+    }
+
+    @Override
+    public int Bulletmax(int lvl) {
+        return (10*tier) + (10*lvl) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+    }
+
+    @Override
+    public void setReloadTime() {
+        reload_time = 3f * RingOfReload.reloadMultiplier(Dungeon.hero);
+    }
+
+    @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        return Dungeon.level.adjacent(owner.pos, target.pos) ? 0f : 2f;
+    }
+
+/*
+    @Override
+    protected void onThrow(int cell) {
+        Ballistica aim = new Ballistica(hero.pos, cell, Ballistica.PROJECTILE);
+        curUser.sprite.parent.add(new Beam.DeathRay(curUser.sprite.center(), DungeonTilemap.raisedTileCenterToWorld( aim.path.get(aim.dist) )));
+    }
+*/
 }

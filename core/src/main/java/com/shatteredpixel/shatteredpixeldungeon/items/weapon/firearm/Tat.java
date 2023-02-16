@@ -38,6 +38,8 @@ public class Tat extends FirearmWeapon{
         tier = 2;
         type = FirearmType.FirearmPrecision;
         max_round = 1;
+
+        bullet_image = ItemSpriteSheet.SNIPER_BULLET;
     }
 
 }

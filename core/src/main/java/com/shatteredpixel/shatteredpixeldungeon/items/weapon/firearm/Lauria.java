@@ -38,6 +38,8 @@ public class Lauria extends FirearmWeapon{
         tier = 5;
         type = FirearmWeapon.FirearmType.FirearmPrecision;
         max_round = 1;
+
+        bullet_image = ItemSpriteSheet.SNIPER_BULLET;
     }
 
 }

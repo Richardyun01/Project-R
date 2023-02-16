@@ -82,7 +82,7 @@ public class ItemSpriteSheet {
 	private static final int UNCOLLECTIBLE  =                               xy(1, 2);   //16 slots
 	public static final int GOLD            = UNCOLLECTIBLE+0;
 	public static final int ENERGY          = UNCOLLECTIBLE+1;
-
+	public static final int NOTHING         = UNCOLLECTIBLE+2; 								//for invisible sprites
 	public static final int DEWDROP         = UNCOLLECTIBLE+3;
 	public static final int PETAL           = UNCOLLECTIBLE+4;
 	public static final int SANDBAG         = UNCOLLECTIBLE+5;
@@ -93,7 +93,7 @@ public class ItemSpriteSheet {
 	static{
 		assignItemRect(GOLD,        13, 14);
 		assignItemRect(ENERGY,      16, 16);
-
+		assignItemRect(NOTHING,     16, 16);
 		assignItemRect(DEWDROP,     9, 13);
 		assignItemRect(PETAL,       7,  8);
 		assignItemRect(SANDBAG,     10, 10);
@@ -300,6 +300,7 @@ public class ItemSpriteSheet {
 	public static final int EXECUTIONER     = WEP_TIER5+6;
 	public static final int MOONLIGHT       = WEP_TIER5+7;
 	public static final int FUSION_LANCE    = WEP_TIER5+8;
+	public static final int MURAKUMO    	= WEP_TIER5+9;
 	static{
 		assignItemRect(GREATSWORD,  16, 16);
 		assignItemRect(WAR_HAMMER,  16, 16);
@@ -310,6 +311,7 @@ public class ItemSpriteSheet {
 		assignItemRect(EXECUTIONER, 16, 16);
 		assignItemRect(MOONLIGHT,   16, 16);
 		assignItemRect(FUSION_LANCE,16, 16);
+		assignItemRect(MURAKUMO,	16, 16);
 	}
 
 	private static final int HANDGUNS     =                                 xy(1, 33);
@@ -836,14 +838,11 @@ public class ItemSpriteSheet {
 	public static final int ENERGY_BULLET_1 = BULLETS+5;
 	public static final int ENERGY_BULLET_2 = BULLETS+6;
 	public static final int ENERGY_BULLET_3 = BULLETS+7;
-	public static final int WIND_ARROW		= BULLETS+8;
-	public static final int NATURAL_ARROW	= BULLETS+9;
-	public static final int GOLDEN_ARROW	= BULLETS+10;
-	public static final int	POISON_ARROW	= BULLETS+11;
-	public static final int GRENADE 		= BULLETS+12;
-	public static final int HE_GRENADE 		= BULLETS+13;
-	public static final int SMOKE_GRENADE 	= BULLETS+14;
-	public static final int SPIRIT_BULLET 	= BULLETS+15;
+	public static final int GRENADE 		= BULLETS+8;
+	public static final int ROCKET_1 		= BULLETS+9;
+	public static final int ROCKET_2 		= BULLETS+10;
+	public static final int ROCKET_3 		= BULLETS+11;
+	public static final int SHELL 			= BULLETS+11;
 	static{
 		assignItemRect(SINGLE_BULLET,   8,  8 );
 		assignItemRect(DUAL_BULLET,     11, 10);
@@ -853,14 +852,11 @@ public class ItemSpriteSheet {
 		assignItemRect(ENERGY_BULLET_1, 10, 10);
 		assignItemRect(ENERGY_BULLET_2, 10, 10);
 		assignItemRect(ENERGY_BULLET_3, 12, 12);
-		assignItemRect(WIND_ARROW,		11, 11);
-		assignItemRect(NATURAL_ARROW,	11, 11);
-		assignItemRect(GOLDEN_ARROW,	11, 11);
-		assignItemRect(POISON_ARROW,	11, 11);
-		assignItemRect(GRENADE,			7,  7 );
-		assignItemRect(HE_GRENADE,		7,  7 );
-		assignItemRect(SMOKE_GRENADE,	7,  7 );
-		assignItemRect(SPIRIT_BULLET,	8,  8);
+		assignItemRect(GRENADE, 		7,  7 );
+		assignItemRect(ROCKET_1, 		11, 11);
+		assignItemRect(ROCKET_2, 		11, 11);
+		assignItemRect(ROCKET_3, 		11, 11);
+		assignItemRect(SHELL, 			14, 14);
 	}
 
 	private static final int BAGS       =                                   xy(1, 31);  //16 slots

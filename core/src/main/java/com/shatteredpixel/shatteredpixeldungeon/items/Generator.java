@@ -115,21 +115,35 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfPrismaticLight
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfRegrowth;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfTransfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfWarding;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.AAWSM;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ApachePistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Aria;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ArmRifle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.BigBarrel;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Blunderbust;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Dragoon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.EleGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Fencer;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FireStorm;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Flashback;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Harmonica;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Hush;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Hydra;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Justice;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Lauria;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Madness;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.MaxThunder;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.NotMachineGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Overflow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Revolver;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Seeker;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ShortCarbine;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Standard;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.SuperShotgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Tat;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ThinLine;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Trench;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Wave;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BattleAxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Chainsaw;
@@ -154,6 +168,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Mace;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MoonlightBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Murakumo;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PsionicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Rapier;
@@ -218,11 +233,11 @@ public class Generator {
 		WEP_T4	( 0, 0, MeleeWeapon.class),
 		WEP_T5	( 0, 0, MeleeWeapon.class),
 
-		GUN_T1		( 0, 0, MeleeWeapon.class),
-		GUN_T2		( 0, 0, MeleeWeapon.class),
-		GUN_T3		( 0, 0, MeleeWeapon.class),
-		GUN_T4		( 0, 0, MeleeWeapon.class),
-		GUN_T5		( 0, 0, MeleeWeapon.class),
+		GUN_T1	( 0, 0, MeleeWeapon.class),
+		GUN_T2	( 0, 0, MeleeWeapon.class),
+		GUN_T3	( 0, 0, MeleeWeapon.class),
+		GUN_T4	( 0, 0, MeleeWeapon.class),
+		GUN_T5	( 0, 0, MeleeWeapon.class),
 		GUN_T6 	( 0, 0, MeleeWeapon.class),
 		
 		ARMOR	( 2, 1, Armor.class ),
@@ -433,9 +448,10 @@ public class Generator {
 					Gauntlet.class,
 					Executioner.class,
 					MoonlightBlade.class,
-					FusionLance.class
+					FusionLance.class,
+					Murakumo.class
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 4 };
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 4, 4 };
 
 			GUN_T1.classes = new Class<?>[]{
 					ApachePistol.class,
@@ -446,35 +462,49 @@ public class Generator {
 			GUN_T2.classes = new Class<?>[]{
 					Revolver.class,
 					Tat.class,
-					ShortCarbine.class
+					ShortCarbine.class,
+					Blunderbust.class
 			};
-			GUN_T2.probs = new float[]{ 2, 1, 1 };
+			GUN_T2.probs = new float[]{ 2, 1, 1, 1 };
 
 			GUN_T3.classes = new Class<?>[]{
 					Dragoon.class,
 					EleGun.class,
-					ArmRifle.class
+					ArmRifle.class,
+					Overflow.class
 			};
-			GUN_T3.probs = new float[]{ 2, 1, 1 };
+			GUN_T3.probs = new float[]{ 2, 1, 1, 1 };
 
 			GUN_T4.classes = new Class<?>[]{
 					Flashback.class,
 					Seeker.class,
-					Standard.class
+					Standard.class,
+					Wave.class,
+					Harmonica.class,
+					Justice.class
 			};
-			GUN_T4.probs = new float[]{ 2, 1, 1 };
+			GUN_T4.probs = new float[]{ 2, 1, 1, 1, 1, 1 };
 
 			GUN_T5.classes = new Class<?>[]{
 					Hush.class,
 					Lauria.class,
 					ThinLine.class,
+					SuperShotgun.class,
+					Hydra.class,
+					AAWSM.class,
+					FireStorm.class
 			};
-			GUN_T5.probs = new float[]{ 6 ,4 ,4 };
+			GUN_T5.probs = new float[]{ 6, 4, 4, 4, 3, 3, 3 };
 
 			GUN_T6.classes = new Class<?>[]{
+					Fencer.class,
+					Aria.class,
+					Trench.class,
+					MaxThunder.class,
+					BigBarrel.class,
 					Madness.class,
 			};
-			GUN_T6.probs = new float[]{ 1 };
+			GUN_T6.probs = new float[]{ 2, 1, 1, 1, 1, 1 };
 			
 			//see Generator.randomArmor
 			ARMOR.classes = new Class<?>[]{

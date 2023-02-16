@@ -21,25 +21,37 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Seeker extends FirearmWeapon {
+public class SuperShotgun extends FirearmWeapon{
 
     {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.SEEKER;
+        image = ItemSpriteSheet.SUPER_SHOTGUN;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 4;
-        type = FirearmType.FirearmPrecision;
-        max_round = 1;
+        tier = 5;
+        type = FirearmType.FirearmShotgun;
+        max_round = 8;
+        shot = 8;
 
-        bullet_image = ItemSpriteSheet.SNIPER_BULLET;
+        bullet_image = ItemSpriteSheet.TRIPLE_BULLET;
     }
 
+    @Override
+    public void setReloadTime() {
+        reload_time = 1f * RingOfReload.reloadMultiplier(Dungeon.hero);
+    }
+
+    @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        return Dungeon.level.adjacent(owner.pos, target.pos) ? 1.5f : 0f;
+    }
 }

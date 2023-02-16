@@ -31,12 +31,15 @@ public class Madness extends FirearmWeapon {
         usesTargeting = true;
 
         image = ItemSpriteSheet.MADNESS;
-        hitSound = Assets.Sounds.HIT_CRUSH;
+        hitSound = Assets.Sounds.BLAST;
         hitSoundPitch = 0.8f;
 
         tier = 6;
         type = FirearmType.FirearmEtc;
         max_round = 1;
+
+        bullet_image = ItemSpriteSheet.KOJIMA_PARTICLE;
+        bullet_sound = Assets.Sounds.BLAST;
     }
 
     @Override
