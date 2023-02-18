@@ -21,6 +21,9 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.bombs;
 
+import static com.watabou.utils.PathFinder.buildDistanceMap;
+import static com.watabou.utils.PathFinder.distance;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
@@ -35,7 +38,6 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -51,9 +53,9 @@ public class ShockBomb extends Bomb {
 		super.explode(cell);
 
 		ArrayList<Char> affected = new ArrayList<>();
-		PathFinder.buildDistanceMap( cell, BArray.not( Dungeon.level.solid, null ), 3 );
-		for (int i = 0; i < PathFinder.distance.length; i++) {
-			if (PathFinder.distance[i] < Integer.MAX_VALUE
+		buildDistanceMap( cell, BArray.not( Dungeon.level.solid, null ), 3 );
+		for (int i = 0; i < distance.length; i++) {
+			if (distance[i] < Integer.MAX_VALUE
 				&& Actor.findChar(i) != null) {
 				affected.add(Actor.findChar(i));
 			}

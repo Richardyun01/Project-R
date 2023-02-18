@@ -22,13 +22,13 @@
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.StewedMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLesserHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.BlizzardBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.CausticBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.InfernalBrew;
@@ -196,6 +196,7 @@ public abstract class Recipe {
 		new InfernalBrew.Recipe(),
 		new ShockingBrew.Recipe(),
 		new CausticBrew.Recipe(),
+		new PotionOfLesserHealing.Recipe(),
 		new AquaBlast.Recipe(),
 		new BeaconOfReturning.Recipe(),
 		new CurseInfusion.Recipe(),

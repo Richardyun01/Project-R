@@ -39,6 +39,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ExoticScrol
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PsionicBlade;
@@ -176,7 +177,12 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		Weapon n;
 		Generator.Category c;
 		if (w instanceof MeleeWeapon) {
-			c = Generator.wepTiers[((MeleeWeapon)w).tier - 1];
+			int tier = (w instanceof FirearmWeapon) ?
+					((FirearmWeapon) w).tier : ((MeleeWeapon) w).tier;
+			if (Random.Int(2) == 0)
+				c = Generator.gunTiers[tier - 1];
+			else
+				c = Generator.wepTiers[tier - 1];
 		} else {
 			c = Generator.misTiers[((MissileWeapon)w).tier - 1];
 		}

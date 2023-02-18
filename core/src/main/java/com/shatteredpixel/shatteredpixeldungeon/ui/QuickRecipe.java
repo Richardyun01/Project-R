@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.StewedMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.AlchemicalCatalyst;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLesserHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.BlizzardBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.CausticBrew;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.InfernalBrew;
@@ -58,7 +59,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.spells.BeaconOfReturning;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.FeatherFall;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalInfusion;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.MagicalPorter;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.PhaseShift;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.ReclaimTrap;
 import com.shatteredpixel.shatteredpixeldungeon.items.spells.Recycle;
@@ -375,6 +375,7 @@ public class QuickRecipe extends Component {
 				result.add(new QuickRecipe(new ElixirOfIcyTouch.Recipe()));
 				result.add(new QuickRecipe(new ElixirOfToxicEssence.Recipe()));
 				result.add(new QuickRecipe(new ElixirOfArcaneArmor.Recipe()));
+				result.add(new QuickRecipe(new PotionOfLesserHealing.Recipe()));
 				return result;
 			case 9:
 				result.add(new QuickRecipe(new TelekineticGrab.Recipe()));

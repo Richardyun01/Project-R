@@ -27,10 +27,13 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Eye;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
@@ -62,7 +65,8 @@ public class FirearmWeapon extends MeleeWeapon {
         FirearmAuto,
         FirearmShotgun,
         FirearmExplosive,
-        FirearmEnergy,
+        FirearmEnergy1,
+        FirearmEnergy2,
         FirearmEtc;
     }
 
@@ -106,10 +110,11 @@ public class FirearmWeapon extends MeleeWeapon {
             case FirearmPrecision:
                 return 3 * tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             case FirearmShotgun:
-                return 1 + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                return tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             case FirearmExplosive:
                 return (tier+5) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
-            case FirearmEnergy:
+            case FirearmEnergy1:
+            case FirearmEnergy2:
                 return tier + lvl;
             case FirearmPistol:
             case FirearmAuto:
@@ -126,10 +131,11 @@ public class FirearmWeapon extends MeleeWeapon {
             case FirearmAuto:
                 return 2 * (tier) + lvl * (tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             case FirearmShotgun:
-                return (tier+2) + lvl * 3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                return (tier*2) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             case FirearmExplosive:
                 return 8 * (tier+6) + lvl * (tier+6) + RingOfSharpshooting.levelDamageBonus(hero);
-            case FirearmEnergy:
+            case FirearmEnergy1:
+            case FirearmEnergy2:
                 return Math.round((3 * (tier + 1) + lvl * 3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)));
             case FirearmEtc:
                 return 5 * (tier + 1) + lvl * 3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
@@ -340,6 +346,78 @@ public class FirearmWeapon extends MeleeWeapon {
         return 1f;
     }
 
+    public void onThrowBulletFirearmExplosive( int cell ) {
+        CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+        CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+        ArrayList<Char> affected = new ArrayList<>();
+        for (int n : PathFinder.NEIGHBOURS9) {
+            int c = cell + n;
+            if (c >= 0 && c < Dungeon.level.length()) {
+                if (Dungeon.level.heroFOV[c]) {
+                    CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);
+                    CellEmitter.center(cell).burst(BlastParticle.FACTORY, 4);
+                }
+                if (Dungeon.level.flamable[c]) {
+                    Dungeon.level.destroy(c);
+                    GameScene.updateMap(c);
+                }
+                Char ch = Actor.findChar(c);
+                if (ch != null) {
+                    affected.add(ch);
+                }
+            }
+        }
+        Sample.INSTANCE.play( Assets.Sounds.BLAST );
+    }
+
+    /*
+    public void onThrowBulletFirearmEnergy2( int cell ) {
+        Ballistica aim = new Ballistica(hero.pos, cell, Ballistica.PROJECTILE); //Always Projecting and no distance limit, see MissileWeapon.throwPos
+        ArrayList<Char> chars = new ArrayList<>();
+        int maxDist = maxDistance+maxDistanceBonus;
+        int dist = Math.min(aim.dist, maxDist);
+        int cells = aim.path.get(Math.min(aim.dist, dist));
+        boolean terrainAffected = false;
+        for (int c : aim.subPath(1, maxDist)) {
+
+            Char ch;
+            if ((ch = Actor.findChar( c )) != null) {
+                chars.add( ch );
+            }
+
+            if (Dungeon.level.flamable[c]) {
+
+                Dungeon.level.destroy( c );
+                GameScene.updateMap( c );
+                terrainAffected = true;
+
+            }
+
+            CellEmitter.center( c ).burst( PurpleParticle.BURST, Random.IntRange( 1, 2 ) );
+        }
+        if (terrainAffected) {
+            Dungeon.observe();
+        }
+        curUser.sprite.parent.add(new Beam().DeathRay(curUser.sprite.center(), Dungeon.raisedTileCenterToWorld( cells )));
+        for (Char ch : chars) {
+            int damage = damageRoll(hero);
+            ch.damage(damage, hero);
+            ch.sprite.centerEmitter().burst( PurpleParticle.BURST, Random.IntRange( 1, 2 ) );
+            ch.sprite.flash();
+        }
+        round--;
+        for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+            if (mob.paralysed <= 0
+                    && Dungeon.level.distance(curUser.pos, mob.pos) <= 4
+                    && mob.state != mob.HUNTING) {
+                mob.beckon( curUser.pos );
+            }
+        }
+        Invisibility.dispel();
+        updateQuickslot();
+    }
+    */
+
     public class Bullet extends MissileWeapon {
 
         {
@@ -355,12 +433,35 @@ public class FirearmWeapon extends MeleeWeapon {
         @Override
         public int damageRoll(Char owner) {
             //Hero hero = (Hero)owner;
-            //Char enemy = hero.enemy();
+            Char enemy = hero.enemy();
             int bulletdamage = Random.NormalIntRange(Bulletmin(FirearmWeapon.this.buffedLvl()),
                     Bulletmax(FirearmWeapon.this.buffedLvl()));
 
             if (owner.buff(Momentum.class) != null && owner.buff(Momentum.class).freerunning()) {
                 bulletdamage = Math.round(bulletdamage * (1f + 0.15f * ((Hero) owner).pointsInTalent(Talent.PROJECTILE_MOMENTUM)));
+            }
+
+            switch (type) {
+                case FirearmEnergy1:
+                case FirearmEnergy2:
+                    if (hero.buff(Recharging.class) != null) {
+                        bulletdamage *= 1.2f;
+                    }
+                    if (hero.buff(ArtifactRecharge.class) != null) {
+                        bulletdamage *= 1.2f;
+                    }
+                    if (enemy instanceof Eye) {
+                        bulletdamage *= 0.75f;
+                    }
+                    break;
+                case FirearmPistol:
+                case FirearmPrecision:
+                case FirearmAuto:
+                case FirearmShotgun:
+                case FirearmExplosive:
+                case FirearmEtc:
+                default:
+                    break;
             }
 
             return bulletdamage;
@@ -416,27 +517,14 @@ public class FirearmWeapon extends MeleeWeapon {
                             GLog.n(Messages.get(FirearmWeapon.class, "ondeath"));
                         }
                     }
-                    CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
-                    CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
-                    ArrayList<Char> affected = new ArrayList<>();
-                    for (int n : PathFinder.NEIGHBOURS9) {
-                        int c = cell + n;
-                        if (c >= 0 && c < Dungeon.level.length()) {
-                            if (Dungeon.level.heroFOV[c]) {
-                                CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);
-                                CellEmitter.center(cell).burst(BlastParticle.FACTORY, 4);
-                            }
-                            if (Dungeon.level.flamable[c]) {
-                                Dungeon.level.destroy(c);
-                                GameScene.updateMap(c);
-                            }
-                            Char ch = Actor.findChar(c);
-                            if (ch != null) {
-                                affected.add(ch);
-                            }
-                        }
-                    }
-                    Sample.INSTANCE.play( Assets.Sounds.BLAST );
+                    onThrowBulletFirearmExplosive(cell);
+                    round--;
+                    break;
+                case FirearmPistol:
+                case FirearmPrecision:
+                case FirearmAuto:
+                case FirearmShotgun:
+                case FirearmEtc:
                 default:
                     for (int i = 0; i < shot; i++) {
                         if (round <= 0) break;
@@ -454,6 +542,7 @@ public class FirearmWeapon extends MeleeWeapon {
                             }
                         }
                     }
+                    break;
             }
 
             for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
@@ -468,7 +557,23 @@ public class FirearmWeapon extends MeleeWeapon {
 
         @Override
         public void throwSound() {
-            Sample.INSTANCE.play( Assets.Sounds.HIT_CRUSH, 1, Random.Float(0.33f, 0.66f) );
+            switch (type) {
+                case FirearmExplosive:
+                    Sample.INSTANCE.play( Assets.Sounds.PUFF, 1, Random.Float(0.33f, 0.66f) );
+                    break;
+                case FirearmEnergy1:
+                case FirearmEnergy2:
+                    Sample.INSTANCE.play( Assets.Sounds.ZAP, 1, Random.Float(0.33f, 0.66f) );
+                    break;
+                case FirearmPistol:
+                case FirearmPrecision:
+                case FirearmAuto:
+                case FirearmShotgun:
+                case FirearmEtc:
+                default:
+                    Sample.INSTANCE.play( Assets.Sounds.HIT_CRUSH, 1, Random.Float(0.33f, 0.66f) );
+                    break;
+            }
         }
 
         @Override

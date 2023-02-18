@@ -21,6 +21,7 @@ public class Justice extends FirearmWeapon{
         max_round = 1;
 
         bullet_image = ItemSpriteSheet.ROCKET_1;
+        bullet_sound = Assets.Sounds.PUFF;
     }
 
     @Override

@@ -417,10 +417,13 @@ public class ItemSpriteSheet {
 	public static final int PSIONIC_BLADE1 		= PSIONIC_WEAPONS+0;
 	public static final int PSIONIC_BLADE2 		= PSIONIC_WEAPONS+1;
 	public static final int PSIONIC_BLADE3 		= PSIONIC_WEAPONS+2;
+	public static final int DEFENDER 			= PSIONIC_WEAPONS+3;
+	public static final int WARP_BLADE 			= PSIONIC_WEAPONS+4;
 	static{
 		assignItemRect(PSIONIC_BLADE1 			,14, 14);
 		assignItemRect(PSIONIC_BLADE2 			,15, 15);
 		assignItemRect(PSIONIC_BLADE3 			,16, 16);
+		assignItemRect(WARP_BLADE				,16, 16);
 	}
 	                                                                                    //8 free slots
 
@@ -677,6 +680,7 @@ public class ItemSpriteSheet {
 	public static final int POTION_CHARCOAL = POTIONS+9;
 	public static final int POTION_SILVER   = POTIONS+10;
 	public static final int POTION_IVORY    = POTIONS+11;
+	public static final int POTION_CHLORO   = POTIONS+12;
 	public static final int POTION_CATALYST = POTIONS+13;
 	public static final int LIQUID_METAL    = POTIONS+14;
 	static {
@@ -699,6 +703,7 @@ public class ItemSpriteSheet {
 	public static final int EXOTIC_CHARCOAL = EXOTIC_POTIONS+9;
 	public static final int EXOTIC_SILVER   = EXOTIC_POTIONS+10;
 	public static final int EXOTIC_IVORY    = EXOTIC_POTIONS+11;
+	public static final int EXOTIC_CHLORO   = EXOTIC_POTIONS+11;
 	static {
 		for (int i = EXOTIC_POTIONS; i < EXOTIC_POTIONS+16; i++)
 			assignItemRect(i, 16, 16);
@@ -1006,32 +1011,34 @@ public class ItemSpriteSheet {
 
 		                                                                                //16 free slots
 
-		private static final int POTIONS        =                            xy(1, 6);  //16 slots
-		public static final int POTION_STRENGTH = POTIONS+0;
-		public static final int POTION_HEALING  = POTIONS+1;
-		public static final int POTION_MINDVIS  = POTIONS+2;
-		public static final int POTION_FROST    = POTIONS+3;
-		public static final int POTION_LIQFLAME = POTIONS+4;
-		public static final int POTION_TOXICGAS = POTIONS+5;
-		public static final int POTION_HASTE    = POTIONS+6;
-		public static final int POTION_INVIS    = POTIONS+7;
-		public static final int POTION_LEVITATE = POTIONS+8;
-		public static final int POTION_PARAGAS  = POTIONS+9;
-		public static final int POTION_PURITY   = POTIONS+10;
-		public static final int POTION_EXP      = POTIONS+11;
+		private static final int POTIONS        		=                            xy(1, 6);  //16 slots
+		public static final int POTION_STRENGTH 		= POTIONS+0;
+		public static final int POTION_HEALING  		= POTIONS+1;
+		public static final int POTION_MINDVIS  		= POTIONS+2;
+		public static final int POTION_FROST    		= POTIONS+3;
+		public static final int POTION_LIQFLAME 		= POTIONS+4;
+		public static final int POTION_TOXICGAS 		= POTIONS+5;
+		public static final int POTION_HASTE    		= POTIONS+6;
+		public static final int POTION_INVIS    		= POTIONS+7;
+		public static final int POTION_LEVITATE 		= POTIONS+8;
+		public static final int POTION_PARAGAS  		= POTIONS+9;
+		public static final int POTION_PURITY   		= POTIONS+10;
+		public static final int POTION_EXP      		= POTIONS+11;
+		public static final int POTION_LESSER_HEALING 	= POTIONS+12;
 		static {
-			assignIconRect( POTION_STRENGTH,    7, 7 );
-			assignIconRect( POTION_HEALING,     6, 7 );
-			assignIconRect( POTION_MINDVIS,     7, 5 );
-			assignIconRect( POTION_FROST,       7, 7 );
-			assignIconRect( POTION_LIQFLAME,    5, 7 );
-			assignIconRect( POTION_TOXICGAS,    7, 7 );
-			assignIconRect( POTION_HASTE,       6, 6 );
-			assignIconRect( POTION_INVIS,       5, 7 );
-			assignIconRect( POTION_LEVITATE,    6, 7 );
-			assignIconRect( POTION_PARAGAS,     7, 7 );
-			assignIconRect( POTION_PURITY,      5, 7 );
-			assignIconRect( POTION_EXP,         7, 7 );
+			assignIconRect( POTION_STRENGTH,    	7, 7 );
+			assignIconRect( POTION_HEALING,     	6, 7 );
+			assignIconRect( POTION_MINDVIS,     	7, 5 );
+			assignIconRect( POTION_FROST,       	7, 7 );
+			assignIconRect( POTION_LIQFLAME,    	5, 7 );
+			assignIconRect( POTION_TOXICGAS,    	7, 7 );
+			assignIconRect( POTION_HASTE,       	6, 6 );
+			assignIconRect( POTION_INVIS,       	5, 7 );
+			assignIconRect( POTION_LEVITATE,    	6, 7 );
+			assignIconRect( POTION_PARAGAS,     	7, 7 );
+			assignIconRect( POTION_PURITY,      	5, 7 );
+			assignIconRect( POTION_EXP,         	7, 7 );
+			assignIconRect( POTION_LESSER_HEALING,         7, 7 );
 		}
 
 		private static final int EXOTIC_POTIONS =                            xy(1, 7);  //16 slots

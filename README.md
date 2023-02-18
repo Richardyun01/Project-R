@@ -1,6 +1,9 @@
 # Project-R
-by Richardyun01
+This is a mod project of Shattered Pixel Dungeon.
 
+Based on the source code of 00-Evan's [Shattered Pixel Dungeon](https://github.com/00-Evan/shattered-pixel-dungeon) and Hoto-Mocha's [ARranged Pixel Dungeon](https://github.com/Hoto-Mocha/ARranged-Pixel-Dungeon).
+
+Project-R supports only Korean language yet.
 
 # Shattered Pixel Dungeon
 

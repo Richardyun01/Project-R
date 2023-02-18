@@ -21,6 +21,7 @@ public class Harmonica extends FirearmWeapon{
         max_round = 1;
 
         bullet_image = ItemSpriteSheet.GRENADE;
+        bullet_sound = Assets.Sounds.PUFF;
     }
 
     @Override

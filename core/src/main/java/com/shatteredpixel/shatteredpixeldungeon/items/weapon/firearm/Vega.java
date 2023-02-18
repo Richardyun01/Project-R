@@ -21,40 +21,38 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Madness extends FirearmWeapon {
+public class Vega extends FirearmWeapon{
 
     {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.MADNESS;
-        hitSound = Assets.Sounds.BLAST;
+        image = ItemSpriteSheet.VEGA;
+        hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 6;
-        type = FirearmType.FirearmEtc;
+        tier = 4;
+        type = FirearmType.FirearmEnergy2;
         max_round = 1;
 
-        bullet_image = ItemSpriteSheet.KOJIMA_PARTICLE;
-        bullet_sound = Assets.Sounds.BLAST;
-    }
-
-    @Override
-    public void setReloadTime() {
-        reload_time = 50;
+        bullet_image = ItemSpriteSheet.ENERGY_BULLET_1;
+        bullet_sound = Assets.Sounds.ZAP;
     }
 
     @Override
     public int Bulletmin(int lvl) {
-        return 100 + (tier*25);
+        return (tier+1)*3 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     @Override
     public int Bulletmax(int lvl) {
-        return 100 + (tier*25);
+        return (tier+1)*6 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
 }

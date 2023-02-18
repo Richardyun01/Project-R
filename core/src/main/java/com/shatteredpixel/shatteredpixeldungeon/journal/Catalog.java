@@ -88,6 +88,9 @@ public enum Catalog {
 		for (Class weapon : Generator.Category.GUN_T5.classes){
 			WEAPONS.seen.put( weapon, false);
 		}
+		for (Class weapon : Generator.Category.WEP_T6.classes){
+			WEAPONS.seen.put( weapon, false);
+		}
 		for (Class weapon : Generator.Category.GUN_T6.classes){
 			WEAPONS.seen.put( weapon, false);
 		}

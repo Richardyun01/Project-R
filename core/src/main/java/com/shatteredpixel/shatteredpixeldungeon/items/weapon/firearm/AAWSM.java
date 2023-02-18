@@ -21,6 +21,7 @@ public class AAWSM extends FirearmWeapon{
         max_round = 1;
 
         bullet_image = ItemSpriteSheet.ROCKET_2;
+        bullet_sound = Assets.Sounds.PUFF;
     }
 
     @Override

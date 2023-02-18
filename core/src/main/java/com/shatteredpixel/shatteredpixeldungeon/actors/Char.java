@@ -102,8 +102,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kineti
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Aria;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Fencer;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Karasawa;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Vega;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Murakumo;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RipperWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarpBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
@@ -343,10 +346,13 @@ public abstract class Char extends Actor {
 						&& !Dungeon.level.adjacent(h.pos, enemy.pos)){
 					dr = 0;
 				}
-				if (h.belongings.weapon instanceof RipperWeapon) {
+				if (h.belongings.weapon instanceof RipperWeapon ||
+					h.belongings.weapon instanceof WarpBlade) {
 					dr = 0;
 				}
-				if (h.belongings.weapon instanceof Fencer.Bullet) {
+				if (h.belongings.weapon instanceof Fencer.Bullet ||
+					h.belongings.weapon instanceof Vega.Bullet   ||
+					h.belongings.weapon instanceof Karasawa.Bullet) {
 					dr = 0;
 				}
 			}
