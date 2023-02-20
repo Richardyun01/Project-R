@@ -21,38 +21,56 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Vega extends FirearmWeapon{
+public class Frost extends FirearmWeapon {
 
     {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.VEGA;
-        hitSound = Assets.Sounds.HIT_CRUSH;
-        hitSoundPitch = 0.8f;
+        image = ItemSpriteSheet.FROST;
+        hitSound = Assets.Sounds.BLAST;
+        hitSoundPitch = 1.2f;
 
         tier = 4;
-        type = FirearmType.FirearmEnergy1;
-        max_round = 1;
+        type = FirearmType.FirearmEtc1;
+        max_round = 2;
 
-        bullet_image = ItemSpriteSheet.ENERGY_BULLET_1;
-        bullet_sound = Assets.Sounds.LIGHTNING;
+        bullet_image = ItemSpriteSheet.ICICLE;
+        bullet_sound = Assets.Sounds.SHATTER;
+    }
+
+    @Override
+    public int max(int lvl) {
+        return tier*3 + (lvl*3);
     }
 
     @Override
     public int Bulletmin(int lvl) {
-        return (tier+1)*3 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        return (tier+1) + (lvl);
     }
 
     @Override
     public int Bulletmax(int lvl) {
-        return (tier+1)*6 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        return (tier+1)*3 + (lvl*3);
+    }
+
+    @Override
+    public int proc(Char attacker, Char defender, int damage) {
+
+        if (Dungeon.level.water[defender.pos]){
+            Buff.prolong(defender, Chill.class, Chill.DURATION);
+        } else {
+            Buff.prolong(defender, Chill.class, 6f);
+        }
+
+        return super.proc(attacker, defender, damage);
     }
 
 }

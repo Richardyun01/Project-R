@@ -121,15 +121,19 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Aria;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ArmRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.BigBarrel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Blunderbust;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Cleanser;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Dragoon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.EleGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Fencer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FireStorm;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Flashback;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Harmonica;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Hush;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Hydra;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Justice;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Kaleidoscope;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Karasawa;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Lauria;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Madness;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.MaxThunder;
@@ -138,11 +142,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Overflow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Revolver;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Seeker;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ShortCarbine;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Spark;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Standard;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.SuperShotgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Tat;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ThinLine;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Trench;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Vega;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Volcano;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Wave;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BattleAxe;
@@ -490,9 +497,12 @@ public class Generator {
 					Standard.class,
 					Wave.class,
 					Harmonica.class,
-					Justice.class
+					Justice.class,
+					Vega.class,
+					Kaleidoscope.class,
+					Frost.class
 			};
-			GUN_T4.probs = new float[]{ 2, 1, 1, 1, 1, 1 };
+			GUN_T4.probs = new float[]{ 2, 1, 1, 1, 1, 1, 1, 1, 1 };
 
 			GUN_T5.classes = new Class<?>[]{
 					Hush.class,
@@ -501,9 +511,12 @@ public class Generator {
 					SuperShotgun.class,
 					Hydra.class,
 					AAWSM.class,
-					FireStorm.class
+					FireStorm.class,
+					Karasawa.class,
+					Spark.class,
+					Cleanser.class
 			};
-			GUN_T5.probs = new float[]{ 6, 4, 4, 4, 3, 3, 3 };
+			GUN_T5.probs = new float[]{ 6, 4, 4, 4, 3, 3, 3, 3, 3, 3 };
 
 			GUN_T6.classes = new Class<?>[]{
 					Fencer.class,
@@ -512,8 +525,9 @@ public class Generator {
 					MaxThunder.class,
 					BigBarrel.class,
 					Madness.class,
+					Volcano.class
 			};
-			GUN_T6.probs = new float[]{ 2, 1, 1, 1, 1, 1 };
+			GUN_T6.probs = new float[]{ 2, 1, 1, 1, 1, 1, 1 };
 			
 			//see Generator.randomArmor
 			ARMOR.classes = new Class<?>[]{

@@ -21,6 +21,9 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.level;
+
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -28,6 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
@@ -53,11 +57,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projec
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Unstable;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampiric;
+import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
@@ -118,6 +124,19 @@ abstract public class Weapon extends KindOfWeapon {
 				GLog.p( Messages.get(Weapon.class, "identify") );
 				Badges.validateItemLevelAquired( this );
 			}
+		}
+
+		if ((hero.hasTalent(Talent.MAGNETIC_WEAPON)
+				&& Random.Int(20) < hero.pointsInTalent(Talent.MAGNETIC_WEAPON))
+				|| ((level.map[defender.pos] == Terrain.GRASS || level.map[defender.pos] == Terrain.HIGH_GRASS || level.map[defender.pos] == Terrain.FURROWED_GRASS)
+				&& (defender instanceof Mob && ((Mob) defender).surprisedBy(attacker))
+				&& hero.hasTalent(Talent.MAGNETIC_WEAPON)
+				&& Random.Int(2) < hero.pointsInTalent(Talent.MAGNETIC_WEAPON))) {
+			ArrayList<Integer> positions = new ArrayList<>();
+			for (int i : PathFinder.NEIGHBOURS8){
+				positions.add(i);
+			}
+			Random.shuffle( positions );
 		}
 
 		return damage;

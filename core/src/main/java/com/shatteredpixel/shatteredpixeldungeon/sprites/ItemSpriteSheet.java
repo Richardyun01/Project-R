@@ -354,7 +354,7 @@ public class ItemSpriteSheet {
 	static{
 		assignItemRect(NOT_MACHINE_GUN        ,10, 16);
 		assignItemRect(SHORT_CARBINE     	  ,13, 15);
-		assignItemRect(ARM_RIFLE      		  ,16, 16);
+		assignItemRect(ARM_RIFLE      		  ,15, 16);
 		assignItemRect(STANDARD  			  ,16, 15);
 		assignItemRect(THIN_LINE	     	  ,15, 16);
 		assignItemRect(TRENCH     			  ,16, 16);
@@ -369,7 +369,7 @@ public class ItemSpriteSheet {
 
 	static{
 		assignItemRect(BLUNDERBUST              ,14, 16);
-		assignItemRect(OVERFLOW      			,14, 15);
+		assignItemRect(OVERFLOW      			,14, 16);
 		assignItemRect(WAVE        				,15, 16);
 		assignItemRect(SUPER_SHOTGUN         	,16, 16);
 		assignItemRect(MAX_THUNDER        		,16, 16);
@@ -408,9 +408,13 @@ public class ItemSpriteSheet {
 	private static final int ETC_WEAPONS        =                               xy(1, 36);
 	public static final int CLEANSER 			= ETC_WEAPONS+0;
 	public static final int MADNESS 			= ETC_WEAPONS+1;
+	public static final int FROST 				= ETC_WEAPONS+2;
+	public static final int VOLCANO 			= ETC_WEAPONS+3;
 	static{
 		assignItemRect(CLEANSER 				,16, 16);
 		assignItemRect(MADNESS 					,16, 16);
+		assignItemRect(FROST 					,16, 16);
+		assignItemRect(VOLCANO 					,16, 16);
 	}
 
 	private static final int PSIONIC_WEAPONS    =                               xy(1, 37);
@@ -579,6 +583,7 @@ public class ItemSpriteSheet {
 	public static final int ARTIFACT_ROSE2      = ARTIFACTS+21;
 	public static final int ARTIFACT_ROSE3      = ARTIFACTS+22;
 	public static final int ARTIFACT_RADAR		= ARTIFACTS+23;
+	public static final int ARTIFACT_PLUS		= ARTIFACTS+24;
 	static{
 		assignItemRect(ARTIFACT_CLOAK,      9,  15);
 		assignItemRect(ARTIFACT_ARMBAND,    16, 11);
@@ -604,6 +609,7 @@ public class ItemSpriteSheet {
 		assignItemRect(ARTIFACT_ROSE2,      13, 15);
 		assignItemRect(ARTIFACT_ROSE3,      13, 15);
 		assignItemRect(ARTIFACT_RADAR,      16, 16);
+		assignItemRect(ARTIFACT_PLUS,       16, 16);
 	}
 
 	                                                                                    //16 free slots
@@ -847,7 +853,8 @@ public class ItemSpriteSheet {
 	public static final int ROCKET_1 		= BULLETS+9;
 	public static final int ROCKET_2 		= BULLETS+10;
 	public static final int ROCKET_3 		= BULLETS+11;
-	public static final int SHELL 			= BULLETS+11;
+	public static final int SHELL 			= BULLETS+12;
+	public static final int ICICLE 			= BULLETS+13;
 	static{
 		assignItemRect(SINGLE_BULLET,   8,  8 );
 		assignItemRect(DUAL_BULLET,     11, 10);
@@ -862,6 +869,7 @@ public class ItemSpriteSheet {
 		assignItemRect(ROCKET_2, 		11, 11);
 		assignItemRect(ROCKET_3, 		11, 11);
 		assignItemRect(SHELL, 			14, 14);
+		assignItemRect(ICICLE, 			10, 10);
 	}
 
 	private static final int BAGS       =                                   xy(1, 31);  //16 slots

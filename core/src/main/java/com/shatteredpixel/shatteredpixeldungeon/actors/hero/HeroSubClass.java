@@ -34,6 +34,7 @@ public enum HeroSubClass {
 
 	BERSERKER(HeroIcon.BERSERKER),
 	GLADIATOR(HeroIcon.GLADIATOR),
+	SPECOPS(HeroIcon.SPECOPS),
 
 	BATTLEMAGE(HeroIcon.BATTLEMAGE),
 	WARLOCK(HeroIcon.WARLOCK),

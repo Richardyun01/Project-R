@@ -42,7 +42,7 @@ public class Karasawa extends FirearmWeapon{
         max_round = 1;
 
         bullet_image = ItemSpriteSheet.ENERGY_BULLET_2;
-        bullet_sound = Assets.Sounds.ZAP;
+        bullet_sound = Assets.Sounds.LIGHTNING;
     }
 
     @Override

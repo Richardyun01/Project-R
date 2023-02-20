@@ -27,32 +27,32 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Vega extends FirearmWeapon{
+public class Supernova extends FirearmWeapon{
 
     {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.VEGA;
+        image = ItemSpriteSheet.SUPERNOVA;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 4;
+        tier = 6;
         type = FirearmType.FirearmEnergy1;
         max_round = 1;
 
-        bullet_image = ItemSpriteSheet.ENERGY_BULLET_1;
-        bullet_sound = Assets.Sounds.LIGHTNING;
+        bullet_image = ItemSpriteSheet.ENERGY_BULLET_3;
+        bullet_sound = Assets.Sounds.PUFF;
     }
 
     @Override
     public int Bulletmin(int lvl) {
-        return (tier+1)*3 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        return 0; //+ (superCharge)*25;
     }
 
     @Override
     public int Bulletmax(int lvl) {
-        return (tier+1)*6 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        return (tier+9)*5 + lvl*25 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
 }

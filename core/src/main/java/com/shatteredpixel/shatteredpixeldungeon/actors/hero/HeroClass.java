@@ -63,18 +63,17 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Vega;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Cleanser;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Frost;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Spark;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Volcano;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Defender;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Murakumo;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarpBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
@@ -83,7 +82,7 @@ import com.watabou.utils.DeviceCompat;
 
 public enum HeroClass {
 
-	WARRIOR( HeroSubClass.BERSERKER, HeroSubClass.GLADIATOR ),
+	WARRIOR( HeroSubClass.BERSERKER, HeroSubClass.GLADIATOR, HeroSubClass.SPECOPS ),
 	MAGE( HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK ),
 	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER ),
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN );
@@ -120,16 +119,16 @@ public enum HeroClass {
 
 		PlateArmor plate = new PlateArmor();
 		plate.upgrade(100).collect();
-		new WarpBlade().collect();
-		new Defender().collect();
-		new Vega().collect();
-		new Murakumo().collect();
+		new Volcano().collect();
+		new Spark().collect();
+		new Cleanser().collect();
+		new Frost().collect();
 
 		PotionOfExperience expotion = new PotionOfExperience();
 		expotion.quantity(30).collect();
 		ScrollOfUpgrade upscroll = new ScrollOfUpgrade();
 		upscroll.quantity(30).collect();
-		ScrollOfTransmutation ident = new ScrollOfTransmutation();
+		ScrollOfIdentify ident = new ScrollOfIdentify();
 		ident.quantity(31).collect();
 		StoneOfEnchantment enchan = new StoneOfEnchantment();
 		enchan.quantity(10).collect();

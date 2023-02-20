@@ -51,6 +51,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRetribution;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfPsionicBlast;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
@@ -522,7 +523,13 @@ public class DriedRose extends Artifact {
 			
 			properties.add(Property.UNDEAD);
 		}
-		
+
+		public boolean isFirearm = false;
+		public boolean isPistol = false;
+		public boolean isAuto = false;
+		public boolean isPrecision = false;
+		public boolean isEnergy = false;
+
 		private DriedRose rose = null;
 		
 		public GhostHero(){
@@ -558,6 +565,30 @@ public class DriedRose extends Artifact {
 			if (rose == null) {
 				rose = Dungeon.hero.belongings.getItem(DriedRose.class);
 			}
+
+			if (rose.weapon instanceof FirearmWeapon) {
+				isFirearm = true;
+				isPistol = isPrecision = isAuto = isEnergy = false;
+				switch (((FirearmWeapon) rose.weapon).type) {
+					case FirearmPistol:
+						isPistol = true;
+						break;
+					case FirearmPrecision:
+						isPrecision = true;
+						break;
+					case FirearmAuto:
+						isAuto = true;
+						break;
+					case FirearmEnergy1:
+					case FirearmEnergy2:
+						isEnergy = true;
+						break;
+					default:
+						break;
+				}
+			} else {
+				isFirearm = false;
+			}
 			
 			//same dodge as the hero
 			defenseSkill = (Dungeon.hero.lvl+4);
@@ -585,6 +616,12 @@ public class DriedRose extends Artifact {
 			
 			//same accuracy as the hero.
 			int acc = Dungeon.hero.lvl + 9;
+
+			if (isFirearm && !Dungeon.level.adjacent(enemy.pos, rose.ghost.pos)) {
+				if (isPistol) acc *= 1;
+				if (isAuto || isEnergy) acc *= 0.7f;
+				if (isPrecision) acc *= 2;
+			}
 			
 			if (rose != null && rose.weapon != null){
 				acc *= rose.weapon.accuracyFactor( this, target );
@@ -604,17 +641,36 @@ public class DriedRose extends Artifact {
 		
 		@Override
 		protected boolean canAttack(Char enemy) {
-			return super.canAttack(enemy) || (rose != null && rose.weapon != null && rose.weapon.canReach(this, enemy.pos));
+			if (isFirearm) {
+				return true;
+			} else {
+				return super.canAttack(enemy) || (rose != null && rose.weapon != null && rose.weapon.canReach(this, enemy.pos));
+			}
 		}
 		
 		@Override
 		public int damageRoll() {
 			int dmg = 0;
-			if (rose != null && rose.weapon != null){
-				dmg += rose.weapon.damageRoll(this);
+			if (rose != null) {
+				if (rose.weapon != null) {
+					if (Dungeon.hero.belongings.weapon != null) {
+						dmg += rose.weapon.damageRoll(this) + Math.round(Dungeon.hero.belongings.weapon.damageRoll(this) / 4f);
+					} else {
+						dmg += rose.weapon.damageRoll(this);
+					}
+				} else {
+					if (Dungeon.hero.belongings.weapon != null) {
+						dmg += Random.NormalIntRange(0, 5) + Math.round(Dungeon.hero.belongings.weapon.damageRoll(this) / 4f);
+					} else {
+						dmg += Random.NormalIntRange(0, 5);
+					}
+				}
 			} else {
 				dmg += Random.NormalIntRange(0, 5);
 			}
+			if (isPistol || isEnergy) dmg *= 0.5f+0.1f*rose.weapon.tier;
+			if (isAuto) dmg *= 0.25f+0.05f*rose.weapon.tier;
+			if (isPrecision) dmg *= 1f+0.2f*rose.weapon.tier;
 			
 			return dmg;
 		}

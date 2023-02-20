@@ -21,7 +21,7 @@ public class Hydra extends FirearmWeapon{
         max_round = 2;
         DLY = 0.6f;
 
-                bullet_image = ItemSpriteSheet.GRENADE;
+        bullet_image = ItemSpriteSheet.GRENADE;
         bullet_sound = Assets.Sounds.PUFF;
     }
 

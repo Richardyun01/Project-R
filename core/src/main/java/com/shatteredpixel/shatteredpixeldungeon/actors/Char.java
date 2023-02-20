@@ -102,7 +102,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kineti
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Aria;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Fencer;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Kaleidoscope;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Karasawa;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Spark;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Supernova;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Vega;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Murakumo;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RipperWeapon;
@@ -352,7 +355,10 @@ public abstract class Char extends Actor {
 				}
 				if (h.belongings.weapon instanceof Fencer.Bullet ||
 					h.belongings.weapon instanceof Vega.Bullet   ||
-					h.belongings.weapon instanceof Karasawa.Bullet) {
+					h.belongings.weapon instanceof Karasawa.Bullet ||
+					h.belongings.weapon instanceof Kaleidoscope.Bullet ||
+					h.belongings.weapon instanceof Spark.Bullet ||
+					h.belongings.weapon instanceof Supernova.Bullet) {
 					dr = 0;
 				}
 			}

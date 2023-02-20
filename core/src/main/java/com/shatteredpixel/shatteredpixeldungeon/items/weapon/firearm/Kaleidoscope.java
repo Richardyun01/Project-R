@@ -27,32 +27,32 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Vega extends FirearmWeapon{
+public class Kaleidoscope extends FirearmWeapon{
 
     {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.VEGA;
+        image = ItemSpriteSheet.KALEIDOSCOPE;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
         tier = 4;
-        type = FirearmType.FirearmEnergy1;
-        max_round = 1;
+        type = FirearmType.FirearmEnergy2;
+        max_round = 3;
 
-        bullet_image = ItemSpriteSheet.ENERGY_BULLET_1;
-        bullet_sound = Assets.Sounds.LIGHTNING;
+        bullet_image = ItemSpriteSheet.NOTHING;
+        bullet_sound = Assets.Sounds.ZAP;
     }
 
     @Override
     public int Bulletmin(int lvl) {
-        return (tier+1)*3 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        return (tier+6) + lvl*3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     @Override
     public int Bulletmax(int lvl) {
-        return (tier+1)*6 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        return (tier+10) + lvl*3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
 }

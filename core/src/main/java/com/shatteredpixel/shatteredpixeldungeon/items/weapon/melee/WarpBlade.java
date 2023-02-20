@@ -45,22 +45,11 @@ public class WarpBlade extends MeleeWeapon {
                 lvl*(tier-1);   //level scaling
     }
 
-    public int proc(Char defender, int damage, int lvl ) {
-        float procChance = (lvl+1f)/(lvl+4f);
-        if (Random.Float() < procChance) {
+    public int proc(Char defender, int damage ) {
 
-            float powerMulti = Math.max(1f, procChance);
-
-            //adds 2 turns of chill per proc, with a cap of 2 turns
-            float durationToAdd = 2f * powerMulti;
-            Doom existing = defender.buff(Doom.class);
-            if (existing != null){
-                durationToAdd = Math.min(durationToAdd, (4f*powerMulti)-existing.cooldown());
-            }
-
+        if (Random.Int(3) == 0) {
             Buff.affect( defender, Doom.class);
             Splash.at( defender.sprite.center(), 0xFFB2D6FF, 5);
-
         }
 
         return damage;

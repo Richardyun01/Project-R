@@ -21,38 +21,25 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Vega extends FirearmWeapon{
+public class Cleanser extends FirearmWeapon{
 
     {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.VEGA;
+        image = ItemSpriteSheet.CLEANSER;
         hitSound = Assets.Sounds.HIT_CRUSH;
-        hitSoundPitch = 0.8f;
 
-        tier = 4;
-        type = FirearmType.FirearmEnergy1;
-        max_round = 1;
+        tier = 5;
+        type = FirearmType.FirearmEtc2;
+        max_round = 4;
+        reload_time = 3;
 
-        bullet_image = ItemSpriteSheet.ENERGY_BULLET_1;
-        bullet_sound = Assets.Sounds.LIGHTNING;
-    }
-
-    @Override
-    public int Bulletmin(int lvl) {
-        return (tier+1)*3 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
-    }
-
-    @Override
-    public int Bulletmax(int lvl) {
-        return (tier+1)*6 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        bullet_image = ItemSpriteSheet.NOTHING;
+        bullet_sound = Assets.Sounds.PUFF;
     }
 
 }

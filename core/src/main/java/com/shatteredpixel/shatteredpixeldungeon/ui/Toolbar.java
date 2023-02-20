@@ -259,6 +259,12 @@ public class Toolbar extends Component {
 						if (Dungeon.hero.hasTalent(Talent.HOLD_FAST)){
 							Buff.affect(Dungeon.hero, HoldFast.class);
 						}
+						/*
+						if (Dungeon.hero.belongings.weapon.isEquipped()) {
+							Buff.affect(Dungeon.hero, SuperCharge.Class);
+						}
+						*/
+
 						Dungeon.hero.next();
 					} else {
 						examining = false;

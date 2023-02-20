@@ -35,7 +35,7 @@ public class Madness extends FirearmWeapon {
         hitSoundPitch = 0.8f;
 
         tier = 6;
-        type = FirearmType.FirearmEtc;
+        type = FirearmType.FirearmEtc1;
         max_round = 1;
 
         bullet_image = ItemSpriteSheet.KOJIMA_PARTICLE;
@@ -49,12 +49,12 @@ public class Madness extends FirearmWeapon {
 
     @Override
     public int Bulletmin(int lvl) {
-        return 100 + (tier*25);
+        return 200 + (lvl*25);
     }
 
     @Override
     public int Bulletmax(int lvl) {
-        return 100 + (tier*25);
+        return 200 + (lvl*25);
     }
 
 }

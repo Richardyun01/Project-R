@@ -21,38 +21,40 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
-
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Vega extends FirearmWeapon{
+public class Volcano extends FirearmWeapon{
 
     {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.VEGA;
+        image = ItemSpriteSheet.VOLCANO;
         hitSound = Assets.Sounds.HIT_CRUSH;
-        hitSoundPitch = 0.8f;
 
-        tier = 4;
-        type = FirearmType.FirearmEnergy1;
-        max_round = 1;
+        tier = 6;
+        type = FirearmType.FirearmEtc2;
+        max_round = 2;
+        reload_time = 3;
 
-        bullet_image = ItemSpriteSheet.ENERGY_BULLET_1;
-        bullet_sound = Assets.Sounds.LIGHTNING;
+        bullet_image = ItemSpriteSheet.NOTHING;
+        bullet_sound = Assets.Sounds.PUFF;
+
+        max_dist = 8;
+        degree = 15;
     }
 
     @Override
     public int Bulletmin(int lvl) {
-        return (tier+1)*3 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        return (tier) + lvl*5 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
     @Override
     public int Bulletmax(int lvl) {
-        return (tier+1)*6 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        return (tier+4)*5 + lvl*6 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
     }
 
 }
