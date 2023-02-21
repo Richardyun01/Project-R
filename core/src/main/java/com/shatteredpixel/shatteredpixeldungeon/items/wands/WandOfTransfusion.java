@@ -71,6 +71,7 @@ public class WandOfTransfusion extends Wand {
 		if (ch instanceof Mob){
 			
 			wandProc(ch, chargesPerCast());
+			processEntrophy(ch, chargesPerCast());
 			
 			//this wand does different things depending on the target.
 			

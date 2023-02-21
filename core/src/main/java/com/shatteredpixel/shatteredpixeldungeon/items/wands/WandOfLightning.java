@@ -79,6 +79,7 @@ public class WandOfLightning extends DamageWand {
 			ch.sprite.flash();
 
 			if (ch != curUser && ch.alignment == curUser.alignment && ch.pos != bolt.collisionPos){
+				processEntrophy(ch, chargesPerCast());
 				continue;
 			}
 			wandProc(ch, chargesPerCast());

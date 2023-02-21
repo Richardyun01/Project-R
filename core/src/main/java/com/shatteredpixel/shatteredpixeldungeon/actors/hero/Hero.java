@@ -665,7 +665,8 @@ public class Hero extends Char {
 	
 	@Override
 	public boolean act() {
-		
+		if (Dungeon.level == null) return false;
+
 		//calls to dungeon.observe will also update hero's local FOV.
 		fieldOfView = Dungeon.level.heroFOV;
 

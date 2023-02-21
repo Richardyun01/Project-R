@@ -667,11 +667,15 @@ public class FirearmWeapon extends MeleeWeapon {
                     break;
             }
 
-            if (Dungeon.hero.hasTalent(Talent.SUPPRESSION_FIRE) && Random.Int(10) < Dungeon.hero.pointsInTalent(Talent.SUPPRESSION_FIRE) && !Dungeon.level.flamable[cell]) {
+            if (Dungeon.hero.hasTalent(Talent.SUPPRESSION_FIRE) &&
+                Random.Int(10) < Dungeon.hero.pointsInTalent(Talent.SUPPRESSION_FIRE) &&
+                !Dungeon.level.flamable[cell] && findChar != null) {
                 Buff.affect(findChar, Roots.class, 1f);
             }
 
-            if (Dungeon.hero.hasTalent(Talent.URBAN_WARFARE) && Random.Int(5) < Dungeon.hero.pointsInTalent(Talent.URBAN_WARFARE) && !Dungeon.level.flamable[cell]) {
+            if (Dungeon.hero.hasTalent(Talent.URBAN_WARFARE) &&
+                Random.Int(5) < Dungeon.hero.pointsInTalent(Talent.URBAN_WARFARE) &&
+                !Dungeon.level.flamable[cell] && findChar != null) {
                 Buff.affect(findChar, Blindness.class, 1f);
                 Buff.affect(findChar, Cripple.class, 1f);
             }

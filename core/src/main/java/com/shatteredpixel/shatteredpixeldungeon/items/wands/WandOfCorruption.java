@@ -183,6 +183,7 @@ public class WandOfCorruption extends Wand {
 			}
 
 			wandProc(ch, chargesPerCast());
+			processEntrophy(ch, chargesPerCast());
 			Sample.INSTANCE.play( Assets.Sounds.HIT_MAGIC, 1, 0.8f * Random.Float(0.87f, 1.15f) );
 			
 		} else {

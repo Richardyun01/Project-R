@@ -206,6 +206,21 @@ public abstract class Wand extends Item {
 		}
 	}
 
+	/* access modifiers changed from: protected */
+	public void processEntrophy(Char charR, int i) {
+		processEntrophy(charR, buffedLvl(), i);
+		if (Dungeon.hero.hasTalent(Talent.ENTROPHY_INJECTION)) {
+			Buff.affect(charR, Talent.EntrophyMark.class, 2.0f);
+		}
+	}
+
+	/* access modifiers changed from: protected */
+	public static void processEntrophy(Char charR, int i, int i2) {
+		if (Dungeon.hero.hasTalent(Talent.ARCANE_VISION)) {
+			((TalismanOfForesight.CharAwareness) Buff.append(Dungeon.hero, TalismanOfForesight.CharAwareness.class, (float) (Dungeon.hero.pointsInTalent(Talent.ARCANE_VISION) * 5))).charID = charR.id();
+		}
+	}
+
 	@Override
 	public void onDetach( ) {
 		stopCharging();

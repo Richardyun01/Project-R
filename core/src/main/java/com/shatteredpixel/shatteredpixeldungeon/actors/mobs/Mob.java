@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
@@ -53,7 +55,6 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Surprise;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Wound;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
-import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
@@ -62,6 +63,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
@@ -688,6 +690,10 @@ public abstract class Mob extends Char {
 		if (state != HUNTING && !(src instanceof Corruption)) {
 			alerted = true;
 		}
+		if (Dungeon.hero.hasTalent(Talent.ENTROPHY_INJECTION) && buff(Talent.EntrophyMark.class) != null && Random.Int(15) < Dungeon.hero.pointsInTalent(Talent.ENTROPHY_INJECTION)) {
+			dmg = (int) (((float) dmg) * (1f + 0.15f * hero.pointsInTalent(Talent.ENTROPHY_INJECTION)));
+			this.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(Talent.EntrophyMark.class, "cri", new Object[0]), new Object[0]);
+		}
 		
 		super.damage( dmg, src );
 	}
@@ -725,6 +731,7 @@ public abstract class Mob extends Char {
 	
 	@Override
 	public void die( Object cause ) {
+		MagesStaff magesStaff;
 
 		if (cause == Chasm.class){
 			//50% chance to round up, 50% to round down
@@ -747,6 +754,10 @@ public abstract class Mob extends Char {
 		}
 
 		boolean soulMarked = buff(SoulMark.class) != null;
+
+		if (Dungeon.hero.hasTalent(Talent.TIME_CONSUME) && (magesStaff = (MagesStaff) Dungeon.hero.belongings.getItem(MagesStaff.class)) != null) {
+			magesStaff.gainCharge(((float) Dungeon.hero.pointsInTalent(Talent.TIME_CONSUME)) * 0.06f);
+		}
 
 		super.die( cause );
 

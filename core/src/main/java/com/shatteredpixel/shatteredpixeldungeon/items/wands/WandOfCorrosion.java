@@ -66,7 +66,7 @@ public class WandOfCorrosion extends Wand {
 			Char ch = Actor.findChar(bolt.collisionPos + i);
 			if (ch != null) {
 				wandProc(ch, chargesPerCast());
-
+				processEntrophy(ch, chargesPerCast());
 				if (i == 0 && ch instanceof DwarfKing){
 					Statistics.qualifiedForBossChallengeBadge = false;
 				}

@@ -27,8 +27,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Effects;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Pushing;
@@ -84,6 +82,7 @@ public class WandOfBlastWave extends DamageWand {
 			Char ch = Actor.findChar(bolt.collisionPos + i);
 
 			if (ch != null){
+				processEntrophy(ch, chargesPerCast());
 				wandProc(ch, chargesPerCast());
 				if (ch.alignment != Char.Alignment.ALLY) ch.damage(damageRoll(), this);
 
@@ -93,6 +92,14 @@ public class WandOfBlastWave extends DamageWand {
 					throwChar(ch, trajectory, strength, false, true, getClass());
 				}
 
+			}
+		}
+		Char findChar2 = Actor.findChar(bolt.collisionPos.intValue());
+		if (findChar2 != null) {
+			processEntrophy(findChar2, chargesPerCast());
+			findChar2.damage(damageRoll(), this);
+			if (findChar2.isAlive() && bolt.path.size() > bolt.dist.intValue() + 1 && findChar2.pos == bolt.collisionPos.intValue()) {
+				throwChar(findChar2, new Ballistica(findChar2.pos, bolt.path.get(bolt.dist.intValue() + 1).intValue(), 6), buffedLvl() + 3, false);
 			}
 		}
 
@@ -109,6 +116,14 @@ public class WandOfBlastWave extends DamageWand {
 			}
 		}
 		
+	}
+
+	public static void throwChar(Char charR, Ballistica ballistica, int i) {
+		throwChar(charR, ballistica, i, true);
+	}
+
+	public static void throwChar(Char charR, Ballistica ballistica, int i, boolean z) {
+		throwChar(charR, ballistica, i, true);
 	}
 
 	public static void throwChar(final Char ch, final Ballistica trajectory, int power,

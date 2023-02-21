@@ -118,6 +118,7 @@ public class WandOfDisintegration extends DamageWand {
 		for (Char ch : chars) {
 			wandProc(ch, chargesPerCast());
 			ch.damage( damageRoll(lvl), this );
+			processEntrophy(ch, chargesPerCast());
 			ch.sprite.centerEmitter().burst( PurpleParticle.BURST, Random.IntRange( 1, 2 ) );
 			ch.sprite.flash();
 		}

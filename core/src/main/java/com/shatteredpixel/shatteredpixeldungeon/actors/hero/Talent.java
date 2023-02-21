@@ -106,6 +106,8 @@ public enum Talent {
 	EMPOWERED_STRIKE(43, 3), MYSTICAL_CHARGE(44, 3), EXCESS_CHARGE(45, 3),
 	//Warlock T3
 	SOUL_EATER(46, 3), SOUL_SIPHON(47, 3), NECROMANCERS_MINIONS(48, 3),
+	//Oracle T3
+	SELF_PROPHECY(161, 3), ENTROPHY_INJECTION(162, 3), TIME_CONSUME(163, 3),
 	//Elemental Blast T4
 	BLAST_RADIUS(49, 4), ELEMENTAL_POWER(50, 4), REACTIVE_BARRIER(51, 4),
 	//Wild Magic T4
@@ -213,6 +215,31 @@ public enum Talent {
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / 20); }
 	};
 	public static class SpiritBladesTracker extends FlavourBuff{};
+	public static class ProphecyCoolDown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(1f, 2f, 0.25f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 15); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
+	public static class EntrophyMark extends FlavourBuff {
+		public int icon() {
+			return BuffIndicator.CORRUPT;
+		}
+
+		public EntrophyMark() {
+			this.type = Buff.buffType.NEGATIVE;
+			this.announced = true;
+		}
+
+		public String toString() {
+			return Messages.get((Object) this, "name", new Object[0]);
+		}
+
+		public String desc() {
+			return Messages.get((Object) this, "desc", dispTurns());
+		}
+	}
 
 	int icon;
 	int maxPoints;
@@ -654,6 +681,9 @@ public enum Talent {
 				break;
 			case WARLOCK:
 				Collections.addAll(tierTalents, SOUL_EATER, SOUL_SIPHON, NECROMANCERS_MINIONS);
+				break;
+			case ORACLE:
+				Collections.addAll(tierTalents, SELF_PROPHECY, ENTROPHY_INJECTION, TIME_CONSUME);
 				break;
 			case ASSASSIN:
 				Collections.addAll(tierTalents, ENHANCED_LETHALITY, ASSASSINS_REACH, BOUNTY_HUNTER);

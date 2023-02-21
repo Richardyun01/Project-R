@@ -28,7 +28,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
@@ -332,6 +331,7 @@ public class WandOfWarding extends Wand {
 			int dmg = Random.NormalIntRange( 2 + wandLevel, 8 + 4*wandLevel );
 			enemy.damage( dmg, this );
 			if (enemy.isAlive()){
+				Wand.processEntrophy(this.enemy, this.wandLevel, 1);
 				Wand.wandProc(enemy, wandLevel, 1);
 			}
 

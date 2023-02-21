@@ -107,6 +107,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Karasawa;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Spark;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Supernova;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Vega;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Murakumo;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RipperWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarpBlade;
@@ -361,6 +362,13 @@ public abstract class Char extends Actor {
 					h.belongings.weapon instanceof Supernova.Bullet) {
 					dr = 0;
 				}
+			}
+
+			if (this instanceof Hero
+					&& hero.hasTalent(Talent.SELF_PROPHECY)
+					&& hero.buff(Talent.ProphecyCoolDown.class) == null
+					&& (hero.belongings.weapon() instanceof MagesStaff)) {
+				Buff.affect(hero, Talent.ProphecyCoolDown.class, 10f);
 			}
 
 			//we use a float here briefly so that we don't have to constantly round while

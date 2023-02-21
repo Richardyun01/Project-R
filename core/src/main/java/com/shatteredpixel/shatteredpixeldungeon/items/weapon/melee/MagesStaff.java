@@ -21,11 +21,12 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -90,8 +91,14 @@ public class MagesStaff extends MeleeWeapon {
 
 	@Override
 	public int max(int lvl) {
-		return  Math.round(3f*(tier+1)) +   //6 base damage, down from 10
-				lvl*(tier+1);               //scaling unaffected
+		if (hero.hasTalent(Talent.SELF_PROPHECY) && hero.buff(Talent.ProphecyCoolDown.class) == null) {
+			return  Math.round(3f*(tier+1)) +   //6 base damage, down from 10
+					lvl*(tier+1) +
+					15 * hero.pointsInTalent(Talent.SELF_PROPHECY);
+		} else {
+			return  Math.round(3f*(tier+1)) +   //6 base damage, down from 10
+					lvl*(tier+1);
+		}
 	}
 
 	public MagesStaff(Wand wand){
