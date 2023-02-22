@@ -78,7 +78,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap.Type;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.KindofMisc;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
@@ -459,7 +458,6 @@ public class Hero extends Char {
 	@Override
 	public int attackSkill( Char target ) {
 		KindOfWeapon wep = belongings.weapon();
-		KindofMisc msc = belongings.artifact();
 		
 		float accuracy = 1;
 		accuracy *= RingOfAccuracy.accuracyMultiplier( this );

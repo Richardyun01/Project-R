@@ -84,7 +84,7 @@ public enum HeroClass {
 
 	WARRIOR( HeroSubClass.BERSERKER, HeroSubClass.GLADIATOR, HeroSubClass.SPECOPS ),
 	MAGE( HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK, HeroSubClass.ORACLE ),
-	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER ),
+	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER, HeroSubClass.HITMAN ),
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN );
 
 	private HeroSubClass[] subClasses;

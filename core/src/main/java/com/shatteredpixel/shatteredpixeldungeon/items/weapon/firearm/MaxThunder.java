@@ -54,6 +54,11 @@ public class MaxThunder extends FirearmWeapon{
     }
 
     @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        return Dungeon.level.adjacent(owner.pos, target.pos) ? 1.5f : 0f;
+    }
+
+    @Override
     public int proc(Char attacker, Char defender, int damage) {
 
         Buff.affect(defender, Burning.class).reignite(defender, 8f);

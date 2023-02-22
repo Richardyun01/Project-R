@@ -23,6 +23,8 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Lauria extends FirearmWeapon{
@@ -40,6 +42,11 @@ public class Lauria extends FirearmWeapon{
         max_round = 1;
 
         bullet_image = ItemSpriteSheet.SNIPER_BULLET;
+    }
+
+    @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        return Dungeon.level.adjacent(owner.pos, target.pos) ? 0f : 2f;
     }
 
 }

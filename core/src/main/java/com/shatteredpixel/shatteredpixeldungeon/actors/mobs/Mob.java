@@ -791,6 +791,10 @@ public abstract class Mob extends Char {
 			}
 		}
 
+		if (hero.hasTalent(Talent.HEAD_HUNTER)) {
+			dropBonus += 0.01f + 0.03f * hero.pointsInTalent(Talent.HEAD_HUNTER);
+		}
+
 		return lootChance * dropBonus;
 	}
 	

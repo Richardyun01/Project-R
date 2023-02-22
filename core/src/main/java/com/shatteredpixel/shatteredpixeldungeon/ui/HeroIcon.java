@@ -45,6 +45,7 @@ public class HeroIcon extends Image {
 	public static final int ORACLE      = 22;
 	public static final int ASSASSIN    = 4;
 	public static final int FREERUNNER  = 5;
+	public static final int HITMAN		= 23;
 	public static final int SNIPER      = 6;
 	public static final int WARDEN      = 7;
 

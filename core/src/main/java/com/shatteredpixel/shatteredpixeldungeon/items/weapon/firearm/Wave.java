@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -47,6 +48,11 @@ public class Wave extends FirearmWeapon{
     @Override
     public void setReloadTime() {
         reload_time = 1f * RingOfReload.reloadMultiplier(Dungeon.hero);
+    }
+
+    @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        return Dungeon.level.adjacent(owner.pos, target.pos) ? 1.5f : 0f;
     }
 
 }

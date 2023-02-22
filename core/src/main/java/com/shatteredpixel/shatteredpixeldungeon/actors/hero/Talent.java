@@ -125,6 +125,8 @@ public enum Talent {
 	ENHANCED_LETHALITY(75, 3), ASSASSINS_REACH(76, 3), BOUNTY_HUNTER(77, 3),
 	//Freerunner T3
 	EVASIVE_ARMOR(78, 3), PROJECTILE_MOMENTUM(79, 3), SPEEDY_STEALTH(80, 3),
+	//Hitman T3
+	FIRE_PREPARATION(193, 3), IN_THE_DARKNESS(194, 3), HEAD_HUNTER(195, 3),
 	//Smoke Bomb T4
 	HASTY_RETREAT(81, 4), BODY_REPLACEMENT(82, 4), SHADOW_STEP(83, 4),
 	//Death Mark T4
@@ -690,6 +692,9 @@ public enum Talent {
 				break;
 			case FREERUNNER:
 				Collections.addAll(tierTalents, EVASIVE_ARMOR, PROJECTILE_MOMENTUM, SPEEDY_STEALTH);
+				break;
+			case HITMAN:
+				Collections.addAll(tierTalents, FIRE_PREPARATION, IN_THE_DARKNESS, HEAD_HUNTER);
 				break;
 			case SNIPER:
 				Collections.addAll(tierTalents, FARSIGHT, SHARED_ENCHANTMENT, SHARED_UPGRADES);

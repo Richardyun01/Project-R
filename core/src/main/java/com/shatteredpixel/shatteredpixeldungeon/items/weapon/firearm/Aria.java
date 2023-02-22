@@ -25,6 +25,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -48,12 +49,12 @@ public class Aria extends FirearmWeapon{
 
     @Override
     public int Bulletmin(int lvl) {
-        return (3*tier) + (6*lvl) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        return (int)(((3*tier) + (6*lvl) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
     }
 
     @Override
     public int Bulletmax(int lvl) {
-        return (10*tier) + (10*lvl) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        return (int)(((10*tier) + (10*lvl) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
     }
 
     @Override

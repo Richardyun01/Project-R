@@ -117,7 +117,24 @@ public class FirearmWeapon extends MeleeWeapon {
     }
 
     public void setReloadTime() {
-        reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);
+        switch (type) {
+            case FirearmPistol:
+                reload_time = (hero.hasTalent(Talent.FIRE_PREPARATION) && Random.Int(100) < hero.pointsInTalent(Talent.FIRE_PREPARATION)*15) ? 0 : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);
+                break;
+            case FirearmPrecision:
+                reload_time = (2f + hero.pointsInTalent(Talent.FIRE_PREPARATION) * 0.5f) * RingOfReload.reloadMultiplier(Dungeon.hero);
+                break;
+            case FirearmAuto:
+            case FirearmShotgun:
+            case FirearmExplosive:
+            case FirearmEnergy1:
+            case FirearmEnergy2:
+            case FirearmEtc1:
+            case FirearmEtc2:
+            default:
+                reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);
+                break;
+        }
     }
 
     @Override
@@ -135,7 +152,7 @@ public class FirearmWeapon extends MeleeWeapon {
     public int Bulletmin(int lvl) {
         switch (type) {
             case FirearmPrecision:
-                return 3 * tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                return (int)((3 * tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
             case FirearmEtc2:
             case FirearmShotgun:
                 return tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
@@ -155,7 +172,7 @@ public class FirearmWeapon extends MeleeWeapon {
     public int Bulletmax(int lvl) {
         switch (type) {
             case FirearmPrecision:
-                return 6 * (tier+3) + lvl * (tier+3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                return (int)((6 * (tier+3) + lvl * (tier+3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
             case FirearmAuto:
                 return 2 * (tier) + lvl * (tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             case FirearmShotgun:
@@ -234,6 +251,18 @@ public class FirearmWeapon extends MeleeWeapon {
                         }
                         break;
                     case FirearmPistol:
+                        if (round <= 0) {
+                            reload();
+                            if (Dungeon.hero.hasTalent(Talent.IN_THE_DARKNESS)) {
+                                Buff.affect(hero, Invisibility.class, (int)hero.pointsInTalent(Talent.IN_THE_DARKNESS));
+                            }
+                        } else {
+                            usesTargeting = true;
+                            curUser = hero;
+                            curItem = this;
+                            GameScene.selectCell(shooter);
+                        }
+                        break;
                     case FirearmPrecision:
                     case FirearmAuto:
                     case FirearmShotgun:
@@ -264,7 +293,25 @@ public class FirearmWeapon extends MeleeWeapon {
             if (round == max_round) {
                 GLog.w(Messages.get(this, "already_loaded"));
             } else {
-                reload();
+                switch (type) {
+                    case FirearmPistol:
+                        if (Dungeon.hero.hasTalent(Talent.IN_THE_DARKNESS)) {
+                            Buff.affect(hero, Invisibility.class, (int)hero.pointsInTalent(Talent.IN_THE_DARKNESS));
+                        }
+                        reload();
+                        break;
+                    case FirearmPrecision:
+                    case FirearmAuto:
+                    case FirearmShotgun:
+                    case FirearmExplosive:
+                    case FirearmEnergy1:
+                    case FirearmEnergy2:
+                    case FirearmEtc1:
+                    case FirearmEtc2:
+                    default:
+                        reload();
+                        break;
+                }
             }
         }
     }
@@ -680,12 +727,37 @@ public class FirearmWeapon extends MeleeWeapon {
                 Buff.affect(findChar, Cripple.class, 1f);
             }
 
-            for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-                if (mob.paralysed <= 0
-                        && Dungeon.level.distance(curUser.pos, mob.pos) <= 4
-                        && mob.state != mob.HUNTING) {
-                    mob.beckon( curUser.pos );
-                }
+            switch (type) {
+                case FirearmPrecision:
+                    if (hero.hasTalent(Talent.IN_THE_DARKNESS) && Random.Int(5) < hero.pointsInTalent(Talent.IN_THE_DARKNESS)) {
+                        GameScene.updateMap(hero.pos);
+                    } else {
+                        for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+                            if (mob.paralysed <= 0
+                                    && Dungeon.level.distance(curUser.pos, mob.pos) <= 4
+                                    && mob.state != mob.HUNTING) {
+                                mob.beckon( curUser.pos );
+                            }
+                        }
+                    }
+                    break;
+                case FirearmPistol:
+                case FirearmAuto:
+                case FirearmShotgun:
+                case FirearmExplosive:
+                case FirearmEnergy1:
+                case FirearmEnergy2:
+                case FirearmEtc1:
+                case FirearmEtc2:
+                default:
+                    for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+                        if (mob.paralysed <= 0
+                                && Dungeon.level.distance(curUser.pos, mob.pos) <= 4
+                                && mob.state != mob.HUNTING) {
+                            mob.beckon( curUser.pos );
+                        }
+                    }
+                    break;
             }
             updateQuickslot();
         }
