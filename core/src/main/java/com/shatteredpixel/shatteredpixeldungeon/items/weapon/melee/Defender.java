@@ -56,7 +56,7 @@ public class Defender extends MeleeWeapon {
         if (isIdentified()){
             return Messages.get(this, "stats_desc", 8+4*buffedLvl());
         } else {
-            return Messages.get(this, "typical_stats_desc", 4);
+            return Messages.get(this, "typical_stats_desc", 8);
         }
     }
 

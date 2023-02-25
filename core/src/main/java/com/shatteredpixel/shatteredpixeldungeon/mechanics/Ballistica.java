@@ -48,6 +48,8 @@ public class Ballistica {
 
 	public static final int MAGIC_BOLT =    STOP_CHARS  | STOP_SOLID;
 
+	public static final int SUPER_BOLT =	STOP_TARGET;
+
 	public static final int WONT_STOP =     0;
 
 

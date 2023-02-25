@@ -72,7 +72,7 @@ public class MoonlightBlade extends MeleeWeapon {
 
     public int proc(Char charR, Char charR2, int i) {
         boolean z = false;
-        Ballistica ballistica = new Ballistica(charR.pos, charR2.pos, 0);
+        Ballistica ballistica = new Ballistica(charR.pos, charR2.pos, Ballistica.WONT_STOP);
         int min = Math.min(5, ballistica.dist.intValue());
         charR.sprite.parent.add(new Beam.DeathRay(charR.sprite.center(), DungeonTilemap.raisedTileCenterToWorld(ballistica.path.get(Math.min(ballistica.dist.intValue(), min)).intValue())));
         ArrayList arrayList = new ArrayList();

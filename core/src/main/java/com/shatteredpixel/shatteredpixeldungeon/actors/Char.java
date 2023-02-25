@@ -96,6 +96,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFireblast;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfFrost;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLightning;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SatelliteCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazing;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kinetic;
@@ -360,6 +361,13 @@ public abstract class Char extends Actor {
 					h.belongings.weapon instanceof Kaleidoscope.Bullet ||
 					h.belongings.weapon instanceof Spark.Bullet ||
 					h.belongings.weapon instanceof Supernova.Bullet) {
+					dr = 0;
+				}
+				SatelliteCannon satelliteCannon = (SatelliteCannon) hero.belongings.getItem(SatelliteCannon.class);
+				if (satelliteCannon != null &&
+					(hero.belongings.weapon instanceof SatelliteCannon.SpiritArrow) &&
+					Dungeon.hero.pointsInTalent(Talent.ASSAULT_CELL) >= 2 &&
+					satelliteCannon.EatItem >= 60) {
 					dr = 0;
 				}
 			}

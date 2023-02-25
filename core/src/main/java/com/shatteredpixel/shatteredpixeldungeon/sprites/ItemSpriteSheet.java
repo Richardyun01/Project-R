@@ -197,6 +197,7 @@ public class ItemSpriteSheet {
 	public static final int BALE_EYE     		= SPECIAL_ITEMS+3;
 	public static final int PRINCESS_MIRROR     = SPECIAL_ITEMS+4;
 	public static final int PSIONIC_NODE     	= SPECIAL_ITEMS+5;
+	public static final int SATELLITE_CANNON    = SPECIAL_ITEMS+6;
 
 	static{
 		assignItemRect(SPEED_RELOADER,          12, 13);
@@ -205,6 +206,7 @@ public class ItemSpriteSheet {
 		assignItemRect(BALE_EYE,      			10, 16);
 		assignItemRect(PRINCESS_MIRROR,   		12, 14);
 		assignItemRect(PSIONIC_NODE,       		10, 16);
+		assignItemRect(SATELLITE_CANNON,       	16, 16);
 	}
 	
 	                                                                                    //16 free slots
@@ -410,11 +412,13 @@ public class ItemSpriteSheet {
 	public static final int MADNESS 			= ETC_WEAPONS+1;
 	public static final int FROST 				= ETC_WEAPONS+2;
 	public static final int VOLCANO 			= ETC_WEAPONS+3;
+	public static final int REITERPALLASCH		= ETC_WEAPONS+4;
 	static{
 		assignItemRect(CLEANSER 				,16, 16);
 		assignItemRect(MADNESS 					,16, 16);
 		assignItemRect(FROST 					,16, 16);
 		assignItemRect(VOLCANO 					,16, 16);
+		assignItemRect(REITERPALLASCH 			,16, 16);
 	}
 
 	private static final int PSIONIC_WEAPONS    =                               xy(1, 37);

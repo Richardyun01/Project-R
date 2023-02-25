@@ -139,6 +139,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Madness;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.MaxThunder;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.NotMachineGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Overflow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Reiterpallasch;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Revolver;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Seeker;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ShortCarbine;
@@ -459,9 +460,10 @@ public class Generator {
 					Executioner.class,
 					MoonlightBlade.class,
 					FusionLance.class,
-					Murakumo.class
+					Murakumo.class,
+					Reiterpallasch.class
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 4, 4 };
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4 };
 
 			WEP_T6.classes = new Class<?>[]{
 					Defender.class,

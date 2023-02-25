@@ -144,6 +144,8 @@ public enum Talent {
 	FARSIGHT(107, 3), SHARED_ENCHANTMENT(108, 3), SHARED_UPGRADES(109, 3),
 	//Warden T3
 	DURABLE_TIPS(110, 3), BARKSKIN(111, 3), SHIELDING_DEW(112, 3),
+	//Polaris T3
+	DATA_LINK(225, 3), ASSAULT_CELL(226, 3), ORBITAL_BOMBARDMENT(227, 3),
 	//Spectral Blades T4
 	FAN_OF_BLADES(113, 4), PROJECTING_BLADES(114, 4), SPIRIT_BLADES(115, 4),
 	//Natures Power T4
@@ -224,6 +226,13 @@ public enum Talent {
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
+	public static class OrbitShotCooldown extends FlavourBuff {
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(1f, 2f, 0.25f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 15); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	}
 	public static class EntrophyMark extends FlavourBuff {
 		public int icon() {
 			return BuffIndicator.CORRUPT;
@@ -701,6 +710,9 @@ public enum Talent {
 				break;
 			case WARDEN:
 				Collections.addAll(tierTalents, DURABLE_TIPS, BARKSKIN, SHIELDING_DEW);
+				break;
+			case POLARIS:
+				Collections.addAll(tierTalents, DATA_LINK, ASSAULT_CELL, ORBITAL_BOMBARDMENT);
 				break;
 		}
 		for (Talent talent : tierTalents){

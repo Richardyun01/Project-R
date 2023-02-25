@@ -45,7 +45,8 @@ public enum HeroSubClass {
 	HITMAN(HeroIcon.HITMAN),
 	
 	SNIPER(HeroIcon.SNIPER),
-	WARDEN(HeroIcon.WARDEN);
+	WARDEN(HeroIcon.WARDEN),
+	POLARIS(HeroIcon.POLARIS);
 
 	int icon;
 

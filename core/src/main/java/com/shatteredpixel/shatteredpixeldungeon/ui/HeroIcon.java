@@ -48,6 +48,7 @@ public class HeroIcon extends Image {
 	public static final int HITMAN		= 23;
 	public static final int SNIPER      = 6;
 	public static final int WARDEN      = 7;
+	public static final int POLARIS		= 24;
 
 	//abilities
 	public static final int HEROIC_LEAP     = 8;

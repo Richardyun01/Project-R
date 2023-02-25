@@ -129,7 +129,7 @@ abstract public class Weapon extends KindOfWeapon {
 		if ((hero.hasTalent(Talent.MAGNETIC_WEAPON)
 				&& Random.Int(20) < hero.pointsInTalent(Talent.MAGNETIC_WEAPON))
 				|| ((level.map[defender.pos] == Terrain.GRASS || level.map[defender.pos] == Terrain.HIGH_GRASS || level.map[defender.pos] == Terrain.FURROWED_GRASS)
-				&& (defender instanceof Mob && ((Mob) defender).surprisedBy(attacker))
+				&& (defender instanceof Mob)
 				&& hero.hasTalent(Talent.MAGNETIC_WEAPON)
 				&& Random.Int(2) < hero.pointsInTalent(Talent.MAGNETIC_WEAPON))) {
 			ArrayList<Integer> positions = new ArrayList<>();

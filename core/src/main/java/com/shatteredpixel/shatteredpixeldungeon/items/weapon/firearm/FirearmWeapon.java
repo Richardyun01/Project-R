@@ -153,9 +153,6 @@ public class FirearmWeapon extends MeleeWeapon {
         switch (type) {
             case FirearmPrecision:
                 return (int)((3 * tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
-            case FirearmEtc2:
-            case FirearmShotgun:
-                return tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             case FirearmExplosive:
                 return (tier+5) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             case FirearmEnergy1:
@@ -163,7 +160,9 @@ public class FirearmWeapon extends MeleeWeapon {
                 return tier + lvl;
             case FirearmPistol:
             case FirearmAuto:
+            case FirearmShotgun:
             case FirearmEtc1:
+            case FirearmEtc2:
             default:
                 return tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
         }
@@ -182,9 +181,8 @@ public class FirearmWeapon extends MeleeWeapon {
             case FirearmEnergy1:
             case FirearmEnergy2:
                 return Math.round((3 * (tier + 1) + lvl * 3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)));
-            case FirearmEtc2:
-                return 5 * (tier+1) + lvl*3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             case FirearmEtc1:
+            case FirearmEtc2:
                 return 5 * (tier + 1) + lvl * 3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             case FirearmPistol:
             default:
@@ -253,10 +251,10 @@ public class FirearmWeapon extends MeleeWeapon {
                     case FirearmPistol:
                         if (round <= 0) {
                             reload();
-                            if (Dungeon.hero.hasTalent(Talent.IN_THE_DARKNESS)) {
-                                Buff.affect(hero, Invisibility.class, (int)hero.pointsInTalent(Talent.IN_THE_DARKNESS));
-                            }
                         } else {
+                            if (Dungeon.hero.hasTalent(Talent.IN_THE_DARKNESS) && Random.Int(20) < hero.pointsInTalent(Talent.IN_THE_DARKNESS)) {
+                                Buff.affect(hero, Invisibility.class, 3);
+                            }
                             usesTargeting = true;
                             curUser = hero;
                             curItem = this;

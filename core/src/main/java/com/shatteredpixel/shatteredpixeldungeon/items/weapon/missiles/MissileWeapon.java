@@ -73,7 +73,9 @@ abstract public class MissileWeapon extends Weapon {
 	protected MissileWeapon parent;
 	
 	public int tier;
-	
+
+	protected boolean projectingProperty = false;
+
 	@Override
 	public int min() {
 		return Math.max(0, min( buffedLvl() + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) ));
@@ -151,25 +153,29 @@ abstract public class MissileWeapon extends Weapon {
 	
 	@Override
 	public int throwPos(Hero user, int dst) {
-
-		boolean projecting = hasEnchant(Projecting.class, user);
-		if (!projecting && Random.Int(3) < user.pointsInTalent(Talent.SHARED_ENCHANTMENT)){
-			if (this instanceof Dart && ((Dart) this).crossbowHasEnchant(Dungeon.hero)){
-				//do nothing
-			} else {
-				SpiritBow bow = Dungeon.hero.belongings.getItem(SpiritBow.class);
-				if (bow != null && bow.hasEnchant(Projecting.class, user)) {
-					projecting = true;
-				}
-			}
-		}
-
-		if (projecting
-				&& (Dungeon.level.passable[dst] || Dungeon.level.avoid[dst])
-				&& Dungeon.level.distance(user.pos, dst) <= Math.round(4 * RingOfArcana.enchantPowerMultiplier(user))){
+		if (projectingProperty) {
 			return dst;
 		} else {
-			return super.throwPos(user, dst);
+			boolean projecting = hasEnchant(Projecting.class, user);
+
+			if (!projecting && Random.Int(3) < user.pointsInTalent(Talent.SHARED_ENCHANTMENT)) {
+				if (this instanceof Dart && ((Dart) this).crossbowHasEnchant(Dungeon.hero)) {
+					//do nothing
+				} else {
+					SpiritBow bow = Dungeon.hero.belongings.getItem(SpiritBow.class);
+					if (bow != null && bow.hasEnchant(Projecting.class, user)) {
+						projecting = true;
+					}
+				}
+			}
+
+			if (projecting
+					&& (Dungeon.level.passable[dst] || Dungeon.level.avoid[dst])
+					&& Dungeon.level.distance(user.pos, dst) <= Math.round(4 * RingOfArcana.enchantPowerMultiplier(user))) {
+				return dst;
+			} else {
+				return super.throwPos(user, dst);
+			}
 		}
 	}
 

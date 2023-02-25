@@ -94,18 +94,11 @@ public class WandOfBlastWave extends DamageWand {
 
 			}
 		}
-		Char findChar2 = Actor.findChar(bolt.collisionPos.intValue());
-		if (findChar2 != null) {
-			processEntrophy(findChar2, chargesPerCast());
-			findChar2.damage(damageRoll(), this);
-			if (findChar2.isAlive() && bolt.path.size() > bolt.dist.intValue() + 1 && findChar2.pos == bolt.collisionPos.intValue()) {
-				throwChar(findChar2, new Ballistica(findChar2.pos, bolt.path.get(bolt.dist.intValue() + 1).intValue(), 6), buffedLvl() + 3, false);
-			}
-		}
 
 		//throws the char at the center of the blast
 		Char ch = Actor.findChar(bolt.collisionPos);
 		if (ch != null){
+			processEntrophy(ch, chargesPerCast());
 			wandProc(ch, chargesPerCast());
 			ch.damage(damageRoll(), this);
 

@@ -41,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.He
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
@@ -64,12 +65,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Cleanser;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Frost;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Spark;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Reiterpallasch;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Volcano;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
@@ -85,7 +83,7 @@ public enum HeroClass {
 	WARRIOR( HeroSubClass.BERSERKER, HeroSubClass.GLADIATOR, HeroSubClass.SPECOPS ),
 	MAGE( HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK, HeroSubClass.ORACLE ),
 	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER, HeroSubClass.HITMAN ),
-	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN );
+	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN, HeroSubClass.POLARIS );
 
 	private HeroSubClass[] subClasses;
 
@@ -120,17 +118,16 @@ public enum HeroClass {
 		PlateArmor plate = new PlateArmor();
 		plate.upgrade(100).collect();
 		new Volcano().collect();
-		new Spark().collect();
-		new Cleanser().collect();
-		new Frost().collect();
+		new Reiterpallasch().collect();
+		new TengusMask().collect();
 
-		PotionOfExperience expotion = new PotionOfExperience();
+		PotionOfMindVision expotion = new PotionOfMindVision();
 		expotion.quantity(30).collect();
 		ScrollOfUpgrade upscroll = new ScrollOfUpgrade();
 		upscroll.quantity(30).collect();
 		ScrollOfIdentify ident = new ScrollOfIdentify();
 		ident.quantity(31).collect();
-		StoneOfEnchantment enchan = new StoneOfEnchantment();
+		PotionOfExperience enchan = new PotionOfExperience();
 		enchan.quantity(10).collect();
 		Pasty augm = new Pasty();
 		augm.quantity(30).collect();
