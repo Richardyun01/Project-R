@@ -1273,7 +1273,7 @@ public abstract class Level implements Bundlable {
 				}
 			} else if (((Hero) c).subClass == HeroSubClass.POLARIS) {
 				Hero h = (Hero) c;
-				int range = 10+4*h.pointsInTalent(Talent.DATA_LINK)+h.pointsInTalent(Talent.HEIGHTENED_SENSES);
+				int range = 5+3*h.pointsInTalent(Talent.DATA_LINK)+h.pointsInTalent(Talent.HEIGHTENED_SENSES);
 				for (Mob mob : mobs) {
 					int p = mob.pos;
 					if (!fieldOfView[p] && distance(c.pos, p) <= range) {

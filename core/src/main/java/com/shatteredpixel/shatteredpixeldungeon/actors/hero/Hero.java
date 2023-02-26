@@ -58,6 +58,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MurakumoCharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Supercharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tacsight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
@@ -117,9 +118,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMappi
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SatelliteCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Supernova;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Trench;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
@@ -1174,7 +1177,11 @@ public class Hero extends Char {
 			if (sprite != null) {
 				sprite.showStatus(CharSprite.DEFAULT, Messages.get(this, "wait"));
 			}
+			if (hero.belongings.weapon instanceof Supernova) {
+				Buff.affect(hero, Supercharge.class);
+			}
 		}
+
 		resting = fullRest;
 	}
 	
@@ -1189,7 +1196,9 @@ public class Hero extends Char {
 		if (buff(Talent.SpiritBladesTracker.class) != null
 				&& Random.Int(10) < 3*pointsInTalent(Talent.SPIRIT_BLADES)){
 			SpiritBow bow = belongings.getItem(SpiritBow.class);
+			SatelliteCannon cannon = belongings.getItem(SatelliteCannon.class);
 			if (bow != null) damage = bow.proc( this, enemy, damage );
+			else if (cannon != null) damage = bow.proc( this, enemy, damage );
 			buff(Talent.SpiritBladesTracker.class).detach();
 		}
 
@@ -1197,7 +1206,7 @@ public class Hero extends Char {
 		
 		switch (subClass) {
 		case SNIPER:
-			if (wep instanceof MissileWeapon && !(wep instanceof SpiritBow.SpiritArrow) && enemy != this) {
+			if (wep instanceof MissileWeapon && !(wep instanceof SpiritBow.SpiritArrow) && !(wep instanceof SatelliteCannon.SpiritArrow) && enemy != this) {
 				Actor.add(new Actor() {
 					
 					{

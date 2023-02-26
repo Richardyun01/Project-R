@@ -41,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.EtherealChains;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.OpIntensify;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
@@ -146,6 +147,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ShortCarbin
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Spark;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Standard;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.SuperShotgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Supernova;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Tat;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ThinLine;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Trench;
@@ -525,11 +527,12 @@ public class Generator {
 					Aria.class,
 					Trench.class,
 					MaxThunder.class,
+					Supernova.class,
 					BigBarrel.class,
 					Madness.class,
 					Volcano.class
 			};
-			GUN_T6.probs = new float[]{ 2, 1, 1, 1, 1, 1, 1 };
+			GUN_T6.probs = new float[]{ 2, 1, 1, 1, 1, 1, 1, 1 };
 			
 			//see Generator.randomArmor
 			ARMOR.classes = new Class<?>[]{
@@ -616,9 +619,10 @@ public class Generator {
 					TalismanOfForesight.class,
 					TimekeepersHourglass.class,
 					UnstableSpellbook.class,
-					AESARadar.class
+					AESARadar.class,
+					OpIntensify.class
 			};
-			ARTIFACT.defaultProbs = new float[]{ 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+			ARTIFACT.defaultProbs = new float[]{ 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 			ARTIFACT.probs = ARTIFACT.defaultProbs.clone();
 		}
 	}

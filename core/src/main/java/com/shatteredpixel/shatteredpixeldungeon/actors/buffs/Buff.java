@@ -188,4 +188,5 @@ public class Buff extends Actor {
 			b.detach();
 		}
 	}
+
 }

@@ -558,6 +558,7 @@ public class FirearmWeapon extends MeleeWeapon {
         updateQuickslot();
     }
 
+    public void cooldown() {}
 
     public class Bullet extends MissileWeapon {
 
@@ -709,6 +710,7 @@ public class FirearmWeapon extends MeleeWeapon {
                             }
                         }
                     }
+                    cooldown();
                     break;
             }
 

@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.quest.MetalShard;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SatelliteCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
@@ -59,7 +60,7 @@ public class CurseInfusion extends InventorySpell {
 		Sample.INSTANCE.play(Assets.Sounds.CURSED);
 		
 		item.cursed = true;
-		if (item instanceof MeleeWeapon || item instanceof SpiritBow) {
+		if (item instanceof MeleeWeapon || item instanceof SpiritBow || item instanceof SatelliteCannon) {
 			Weapon w = (Weapon) item;
 			if (w.enchantment != null) {
 				w.enchant(Weapon.Enchantment.randomCurse(w.enchantment.getClass()));

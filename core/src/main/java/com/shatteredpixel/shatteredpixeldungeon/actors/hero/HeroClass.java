@@ -41,7 +41,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.He
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
@@ -49,7 +48,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.IceBox;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
-import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
@@ -67,8 +66,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Aria;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Reiterpallasch;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Volcano;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.SuperShotgun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Supernova;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
@@ -117,9 +118,10 @@ public enum HeroClass {
 
 		PlateArmor plate = new PlateArmor();
 		plate.upgrade(100).collect();
-		new Volcano().collect();
+		new Aria().collect();
 		new Reiterpallasch().collect();
-		new TengusMask().collect();
+		new Supernova().collect();
+		new SuperShotgun().collect();
 
 		PotionOfMindVision expotion = new PotionOfMindVision();
 		expotion.quantity(30).collect();
@@ -129,8 +131,8 @@ public enum HeroClass {
 		ident.quantity(31).collect();
 		PotionOfExperience enchan = new PotionOfExperience();
 		enchan.quantity(10).collect();
-		Pasty augm = new Pasty();
-		augm.quantity(30).collect();
+		MeatPie augm = new MeatPie();
+		augm.quantity(100).collect();
 //erase this finish
 
 		switch (this) {

@@ -22,14 +22,13 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blocking;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.Random;
+
+import java.util.HashSet;
 
 public class Defender extends MeleeWeapon {
 
@@ -54,29 +53,21 @@ public class Defender extends MeleeWeapon {
 
     public String statsInfo(){
         if (isIdentified()){
-            return Messages.get(this, "stats_desc", 8+4*buffedLvl());
+            return Messages.get(this, "stats_desc", 8+4*buffedLvl(), 2+4*buffedLvl());
         } else {
-            return Messages.get(this, "typical_stats_desc", 8);
+            return Messages.get(this, "typical_stats_desc", 8, 2);
         }
     }
 
-    @Override
-    public ItemSprite.Glowing glowing() {
-        return BLUE;
+    public static final HashSet<Class> RESISTS = new HashSet<>();
+
+    static {
+        RESISTS.addAll(AntiMagic.RESISTS);
     }
 
-    public int proc(Weapon weapon, Char attacker, int damage) {
-
-        int level = Math.max( 0, weapon.buffedLvl() );
-
-        float procChance = (level+4f)/(level+40f);
-        if (Random.Float() < procChance){
-            Blocking.BlockBuff b = Buff.affect(attacker, Blocking.BlockBuff.class);
-            b.setShield(attacker.HT/10);
-            attacker.sprite.emitter().burst(Speck.factory(Speck.LIGHT), 5);
-        }
-
-        return damage;
+    //see Hero.damage for antimagic effects
+    public static int drRoll(int level) {
+        return Random.NormalIntRange(0, 2 + 2 * level); //2 extra defence, plus 2 per level;
     }
 
 }

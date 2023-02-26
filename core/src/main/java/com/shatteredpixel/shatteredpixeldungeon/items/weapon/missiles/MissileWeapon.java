@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SatelliteCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projecting;
@@ -248,6 +249,10 @@ abstract public class MissileWeapon extends Weapon {
 				SpiritBow bow = Dungeon.hero.belongings.getItem(SpiritBow.class);
 				if (bow != null && bow.enchantment != null && Dungeon.hero.buff(MagicImmune.class) == null) {
 					damage = bow.enchantment.proc(this, attacker, defender, damage);
+				}
+				SatelliteCannon cannon = Dungeon.hero.belongings.getItem(SatelliteCannon.class);
+				if (cannon != null && cannon.enchantment != null && Dungeon.hero.buff(MagicImmune.class) == null) {
+					damage = cannon.enchantment.proc(this, attacker, defender, damage);
 				}
 			}
 		}
