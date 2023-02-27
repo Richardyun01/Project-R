@@ -31,7 +31,6 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
-import com.watabou.utils.DeviceCompat;
 
 public class WndSupportPrompt extends Window {
 
@@ -62,11 +61,11 @@ public class WndSupportPrompt extends Window {
 			@Override
 			protected void onClick() {
 				super.onClick();
-				String link = "https://www.patreon.com/ShatteredPixel";
+				String link = "https://github.com/Richardyun01/Project-R";
 				//tracking codes, so that the website knows where this pageview came from
-				link += "?utm_source=shatteredpd";
-				link += "&utm_medium=supporter_prompt";
-				link += "&utm_campaign=ingame_link";
+				//link += "?utm_source=shatteredpd";
+				//link += "&utm_medium=supporter_prompt";
+				//link += "&utm_campaign=ingame_link";
 				ShatteredPixelDungeon.platform.openURI(link);
 				SPDSettings.supportNagged(true);
 				WndSupportPrompt.super.hide();

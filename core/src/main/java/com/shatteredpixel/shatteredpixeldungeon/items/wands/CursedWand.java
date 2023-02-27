@@ -39,7 +39,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WarpBeacon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.GoldenMimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mimic;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Sheep;
@@ -66,7 +65,6 @@ import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.InterlevelScene;
-import com.shatteredpixel.shatteredpixeldungeon.ui.BadgesList;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.TargetHealthIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -385,29 +383,52 @@ public class CursedWand {
 				
 				try {
 					Dungeon.saveAll();
-					if(Messages.lang() != Languages.ENGLISH){
+					if(Messages.lang() != Languages.ENGLISH && Messages.lang() != Languages.KOREAN){
 						//Don't bother doing this joke to none-english speakers, I doubt it would translate.
+						//한글도 포함이다 하하하
 						return cursedEffect(origin, user, targetPos);
 					} else {
-						GameScene.show(
-								new WndOptions(Icons.get(Icons.WARNING),
-										"CURSED WAND ERROR",
-										"this application will now self-destruct",
-										"abort",
-										"retry",
-										"fail") {
-									
-									@Override
-									protected void onSelect(int index) {
-										Game.instance.finish();
+						if (Messages.lang() == Languages.ENGLISH) {
+							GameScene.show(
+									new WndOptions(Icons.get(Icons.WARNING),
+											"CURSED WAND ERROR",
+											"this application will now self-destruct",
+											"abort",
+											"retry",
+											"fail") {
+
+										@Override
+										protected void onSelect(int index) {
+											Game.instance.finish();
+										}
+
+										@Override
+										public void onBackPressed() {
+											//do nothing
+										}
 									}
-									
-									@Override
-									public void onBackPressed() {
-										//do nothing
+							);
+						} else if (Messages.lang() == Languages.KOREAN) {
+							GameScene.show(
+									new WndOptions(Icons.get(Icons.WARNING),
+											"고장난 방출기 에러",
+											"이 어플리케이션은 잠시 뒤 자폭할 것입니다.",
+											"중단",
+											"재시작",
+											"취소") {
+
+										@Override
+										protected void onSelect(int index) {
+											Game.instance.finish();
+										}
+
+										@Override
+										public void onBackPressed() {
+											//do nothing
+										}
 									}
-								}
-						);
+							);
+						}
 						return false;
 					}
 				} catch(IOException e){

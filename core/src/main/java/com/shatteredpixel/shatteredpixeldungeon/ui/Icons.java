@@ -39,6 +39,7 @@ public enum Icons {
 	CHANGES,
 	PREFS,
 	SHPX,
+	PROJECT,
 
 	//rankings and hero select icons, spacing for 16x16
 	STAIRS,
@@ -131,7 +132,7 @@ public enum Icons {
 				icon.frame( icon.texture.uvRectBySize( 0, 0, 16, 16 ) );
 				break;
 			case GOLD:
-				icon.frame( icon.texture.uvRectBySize( 17, 0, 17, 16 ) );
+				icon.frame( icon.texture.uvRectBySize( 17, 0, 16, 16 ) );
 				break;
 			case RANKINGS:
 				icon.frame( icon.texture.uvRectBySize( 34, 0, 17, 16 ) );
@@ -150,6 +151,9 @@ public enum Icons {
 				break;
 			case SHPX:
 				icon.frame( icon.texture.uvRectBySize( 119, 0, 16, 16 ) );
+				break;
+			case PROJECT:
+				icon.frame( icon.texture.uvRectBySize( 136, 0, 13, 13 ) );
 				break;
 
 			case STAIRS:

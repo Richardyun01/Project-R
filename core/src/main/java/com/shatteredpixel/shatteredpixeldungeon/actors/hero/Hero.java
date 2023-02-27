@@ -124,6 +124,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Supernova;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Trench;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Defender;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Murakumo;
@@ -1197,8 +1198,8 @@ public class Hero extends Char {
 				&& Random.Int(10) < 3*pointsInTalent(Talent.SPIRIT_BLADES)){
 			SpiritBow bow = belongings.getItem(SpiritBow.class);
 			SatelliteCannon cannon = belongings.getItem(SatelliteCannon.class);
-			if (bow != null) damage = bow.proc( this, enemy, damage );
-			else if (cannon != null) damage = bow.proc( this, enemy, damage );
+			if (bow != null && cannon == null) damage = bow.proc( this, enemy, damage );
+			else if (cannon != null && bow == null) damage = cannon.proc( this, enemy, damage );
 			buff(Talent.SpiritBladesTracker.class).detach();
 		}
 
@@ -1289,6 +1290,10 @@ public class Hero extends Char {
 		if (belongings.armor() != null && belongings.armor().hasGlyph(AntiMagic.class, this)
 				&& AntiMagic.RESISTS.contains(src.getClass())){
 			dmg -= AntiMagic.drRoll(this, belongings.armor().buffedLvl());
+		}
+
+		if (belongings.weapon() instanceof Defender && Defender.RESISTS.contains(src.getClass())) {
+			dmg -= Defender.drRoll(belongings.weapon().buffedLvl());
 		}
 
 		if (buff(Talent.WarriorFoodImmunity.class) != null){

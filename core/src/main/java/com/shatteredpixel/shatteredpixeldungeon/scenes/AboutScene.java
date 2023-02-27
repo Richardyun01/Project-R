@@ -62,6 +62,15 @@ public class AboutScene extends PixelScene {
 		Component content = list.content();
 		content.clear();
 
+		CreditsBlock projectr = new CreditsBlock(true, Window.WHITE,
+				"Project R",
+				Icons.PROJECT.get(),
+				"Developed by: _Nerdnumber12345_\nBased on Shattered Pixel Dungeon's open source",
+				"github repository",
+				"https://github.com/Richardyun01/Project-R");
+		projectr.setRect((w - fullWidth)/2f, 6, 120, 0);
+		content.add(projectr);
+
 		//*** Shattered Pixel Dungeon Credits ***
 
 		String shpxLink = "https://ShatteredPixel.com";
@@ -77,9 +86,9 @@ public class AboutScene extends PixelScene {
 				"ShatteredPixel.com",
 				shpxLink);
 		if (landscape()){
-			shpx.setRect((w - fullWidth)/2f - 6, 10, 120, 0);
+			shpx.setRect(projectr.left(), projectr.bottom() + 12, colWidth, 0);
 		} else {
-			shpx.setRect((w - fullWidth)/2f, 6, 120, 0);
+			shpx.setRect(projectr.left(), projectr.bottom() + 12, colWidth, 0);
 		}
 		content.add(shpx);
 

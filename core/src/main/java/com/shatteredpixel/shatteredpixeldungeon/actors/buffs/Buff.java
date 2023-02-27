@@ -80,8 +80,10 @@ public class Buff extends Actor {
 	}
 	
 	public void detach() {
-		if (target.sprite != null) fx( false );
-		target.remove( this );
+		if (target != null) {
+			if (target.sprite != null) fx(false);
+			target.remove(this);
+		}
 	}
 	
 	@Override

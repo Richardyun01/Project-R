@@ -82,14 +82,22 @@ public class AESARadar extends Artifact {
 
         @Override
         public boolean attachTo( Char target ) {
-            if (super.attachTo( target )) {
+            if (target instanceof Hero) {
+                Artifact item = ((Hero) target).belongings.artifact;
+                if (item != null && item instanceof AESARadar) {
+                    return false;
+                }
+            }
 
-                boolean sighted = target.buff(Blindness.class) == null && target.buff(Shadows.class) == null
-                        && target.buff(TimekeepersHourglass.timeStasis.class) == null && target.isAlive();
+            if (super.attachTo( target )) {
+                boolean sighted = target.buff(Blindness.class) == null &&
+                                  target.buff(Shadows.class) == null &&
+                                  target.buff(TimekeepersHourglass.timeStasis.class) == null &&
+                                  target.isAlive();
 
                 if (sighted) {
                     if (target instanceof Hero) {
-                        target.viewDistance += 1 * level() + 1;
+                        target.viewDistance += level() + 1;
                         ((Hero) target).act();
                         GLog.p(Messages.get(this, "attachto"));
                     }

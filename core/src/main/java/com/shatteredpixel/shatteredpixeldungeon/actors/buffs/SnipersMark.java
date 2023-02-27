@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SatelliteCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
@@ -99,22 +100,46 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 	@Override
 	public String actionName() {
 		SpiritBow bow = Dungeon.hero.belongings.getItem(SpiritBow.class);
+		SatelliteCannon cannon = Dungeon.hero.belongings.getItem(SatelliteCannon.class);
 
-		if (bow == null) return null;
-
-		switch (bow.augment){
-			case NONE: default:
-				return Messages.get(this, "action_name_snapshot");
-			case SPEED:
-				return Messages.get(this, "action_name_volley");
-			case DAMAGE:
-				return Messages.get(this, "action_name_sniper");
+		if (cannon != null) {
+			switch (cannon.augment) {
+				case SPEED:
+					return Messages.get(this, "action_name_volley");
+				case DAMAGE:
+					return Messages.get(this, "action_name_sniper");
+				case NONE:
+				default:
+					return Messages.get(this, "action_name_snapshot");
+			}
+		} else if (bow != null) {
+			switch (bow.augment) {
+				case SPEED:
+					return Messages.get(this, "action_name_volley");
+				case DAMAGE:
+					return Messages.get(this, "action_name_sniper");
+				case NONE:
+				default:
+					return Messages.get(this, "action_name_snapshot");
+			}
+		} else {
+			return null;
 		}
 	}
 
 	@Override
 	public Image actionIcon() {
-		return new ItemSprite(ItemSpriteSheet.SPIRIT_BOW, null);
+		SpiritBow bow = Dungeon.hero.belongings.getItem(SpiritBow.class);
+		SatelliteCannon cannon = Dungeon.hero.belongings.getItem(SatelliteCannon.class);
+
+		if (bow != null) {
+			return new ItemSprite(ItemSpriteSheet.SPIRIT_BOW, null);
+		} else if (cannon != null) {
+			return new ItemSprite(ItemSpriteSheet.SATELLITE_CANNON, null);
+		} else {
+			return new ItemSprite(ItemSpriteSheet.SPIRIT_BOW, null);
+		}
+
 	}
 	
 	@Override
@@ -124,21 +149,40 @@ public class SnipersMark extends FlavourBuff implements ActionIndicator.Action {
 		if (hero == null) return;
 		
 		SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
+		SatelliteCannon cannon = hero.belongings.getItem(SatelliteCannon.class);
 		if (bow == null) return;
+
+		if (cannon != null) {
+			SatelliteCannon.SpiritArrow arrow = cannon.knockArrow();
+			if (arrow == null) return;
+
+			Char ch = (Char) Actor.findById(object);
+			if (ch == null) return;
+
+			int cell = QuickSlotButton.autoAim(ch, arrow);
+			if (cell == -1) return;
+
+			bow.sniperSpecial = true;
+			bow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/10f;
+
+			arrow.cast(hero, cell);
+
+		} else if (bow != null) {
+			SpiritBow.SpiritArrow arrow = bow.knockArrow();
+			if (arrow == null) return;
+
+			Char ch = (Char) Actor.findById(object);
+			if (ch == null) return;
+
+			int cell = QuickSlotButton.autoAim(ch, arrow);
+			if (cell == -1) return;
+
+			bow.sniperSpecial = true;
+			bow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/10f;
+
+			arrow.cast(hero, cell);
+		}
 		
-		SpiritBow.SpiritArrow arrow = bow.knockArrow();
-		if (arrow == null) return;
-		
-		Char ch = (Char) Actor.findById(object);
-		if (ch == null) return;
-		
-		int cell = QuickSlotButton.autoAim(ch, arrow);
-		if (cell == -1) return;
-		
-		bow.sniperSpecial = true;
-		bow.sniperSpecialBonusDamage = level*Dungeon.hero.pointsInTalent(Talent.SHARED_UPGRADES)/10f;
-		
-		arrow.cast(hero, cell);
 		detach();
 		
 	}

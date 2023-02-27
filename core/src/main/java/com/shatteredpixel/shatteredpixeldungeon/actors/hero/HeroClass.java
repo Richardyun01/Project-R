@@ -39,22 +39,21 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.Smok
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.HeroicLeap;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
+import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AESARadar;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.IceBox;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
-import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
@@ -66,10 +65,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Aria;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Reiterpallasch;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.SuperShotgun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Supernova;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
@@ -113,18 +108,18 @@ public enum HeroClass {
 
 		new ScrollOfIdentify().identify();
 //erase this start
+		/**
 		PotionOfStrength strpotion = new PotionOfStrength();
 		strpotion.quantity(10).collect();
 
 		PlateArmor plate = new PlateArmor();
 		plate.upgrade(100).collect();
-		new Aria().collect();
-		new Reiterpallasch().collect();
+		new KingsCrown().collect();
+		new TengusMask().collect();
 		new Supernova().collect();
 		new SuperShotgun().collect();
 
-		PotionOfMindVision expotion = new PotionOfMindVision();
-		expotion.quantity(30).collect();
+
 		ScrollOfUpgrade upscroll = new ScrollOfUpgrade();
 		upscroll.quantity(30).collect();
 		ScrollOfIdentify ident = new ScrollOfIdentify();
@@ -133,6 +128,11 @@ public enum HeroClass {
 		enchan.quantity(10).collect();
 		MeatPie augm = new MeatPie();
 		augm.quantity(100).collect();
+		**/
+		new Ankh().collect();
+		new AESARadar().collect();
+		PotionOfExperience expotion = new PotionOfExperience();
+		expotion.quantity(30).collect();
 //erase this finish
 
 		switch (this) {
