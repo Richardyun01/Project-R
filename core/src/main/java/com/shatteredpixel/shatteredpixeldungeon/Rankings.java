@@ -151,7 +151,7 @@ public enum Rankings {
 			size = records.size();
 		}
 
-		if (rec.customSeed.isEmpty()) {
+		if (rec.customSeed.isEmpty() && !Dungeon.isChallenged(Challenges.EASY_MODE)) {
 			totalNumber++;
 			if (win) {
 				wonNumber++;
@@ -221,6 +221,9 @@ public enum Rankings {
 
 		Statistics.chalMultiplier = (float)Math.pow(1.25, Challenges.activeChallenges());
 		Statistics.chalMultiplier = Math.round(Statistics.chalMultiplier*20f)/20f;
+		if (Dungeon.isChallenged(Challenges.EASY_MODE)) {
+			Statistics.chalMultiplier = 0;
+		}
 
 		Statistics.totalScore = Statistics.progressScore + Statistics.treasureScore + Statistics.exploreScore
 					+ Statistics.totalBossScore + Statistics.totalQuestScore;
@@ -557,9 +560,9 @@ public enum Rankings {
 		@Override
 		public int compare( Record lhs, Record rhs ) {
 			//this covers custom seeded runs and dailies
-			if (rhs.customSeed.isEmpty() && !lhs.customSeed.isEmpty()){
+			if (rhs.customSeed.isEmpty() && !lhs.customSeed.isEmpty() && !Dungeon.isChallenged(Challenges.EASY_MODE)){
 				return +1;
-			} else if (lhs.customSeed.isEmpty() && !rhs.customSeed.isEmpty()){
+			} else if (lhs.customSeed.isEmpty() && !rhs.customSeed.isEmpty() && !Dungeon.isChallenged(Challenges.EASY_MODE)){
 				return -1;
 			}
 

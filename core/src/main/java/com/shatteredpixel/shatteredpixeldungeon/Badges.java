@@ -992,7 +992,7 @@ public class Badges {
 	
 	private static void displayBadge( Badge badge ) {
 		
-		if (badge == null || !Dungeon.customSeedText.isEmpty()) {
+		if (badge == null || !Dungeon.customSeedText.isEmpty() || Dungeon.isChallenged(Challenges.EASY_MODE)) {
 			return;
 		}
 		
@@ -1029,7 +1029,7 @@ public class Badges {
 	}
 	
 	public static void unlock( Badge badge ){
-		if (!isUnlocked(badge) && Dungeon.customSeedText.isEmpty()){
+		if (!isUnlocked(badge) && Dungeon.customSeedText.isEmpty() && !Dungeon.isChallenged(Challenges.EASY_MODE)){
 			global.add( badge );
 			saveNeeded = true;
 		}

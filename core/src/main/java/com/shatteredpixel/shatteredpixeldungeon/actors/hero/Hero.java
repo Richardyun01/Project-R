@@ -26,6 +26,7 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Bones;
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
@@ -235,8 +236,13 @@ public class Hero extends Char {
 	
 	public void updateHT( boolean boostHP ){
 		int curHT = HT;
-		
-		HT = 20 + 5*(lvl-1) + HTBoost;
+
+		if (Dungeon.isChallenged(Challenges.EASY_MODE)) {
+			HT = 20 + 10*(lvl-1) + HTBoost;
+		} else {
+			HT = 20 + 5*(lvl-1) + HTBoost;
+		}
+
 		float multiplier = RingOfMight.HTMultiplier(this);
 		HT = Math.round(multiplier * HT);
 		
@@ -476,6 +482,10 @@ public class Hero extends Char {
 			}
 		}
 
+		if (Dungeon.isChallenged(Challenges.EASY_MODE)) {
+			accuracy *= 1.25f;
+		}
+
 		if (wep != null) {
 			return (int)(attackSkill * accuracy * wep.accuracyFactor( this, target ));
 		} else {
@@ -507,7 +517,11 @@ public class Hero extends Char {
 		}
 
 		if (hero.hasTalent(Talent.AGILE_NERVE)) {
-			evasion *= 1 + 0.1*hero.pointsInTalent(Talent.AGILE_NERVE);
+			evasion *= 1 + 0.1f*hero.pointsInTalent(Talent.AGILE_NERVE);
+		}
+
+		if (Dungeon.isChallenged(Challenges.EASY_MODE)) {
+			evasion *= 1.25f;
 		}
 
 		return Math.round(evasion);
@@ -548,6 +562,10 @@ public class Hero extends Char {
 
 		if (buff(HoldFast.class) != null){
 			dr += Random.NormalIntRange(0, 2*pointsInTalent(Talent.HOLD_FAST));
+		}
+
+		if (Dungeon.isChallenged(Challenges.EASY_MODE)) {
+			dr *= 1.25f;
 		}
 		
 		return dr;
@@ -601,10 +619,11 @@ public class Hero extends Char {
 
 	@Override
 	public boolean canSurpriseAttack(){
-		if (belongings.weapon() == null || !(belongings.weapon() instanceof Weapon))    return true;
-		if (STR() < ((Weapon)belongings.weapon()).STRReq())                             return false;
-		if (belongings.weapon() instanceof Flail)                                       return false;
-		if (belongings.weapon() instanceof Trench.Bullet)								return false;
+		if (belongings.weapon() == null || !(belongings.weapon() instanceof Weapon))    			return true;
+		if (belongings.weapon() == null || !(belongings.weapon() instanceof FirearmWeapon.Bullet))  return true;
+		if (STR() < ((Weapon)belongings.weapon()).STRReq())                             			return false;
+		if (belongings.weapon() instanceof Flail)                                       			return false;
+		if (belongings.weapon() instanceof Trench.Bullet)											return false;
 
 		return super.canSurpriseAttack();
 	}
