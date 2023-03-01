@@ -154,13 +154,14 @@ public class FirearmWeapon extends MeleeWeapon {
             case FirearmPrecision:
                 return (int)((3 * tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
             case FirearmExplosive:
-                return (tier+5) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                return (tier+4) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             case FirearmEnergy1:
             case FirearmEnergy2:
                 return tier + lvl;
+            case FirearmShotgun:
+                return (tier-1) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             case FirearmPistol:
             case FirearmAuto:
-            case FirearmShotgun:
             case FirearmEtc1:
             case FirearmEtc2:
             default:
@@ -173,20 +174,20 @@ public class FirearmWeapon extends MeleeWeapon {
             case FirearmPrecision:
                 return (int)((6 * (tier+3) + lvl * (tier+3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
             case FirearmAuto:
-                return 2 * (tier) + lvl * (tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                return (2*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             case FirearmShotgun:
-                return (tier*2) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                return (tier*2-2) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             case FirearmExplosive:
-                return 8 * (tier+6) + lvl * (tier+6) + RingOfSharpshooting.levelDamageBonus(hero);
+                return 8*(tier+6) + lvl*(tier+5) + RingOfSharpshooting.levelDamageBonus(hero);
             case FirearmEnergy1:
             case FirearmEnergy2:
-                return Math.round((3 * (tier + 1) + lvl * 3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)));
+                return Math.round((3 * (tier + 1) + (lvl*3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)));
             case FirearmEtc1:
             case FirearmEtc2:
-                return 5 * (tier + 1) + lvl * 3 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                return (5*tier) + (lvl*3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             case FirearmPistol:
             default:
-                return 5 * (tier) + lvl * (tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                return (5*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
         }
     }
 

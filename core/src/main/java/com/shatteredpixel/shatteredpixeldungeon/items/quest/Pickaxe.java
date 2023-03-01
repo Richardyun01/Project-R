@@ -49,6 +49,8 @@ public class Pickaxe extends Weapon {
 	public static final String AC_MINE	= "MINE";
 	
 	public static final float TIME_TO_MINE = 2;
+
+	private static final String ENCHANTMENT	    = "enchantment";
 	
 	private static final Glowing BLOODY = new Glowing( 0x550000 );
 	
@@ -178,14 +180,14 @@ public class Pickaxe extends Weapon {
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 		super.storeInBundle( bundle );
-		
+		enchantment = (Enchantment)bundle.get( ENCHANTMENT );
 		bundle.put( BLOODSTAINED, bloodStained );
 	}
 	
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle( bundle );
-		
+		enchantment = (Enchantment)bundle.get( ENCHANTMENT );
 		bloodStained = bundle.getBoolean( BLOODSTAINED );
 	}
 	

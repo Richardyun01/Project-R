@@ -32,11 +32,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbili
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTileSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndChooseAbility;
@@ -293,7 +294,12 @@ abstract public class ClassArmor extends Armor {
 		public boolean act() {
 			LockedFloor lock = target.buff(LockedFloor.class);
 			if (lock == null || lock.regenOn()) {
-				charge += 100 / 500f; //500 turns to full charge
+				Ring item = ((Hero) target).belongings.ring;
+				if (item != null && item instanceof RingOfEnergy) {
+					charge += (float)(100 / 500)*RingOfEnergy.armorChargeMultiplier(target);		//can be affected by ring of energy
+				} else {
+					charge += 100 / 500f;															//500 turns to full charge
+				}
 				updateQuickslot();
 				if (charge > 100) {
 					charge = 100;

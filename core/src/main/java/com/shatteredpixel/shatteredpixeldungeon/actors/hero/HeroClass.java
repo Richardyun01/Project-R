@@ -135,15 +135,12 @@ public enum HeroClass {
 		ScrollOfIdentify ident = new ScrollOfIdentify();
 		ident.quantity(31).collect();
 		PotionOfExperience enchan = new PotionOfExperience();
-		enchan.quantity(10).collect();
+		enchan.quantity(100).collect();
 		MeatPie augm = new MeatPie();
 		augm.quantity(100).collect();
-
 		new Ankh().collect();
-		new AESARadar().collect();
-		PotionOfExperience expotion = new PotionOfExperience();
-		expotion.quantity(30).collect();
-		 **/
+		new RingOfEnergy().collect();
+		**/
 //erase this finish
 
 		switch (this) {

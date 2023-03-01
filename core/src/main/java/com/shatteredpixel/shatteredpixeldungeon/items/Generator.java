@@ -128,7 +128,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.EleGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Fencer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FireStorm;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Flashback;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Frost;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FrostGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Harmonica;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Hush;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Hydra;
@@ -157,7 +157,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Wave;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.AssassinsBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.BattleAxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Chainsaw;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.CommonBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Defender;
@@ -172,7 +171,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greataxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatshield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandAxe;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Krystallos;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Longsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lunge;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Mace;
@@ -180,12 +178,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MoonlightBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Murakumo;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.PsionicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Rapier;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RipperWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RuinSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sai;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
@@ -409,12 +405,12 @@ public class Generator {
 					MagesStaff.class,
 					Dagger.class,
 					Gloves.class,
-					CommonBlade.class,
-					RuinSpear.class,
-					Krystallos.class,
-					PsionicBlade.class,
+					//CommonBlade.class,
+					//RuinSpear.class,
+					//Krystallos.class,
+					//PsionicBlade.class,
 			};
-			WEP_T1.probs = new float[]{ 1, 0, 1, 1, 1, 1, 1, 0 };
+			WEP_T1.probs = new float[]{ 1, 0, 1, 1 }; //, 1, 1, 1, 0
 			
 			WEP_T2.classes = new Class<?>[]{
 					Shortsword.class,
@@ -504,7 +500,7 @@ public class Generator {
 					Justice.class,
 					Vega.class,
 					Kaleidoscope.class,
-					Frost.class
+					FrostGun.class
 			};
 			GUN_T4.probs = new float[]{ 2, 1, 1, 1, 1, 1, 1, 1, 1 };
 

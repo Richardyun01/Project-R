@@ -206,15 +206,18 @@ public class AndroidPlatformSupport extends PlatformSupport {
 			//typefaces are 0-JP, 1-KR, 2-SC, 3-TC.
 			int typeFace;
 			switch (SPDSettings.language()) {
+				/*
 				case JAPANESE:
 					typeFace = 0;
 					break;
-				case KOREAN:
-					typeFace = 1;
-					break;
+
 				case CHINESE:
-				default:
 					typeFace = 2;
+					break;
+				*/
+				case KOREAN:
+				default:
+					typeFace = 1;
 			}
 			KRFontGenerator = SCFontGenerator = JPFontGenerator = new FreeTypeFontGenerator(Gdx.files.absolute("/system/fonts/NotoSansCJK-Regular.ttc"), typeFace);
 			

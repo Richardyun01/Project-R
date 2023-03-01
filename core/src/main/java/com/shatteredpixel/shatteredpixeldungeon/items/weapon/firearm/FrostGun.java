@@ -26,9 +26,11 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Random;
 
-public class Frost extends FirearmWeapon {
+public class FrostGun extends FirearmWeapon {
 
     {
         defaultAction = AC_SHOOT;
@@ -64,6 +66,10 @@ public class Frost extends FirearmWeapon {
     @Override
     public int proc(Char attacker, Char defender, int damage) {
 
+        if (Random.Int(5) == 0) {
+            Buff.affect(defender, Frost.class, 2f);
+        }
+
         if (Dungeon.level.water[defender.pos]){
             Buff.prolong(defender, Chill.class, Chill.DURATION);
         } else {
@@ -74,3 +80,4 @@ public class Frost extends FirearmWeapon {
     }
 
 }
+
