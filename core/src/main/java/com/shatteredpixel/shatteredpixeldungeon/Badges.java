@@ -53,12 +53,14 @@ public class Badges {
 		MASTERY_MAGE,
 		MASTERY_ROGUE,
 		MASTERY_HUNTRESS,
+		MASTERY_NOISE,
 		FOUND_RATMOGRIFY,
 
 		//bronze
 		UNLOCK_MAGE                 ( 1 ),
 		UNLOCK_ROGUE                ( 2 ),
 		UNLOCK_HUNTRESS             ( 3 ),
+		UNLOCK_NOISE				( 21 ),
 		MONSTERS_SLAIN_1            ( 4 ),
 		MONSTERS_SLAIN_2            ( 5 ),
 		GOLD_COLLECTED_1            ( 6 ),
@@ -859,6 +861,12 @@ public class Badges {
 	public static void validateHuntressUnlock(){
 		if (Statistics.thrownAttacks >= 10 && !isUnlocked(Badge.UNLOCK_HUNTRESS)){
 			displayBadge( Badge.UNLOCK_HUNTRESS );
+		}
+	}
+
+	public static void validateNoiseUnlock(){
+		if ((Statistics.amuletObtained = true) && !isUnlocked(Badge.UNLOCK_NOISE)){
+			displayBadge( Badge.UNLOCK_NOISE );
 		}
 	}
 	

@@ -189,6 +189,12 @@ public class WndHeroInfo extends WndTabbed {
 							new ItemSprite(ItemSpriteSheet.GLOVES),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
+				case NOISE:
+					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.NOT_MACHINE_GUN),
+							new ItemSprite(ItemSpriteSheet.WAVE),
+							new ItemSprite(ItemSpriteSheet.NOT_MACHINE_GUN),
+							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
+					break;
 			}
 			for (Image im : icons) {
 				add(im);

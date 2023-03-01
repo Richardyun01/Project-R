@@ -153,6 +153,20 @@ public enum Talent {
 	//Spirit Hawk T4
 	EAGLE_EYE(119, 4), GO_FOR_THE_EYES(120, 4), SWIFT_SPIRIT(121, 4),
 
+	//Noise T1
+	ONE_MORE_BITE(256), MANIAS_INTUTION(257), COVER_AND_RELOAD(258), INSTANT_FLEEING(259),
+	//Noise T2
+	INFINITE_MEAL(260), ADVANCED_ACCESSORY(261), DEATH_MACHINE(262), PROPER_STICKING(263), CANT_TOUCH_THIS(264), FREE_CHOICE(265),
+	//Noise T3
+	DISCHARGE_SHOT(266, 3), ARTILLERY_BARRAGE(267, 3),
+	//Trigger Happy T3
+	QUANTITY_OVER_QUALITY(268, 3), ONE_MORE_ROUND(269, 3), SHOCK_AND_AWE(270, 3),
+	//Demolitionist T3
+	//Bunker T3
+	//Stimpack T4
+	SUPER_STIMPACK(277,4), DRUG_COMPOUND(278, 4), PSYCHOTROPIC_CONTROL(279, 4),
+	//Sentry Gun T4
+
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
@@ -282,6 +296,8 @@ public enum Talent {
 					return 90;
 				case HUNTRESS:
 					return 122;
+				case NOISE:
+					return 286;
 			}
 		} else {
 			return icon;
@@ -604,6 +620,9 @@ public enum Talent {
 			case HUNTRESS:
 				Collections.addAll(tierTalents, NATURES_BOUNTY, SURVIVALISTS_INTUITION, FOLLOWUP_STRIKE, NATURES_AID, REPAIRMENT);
 				break;
+			case NOISE:
+				Collections.addAll(tierTalents, ONE_MORE_BITE, MANIAS_INTUTION, COVER_AND_RELOAD, INSTANT_FLEEING, REPAIRMENT);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -627,6 +646,9 @@ public enum Talent {
 			case HUNTRESS:
 				Collections.addAll(tierTalents, INVIGORATING_MEAL, RESTORED_NATURE, REJUVENATING_STEPS, HEIGHTENED_SENSES, DURABLE_PROJECTILES, MAGNETIC_WEAPON);
 				break;
+			case NOISE:
+				Collections.addAll(tierTalents, INFINITE_MEAL, ADVANCED_ACCESSORY, DEATH_MACHINE, PROPER_STICKING, CANT_TOUCH_THIS, FREE_CHOICE);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -649,6 +671,9 @@ public enum Talent {
 				break;
 			case HUNTRESS:
 				Collections.addAll(tierTalents, POINT_BLANK, SEER_SHOT);
+				break;
+			case NOISE:
+				Collections.addAll(tierTalents, DISCHARGE_SHOT, ARTILLERY_BARRAGE);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -713,6 +738,9 @@ public enum Talent {
 				break;
 			case POLARIS:
 				Collections.addAll(tierTalents, DATA_LINK, ASSAULT_CELL, ORBITAL_BOMBARDMENT);
+				break;
+			case TRIGGERHAPPY:
+				Collections.addAll(tierTalents, QUANTITY_OVER_QUALITY, ONE_MORE_ROUND, SHOCK_AND_AWE);
 				break;
 		}
 		for (Talent talent : tierTalents){

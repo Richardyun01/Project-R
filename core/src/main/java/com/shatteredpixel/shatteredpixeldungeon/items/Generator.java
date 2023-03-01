@@ -624,11 +624,11 @@ public class Generator {
 	}
 
 	private static final float[][] floorSetTierProbs = new float[][] {
-			{0, 75, 20,  4,  1, 0},
-			{0, 25, 50, 20,  5, 0},
-			{0,  0, 40, 50, 10, 0},
-			{0,  0, 19, 40, 40, 1},
-			{0,  0,  0, 15, 80, 5}
+			{0, 75, 20,  4,  1},
+			{0, 25, 50, 20,  5},
+			{0,  0, 40, 50, 10},
+			{0,  0, 19, 40, 40},
+			{0,  0,  0, 15, 80}
 	};
 
 	private static boolean usingFirstDeck = false;
@@ -787,7 +787,7 @@ public class Generator {
 	public static MissileWeapon randomMissile(int floorSet) {
 		
 		floorSet = (int)GameMath.gate(0, floorSet, floorSetTierProbs.length-1);
-		
+
 		Category c = misTiers[Random.chances(floorSetTierProbs[floorSet])];
 		MissileWeapon w = (MissileWeapon)Reflection.newInstance(c.classes[Random.chances(c.probs)]);
 		w.random();
