@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.scrolls;
 
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Transmuting;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
@@ -182,7 +183,11 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			if (Random.Int(2) == 0)
 				c = Generator.gunTiers[tier - 1];
 			else
-				c = Generator.wepTiers[tier - 1];
+				if (Dungeon.hero.pointsInTalent(Talent.FREE_CHOICE) >= 1) {
+					c = Generator.gunTiers[tier - 1];
+				} else {
+					c = Generator.wepTiers[tier - 1];
+				}
 		} else {
 			c = Generator.misTiers[((MissileWeapon)w).tier - 1];
 		}

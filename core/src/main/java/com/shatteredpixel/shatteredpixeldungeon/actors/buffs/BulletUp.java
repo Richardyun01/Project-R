@@ -19,29 +19,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
+package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 
-public class ArmRifle extends FirearmWeapon {
+public class BulletUp extends FlavourBuff {
+
+    public static final float DURATION	= 5f;
 
     {
-        defaultAction = AC_SHOOT;
-        usesTargeting = true;
-
-        image = ItemSpriteSheet.ARM_RIFLE;
-        hitSound = Assets.Sounds.HIT_CRUSH;
-        hitSoundPitch = 0.8f;
-
-        tier = 3;
-        type = FirearmType.FirearmAuto;
-        max_round = 9 + 3 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE);
-        shot = 3;
-
-        bullet_image = ItemSpriteSheet.DUAL_BULLET;
+        type = buffType.POSITIVE;
+        announced = true;
     }
 
+    @Override
+    public int icon() {
+        return BuffIndicator.MARK;
+    }
+
+    @Override
+    public float iconFadePercent() {
+        return Math.max(0, (DURATION - visualcooldown()) / DURATION);
+    }
+
+    @Override
+    public String toString() {
+        return Messages.get(this, "name");
+    }
+
+    @Override
+    public String desc() {
+        return Messages.get(this, "desc", dispTurns());
+    }
 }

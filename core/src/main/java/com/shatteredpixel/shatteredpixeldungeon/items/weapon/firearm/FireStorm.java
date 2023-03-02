@@ -38,7 +38,7 @@ public class FireStorm extends FirearmWeapon{
 
     @Override
     public void setReloadTime() {
-        reload_time = 8f * RingOfReload.reloadMultiplier(Dungeon.hero);
+        reload_time = 6f * RingOfReload.reloadMultiplier(Dungeon.hero);
     }
 
     @Override

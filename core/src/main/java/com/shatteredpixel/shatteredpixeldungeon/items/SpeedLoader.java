@@ -21,11 +21,14 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
@@ -38,12 +41,12 @@ import com.watabou.noosa.audio.Sample;
 
 import java.util.ArrayList;
 
-public class SpeedReloader extends Item {
+public class SpeedLoader extends Item {
 
     public static final String AC_AFFIX = "AFFIX";
 
     {
-        image = ItemSpriteSheet.SEAL;
+        image = ItemSpriteSheet.SPEED_LOADER;
 
         cursedKnown = levelKnown = true;
         unique = true;
@@ -51,27 +54,6 @@ public class SpeedReloader extends Item {
 
         defaultAction = AC_AFFIX;
     }
-
-    /*
-    private Armor.Glyph glyph;
-
-    public Armor.Glyph getGlyph(){
-        return glyph;
-    }
-
-    public void setGlyph( Armor.Glyph glyph ){
-        this.glyph = glyph;
-    }
-
-    public int maxShield( int armTier, int armLvl ){
-        return armTier + armLvl + Dungeon.hero.pointsInTalent(Talent.IRON_WILL);
-    }
-
-    @Override
-    public ItemSprite.Glowing glowing() {
-        return glyph != null ? glyph.glowing() : null;
-    }
-    */
 
     @Override
     public ArrayList<String> actions(Hero hero) {
@@ -94,14 +76,18 @@ public class SpeedReloader extends Item {
     @Override
     //scroll of upgrade can be used directly once, same as upgrading armor the seal is affixed to then removing it.
     public boolean isUpgradable() {
-        return level() == 0;
+        if (hero.hasTalent(Talent.ADVANCED_ACCESSORY) && hero.pointsInTalent(Talent.DEATH_MACHINE) >= 2) {
+            return level() == 0;
+        } else {
+            return false;
+        }
     }
 
     protected static WndBag.ItemSelector gunSelector = new WndBag.ItemSelector() {
 
         @Override
         public String textPrompt() {
-            return  Messages.get(SpeedReloader.class, "prompt");
+            return  Messages.get(SpeedLoader.class, "prompt");
         }
 
         @Override
@@ -116,17 +102,17 @@ public class SpeedReloader extends Item {
 
         @Override
         public void onSelect( Item item ) {
-            SpeedReloader seal = (SpeedReloader) curItem;
+            SpeedLoader seal = (SpeedLoader) curItem;
             if (item != null && item instanceof Armor) {
                 FirearmWeapon gun = (FirearmWeapon)item;
                 if (!gun.levelKnown){
-                    GLog.w(Messages.get(SpeedReloader.class, "unknown_gun"));
+                    GLog.w(Messages.get(SpeedLoader.class, "unknown_gun"));
 
                 } else if (gun.cursed){
-                    GLog.w(Messages.get(SpeedReloader.class, "cursed_gun"));
+                    GLog.w(Messages.get(SpeedLoader.class, "cursed_gun"));
 
                 } else {
-                    GLog.p(Messages.get(SpeedReloader.class, "affix"));
+                    GLog.p(Messages.get(SpeedLoader.class, "affix"));
                     Dungeon.hero.sprite.operate(Dungeon.hero.pos);
                     Sample.INSTANCE.play(Assets.Sounds.UNLOCK);
                     curItem.detach(Dungeon.hero.belongings.backpack);
@@ -135,8 +121,14 @@ public class SpeedReloader extends Item {
         }
     };
 
-    public static class reloadMultiplier extends ShieldBuff {
+    public static float reloadMultiplier( Char target ) {
+        float fastReload = 0.5f;
+        if (hero.hasTalent(Talent.ADVANCED_ACCESSORY) && hero.pointsInTalent(Talent.DEATH_MACHINE) >= 1) {
+            fastReload -= 0.1f;
+        }
 
+        return fastReload;
     }
+
 }
 

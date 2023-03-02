@@ -70,6 +70,9 @@ public class WndHeroInfo extends WndTabbed {
 			case HUNTRESS:
 				tabIcon = new ItemSprite(ItemSpriteSheet.SPIRIT_BOW, null);
 				break;
+			case NOISE:
+				tabIcon = new ItemSprite(ItemSpriteSheet.NOT_MACHINE_GUN, null);
+				break;
 		}
 
 		int finalHeight = MIN_HEIGHT;
@@ -190,7 +193,7 @@ public class WndHeroInfo extends WndTabbed {
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
 				case NOISE:
-					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.NOT_MACHINE_GUN),
+					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.SPEED_LOADER),
 							new ItemSprite(ItemSpriteSheet.WAVE),
 							new ItemSprite(ItemSpriteSheet.NOT_MACHINE_GUN),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};

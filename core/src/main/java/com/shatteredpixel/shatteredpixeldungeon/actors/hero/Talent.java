@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
+import static com.shatteredpixel.shatteredpixeldungeon.items.Item.updateQuickslot;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
@@ -29,10 +31,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
@@ -55,6 +59,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse2;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -247,6 +252,27 @@ public enum Talent {
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	}
+	public static class ReloadCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(1f, 2f, 0.25f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 15); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
+	public static class DischargeCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(1f, 2f, 0.25f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 15); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
+	public static class BarrageCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(1f, 2f, 0.25f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 15); }
+		public String toString() { return Messages.get(this, "name"); }
+		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
+	};
 	public static class EntrophyMark extends FlavourBuff {
 		public int icon() {
 			return BuffIndicator.CORRUPT;
@@ -370,6 +396,17 @@ public enum Talent {
 		if (talent == HEIGHTENED_SENSES || talent == FARSIGHT){
 			Dungeon.observe();
 		}
+
+		if (talent == MANIAS_INTUTION && hero.pointsInTalent(MANIAS_INTUTION) == 2) {
+			if (hero.belongings.weapon() != null && hero.belongings.weapon() instanceof FirearmWeapon) {
+				hero.belongings.weapon().identify();
+			}
+		}
+
+		if (talent == DEATH_MACHINE) {
+			updateQuickslot();
+		}
+
 	}
 
 	public static class CachedRationsDropped extends CounterBuff{{revivePersists = true;}};
@@ -416,6 +453,14 @@ public enum Talent {
 		if (hero.hasTalent(INVIGORATING_MEAL)){
 			//effectively 1/2 turns of haste
 			Buff.prolong( hero, Haste.class, 0.67f+hero.pointsInTalent(INVIGORATING_MEAL));
+		}
+		if (hero.hasTalent(ONE_MORE_BITE)){
+			//effectively 5/10 turns of ExtraBullet
+			Buff.prolong( hero, BulletUp.class, 5f );
+		}
+		if (hero.hasTalent(INFINITE_MEAL)) {
+			//effectively 1/2 turns of infiniteBullet
+			Buff.prolong( hero, InfiniteBullet.class, 0.001f+hero.pointsInTalent(INFINITE_MEAL));
 		}
 	}
 
@@ -538,6 +583,9 @@ public enum Talent {
 				((Ring) item).setKnown();
 			}
 		}
+		if (hero.pointsInTalent(MANIAS_INTUTION) >= 1 && item instanceof FirearmWeapon) {
+			item.identify();
+		}
 	}
 
 	public static void onItemCollected( Hero hero, Item item ){
@@ -583,11 +631,17 @@ public enum Talent {
 			}
 		}
 
+		if (hero.hasTalent(Talent.INSTANT_FLEEING) && enemy instanceof Mob && enemy.buff(BulletTracker.class) == null){
+			Buff.affect(enemy, BulletTracker.class);
+			Buff.prolong(hero, Haste.class, 1f + hero.pointsInTalent(Talent.INSTANT_FLEEING));
+		}
+
 		return dmg;
 	}
 
 	public static class SuckerPunchTracker extends Buff{};
 	public static class FollowupStrikeTracker extends Buff{};
+	public static class BulletTracker extends Buff{};
 
 	public static final int MAX_TALENT_TIERS = 4;
 

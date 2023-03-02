@@ -56,6 +56,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MurakumoCharge;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.NoEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
@@ -118,6 +119,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.Scroll;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SatelliteCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
@@ -137,6 +139,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.LevelTransition;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.ShadowCaster;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
@@ -484,6 +487,12 @@ public class Hero extends Char {
 
 		if (Dungeon.isChallenged(Challenges.EASY_MODE)) {
 			accuracy *= 1.25f;
+		}
+
+		if (this.hasTalent(Talent.PROPER_STICKING)) {
+			if (wep instanceof FirearmWeapon.Bullet) {
+				accuracy *= 1f + 0.1f * hero.pointsInTalent(Talent.PROPER_STICKING);
+			}
 		}
 
 		if (wep != null) {
@@ -1925,6 +1934,18 @@ public class Hero extends Char {
 
 		if (hit && subClass == HeroSubClass.SPECOPS && belongings.weapon() instanceof FirearmWeapon) {
 			Buff.affect( this, CloseQuarters.class ).hit( enemy );
+		}
+
+		if (hit && hero.hasTalent(Talent.CANT_TOUCH_THIS) && Random.Int(10) < 3) {
+			//trace a ballistica to our target (which will also extend past them
+			Ballistica trajectory = new Ballistica(pos, enemy.pos, Ballistica.STOP_TARGET);
+			//trim it to just be the part that goes past them
+			trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
+			//knock them back along that ballistica
+			WandOfBlastWave.throwChar(enemy, trajectory, 3, true, false, hero.getClass());
+			if (hero.pointsInTalent(Talent.DEATH_MACHINE) == 2) {
+				Buff.affect( enemy, NoEnergy.class ).set(1, 1);
+			}
 		}
 
 		curAction = null;

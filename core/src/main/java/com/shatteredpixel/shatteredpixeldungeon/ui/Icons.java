@@ -47,6 +47,7 @@ public enum Icons {
 	MAGE,
 	ROGUE,
 	HUNTRESS,
+	NOISE,
 
 	//grey icons, mainly used for buttons, spacing for 16x16
 	EXIT,
@@ -405,6 +406,8 @@ public enum Icons {
 		case ROGUE:
 			return get( ROGUE );
 		case HUNTRESS:
+			return get( HUNTRESS );
+		case NOISE:
 			return get( HUNTRESS );
 		default:
 			return null;

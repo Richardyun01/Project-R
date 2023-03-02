@@ -41,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.He
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
@@ -85,7 +86,7 @@ public enum HeroClass {
 	MAGE( HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK, HeroSubClass.ORACLE ),
 	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER, HeroSubClass.HITMAN ),
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN, HeroSubClass.POLARIS ),
-	NOISE( HeroSubClass.TRIGGERHAPPY, HeroSubClass.DEMOLISIONIST );
+	NOISE( HeroSubClass.TRIGGERHAPPY );
 
 	private HeroSubClass[] subClasses;
 
@@ -164,6 +165,7 @@ public enum HeroClass {
 			case HUNTRESS:
 				initHuntress( hero );
 				break;
+
 			case NOISE:
 				initNoise( hero );
 				break;
@@ -257,9 +259,10 @@ public enum HeroClass {
 
 	private static void initNoise( Hero hero ) {
 
-		(hero.belongings.weapon = new NotMachineGun()).identify();
 		NotMachineGun gun = new NotMachineGun();
 		gun.identify().collect();
+
+		new SpeedLoader().collect();
 
 		Dungeon.quickslot.setSlot(0, gun);
 

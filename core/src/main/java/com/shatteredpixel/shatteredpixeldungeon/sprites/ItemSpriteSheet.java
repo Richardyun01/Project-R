@@ -191,7 +191,7 @@ public class ItemSpriteSheet {
 	}
 
 	private static final int SPECIAL_ITEMS      =                               xy(1, 6);   //16 slots
-	public static final int SPEED_RELOADER     	= SPECIAL_ITEMS+0;
+	public static final int SPEED_LOADER     	= SPECIAL_ITEMS+0;
 	public static final int TELESCOPE     		= SPECIAL_ITEMS+1;
 	public static final int TAC_MAP     		= SPECIAL_ITEMS+2;
 	public static final int BALE_EYE     		= SPECIAL_ITEMS+3;
@@ -200,7 +200,7 @@ public class ItemSpriteSheet {
 	public static final int SATELLITE_CANNON    = SPECIAL_ITEMS+6;
 
 	static{
-		assignItemRect(SPEED_RELOADER,          12, 13);
+		assignItemRect(SPEED_LOADER,          	15, 15);
 		assignItemRect(TELESCOPE,        		14, 13);
 		assignItemRect(TAC_MAP,       			15, 13);
 		assignItemRect(BALE_EYE,      			10, 16);

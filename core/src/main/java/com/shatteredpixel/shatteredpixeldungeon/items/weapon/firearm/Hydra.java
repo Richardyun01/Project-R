@@ -19,7 +19,6 @@ public class Hydra extends FirearmWeapon{
         tier = 5;
         type = FirearmType.FirearmExplosive;
         max_round = 2;
-        DLY = 0.6f;
 
         bullet_image = ItemSpriteSheet.GRENADE;
         bullet_sound = Assets.Sounds.PUFF;
@@ -27,7 +26,7 @@ public class Hydra extends FirearmWeapon{
 
     @Override
     public void setReloadTime() {
-        reload_time = 2f * 2 * RingOfReload.reloadMultiplier(Dungeon.hero);
+        reload_time = 1.5f * 2 * RingOfReload.reloadMultiplier(Dungeon.hero);
     }
 
     @Override

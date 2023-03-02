@@ -11,7 +11,10 @@ public class NoEnergy extends Buff {
         announced = true;
     }
 
-    public static final float DURATION = 2f;
+    private int level = 0;
+    private int interval = 1;
+
+    public static final float DURATION = 1f;
 
     @Override
     public int icon() {
@@ -26,6 +29,19 @@ public class NoEnergy extends Buff {
     @Override
     public float iconFadePercent() {
         return Math.max(0, (DURATION - visualcooldown()) / DURATION);
+    }
+
+    public int level() {
+        return level;
+    }
+
+    public void set( int value, int time ) {
+        //decide whether to override, preferring high value + low interval
+        if (Math.sqrt(interval)*level <= Math.sqrt(time)*value) {
+            level = value;
+            interval = time;
+            spend(time - cooldown() - 1);
+        }
     }
 
 }
