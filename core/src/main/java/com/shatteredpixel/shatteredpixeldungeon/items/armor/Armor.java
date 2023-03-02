@@ -193,10 +193,7 @@ public class Armor extends EquipableItem {
 				}
 			}
 			GLog.i( Messages.get(Armor.class, "detach_seal") );
-			hero.sprite.operate(hero.pos);
-			if (!detaching.collect()){
-				Dungeon.level.drop(detaching, hero.pos);
-			}
+
 			updateQuickslot();
 		}
 	}

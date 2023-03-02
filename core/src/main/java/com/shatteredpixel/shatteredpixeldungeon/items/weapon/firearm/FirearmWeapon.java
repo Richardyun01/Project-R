@@ -98,6 +98,7 @@ public class FirearmWeapon extends MeleeWeapon {
 
     public static final String AC_SHOOT		= "SHOOT";
     public static final String AC_RELOAD    = "RELOAD";
+    public static final String AC_DETACH    = "DETACH";
 
     public int max_round;
     public int round = 0;
@@ -106,6 +107,9 @@ public class FirearmWeapon extends MeleeWeapon {
     public int bullet_image = ItemSpriteSheet.SINGLE_BULLET;
     public String bullet_sound = Assets.Sounds.PUFF;
 
+    public int dmg_min = 0;
+    public int dmg_max = 0;
+
     public int max_dist = 5;
     public int degree = 30;
 
@@ -113,11 +117,11 @@ public class FirearmWeapon extends MeleeWeapon {
     private static final String ROUND           = "round";
     private static final String MAX_ROUND       = "max_round";
     private static final String RELOAD_TIME     = "reload_time";
-    //private static final String LOAD            = "loader";
+    private static final String LOADER          = "loader";
 
     public int tier;
 
-    //protected SpeedLoader loader;
+    protected SpeedLoader loader;
 
     public void setEmitting() {
         max_dist = 5;
@@ -127,10 +131,10 @@ public class FirearmWeapon extends MeleeWeapon {
     public void setReloadTime() {
         switch (type) {
             case FirearmPistol:
-                reload_time = (hero.hasTalent(Talent.FIRE_PREPARATION) && Random.Int(100) < hero.pointsInTalent(Talent.FIRE_PREPARATION)*15) ? 0 : 2f* RingOfReload.reloadMultiplier(Dungeon.hero) * SpeedLoader.reloadMultiplier(hero);
+                reload_time = (hero.hasTalent(Talent.FIRE_PREPARATION) && Random.Int(100) < hero.pointsInTalent(Talent.FIRE_PREPARATION)*15) ? 0 : 2f* RingOfReload.reloadMultiplier(Dungeon.hero);// * SpeedLoader.reloadMultiplier(hero);
                 break;
             case FirearmPrecision:
-                reload_time = (2f + hero.pointsInTalent(Talent.FIRE_PREPARATION) * 0.5f) * RingOfReload.reloadMultiplier(Dungeon.hero) * SpeedLoader.reloadMultiplier(hero);
+                reload_time = (2f + hero.pointsInTalent(Talent.FIRE_PREPARATION) * 0.5f) * RingOfReload.reloadMultiplier(Dungeon.hero);// * SpeedLoader.reloadMultiplier(hero);
                 break;
             case FirearmAuto:
             case FirearmShotgun:
@@ -140,7 +144,7 @@ public class FirearmWeapon extends MeleeWeapon {
             case FirearmEtc1:
             case FirearmEtc2:
             default:
-                reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero) * SpeedLoader.reloadMultiplier(hero);
+                reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);// * SpeedLoader.reloadMultiplier(hero);
                 break;
         }
     }
@@ -158,59 +162,87 @@ public class FirearmWeapon extends MeleeWeapon {
     }
 
     public int Bulletmin(int lvl) {
-        int dmg;
-        switch (type) {
-            case FirearmPrecision:
-                dmg = (int)((3 * tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
-            case FirearmExplosive:
-                dmg = (tier+4) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
-            case FirearmEnergy1:
-            case FirearmEnergy2:
-                dmg = tier + lvl;
-            case FirearmShotgun:
-                dmg = (tier-1) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
-            case FirearmPistol:
-            case FirearmAuto:
-            case FirearmEtc1:
-            case FirearmEtc2:
-            default:
-                dmg = tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
-        }
-
         if (Dungeon.hero.buff(BulletUp.class) != null) {
-            dmg += 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+            switch (type) {
+                case FirearmPrecision:
+                    return (int)((3 * tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION))) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+                case FirearmExplosive:
+                    return (tier+4) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+                case FirearmEnergy1:
+                case FirearmEnergy2:
+                    return tier + lvl + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+                case FirearmShotgun:
+                    return (tier-1) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+                case FirearmPistol:
+                case FirearmAuto:
+                case FirearmEtc1:
+                case FirearmEtc2:
+                default:
+                    return tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+            }
+        } else {
+            switch (type) {
+                case FirearmPrecision:
+                    return (int)((3 * tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
+                case FirearmExplosive:
+                    return (tier+4) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                case FirearmEnergy1:
+                case FirearmEnergy2:
+                    return tier + lvl;
+                case FirearmShotgun:
+                    return (tier-1) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                case FirearmPistol:
+                case FirearmAuto:
+                case FirearmEtc1:
+                case FirearmEtc2:
+                default:
+                    return tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            }
         }
-
-        return dmg;
     }
 
     public int Bulletmax(int lvl) {
-        int dmg;
-        switch (type) {
-            case FirearmPrecision:
-                dmg = (int)((6 * (tier+3) + lvl * (tier+3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
-            case FirearmAuto:
-                dmg = (2*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
-            case FirearmShotgun:
-                dmg = (tier*2-2) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
-            case FirearmExplosive:
-                dmg = 8*(tier+6) + lvl*(tier+5) + RingOfSharpshooting.levelDamageBonus(hero);
-            case FirearmEnergy1:
-            case FirearmEnergy2:
-                dmg = Math.round((3 * (tier + 1) + (lvl*3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)));
-            case FirearmEtc1:
-            case FirearmEtc2:
-                dmg = (5*tier) + (lvl*3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
-            case FirearmPistol:
-            default:
-                dmg = (5*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
-        }
-
         if (Dungeon.hero.buff(BulletUp.class) != null) {
-            dmg += 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+            switch (type) {
+                case FirearmPrecision:
+                    return (int)((6 * (tier+3) + lvl * (tier+3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION))) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+                case FirearmAuto:
+                    return (2*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+                case FirearmShotgun:
+                    return (tier*2-2) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+                case FirearmExplosive:
+                    return 8*(tier+6) + lvl*(tier+5) + RingOfSharpshooting.levelDamageBonus(hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+                case FirearmEnergy1:
+                case FirearmEnergy2:
+                    return Math.round((3 * (tier + 1) + (lvl*3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero))) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+                case FirearmEtc1:
+                case FirearmEtc2:
+                    return (5*tier) + (lvl*3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+                case FirearmPistol:
+                default:
+                    return (5*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+            }
+        } else {
+            switch (type) {
+                case FirearmPrecision:
+                    return (int)((6 * (tier+3) + lvl * (tier+3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
+                case FirearmAuto:
+                    return (2*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                case FirearmShotgun:
+                    return (tier*2-2) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                case FirearmExplosive:
+                    return 8*(tier+6) + lvl*(tier+5) + RingOfSharpshooting.levelDamageBonus(hero);
+                case FirearmEnergy1:
+                case FirearmEnergy2:
+                    return Math.round((3 * (tier + 1) + (lvl*3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)));
+                case FirearmEtc1:
+                case FirearmEtc2:
+                    return (5*tier) + (lvl*3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+                case FirearmPistol:
+                default:
+                    return (5*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            }
         }
-
-        return dmg;
     }
 
     public int STRReq(int lvl){
@@ -223,6 +255,7 @@ public class FirearmWeapon extends MeleeWeapon {
         bundle.put(MAX_ROUND, max_round);
         bundle.put(ROUND, round);
         bundle.put(RELOAD_TIME, reload_time);
+        //bundle.put(LOADER, loader);
     }
 
     @Override
@@ -231,7 +264,17 @@ public class FirearmWeapon extends MeleeWeapon {
         max_round = bundle.getInt(MAX_ROUND);
         round = bundle.getInt(ROUND);
         reload_time = bundle.getFloat(RELOAD_TIME);
+        //loader = (SpeedLoader)bundle.get(LOADER);
     }
+
+    /*
+    @Override
+    public void reset() {
+        super.reset();
+        //firearms can be kept in bones between runs, the loader cannot.
+        loader = null;
+    }
+    */
 
     @Override
     public ArrayList<String> actions(Hero hero) {
@@ -240,6 +283,7 @@ public class FirearmWeapon extends MeleeWeapon {
             actions.add(AC_SHOOT);
             actions.add(AC_RELOAD);
         }
+        //if (loader != null) actions.add(AC_DETACH);
         return actions;
     }
 
@@ -247,6 +291,23 @@ public class FirearmWeapon extends MeleeWeapon {
     public void execute(Hero hero, String action) {
 
         super.execute(hero, action);
+
+        /*
+        if (action.equals(AC_DETACH) && loader != null) {
+            SpeedLoader detaching = loader;
+            loader = null;
+
+            if (detaching.level() > 0){
+                degrade();
+            }
+            GLog.i( Messages.get(FirearmWeapon.class, "detach_loader") );
+            hero.sprite.operate(hero.pos);
+            if (!detaching.collect()){
+                Dungeon.level.drop(detaching, hero.pos);
+            }
+            updateQuickslot();
+        }
+        */
 
         if (action.equals(AC_SHOOT)) {
 
