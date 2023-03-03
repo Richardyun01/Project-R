@@ -1943,7 +1943,7 @@ public class Hero extends Char {
 			trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
 			//knock them back along that ballistica
 			WandOfBlastWave.throwChar(enemy, trajectory, 3, true, false, hero.getClass());
-			if (hero.pointsInTalent(Talent.DEATH_MACHINE) == 2) {
+			if (hero.pointsInTalent(Talent.CANT_TOUCH_THIS) == 2) {
 				Buff.affect( enemy, NoEnergy.class ).set(1, 1);
 			}
 		}

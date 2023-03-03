@@ -159,7 +159,7 @@ public enum Talent {
 	EAGLE_EYE(119, 4), GO_FOR_THE_EYES(120, 4), SWIFT_SPIRIT(121, 4),
 
 	//Noise T1
-	ONE_MORE_BITE(256), MANIAS_INTUTION(257), COVER_AND_RELOAD(258), INSTANT_FLEEING(259),
+	ONE_MORE_BITE(256), MANIAS_INTUITION(257), COVER_AND_RELOAD(258), INSTANT_FLEEING(259),
 	//Noise T2
 	INFINITE_MEAL(260), ADVANCED_ACCESSORY(261), DEATH_MACHINE(262), PROPER_STICKING(263), CANT_TOUCH_THIS(264), FREE_CHOICE(265),
 	//Noise T3
@@ -397,7 +397,7 @@ public enum Talent {
 			Dungeon.observe();
 		}
 
-		if (talent == MANIAS_INTUTION && hero.pointsInTalent(MANIAS_INTUTION) == 2) {
+		if (talent == MANIAS_INTUITION && hero.pointsInTalent(MANIAS_INTUITION) == 2) {
 			if (hero.belongings.weapon() != null && hero.belongings.weapon() instanceof FirearmWeapon) {
 				hero.belongings.weapon().identify();
 			}
@@ -583,7 +583,7 @@ public enum Talent {
 				((Ring) item).setKnown();
 			}
 		}
-		if (hero.pointsInTalent(MANIAS_INTUTION) >= 1 && item instanceof FirearmWeapon) {
+		if (hero.pointsInTalent(MANIAS_INTUITION) >= 1 && item instanceof FirearmWeapon) {
 			item.identify();
 		}
 	}
@@ -675,7 +675,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, NATURES_BOUNTY, SURVIVALISTS_INTUITION, FOLLOWUP_STRIKE, NATURES_AID, REPAIRMENT);
 				break;
 			case NOISE:
-				Collections.addAll(tierTalents, ONE_MORE_BITE, MANIAS_INTUTION, COVER_AND_RELOAD, INSTANT_FLEEING, REPAIRMENT);
+				Collections.addAll(tierTalents, ONE_MORE_BITE, MANIAS_INTUITION, COVER_AND_RELOAD, INSTANT_FLEEING, REPAIRMENT);
 				break;
 		}
 		for (Talent talent : tierTalents){

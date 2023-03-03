@@ -33,7 +33,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CloseQuarters;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
@@ -98,7 +97,7 @@ public class FirearmWeapon extends MeleeWeapon {
 
     public static final String AC_SHOOT		= "SHOOT";
     public static final String AC_RELOAD    = "RELOAD";
-    public static final String AC_DETACH    = "DETACH";
+    //public static final String AC_DETACH    = "DETACH";
 
     public int max_round;
     public int round = 0;
@@ -107,9 +106,6 @@ public class FirearmWeapon extends MeleeWeapon {
     public int bullet_image = ItemSpriteSheet.SINGLE_BULLET;
     public String bullet_sound = Assets.Sounds.PUFF;
 
-    public int dmg_min = 0;
-    public int dmg_max = 0;
-
     public int max_dist = 5;
     public int degree = 30;
 
@@ -117,7 +113,7 @@ public class FirearmWeapon extends MeleeWeapon {
     private static final String ROUND           = "round";
     private static final String MAX_ROUND       = "max_round";
     private static final String RELOAD_TIME     = "reload_time";
-    private static final String LOADER          = "loader";
+    //private static final String LOADER          = "loader";
 
     public int tier;
 
@@ -162,6 +158,7 @@ public class FirearmWeapon extends MeleeWeapon {
     }
 
     public int Bulletmin(int lvl) {
+        /**
         if (Dungeon.hero.buff(BulletUp.class) != null) {
             switch (type) {
                 case FirearmPrecision:
@@ -199,9 +196,28 @@ public class FirearmWeapon extends MeleeWeapon {
                     return tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             }
         }
+        **/
+        switch (type) {
+            case FirearmPrecision:
+                return (int)((3 * tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
+            case FirearmExplosive:
+                return (tier+4) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            case FirearmEnergy1:
+            case FirearmEnergy2:
+                return tier + lvl;
+            case FirearmShotgun:
+                return (tier-1) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            case FirearmPistol:
+            case FirearmAuto:
+            case FirearmEtc1:
+            case FirearmEtc2:
+            default:
+                return tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        }
     }
 
     public int Bulletmax(int lvl) {
+        /**
         if (Dungeon.hero.buff(BulletUp.class) != null) {
             switch (type) {
                 case FirearmPrecision:
@@ -243,6 +259,26 @@ public class FirearmWeapon extends MeleeWeapon {
                     return (5*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
             }
         }
+        **/
+        switch (type) {
+            case FirearmPrecision:
+                return (int)((6 * (tier+3) + lvl * (tier+3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
+            case FirearmAuto:
+                return (2*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            case FirearmShotgun:
+                return (tier*2-2) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            case FirearmExplosive:
+                return 8*(tier+6) + lvl*(tier+5) + RingOfSharpshooting.levelDamageBonus(hero);
+            case FirearmEnergy1:
+            case FirearmEnergy2:
+                return Math.round((3 * (tier + 1) + (lvl*3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)));
+            case FirearmEtc1:
+            case FirearmEtc2:
+                return (5*tier) + (lvl*3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            case FirearmPistol:
+            default:
+                return (5*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        }
     }
 
     public int STRReq(int lvl){
@@ -256,6 +292,7 @@ public class FirearmWeapon extends MeleeWeapon {
         bundle.put(ROUND, round);
         bundle.put(RELOAD_TIME, reload_time);
         //bundle.put(LOADER, loader);
+        //GLog.p("Firearm store "+this.getClass().getSimpleName()+"\n");
     }
 
     @Override
@@ -265,6 +302,7 @@ public class FirearmWeapon extends MeleeWeapon {
         round = bundle.getInt(ROUND);
         reload_time = bundle.getFloat(RELOAD_TIME);
         //loader = (SpeedLoader)bundle.get(LOADER);
+        //GLog.p("Firearm restore "+this.getClass().getSimpleName()+"\n");
     }
 
     /*

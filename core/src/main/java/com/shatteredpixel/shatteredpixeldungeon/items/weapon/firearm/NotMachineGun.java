@@ -23,7 +23,6 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -39,7 +38,11 @@ public class NotMachineGun extends FirearmWeapon {
 
         tier = 1;
         type = FirearmType.FirearmAuto;
-        max_round = 8 + 2 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE);;
+        max_round = 8;
+        /**
+        if (Dungeon.hero.hasTalent(Talent.DEATH_MACHINE)) {
+            max_round += 2 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE);
+        } **/
         shot = 2;
 
         bullet_image = ItemSpriteSheet.DUAL_BULLET;
