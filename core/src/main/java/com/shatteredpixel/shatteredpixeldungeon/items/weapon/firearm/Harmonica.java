@@ -1,7 +1,12 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -19,6 +24,7 @@ public class Harmonica extends FirearmWeapon{
         tier = 4;
         type = FirearmType.FirearmExplosive;
         max_round = 1;
+        ACC = 1.25f;
 
         bullet_image = ItemSpriteSheet.GRENADE;
         bullet_sound = Assets.Sounds.PUFF;
@@ -31,24 +37,42 @@ public class Harmonica extends FirearmWeapon{
 
     @Override
     public int min(int lvl) {
-        return  0 +  //base
-                lvl*2;    //level scaling
+        if (hero.heroClass == HeroClass.NOISE) {
+            return  2 +  //base
+                    lvl*2;    //level scaling
+        } else {
+            return  0 +  //base
+                    lvl*2;    //level scaling
+        }
     }
 
     @Override
     public int max(int lvl) {
-        return  10 +    //base
-                lvl*3;   //level scaling
+        if (hero.heroClass == HeroClass.NOISE) {
+            return  12 +    //base
+                    lvl*3;   //level scaling
+        } else {
+            return  10 +    //base
+                    lvl*3;   //level scaling
+        }
     }
 
     @Override
     public int Bulletmin(int lvl) {
-        return (tier+3) + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        if (Dungeon.hero.buff(BulletUp.class) != null) {
+            return (tier+3) + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        } else {
+            return (tier+3) + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        }
     }
 
     @Override
     public int Bulletmax(int lvl) {
-        return (tier+2)*5 + lvl*5 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        if (Dungeon.hero.buff(BulletUp.class) != null) {
+            return (tier+2)*5 + lvl*5 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        } else {
+            return (tier+2)*5 + lvl*5 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        }
     }
 
 }

@@ -22,8 +22,12 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -46,13 +50,26 @@ public class Spark extends FirearmWeapon{
     }
 
     @Override
+    public void setMaxRound() {
+        max_round = 3 + 1 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE) + 1 * Dungeon.hero.pointsInTalent(Talent.QUANTITY_OVER_QUALITY);
+    }
+
+    @Override
     public int Bulletmin(int lvl) {
-        return (tier+9) + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        if (Dungeon.hero.buff(BulletUp.class) != null) {
+            return (int)(((tier+9) + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero))*(1 - 0.1 * hero.pointsInTalent(Talent.QUANTITY_OVER_QUALITY))) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        } else {
+            return (int)(((tier+9) + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero))*(1 - 0.1 * hero.pointsInTalent(Talent.QUANTITY_OVER_QUALITY)));
+        }
     }
 
     @Override
     public int Bulletmax(int lvl) {
-        return (tier+13) + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        if (Dungeon.hero.buff(BulletUp.class) != null) {
+            return (int)(((tier+13) + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero))*(1 - 0.1 * hero.pointsInTalent(Talent.QUANTITY_OVER_QUALITY))) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        } else {
+            return (int)(((tier+13) + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero))*(1 - 0.1 * hero.pointsInTalent(Talent.QUANTITY_OVER_QUALITY)));
+        }
     }
 
 }

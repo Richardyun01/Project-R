@@ -1,9 +1,14 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
@@ -29,6 +34,7 @@ public class BigBarrel extends FirearmWeapon{
         tier = 6;
         type = FirearmType.FirearmExplosive;
         max_round = 1;
+        ACC = 1.5f;
 
         bullet_image = ItemSpriteSheet.SHELL;
     }
@@ -45,24 +51,42 @@ public class BigBarrel extends FirearmWeapon{
 
     @Override
     public int min(int lvl) {
-        return  15 +  //base
-                lvl*3;    //level scaling
+        if (hero.heroClass == HeroClass.NOISE) {
+            return  17 +  //base
+                    lvl*3;    //level scaling
+        } else {
+            return  15 +  //base
+                    lvl*3;    //level scaling
+        }
     }
 
     @Override
     public int max(int lvl) {
-        return  30 +    //base
-                lvl*4;   //level scaling
+        if (hero.heroClass == HeroClass.NOISE) {
+            return  32 +    //base
+                    lvl*4;   //level scaling
+        } else {
+            return  30 +    //base
+                    lvl*4;   //level scaling
+        }
     }
 
     @Override
     public int Bulletmin(int lvl) {
-        return (tier+4)*3 + lvl*6 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        if (Dungeon.hero.buff(BulletUp.class) != null) {
+            return (tier+4)*3 + lvl*6 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        } else {
+            return (tier+4)*3 + lvl*6 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        }
     }
 
     @Override
     public int Bulletmax(int lvl) {
-        return (tier+4)*10 + lvl*10 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        if (Dungeon.hero.buff(BulletUp.class) != null) {
+            return (tier+4)*10 + lvl*10 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        } else {
+            return (tier+4)*10 + lvl*10 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        }
     }
 
     @Override

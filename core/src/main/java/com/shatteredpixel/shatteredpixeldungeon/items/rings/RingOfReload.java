@@ -50,7 +50,15 @@ public class RingOfReload extends Ring {
 
 
     public static float reloadMultiplier( Char target ){
-        return (float)Math.pow(0.825f, getBuffedBonus(target, RingOfReload.Reload.class));
+        float speed =  (float)Math.pow(0.825f, getBuffedBonus(target, RingOfReload.Reload.class));
+
+        /*
+        if (Dungeon.hero.hasTalent(Talent.DEATH_MACHINE) && Dungeon.hero.belongings.weapon != null) {
+            speed *= Math.pow((1 - 0.05f * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE)), Math.max(0, (Dungeon.hero.STR() - Dungeon.hero.belongings.weapon.STRReq())));
+        }
+        */
+
+        return speed;
     }
 
     public class Reload extends RingBuff {

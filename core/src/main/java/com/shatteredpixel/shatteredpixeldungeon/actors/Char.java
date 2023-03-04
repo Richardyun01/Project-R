@@ -368,7 +368,7 @@ public abstract class Char extends Actor {
 				if (satelliteCannon != null &&
 					(hero.belongings.weapon instanceof SatelliteCannon.SpiritArrow) &&
 					Dungeon.hero.pointsInTalent(Talent.ASSAULT_CELL) >= 2 &&
-					satelliteCannon.EatItem >= 60) {
+					satelliteCannon.EatItem >= 50) {
 					dr = 0;
 				}
 			}

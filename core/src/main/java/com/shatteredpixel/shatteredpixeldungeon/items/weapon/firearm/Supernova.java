@@ -50,6 +50,7 @@ public class Supernova extends FirearmWeapon{
         tier = 6;
         type = FirearmType.FirearmEnergy1;
         max_round = 1;
+        ACC = 1.5f;
 
         bullet_image = ItemSpriteSheet.ENERGY_BULLET_3;
         bullet_sound = Assets.Sounds.PUFF;
@@ -107,6 +108,7 @@ public class Supernova extends FirearmWeapon{
     public String info() {
 
         setReloadTime();
+        setMaxRound();
         String info = desc();
 
         int lvl = level();

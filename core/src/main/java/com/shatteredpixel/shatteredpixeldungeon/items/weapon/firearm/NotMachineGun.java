@@ -21,8 +21,12 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -49,8 +53,30 @@ public class NotMachineGun extends FirearmWeapon {
     }
 
     @Override
+    public void setMaxRound() {
+        max_round = 8 + 2 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE) + 2 * Dungeon.hero.pointsInTalent(Talent.QUANTITY_OVER_QUALITY);
+    }
+
+    @Override
+    public int min(int lvl) {
+        return  tier + //base
+                lvl;    //level scaling
+    }
+
+    @Override
+    public int max(int lvl) {
+        return  3*(tier+1) +    //base
+                lvl*(tier+1);   //level scaling
+    }
+
+    @Override
     public int Bulletmax(int lvl) {
-        return 2 + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        if (Dungeon.hero.buff(BulletUp.class) != null) {
+            return 2 + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        } else {
+            return 2 + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        }
+
     }
 
 }

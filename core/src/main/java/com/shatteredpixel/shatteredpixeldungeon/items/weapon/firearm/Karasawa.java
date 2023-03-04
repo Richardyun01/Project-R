@@ -22,8 +22,12 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -40,6 +44,7 @@ public class Karasawa extends FirearmWeapon{
         tier = 5;
         type = FirearmType.FirearmEnergy1;
         max_round = 1;
+        ACC = 1.25f;
 
         bullet_image = ItemSpriteSheet.ENERGY_BULLET_2;
         bullet_sound = Assets.Sounds.LIGHTNING;
@@ -47,12 +52,20 @@ public class Karasawa extends FirearmWeapon{
 
     @Override
     public int Bulletmin(int lvl) {
-        return (tier)*4 + lvl*5 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        if (Dungeon.hero.buff(BulletUp.class) != null) {
+            return (tier)*4 + lvl*5 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        } else {
+            return (tier)*4 + lvl*5 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        }
     }
 
     @Override
     public int Bulletmax(int lvl) {
-        return (tier+5)*4 + lvl*6 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        if (Dungeon.hero.buff(BulletUp.class) != null) {
+            return (tier+5)*4 + lvl*6 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        } else {
+            return (tier+5)*4 + lvl*6 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        }
     }
 
 }

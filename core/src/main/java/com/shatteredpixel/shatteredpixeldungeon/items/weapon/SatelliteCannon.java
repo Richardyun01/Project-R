@@ -388,7 +388,7 @@ public class SatelliteCannon extends Weapon {
 
         protected float procChanceMultiplier( Char attacker ) {
             float multi = RingOfArcana.enchantPowerMultiplier(attacker);
-            if (attacker instanceof Hero && EatItem >= 100 && ((Hero)attacker).pointsInTalent(Talent.ASSAULT_CELL) == 3) {
+            if (attacker instanceof Hero && EatItem >= 80 && ((Hero)attacker).pointsInTalent(Talent.ASSAULT_CELL) == 3) {
                 multi += 0.5f;
             }
 

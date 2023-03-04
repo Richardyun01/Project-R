@@ -162,6 +162,14 @@ public class Evolution extends InventorySpell{
             return null;
         }
 
+        int level = w.level();
+        if (w.curseInfusionBonus) level--;
+        if (level > 0) {
+            n.upgrade( level );
+        } else if (level < 0) {
+            n.degrade( -level );
+        }
+
         n.enchantment = w.enchantment;
         n.curseInfusionBonus = w.curseInfusionBonus;
         n.masteryPotionBonus = w.masteryPotionBonus;
@@ -185,7 +193,7 @@ public class Evolution extends InventorySpell{
 
     @Override
     public int value() {
-        return 2000;
+        return 120;
     }
 
 }

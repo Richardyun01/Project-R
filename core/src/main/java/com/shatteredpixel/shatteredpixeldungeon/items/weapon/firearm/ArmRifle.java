@@ -22,6 +22,8 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class ArmRifle extends FirearmWeapon {
@@ -40,6 +42,11 @@ public class ArmRifle extends FirearmWeapon {
         shot = 3;
 
         bullet_image = ItemSpriteSheet.DUAL_BULLET;
+    }
+
+    @Override
+    public void setMaxRound() {
+        max_round = 9 + 3 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE) + 3 * Dungeon.hero.pointsInTalent(Talent.QUANTITY_OVER_QUALITY);
     }
 
 }

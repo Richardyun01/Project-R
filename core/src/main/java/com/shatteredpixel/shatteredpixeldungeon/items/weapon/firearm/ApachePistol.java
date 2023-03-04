@@ -21,7 +21,13 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class ApachePistol extends FirearmWeapon{
@@ -40,21 +46,37 @@ public class ApachePistol extends FirearmWeapon{
     }
 
     @Override
+    public void setMaxRound() {
+        max_round = 3 + 1 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE);
+    }
+
+    @Override
     public int max(int lvl) {
-        return  4*(tier+1) +    //8 base, down from 10
-                lvl*(tier+1);   //scaling unchanged
+        if (hero.heroClass == HeroClass.NOISE) {
+            return  4*(tier+1) + 2 +   //8 base, down from 10
+                    lvl*(tier+1);   //scaling unchanged
+        } else {
+            return  4*(tier+1) +    //8 base, down from 10
+                    lvl*(tier+1);   //scaling unchanged
+        }
     }
 
     @Override
     public int Bulletmin(int lvl) {
-        return tier +
-                lvl;
+        if (Dungeon.hero.buff(BulletUp.class) != null) {
+            return tier + lvl + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        } else {
+            return tier + lvl;
+        }
     }
 
     @Override
     public int Bulletmax(int lvl) {
-        return 4 * tier +
-                lvl;
+        if (Dungeon.hero.buff(BulletUp.class) != null) {
+            return 4 * tier + lvl + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        } else {
+            return 4 * tier + lvl;
+        }
     }
 
 }

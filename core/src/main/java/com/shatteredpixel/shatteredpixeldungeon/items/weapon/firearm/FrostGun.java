@@ -21,12 +21,17 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.Random;
 
@@ -50,17 +55,30 @@ public class FrostGun extends FirearmWeapon {
 
     @Override
     public int max(int lvl) {
-        return tier*3 + (lvl*3);
+        if (hero.heroClass == HeroClass.NOISE) {
+            return tier*3+2 + (lvl*3);
+        } else {
+            return tier*3 + (lvl*3);
+        }
+
     }
 
     @Override
     public int Bulletmin(int lvl) {
-        return (tier+1) + (lvl);
+        if (Dungeon.hero.buff(BulletUp.class) != null) {
+            return (tier+1) + (lvl) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        } else {
+            return (tier+1) + (lvl);
+        }
     }
 
     @Override
     public int Bulletmax(int lvl) {
-        return (tier+1)*3 + (lvl*3);
+        if (Dungeon.hero.buff(BulletUp.class) != null) {
+            return (tier+1)*3 + (lvl*3) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        } else {
+            return (tier+1)*3 + (lvl*3);
+        }
     }
 
     @Override

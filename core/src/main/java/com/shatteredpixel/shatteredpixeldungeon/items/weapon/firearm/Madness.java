@@ -37,6 +37,7 @@ public class Madness extends FirearmWeapon {
         tier = 6;
         type = FirearmType.FirearmEtc1;
         max_round = 1;
+        ACC = 1.5f;
 
         bullet_image = ItemSpriteSheet.KOJIMA_PARTICLE;
         bullet_sound = Assets.Sounds.BLAST;

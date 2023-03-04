@@ -22,9 +22,12 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
@@ -49,12 +52,20 @@ public class Aria extends FirearmWeapon{
 
     @Override
     public int Bulletmin(int lvl) {
-        return (int)(((3*tier) + (6*lvl) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
+        if (Dungeon.hero.buff(BulletUp.class) != null) {
+            return (int)(((3*tier) + (6*lvl) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION))) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        } else {
+            return (int)(((3*tier) + (6*lvl) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
+        }
     }
 
     @Override
     public int Bulletmax(int lvl) {
-        return (int)(((10*tier) + (10*lvl) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
+        if (Dungeon.hero.buff(BulletUp.class) != null) {
+            return (int)(((10*tier) + (10*lvl) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION))) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        } else {
+            return (int)(((10*tier) + (10*lvl) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
+        }
     }
 
     @Override

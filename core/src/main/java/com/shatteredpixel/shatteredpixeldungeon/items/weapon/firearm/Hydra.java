@@ -1,7 +1,11 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -19,6 +23,7 @@ public class Hydra extends FirearmWeapon{
         tier = 5;
         type = FirearmType.FirearmExplosive;
         max_round = 2;
+        ACC = 1.25f;
 
         bullet_image = ItemSpriteSheet.GRENADE;
         bullet_sound = Assets.Sounds.PUFF;
@@ -43,12 +48,20 @@ public class Hydra extends FirearmWeapon{
 
     @Override
     public int Bulletmin(int lvl) {
-        return (tier+2) + lvl*5 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        if (Dungeon.hero.buff(BulletUp.class) != null) {
+            return (tier+2) + lvl*5 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        } else {
+            return (tier+2) + lvl*5 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        }
     }
 
     @Override
     public int Bulletmax(int lvl) {
-        return (tier*6) + lvl*6 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        if (Dungeon.hero.buff(BulletUp.class) != null) {
+            return (tier*6) + lvl*6 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        } else {
+            return (tier*6) + lvl*6 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+        }
     }
 
 }
