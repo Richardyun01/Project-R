@@ -248,7 +248,7 @@ public enum Talent {
 	public static class OrbitShotCooldown extends FlavourBuff {
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(1f, 2f, 0.25f); }
-		public float iconFadePercent() { return Math.max(0, visualcooldown() / 15); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 30); }
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	}
@@ -262,14 +262,7 @@ public enum Talent {
 	public static class DischargeCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(1f, 2f, 0.25f); }
-		public float iconFadePercent() { return Math.max(0, visualcooldown() / 15); }
-		public String toString() { return Messages.get(this, "name"); }
-		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
-	};
-	public static class BarrageCooldown extends FlavourBuff{
-		public int icon() { return BuffIndicator.TIME; }
-		public void tintIcon(Image icon) { icon.hardlight(1f, 2f, 0.25f); }
-		public float iconFadePercent() { return Math.max(0, visualcooldown() / 15); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 80); }
 		public String toString() { return Messages.get(this, "name"); }
 		public String desc() { return Messages.get(this, "desc", dispTurns(visualcooldown())); }
 	};
@@ -591,6 +584,9 @@ public enum Talent {
 	public static void onItemCollected( Hero hero, Item item ){
 		if (hero.pointsInTalent(THIEFS_INTUITION) == 2){
 			if (item instanceof Ring) ((Ring) item).setKnown();
+		}
+		if (hero.pointsInTalent(MANIAS_INTUITION) == 2 && item instanceof FirearmWeapon) {
+			item.identify();
 		}
 	}
 

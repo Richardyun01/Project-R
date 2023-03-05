@@ -64,6 +64,7 @@ public class HeroIcon extends Image {
 	public static final int NATURES_POWER   = 18;
 	public static final int SPIRIT_HAWK     = 19;
 	public static final int RATMOGRIFY      = 20;
+	public static final int STIMPACK		= 21;
 
 	public HeroIcon(HeroSubClass subCls){
 		super( Assets.Interfaces.HERO_ICONS );

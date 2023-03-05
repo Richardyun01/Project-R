@@ -1944,7 +1944,7 @@ public class Hero extends Char {
 			//knock them back along that ballistica
 			WandOfBlastWave.throwChar(enemy, trajectory, 3, true, false, hero.getClass());
 			if (hero.pointsInTalent(Talent.CANT_TOUCH_THIS) == 2) {
-				Buff.affect( enemy, NoEnergy.class ).set(1, 1);
+				Buff.affect( enemy, NoEnergy.class ).set(2, 2);
 			}
 		}
 

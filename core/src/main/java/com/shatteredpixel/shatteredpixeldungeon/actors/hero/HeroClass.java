@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.S
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.ElementalBlast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WarpBeacon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WildMagic;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.noise.Stimpack;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.DeathMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.ShadowClone;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.SmokeBomb;
@@ -41,7 +42,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.He
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
@@ -262,9 +262,14 @@ public enum HeroClass {
 	private static void initNoise( Hero hero ) {
 
 		NotMachineGun gun = new NotMachineGun();
-		gun.identify().collect();
+		(hero.belongings.weapon = gun).identify();
 
-		new SpeedLoader().collect();
+		RingOfReload reload = new RingOfReload();
+		reload.start = true;
+		(hero.belongings.ring = reload).identify().upgrade(3);
+		hero.belongings.ring.activate( hero );
+
+		//new SpeedLoader().collect();
 
 		Dungeon.quickslot.setSlot(0, gun);
 
@@ -300,7 +305,7 @@ public enum HeroClass {
 			case HUNTRESS:
 				return new ArmorAbility[]{new SpectralBlades(), new NaturesPower(), new SpiritHawk()};
 			case NOISE:
-				return new ArmorAbility[]{new SpectralBlades()};
+				return new ArmorAbility[]{new Stimpack()};
 		}
 	}
 

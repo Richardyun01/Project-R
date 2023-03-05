@@ -72,9 +72,9 @@ public class NotMachineGun extends FirearmWeapon {
     @Override
     public int Bulletmax(int lvl) {
         if (Dungeon.hero.buff(BulletUp.class) != null) {
-            return 2 + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+            return 3 + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
         } else {
-            return 2 + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            return 3 + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
         }
 
     }

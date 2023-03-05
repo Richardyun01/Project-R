@@ -32,7 +32,7 @@ public class AAWSM extends FirearmWeapon{
 
     @Override
     public void setReloadTime() {
-        reload_time = 2f * round * RingOfReload.reloadMultiplier(Dungeon.hero);
+        reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);
     }
 
     @Override

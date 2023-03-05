@@ -872,11 +872,13 @@ public class FirearmWeapon extends MeleeWeapon {
                 Buff.affect(findChar, Cripple.class, 1f);
             }
 
+            /*
             if (Dungeon.hero.hasTalent(Talent.DISCHARGE_SHOT) &&
                     hero.buff(Talent.DischargeCooldown.class) == null) {
                 Buff.affect(findChar, NoEnergy.class).set(2, 2);
                 Buff.affect(hero, Talent.DischargeCooldown.class, (float)(80 - Dungeon.hero.pointsInTalent(Talent.DISCHARGE_SHOT)));
             }
+            */
 
             switch (type) {
                 case FirearmPrecision:
@@ -942,6 +944,20 @@ public class FirearmWeapon extends MeleeWeapon {
         @Override
         public void cast(final Hero user, final int dst) {
             super.cast(user, dst);
+
+            if (user.hasTalent(Talent.DISCHARGE_SHOT)
+                    && user.buff(Talent.DischargeCooldown.class) == null) {
+                int throwPos = throwPos(user, dst);
+                if (Actor.findChar(throwPos) == null) {
+                    for (Mob mob : (Mob[]) Dungeon.level.mobs.toArray(new Mob[0])) {
+                        if (Dungeon.level.adjacent(mob.pos, throwPos) && mob.alignment != Char.Alignment.ALLY) {
+                            Buff.affect(mob, NoEnergy.class).set(2, 2);
+                            CellEmitter.center(mob.pos).burst(BlastParticle.FACTORY, 10);
+                        }
+                    }
+                    Buff.affect(user, Talent.DischargeCooldown.class, (float)(80 - (user.pointsInTalent(Talent.DISCHARGE_SHOT)*20)));
+                }
+            }
         }
     }
 

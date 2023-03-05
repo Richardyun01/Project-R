@@ -600,7 +600,8 @@ public class Generator {
 					RingOfSharpshooting.class,
 					RingOfTenacity.class,
 					RingOfWealth.class,
-					RingOfReload.class};
+					RingOfReload.class
+			};
 			RING.probs = new float[]{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 			
 			ARTIFACT.classes = new Class<?>[]{
@@ -767,6 +768,20 @@ public class Generator {
 			c = wepTiers[Random.chances(floorSetTierProbs[floorSet])];
 		else
 			c = gunTiers[Random.chances(floorSetTierProbs[floorSet])];
+		MeleeWeapon w = (MeleeWeapon)Reflection.newInstance(c.classes[Random.chances(c.probs)]);
+		w.random();
+		return w;
+	}
+
+	public static MeleeWeapon randomGun(){
+		return randomWeapon(Dungeon.depth / 5);
+	}
+
+	public static MeleeWeapon randomGun(int floorSet) {
+
+		floorSet = (int)GameMath.gate(0, floorSet, floorSetTierProbs.length-1);
+
+		Category c = gunTiers[Random.chances(floorSetTierProbs[floorSet])];
 		MeleeWeapon w = (MeleeWeapon)Reflection.newInstance(c.classes[Random.chances(c.probs)]);
 		w.random();
 		return w;

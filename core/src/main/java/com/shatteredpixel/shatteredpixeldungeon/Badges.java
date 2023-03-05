@@ -106,6 +106,7 @@ public class Badges {
 		BOSS_SLAIN_1_MAGE,
 		BOSS_SLAIN_1_ROGUE,
 		BOSS_SLAIN_1_HUNTRESS,
+		BOSS_SLAIN_1_NOISE,
 		BOSS_SLAIN_1_ALL_CLASSES    ( 54, true ),
 		GAMES_PLAYED_2              ( 55, true ),
 		HIGH_SCORE_2                ( 56 ),
@@ -151,6 +152,7 @@ public class Badges {
 		VICTORY_MAGE,
 		VICTORY_ROGUE,
 		VICTORY_HUNTRESS,
+		VICTORY_NOISE,
 		VICTORY_ALL_CLASSES         ( 103, true ),
 		DEATH_FROM_ALL              ( 104, true ),
 		BOSS_SLAIN_3_GLADIATOR,
@@ -165,6 +167,7 @@ public class Badges {
 		BOSS_SLAIN_3_SNIPER,
 		BOSS_SLAIN_3_WARDEN,
 		BOSS_SLAIN_3_POLARIS,
+		BOSS_SLAIN_3_TRIGGERHAPPY,
 		BOSS_SLAIN_3_ALL_SUBCLASSES ( 105, true ),
 		BOSS_CHALLENGE_3            ( 106 ),
 		BOSS_CHALLENGE_4            ( 107 ),
@@ -705,6 +708,7 @@ public class Badges {
 		firstBossClassBadges.put(HeroClass.MAGE, Badge.BOSS_SLAIN_1_MAGE);
 		firstBossClassBadges.put(HeroClass.ROGUE, Badge.BOSS_SLAIN_1_ROGUE);
 		firstBossClassBadges.put(HeroClass.HUNTRESS, Badge.BOSS_SLAIN_1_HUNTRESS);
+		firstBossClassBadges.put(HeroClass.NOISE, Badge.BOSS_SLAIN_1_HUNTRESS);
 	}
 
 	private static LinkedHashMap<HeroClass, Badge> victoryClassBadges = new LinkedHashMap<>();
@@ -713,6 +717,7 @@ public class Badges {
 		victoryClassBadges.put(HeroClass.MAGE, Badge.VICTORY_MAGE);
 		victoryClassBadges.put(HeroClass.ROGUE, Badge.VICTORY_ROGUE);
 		victoryClassBadges.put(HeroClass.HUNTRESS, Badge.VICTORY_HUNTRESS);
+		victoryClassBadges.put(HeroClass.NOISE, Badge.VICTORY_NOISE);
 	}
 
 	private static LinkedHashMap<HeroSubClass, Badge> thirdBossSubclassBadges = new LinkedHashMap<>();
@@ -728,6 +733,7 @@ public class Badges {
 		thirdBossSubclassBadges.put(HeroSubClass.HITMAN, Badge.BOSS_SLAIN_3_HITMAN);
 		thirdBossSubclassBadges.put(HeroSubClass.SNIPER, Badge.BOSS_SLAIN_3_SNIPER);
 		thirdBossSubclassBadges.put(HeroSubClass.POLARIS, Badge.BOSS_SLAIN_3_POLARIS);
+		thirdBossSubclassBadges.put(HeroSubClass.TRIGGERHAPPY, Badge.BOSS_SLAIN_3_TRIGGERHAPPY);
 	}
 	
 	public static void validateBossSlain() {
@@ -836,6 +842,9 @@ public class Badges {
 			break;
 		case HUNTRESS:
 			badge = Badge.MASTERY_HUNTRESS;
+			break;
+		case NOISE:
+			badge = Badge.MASTERY_NOISE;
 			break;
 		}
 		

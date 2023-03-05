@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletHell;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
@@ -67,6 +68,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Speed;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Stamina;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StimpackAdrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
@@ -103,11 +105,18 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kinetic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Aria;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ArmRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Fencer;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Kaleidoscope;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Karasawa;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.NotMachineGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ShortCarbine;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Spark;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Standard;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Supernova;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ThinLine;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Trench;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Vega;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Murakumo;
@@ -357,6 +366,7 @@ public abstract class Char extends Actor {
 					dr = 0;
 				}
 				if (h.belongings.weapon instanceof Fencer.Bullet ||
+
 					h.belongings.weapon instanceof Vega.Bullet   ||
 					h.belongings.weapon instanceof Karasawa.Bullet ||
 					h.belongings.weapon instanceof Kaleidoscope.Bullet ||
@@ -378,6 +388,12 @@ public abstract class Char extends Actor {
 					&& hero.buff(Talent.ProphecyCoolDown.class) == null
 					&& (hero.belongings.weapon() instanceof MagesStaff)) {
 				Buff.affect(hero, Talent.ProphecyCoolDown.class, 10f);
+			}
+
+			if (this instanceof Hero && hero.hasTalent(Talent.SHOCK_AND_AWE)) {
+				if (hero.belongings.weapon() instanceof FirearmWeapon.Bullet) {
+					Buff.affect(hero, BulletHell.class).hit();
+				}
 			}
 
 			//we use a float here briefly so that we don't have to constantly round while
@@ -415,6 +431,23 @@ public abstract class Char extends Actor {
 			if (this instanceof Hero && hero.buff(MurakumoCharge.class) != null && hero.belongings.weapon() instanceof Murakumo) {
 				dmg *= 1f + hero.buff(MurakumoCharge.class).getDamageFactor();
 				Buff.detach(this, MurakumoCharge.class);
+			}
+
+			if (this instanceof Hero && buff(BulletHell.class) != null) {
+				Hero h = (Hero)this;
+				if (h.belongings.weapon() instanceof NotMachineGun.Bullet ||
+					h.belongings.weapon() instanceof ShortCarbine.Bullet ||
+					h.belongings.weapon() instanceof ArmRifle.Bullet ||
+					h.belongings.weapon() instanceof Standard.Bullet ||
+					h.belongings.weapon() instanceof ThinLine.Bullet ||
+					h.belongings.weapon() instanceof Trench.Bullet) {
+					if (Random.Int(100) < buff(BulletHell.class).getCount()/2) {
+						Buff.affect(enemy, Paralysis.class, 1f);
+					}
+				} else if (h.belongings.weapon() instanceof Kaleidoscope.Bullet ||
+						   h.belongings.weapon() instanceof Spark.Bullet) {
+					dmg *= 1 + 0.01f * buff(BulletHell.class).getCount();
+				}
 			}
 
 			for (ChampionEnemy buff : buffs(ChampionEnemy.class)){
@@ -613,6 +646,7 @@ public abstract class Char extends Actor {
 		if ( buff( Cripple.class ) != null ) speed /= 2f;
 		if ( buff( Stamina.class ) != null) speed *= 1.5f;
 		if ( buff( Adrenaline.class ) != null) speed *= 2f;
+		if ( buff( StimpackAdrenaline.class ) != null) speed *= 2f;
 		if ( buff( Haste.class ) != null) speed *= 3f;
 		if ( buff( Dread.class ) != null) speed *= 2f;
 		return speed;
