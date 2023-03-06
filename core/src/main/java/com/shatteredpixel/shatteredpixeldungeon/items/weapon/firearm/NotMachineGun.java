@@ -25,6 +25,7 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
@@ -50,6 +51,22 @@ public class NotMachineGun extends FirearmWeapon {
         shot = 2;
 
         bullet_image = ItemSpriteSheet.DUAL_BULLET;
+    }
+
+    @Override
+    public int STRReq(int lvl) {
+        return STRReq(tier, lvl)-1; //10 base strength req, down from 11
+    }
+
+    @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        if (Dungeon.level.distance(owner.pos, target.pos) <= 2) {
+            return 1.25f;
+        } else if (Dungeon.level.distance(owner.pos, target.pos) > 2 && Dungeon.level.distance(owner.pos, target.pos) <= 7) {
+            return 1f;
+        } else {
+            return 0.8f;
+        }
     }
 
     @Override

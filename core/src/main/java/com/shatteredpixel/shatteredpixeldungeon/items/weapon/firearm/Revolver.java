@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -45,6 +46,11 @@ public class Revolver extends FirearmWeapon{
     @Override
     public void setMaxRound() {
         max_round = 3 + 1 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE);
+    }
+
+    @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        return (Dungeon.level.distance(owner.pos, target.pos) <= 3) ? 1.4f : 0.9f;
     }
 
 }

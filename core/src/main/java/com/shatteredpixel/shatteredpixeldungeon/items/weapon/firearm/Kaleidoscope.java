@@ -44,6 +44,7 @@ public class Kaleidoscope extends FirearmWeapon{
         tier = 4;
         type = FirearmType.FirearmEnergy2;
         max_round = 3;// + 1 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE);;
+        ACC = 1.25f;
 
         bullet_image = ItemSpriteSheet.NOTHING;
         bullet_sound = Assets.Sounds.ZAP;

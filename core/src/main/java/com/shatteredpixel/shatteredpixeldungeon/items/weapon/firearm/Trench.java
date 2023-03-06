@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -53,6 +54,17 @@ public class Trench extends FirearmWeapon {
     @Override
     public void setReloadTime() {
         reload_time = 5f * RingOfReload.reloadMultiplier(Dungeon.hero);
+    }
+
+    @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        if (Dungeon.level.distance(owner.pos, target.pos) <= 2) {
+            return 1.25f;
+        } else if (Dungeon.level.distance(owner.pos, target.pos) > 2 && Dungeon.level.distance(owner.pos, target.pos) <= 7) {
+            return 1f;
+        } else {
+            return 0.8f;
+        }
     }
 
 }

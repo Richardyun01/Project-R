@@ -43,7 +43,8 @@ public class Spark extends FirearmWeapon{
 
         tier = 5;
         type = FirearmType.FirearmEnergy2;
-        max_round = 3;// + 1 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE);;
+        max_round = 3;
+        ACC = 1.25f;
 
         bullet_image = ItemSpriteSheet.NOTHING;
         bullet_sound = Assets.Sounds.ZAP;

@@ -24,7 +24,7 @@ public class Harmonica extends FirearmWeapon{
         tier = 4;
         type = FirearmType.FirearmExplosive;
         max_round = 1;
-        ACC = 1.25f;
+        ACC = 1.5f;
 
         bullet_image = ItemSpriteSheet.GRENADE;
         bullet_sound = Assets.Sounds.PUFF;

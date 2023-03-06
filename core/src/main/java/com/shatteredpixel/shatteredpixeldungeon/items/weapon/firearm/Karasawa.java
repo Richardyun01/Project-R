@@ -44,7 +44,7 @@ public class Karasawa extends FirearmWeapon{
         tier = 5;
         type = FirearmType.FirearmEnergy1;
         max_round = 1;
-        ACC = 1.25f;
+        ACC = 1.5f;
 
         bullet_image = ItemSpriteSheet.ENERGY_BULLET_2;
         bullet_sound = Assets.Sounds.LIGHTNING;

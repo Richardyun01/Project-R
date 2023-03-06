@@ -329,7 +329,7 @@ public class ItemSpriteSheet {
 		assignItemRect(DRAGOON  		  ,15, 16);
 		assignItemRect(FLASHBACK          ,13, 16);
 		assignItemRect(HUSH         	  ,13, 16);
-		assignItemRect(FENCER    		  ,14, 15);
+		assignItemRect(FENCER    		  ,14, 16);
 	}
 
 	private static final int PRECISION        =                               xy(9, 33);

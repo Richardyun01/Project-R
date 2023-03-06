@@ -43,6 +43,7 @@ public class Volcano extends FirearmWeapon{
         type = FirearmType.FirearmEtc2;
         max_round = 2;
         reload_time = 3;
+        ACC = 2f;
 
         bullet_image = ItemSpriteSheet.NOTHING;
         bullet_sound = Assets.Sounds.PUFF;

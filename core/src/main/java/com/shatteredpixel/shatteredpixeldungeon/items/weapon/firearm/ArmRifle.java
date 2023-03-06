@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -47,6 +48,17 @@ public class ArmRifle extends FirearmWeapon {
     @Override
     public void setMaxRound() {
         max_round = 9 + 3 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE) + 3 * Dungeon.hero.pointsInTalent(Talent.QUANTITY_OVER_QUALITY);
+    }
+
+    @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        if (Dungeon.level.distance(owner.pos, target.pos) <= 2) {
+            return 1.25f;
+        } else if (Dungeon.level.distance(owner.pos, target.pos) > 2 && Dungeon.level.distance(owner.pos, target.pos) <= 7) {
+            return 1f;
+        } else {
+            return 0.8f;
+        }
     }
 
 }

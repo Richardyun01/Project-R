@@ -48,6 +48,7 @@ public class FrostGun extends FirearmWeapon {
         tier = 4;
         type = FirearmType.FirearmEtc1;
         max_round = 2;
+        ACC = 1.3f;
 
         bullet_image = ItemSpriteSheet.ICICLE;
         bullet_sound = Assets.Sounds.SHATTER;

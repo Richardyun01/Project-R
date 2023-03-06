@@ -267,7 +267,11 @@ public class FirearmWeapon extends MeleeWeapon {
     }
 
     public int STRReq(int lvl){
-        return STRReq(tier, lvl);
+        if (hero.heroClass == HeroClass.NOISE) {
+            return STRReq(tier, lvl);
+        } else {
+            return STRReq(tier, lvl) + 1;
+        }
     }
 
     @Override

@@ -25,6 +25,7 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -43,6 +44,16 @@ public class ApachePistol extends FirearmWeapon{
         tier = 1;
         type = FirearmType.FirearmPistol;
         max_round = 3;// + 1 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE);
+    }
+
+    @Override
+    public int STRReq(int lvl) {
+        return STRReq(tier, lvl)-1; //10 base strength req, down from 11
+    }
+
+    @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        return (Dungeon.level.distance(owner.pos, target.pos) <= 3) ? 1.4f : 0.9f;
     }
 
     @Override

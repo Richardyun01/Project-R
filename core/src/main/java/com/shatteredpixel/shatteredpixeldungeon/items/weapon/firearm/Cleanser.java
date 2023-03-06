@@ -37,6 +37,7 @@ public class Cleanser extends FirearmWeapon{
         type = FirearmType.FirearmEtc2;
         max_round = 4;
         reload_time = 3;
+        ACC = 2f;
 
         bullet_image = ItemSpriteSheet.NOTHING;
         bullet_sound = Assets.Sounds.PUFF;

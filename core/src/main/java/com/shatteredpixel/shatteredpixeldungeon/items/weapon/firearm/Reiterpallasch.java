@@ -19,6 +19,11 @@ public class Reiterpallasch extends FirearmWeapon{
     }
 
     @Override
+    public int STRReq(int lvl) {
+        return STRReq(tier, lvl)-1; //18 base strength req, down from 19
+    }
+
+    @Override
     public int min(int lvl) {
         return  tier +  //base
                 lvl;    //level scaling
@@ -32,14 +37,14 @@ public class Reiterpallasch extends FirearmWeapon{
 
     @Override
     public int Bulletmin(int lvl) {
-        return (tier-2) +
+        return (tier) +
                 lvl;
     }
 
     @Override
     public int Bulletmax(int lvl) {
         return 2 * tier +
-                lvl;
+                (3*lvl);
     }
 
 }

@@ -21,7 +21,11 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -52,11 +56,15 @@ public class RingOfReload extends Ring {
     public static float reloadMultiplier( Char target ){
         float speed =  (float)Math.pow(0.825f, getBuffedBonus(target, RingOfReload.Reload.class));
 
-        /*
-        if (Dungeon.hero.hasTalent(Talent.DEATH_MACHINE) && Dungeon.hero.belongings.weapon != null) {
-            speed *= Math.pow((1 - 0.05f * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE)), Math.max(0, (Dungeon.hero.STR() - Dungeon.hero.belongings.weapon.STRReq())));
+        Weapon wep = (Weapon)Dungeon.hero.belongings.weapon;
+        if (wep instanceof FirearmWeapon) {
+            FirearmWeapon w = (FirearmWeapon) wep;
+            int strReq = w.STRReq(w.level());
+
+            if (Dungeon.hero.hasTalent(Talent.MULTIPLE_HANDS) && Dungeon.hero.belongings.weapon != null) {
+                speed *= (1 - 0.05f * Dungeon.hero.pointsInTalent(Talent.MULTIPLE_HANDS) * (Dungeon.hero.STR() - strReq));
+            }
         }
-        */
 
         return speed;
     }

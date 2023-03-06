@@ -123,7 +123,7 @@ public class SpeedLoader extends Item {
 
     public static float reloadMultiplier( Char target ) {
         float fastReload = 0.5f;
-        if (hero.hasTalent(Talent.ADVANCED_ACCESSORY) && hero.pointsInTalent(Talent.DEATH_MACHINE) >= 1) {
+        if (hero.hasTalent(Talent.ADVANCED_ACCESSORY) && hero.pointsInTalent(Talent.ADVANCED_ACCESSORY) >= 1) {
             fastReload -= 0.1f;
         }
 

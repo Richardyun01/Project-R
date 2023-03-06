@@ -23,7 +23,7 @@ public class Hydra extends FirearmWeapon{
         tier = 5;
         type = FirearmType.FirearmExplosive;
         max_round = 2;
-        ACC = 1.25f;
+        ACC = 1.5f;
 
         bullet_image = ItemSpriteSheet.GRENADE;
         bullet_sound = Assets.Sounds.PUFF;

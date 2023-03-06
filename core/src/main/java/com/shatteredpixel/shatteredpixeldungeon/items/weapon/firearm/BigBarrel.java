@@ -34,7 +34,7 @@ public class BigBarrel extends FirearmWeapon{
         tier = 6;
         type = FirearmType.FirearmExplosive;
         max_round = 1;
-        ACC = 1.5f;
+        ACC = 2f;
 
         bullet_image = ItemSpriteSheet.SHELL;
     }
