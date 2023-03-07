@@ -26,6 +26,7 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
@@ -44,10 +45,14 @@ public class Karasawa extends FirearmWeapon{
         tier = 5;
         type = FirearmType.FirearmEnergy1;
         max_round = 1;
-        ACC = 1.5f;
 
         bullet_image = ItemSpriteSheet.ENERGY_BULLET_2;
         bullet_sound = Assets.Sounds.LIGHTNING;
+    }
+
+    @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        return 1.5f;
     }
 
     @Override

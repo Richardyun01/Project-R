@@ -26,6 +26,7 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
@@ -44,10 +45,14 @@ public class Vega extends FirearmWeapon{
         tier = 4;
         type = FirearmType.FirearmEnergy1;
         max_round = 1;
-        ACC = 1.25f;
 
         bullet_image = ItemSpriteSheet.ENERGY_BULLET_1;
         bullet_sound = Assets.Sounds.LIGHTNING;
+    }
+
+    @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        return 1.25f;
     }
 
     @Override

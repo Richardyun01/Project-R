@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.HuntressArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.LeatherArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.MageArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.MailArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.NoiseArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.RogueArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ScaleArmor;
@@ -129,6 +130,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Fencer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FireStorm;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Flashback;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FrostGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Gungnir;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Harmonica;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Hush;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Hydra;
@@ -358,7 +360,7 @@ public class Generator {
 					ScrollOfRage.class,
 					ScrollOfRetribution.class,
 					ScrollOfTerror.class,
-					ScrollOfTransmutation.class
+					ScrollOfTransmutation.class,
 			};
 			SCROLL.defaultProbs = new float[]{ 0, 6, 4, 3, 3, 3, 2, 2, 2, 2, 2, 1 };
 			SCROLL.probs = SCROLL.defaultProbs.clone();
@@ -465,9 +467,10 @@ public class Generator {
 
 			WEP_T6.classes = new Class<?>[]{
 					Defender.class,
+					Gungnir.class,
 					WarpBlade.class
 			};
-			WEP_T6.probs = new float[]{ 1, 1 };
+			WEP_T6.probs = new float[]{ 1, 1, 1 };
 
 			GUN_T1.classes = new Class<?>[]{
 					ApachePistol.class,
@@ -540,8 +543,9 @@ public class Generator {
 					WarriorArmor.class,
 					MageArmor.class,
 					RogueArmor.class,
-					HuntressArmor.class};
-			ARMOR.probs = new float[]{ 1, 1, 1, 1, 1, 0, 0, 0, 0 };
+					HuntressArmor.class,
+					NoiseArmor.class};
+			ARMOR.probs = new float[]{ 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 };
 			
 			//see Generator.randomMissile
 			MISSILE.classes = new Class<?>[]{};

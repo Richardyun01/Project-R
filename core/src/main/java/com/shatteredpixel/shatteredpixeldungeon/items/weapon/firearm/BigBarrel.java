@@ -34,7 +34,6 @@ public class BigBarrel extends FirearmWeapon{
         tier = 6;
         type = FirearmType.FirearmExplosive;
         max_round = 1;
-        ACC = 2f;
 
         bullet_image = ItemSpriteSheet.SHELL;
     }
@@ -42,6 +41,11 @@ public class BigBarrel extends FirearmWeapon{
     @Override
     public void setReloadTime() {
         reload_time = 4f *  RingOfReload.reloadMultiplier(Dungeon.hero);
+    }
+
+    @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        return 2f;
     }
 
     @Override
@@ -94,7 +98,7 @@ public class BigBarrel extends FirearmWeapon{
         CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 5);
         CellEmitter.center(cell).burst(BlastParticle.FACTORY, 5);
         ArrayList<Char> affected = new ArrayList<>();
-        for (int n : PathFinder.NEIGHBOURS9) {
+        for (int n : PathFinder.NEIGHBOURS25) {
             int c = cell + n;
             if (c >= 0 && c < Dungeon.level.length()) {
                 if (Dungeon.level.heroFOV[c]) {

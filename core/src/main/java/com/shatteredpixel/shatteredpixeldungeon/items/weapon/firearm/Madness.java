@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Madness extends FirearmWeapon {
@@ -37,10 +38,14 @@ public class Madness extends FirearmWeapon {
         tier = 6;
         type = FirearmType.FirearmEtc1;
         max_round = 1;
-        ACC = 3f;
 
         bullet_image = ItemSpriteSheet.KOJIMA_PARTICLE;
         bullet_sound = Assets.Sounds.BLAST;
+    }
+
+    @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        return 2f;
     }
 
     @Override

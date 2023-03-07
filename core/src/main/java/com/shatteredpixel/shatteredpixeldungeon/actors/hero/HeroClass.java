@@ -149,6 +149,8 @@ public enum HeroClass {
 		Hush plate = new Hush();
 		plate.upgrade(8).collect();
 		 **/
+		ScrollOfTransmutation enchan = new ScrollOfTransmutation();
+		enchan.quantity(100).collect();
 //erase this finish
 
 		switch (this) {

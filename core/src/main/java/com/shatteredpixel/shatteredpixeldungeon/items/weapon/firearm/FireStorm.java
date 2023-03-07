@@ -36,7 +36,6 @@ public class FireStorm extends FirearmWeapon{
         tier = 5;
         type = FirearmType.FirearmExplosive;
         max_round = 4;
-        ACC = 1.5f;
 
         bullet_image = ItemSpriteSheet.ROCKET_3;
         bullet_sound = Assets.Sounds.PUFF;
@@ -45,6 +44,11 @@ public class FireStorm extends FirearmWeapon{
     @Override
     public void setReloadTime() {
         reload_time = 6f * RingOfReload.reloadMultiplier(Dungeon.hero);
+    }
+
+    @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        return 1.5f;
     }
 
     @Override

@@ -48,10 +48,14 @@ public class FrostGun extends FirearmWeapon {
         tier = 4;
         type = FirearmType.FirearmEtc1;
         max_round = 2;
-        ACC = 1.3f;
 
         bullet_image = ItemSpriteSheet.ICICLE;
         bullet_sound = Assets.Sounds.SHATTER;
+    }
+
+    @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        return 1.3f;
     }
 
     @Override
@@ -61,7 +65,6 @@ public class FrostGun extends FirearmWeapon {
         } else {
             return tier*3 + (lvl*3);
         }
-
     }
 
     @Override

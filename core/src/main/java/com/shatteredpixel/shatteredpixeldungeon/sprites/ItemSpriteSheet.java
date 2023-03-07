@@ -427,11 +427,14 @@ public class ItemSpriteSheet {
 	public static final int PSIONIC_BLADE3 		= PSIONIC_WEAPONS+2;
 	public static final int DEFENDER 			= PSIONIC_WEAPONS+3;
 	public static final int WARP_BLADE 			= PSIONIC_WEAPONS+4;
+	public static final int GUNGNIR 			= PSIONIC_WEAPONS+5;
 	static{
 		assignItemRect(PSIONIC_BLADE1 			,14, 14);
 		assignItemRect(PSIONIC_BLADE2 			,15, 15);
 		assignItemRect(PSIONIC_BLADE3 			,16, 16);
+		assignItemRect(DEFENDER					,16, 16);
 		assignItemRect(WARP_BLADE				,16, 16);
+		assignItemRect(GUNGNIR					,16, 16);
 	}
 	                                                                                    //8 free slots
 

@@ -50,10 +50,14 @@ public class Supernova extends FirearmWeapon{
         tier = 6;
         type = FirearmType.FirearmEnergy1;
         max_round = 1;
-        ACC = 2f;
 
         bullet_image = ItemSpriteSheet.ENERGY_BULLET_3;
         bullet_sound = Assets.Sounds.PUFF;
+    }
+
+    @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        return 2f;
     }
 
     private int Damagefactor(int lvl) {

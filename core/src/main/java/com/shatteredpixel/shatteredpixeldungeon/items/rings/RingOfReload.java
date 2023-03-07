@@ -66,6 +66,8 @@ public class RingOfReload extends Ring {
             }
         }
 
+        if (speed < 0.1) speed = 0.1f;
+
         return speed;
     }
 

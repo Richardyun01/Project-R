@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.BigBarrel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Cleanser;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Fencer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FrostGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Gungnir;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Hush;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Hydra;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Karasawa;
@@ -46,6 +47,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ThinLine;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Trench;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Volcano;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Defender;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatshield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarpBlade;
@@ -74,6 +76,7 @@ public class Evolution extends InventorySpell{
     protected boolean usableOnItem(Item item) {
         return (item instanceof Greatsword ||
                 item instanceof Greatshield ||
+                item instanceof Glaive ||
                 item instanceof Hush ||
                 item instanceof Lauria ||
                 item instanceof ThinLine ||
@@ -118,6 +121,7 @@ public class Evolution extends InventorySpell{
 
     public static Item changeItem( Item item ){
         if (item instanceof Greatsword ||
+            item instanceof Glaive ||
             item instanceof Greatshield ||
             item instanceof Hush ||
             item instanceof Lauria ||
@@ -140,6 +144,8 @@ public class Evolution extends InventorySpell{
 
         if (w instanceof Greatsword) {
             n = new WarpBlade();
+        } else if (w instanceof Glaive) {
+            n = new Gungnir();
         } else if (w instanceof Greatshield) {
             n = new Defender();
         } else if (w instanceof Hush) {

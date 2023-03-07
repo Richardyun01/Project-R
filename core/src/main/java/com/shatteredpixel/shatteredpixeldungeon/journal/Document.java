@@ -192,6 +192,8 @@ public enum Document {
 					return new ItemSprite( ItemSpriteSheet.SPIRIT_BOW );
 				case "Magic":
 					return new ItemSprite( ItemSpriteSheet.WAND_FIREBOLT );
+				case "Firearm":
+					return new ItemSprite( ItemSpriteSheet.ELEGUN );
 			}
 		}
 	}
@@ -248,6 +250,7 @@ public enum Document {
 		ADVENTURERS_GUIDE.pagesStates.put("Levelling",          debug ? READ : NOT_FOUND);
 		ADVENTURERS_GUIDE.pagesStates.put("Positioning",        debug ? READ : NOT_FOUND);
 		ADVENTURERS_GUIDE.pagesStates.put("Magic",              debug ? READ : NOT_FOUND);
+		ADVENTURERS_GUIDE.pagesStates.put("Firearm",            debug ? READ : NOT_FOUND);
 		
 		//given in sewers
 		ALCHEMY_GUIDE.pagesStates.put("Potions",                debug ? READ : NOT_FOUND);

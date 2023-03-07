@@ -26,6 +26,7 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
@@ -44,7 +45,6 @@ public class Kaleidoscope extends FirearmWeapon{
         tier = 4;
         type = FirearmType.FirearmEnergy2;
         max_round = 3;// + 1 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE);;
-        ACC = 1.25f;
 
         bullet_image = ItemSpriteSheet.NOTHING;
         bullet_sound = Assets.Sounds.ZAP;
@@ -53,6 +53,11 @@ public class Kaleidoscope extends FirearmWeapon{
     @Override
     public void setMaxRound() {
         max_round = 3 + 1 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE) + 1 * Dungeon.hero.pointsInTalent(Talent.QUANTITY_OVER_QUALITY);
+    }
+
+    @Override
+    public float accuracyFactorBullet(Char owner, Char target) {
+        return 1.25f;
     }
 
     @Override

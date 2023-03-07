@@ -115,7 +115,7 @@ abstract public class ClassArmor extends Armor {
 			classArmor = new HuntressArmor();
 			break;
 		case NOISE:
-			classArmor = new HuntressArmor();
+			classArmor = new NoiseArmor();
 			break;
 		}
 		
