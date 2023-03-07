@@ -37,18 +37,19 @@ public class HeroIcon extends Image {
 	public static final int NONE    = 31;
 
 	//subclasses
-	public static final int BERSERKER   = 0;
-	public static final int GLADIATOR   = 1;
-	public static final int SPECOPS 	= 21;
-	public static final int BATTLEMAGE  = 2;
-	public static final int WARLOCK     = 3;
-	public static final int ORACLE      = 22;
-	public static final int ASSASSIN    = 4;
-	public static final int FREERUNNER  = 5;
-	public static final int HITMAN		= 23;
-	public static final int SNIPER      = 6;
-	public static final int WARDEN      = 7;
-	public static final int POLARIS		= 24;
+	public static final int BERSERKER   	= 0;
+	public static final int GLADIATOR   	= 1;
+	public static final int SPECOPS 		= 21;
+	public static final int BATTLEMAGE  	= 2;
+	public static final int WARLOCK     	= 3;
+	public static final int ORACLE      	= 22;
+	public static final int ASSASSIN    	= 4;
+	public static final int FREERUNNER  	= 5;
+	public static final int HITMAN			= 23;
+	public static final int SNIPER      	= 6;
+	public static final int WARDEN      	= 7;
+	public static final int POLARIS			= 24;
+	public static final int TRIGGERHAPPY	= 25;
 
 	//abilities
 	public static final int HEROIC_LEAP     = 8;
@@ -64,7 +65,7 @@ public class HeroIcon extends Image {
 	public static final int NATURES_POWER   = 18;
 	public static final int SPIRIT_HAWK     = 19;
 	public static final int RATMOGRIFY      = 20;
-	public static final int STIMPACK		= 21;
+	public static final int STIMPACK		= 28;
 
 	public HeroIcon(HeroSubClass subCls){
 		super( Assets.Interfaces.HERO_ICONS );

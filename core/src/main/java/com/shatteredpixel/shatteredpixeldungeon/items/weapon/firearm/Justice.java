@@ -7,7 +7,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -27,11 +26,6 @@ public class Justice extends FirearmWeapon{
 
         bullet_image = ItemSpriteSheet.ROCKET_1;
         bullet_sound = Assets.Sounds.PUFF;
-    }
-
-    @Override
-    public void setReloadTime() {
-        reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);
     }
 
     @Override

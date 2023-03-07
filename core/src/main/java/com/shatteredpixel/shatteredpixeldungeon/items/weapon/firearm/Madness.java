@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Madness extends FirearmWeapon {
@@ -50,7 +51,11 @@ public class Madness extends FirearmWeapon {
 
     @Override
     public void setReloadTime() {
-        reload_time = 50;
+        if (loader != null) {
+            reload_time = 50f * SpeedLoader.reloadMultiplier();
+        } else {
+            reload_time = 50f;
+        }
     }
 
     @Override

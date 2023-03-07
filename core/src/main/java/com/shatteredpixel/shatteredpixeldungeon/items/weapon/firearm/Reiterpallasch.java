@@ -1,6 +1,9 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Reiterpallasch extends FirearmWeapon{
@@ -19,8 +22,12 @@ public class Reiterpallasch extends FirearmWeapon{
     }
 
     @Override
-    public int STRReq(int lvl) {
-        return STRReq(tier, lvl)-1; //18 base strength req, down from 19
+    public int STRReq(int lvl) {                    //18 base strength req, down from 19
+        if (hero.heroClass == HeroClass.NOISE) {
+            return STRReq(tier, lvl);
+        } else {
+            return STRReq(tier, lvl);
+        }
     }
 
     @Override

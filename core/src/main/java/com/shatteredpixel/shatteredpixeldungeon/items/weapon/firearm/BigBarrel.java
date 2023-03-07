@@ -12,6 +12,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -40,7 +41,11 @@ public class BigBarrel extends FirearmWeapon{
 
     @Override
     public void setReloadTime() {
-        reload_time = 4f *  RingOfReload.reloadMultiplier(Dungeon.hero);
+        if (loader != null) {
+            reload_time = 5f * RingOfReload.reloadMultiplier(Dungeon.hero) * SpeedLoader.reloadMultiplier();
+        } else {
+            reload_time = 5f * RingOfReload.reloadMultiplier(Dungeon.hero);
+        }
     }
 
     @Override

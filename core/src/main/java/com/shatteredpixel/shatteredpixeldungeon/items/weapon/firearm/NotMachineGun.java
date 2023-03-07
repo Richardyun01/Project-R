@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -54,8 +55,12 @@ public class NotMachineGun extends FirearmWeapon {
     }
 
     @Override
-    public int STRReq(int lvl) {
-        return STRReq(tier, lvl)-1; //10 base strength req, down from 11
+    public int STRReq(int lvl) {                    //10 base strength req, down from 11
+        if (hero.heroClass == HeroClass.NOISE) {
+            return STRReq(tier, lvl);
+        } else {
+            return STRReq(tier, lvl) - 1;
+        }
     }
 
     @Override

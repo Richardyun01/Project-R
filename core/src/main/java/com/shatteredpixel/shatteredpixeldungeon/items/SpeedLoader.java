@@ -25,13 +25,13 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Gungnir;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Reiterpallasch;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -76,7 +76,7 @@ public class SpeedLoader extends Item {
     @Override
     //scroll of upgrade can be used directly once, same as upgrading armor the seal is affixed to then removing it.
     public boolean isUpgradable() {
-        if (hero.hasTalent(Talent.ADVANCED_ACCESSORY) && hero.pointsInTalent(Talent.DEATH_MACHINE) >= 2) {
+        if (hero.hasTalent(Talent.ADVANCED_ACCESSORY) && hero.pointsInTalent(Talent.ADVANCED_ACCESSORY) >= 2) {
             return level() == 0;
         } else {
             return false;
@@ -97,13 +97,13 @@ public class SpeedLoader extends Item {
 
         @Override
         public boolean itemSelectable(Item item) {
-            return item instanceof FirearmWeapon;
+            return item instanceof FirearmWeapon && !(item instanceof Reiterpallasch) && !(item instanceof Gungnir);
         }
 
         @Override
         public void onSelect( Item item ) {
-            SpeedLoader seal = (SpeedLoader) curItem;
-            if (item != null && item instanceof Armor) {
+            SpeedLoader loader = (SpeedLoader) curItem;
+            if (item != null && (item instanceof FirearmWeapon && !(item instanceof Reiterpallasch) && !(item instanceof Gungnir))) {
                 FirearmWeapon gun = (FirearmWeapon)item;
                 if (!gun.levelKnown){
                     GLog.w(Messages.get(SpeedLoader.class, "unknown_gun"));
@@ -115,13 +115,14 @@ public class SpeedLoader extends Item {
                     GLog.p(Messages.get(SpeedLoader.class, "affix"));
                     Dungeon.hero.sprite.operate(Dungeon.hero.pos);
                     Sample.INSTANCE.play(Assets.Sounds.UNLOCK);
+                    gun.affixLoader((SpeedLoader)curItem);
                     curItem.detach(Dungeon.hero.belongings.backpack);
                 }
             }
         }
     };
 
-    public static float reloadMultiplier( Char target ) {
+    public static float reloadMultiplier() {
         float fastReload = 0.5f;
         if (hero.hasTalent(Talent.ADVANCED_ACCESSORY) && hero.pointsInTalent(Talent.ADVANCED_ACCESSORY) >= 1) {
             fastReload -= 0.1f;

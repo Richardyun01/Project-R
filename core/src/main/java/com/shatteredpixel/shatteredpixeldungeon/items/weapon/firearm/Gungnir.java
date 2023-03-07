@@ -1,11 +1,14 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
@@ -48,6 +51,15 @@ public class Gungnir extends FirearmWeapon{
     @Override
     public float accuracyFactorBullet(Char owner, Char target) {
         return 999f;
+    }
+
+    @Override
+    public int STRReq(int lvl) {                    //18 base strength req, down from 19
+        if (hero.heroClass == HeroClass.NOISE) {
+            return STRReq(tier, lvl);
+        } else {
+            return STRReq(tier, lvl);
+        }
     }
 
     @Override

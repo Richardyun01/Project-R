@@ -273,10 +273,10 @@ abstract public class Weapon extends KindOfWeapon {
 	public Item upgrade() {
 		return upgrade(false);
 	}
-	
-	public Item upgrade(boolean enchant ) {
 
-		if (enchant){
+	public Item upgrade(boolean enchant) {
+
+		if (enchant) {
 			if (enchantment == null){
 				enchant(Enchantment.random());
 			}
@@ -287,7 +287,7 @@ abstract public class Weapon extends KindOfWeapon {
 				enchant(null);
 			}
 		}
-		
+
 		cursed = false;
 		
 		return super.upgrade();

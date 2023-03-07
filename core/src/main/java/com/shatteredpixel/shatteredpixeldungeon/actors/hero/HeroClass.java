@@ -42,6 +42,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.He
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
@@ -70,6 +71,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.NotMachineGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
@@ -149,8 +151,6 @@ public enum HeroClass {
 		Hush plate = new Hush();
 		plate.upgrade(8).collect();
 		 **/
-		ScrollOfTransmutation enchan = new ScrollOfTransmutation();
-		enchan.quantity(100).collect();
 //erase this finish
 
 		switch (this) {
@@ -266,12 +266,16 @@ public enum HeroClass {
 		NotMachineGun gun = new NotMachineGun();
 		(hero.belongings.weapon = gun).identify();
 
+		/*
 		RingOfReload reload = new RingOfReload();
 		reload.start = true;
 		(hero.belongings.ring = reload).identify().upgrade(3);
 		hero.belongings.ring.activate( hero );
+		*/
 
-		//new SpeedLoader().collect();
+		if (hero.belongings.weapon != null && hero.belongings.weapon instanceof FirearmWeapon){
+			((FirearmWeapon) hero.belongings.weapon).affixLoader(new SpeedLoader());
+		}
 
 		Dungeon.quickslot.setSlot(0, gun);
 

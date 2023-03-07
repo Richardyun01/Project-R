@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -51,9 +52,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
@@ -72,6 +75,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
@@ -98,7 +102,7 @@ public class FirearmWeapon extends MeleeWeapon {
 
     public static final String AC_SHOOT		= "SHOOT";
     public static final String AC_RELOAD    = "RELOAD";
-    //public static final String AC_DETACH    = "DETACH";
+    public static final String AC_DETACH    = "DETACH";
 
     public int max_round;
     public int round = 0;
@@ -114,7 +118,7 @@ public class FirearmWeapon extends MeleeWeapon {
     private static final String ROUND           = "round";
     private static final String MAX_ROUND       = "max_round";
     private static final String RELOAD_TIME     = "reload_time";
-    //private static final String LOADER          = "loader";
+    private static final String LOADER          = "loader";
 
     public int tier;
 
@@ -128,27 +132,52 @@ public class FirearmWeapon extends MeleeWeapon {
     public void setMaxRound() {}
 
     public void setReloadTime() {
-        switch (type) {
-            case FirearmPistol:
-                if ((hero.hasTalent(Talent.FIRE_PREPARATION) && Random.Int(100) < hero.pointsInTalent(Talent.FIRE_PREPARATION)*15)) {
-                    reload_time = 0;
-                } else {
-                    reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);
-                }
-                break;
-            case FirearmPrecision:
-                reload_time = (2f + hero.pointsInTalent(Talent.FIRE_PREPARATION) * 0.5f) * RingOfReload.reloadMultiplier(Dungeon.hero);// * SpeedLoader.reloadMultiplier(hero);
-                break;
-            case FirearmAuto:
-            case FirearmShotgun:
-            case FirearmExplosive:
-            case FirearmEnergy1:
-            case FirearmEnergy2:
-            case FirearmEtc1:
-            case FirearmEtc2:
-            default:
-                reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);// * SpeedLoader.reloadMultiplier(hero);
-                break;
+        if (loader != null) {
+            switch (type) {
+                case FirearmPistol:
+                    if ((hero.hasTalent(Talent.FIRE_PREPARATION) && Random.Int(100) < hero.pointsInTalent(Talent.FIRE_PREPARATION)*15)) {
+                        reload_time = 0;
+                    } else {
+                        reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero) * SpeedLoader.reloadMultiplier();
+                    }
+                    break;
+                case FirearmPrecision:
+                    reload_time = (2f + hero.pointsInTalent(Talent.FIRE_PREPARATION) * 0.5f) * RingOfReload.reloadMultiplier(Dungeon.hero) * SpeedLoader.reloadMultiplier();
+                    break;
+                case FirearmAuto:
+                case FirearmShotgun:
+                case FirearmExplosive:
+                case FirearmEnergy1:
+                case FirearmEnergy2:
+                case FirearmEtc1:
+                case FirearmEtc2:
+                default:
+                    reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero) * SpeedLoader.reloadMultiplier();
+                    break;
+            }
+        } else {
+            switch (type) {
+                case FirearmPistol:
+                    if ((hero.hasTalent(Talent.FIRE_PREPARATION) && Random.Int(100) < hero.pointsInTalent(Talent.FIRE_PREPARATION)*15)) {
+                        reload_time = 0;
+                    } else {
+                        reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);
+                    }
+                    break;
+                case FirearmPrecision:
+                    reload_time = (2f + hero.pointsInTalent(Talent.FIRE_PREPARATION) * 0.5f) * RingOfReload.reloadMultiplier(Dungeon.hero);// * SpeedLoader.reloadMultiplier(hero);
+                    break;
+                case FirearmAuto:
+                case FirearmShotgun:
+                case FirearmExplosive:
+                case FirearmEnergy1:
+                case FirearmEnergy2:
+                case FirearmEtc1:
+                case FirearmEtc2:
+                default:
+                    reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);// * SpeedLoader.reloadMultiplier(hero);
+                    break;
+            }
         }
     }
 
@@ -280,7 +309,7 @@ public class FirearmWeapon extends MeleeWeapon {
         bundle.put(MAX_ROUND, max_round);
         bundle.put(ROUND, round);
         bundle.put(RELOAD_TIME, reload_time);
-        //bundle.put(LOADER, loader);
+        bundle.put(LOADER, loader);
         //GLog.p("Firearm store "+this.getClass().getSimpleName()+"\n");
     }
 
@@ -290,18 +319,16 @@ public class FirearmWeapon extends MeleeWeapon {
         max_round = bundle.getInt(MAX_ROUND);
         round = bundle.getInt(ROUND);
         reload_time = bundle.getFloat(RELOAD_TIME);
-        //loader = (SpeedLoader)bundle.get(LOADER);
+        loader = (SpeedLoader)bundle.get(LOADER);
         //GLog.p("Firearm restore "+this.getClass().getSimpleName()+"\n");
     }
 
-    /*
     @Override
     public void reset() {
         super.reset();
         //firearms can be kept in bones between runs, the loader cannot.
         loader = null;
     }
-    */
 
     @Override
     public ArrayList<String> actions(Hero hero) {
@@ -310,7 +337,7 @@ public class FirearmWeapon extends MeleeWeapon {
             actions.add(AC_SHOOT);
             actions.add(AC_RELOAD);
         }
-        //if (loader != null) actions.add(AC_DETACH);
+        if (loader != null) actions.add(AC_DETACH);
         return actions;
     }
 
@@ -319,7 +346,6 @@ public class FirearmWeapon extends MeleeWeapon {
 
         super.execute(hero, action);
 
-        /*
         if (action.equals(AC_DETACH) && loader != null) {
             SpeedLoader detaching = loader;
             loader = null;
@@ -334,7 +360,6 @@ public class FirearmWeapon extends MeleeWeapon {
             }
             updateQuickslot();
         }
-        */
 
         if (action.equals(AC_SHOOT)) {
 
@@ -404,6 +429,28 @@ public class FirearmWeapon extends MeleeWeapon {
         }
     }
 
+    @Override
+    public void activate(Char ch) {
+
+    }
+
+    public void affixLoader(SpeedLoader loader){
+        this.loader = loader;
+        if (loader.level() > 0){
+            //doesn't trigger upgrading logic such as affecting curses/glyphs
+            int newLevel = trueLevel()+1;
+            level(newLevel);
+            Badges.validateItemLevelAquired(this);
+        }
+        if (isEquipped(Dungeon.hero)){
+            //Buff.affect(Dungeon.hero, BrokenSeal.WarriorShield.class).setArmor(this);
+        }
+    }
+
+    public SpeedLoader checkLoader(){
+        return loader;
+    }
+
     public void reload() {
         curUser.spend(reload_time);
         curUser.busy();
@@ -426,6 +473,20 @@ public class FirearmWeapon extends MeleeWeapon {
     @Override
     public String status() {
         return Messages.format(TXT_STATUS, round, max_round);
+    }
+
+    @Override
+    public Item upgrade() {
+        return upgrade(false);
+    }
+
+    @Override
+    public Item upgrade(boolean enchant) {
+        if (loader != null && loader.level() == 0) {
+            loader.upgrade();
+        }
+
+        return super.upgrade(enchant);
     }
 
     @Override
@@ -502,6 +563,16 @@ public class FirearmWeapon extends MeleeWeapon {
 
     public String statsInfo(){
         return Messages.get(this, "stats_desc");
+    }
+
+    @Override
+    public Emitter emitter() {
+        if (loader == null) return super.emitter();
+        Emitter emitter = new Emitter();
+        emitter.pos(ItemSpriteSheet.film.width(image)/2f + 2f, ItemSpriteSheet.film.height(image)/3f);
+        emitter.fillTarget = false;
+        emitter.pour(Speck.factory( Speck.RED_LIGHT ), 0.6f);
+        return emitter;
     }
 
     @Override
@@ -984,6 +1055,8 @@ public class FirearmWeapon extends MeleeWeapon {
 
     @Override
     public int value() {
+        if (loader != null) return 0;
+
         int price = 20 * tier;
         if (hasGoodEnchant()) {
             price *= 1.5;

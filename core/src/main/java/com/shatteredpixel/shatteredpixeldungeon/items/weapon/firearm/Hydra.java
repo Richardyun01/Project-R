@@ -7,6 +7,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -31,7 +32,11 @@ public class Hydra extends FirearmWeapon{
 
     @Override
     public void setReloadTime() {
-        reload_time = 1.5f * 2 * RingOfReload.reloadMultiplier(Dungeon.hero);
+        if (loader != null) {
+            reload_time = 3f * RingOfReload.reloadMultiplier(Dungeon.hero) * SpeedLoader.reloadMultiplier();
+        } else {
+            reload_time = 3f * RingOfReload.reloadMultiplier(Dungeon.hero);
+        }
     }
 
     @Override
