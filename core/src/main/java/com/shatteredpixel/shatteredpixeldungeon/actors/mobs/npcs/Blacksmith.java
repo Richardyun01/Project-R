@@ -31,11 +31,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.DarkGold;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.standard.BlacksmithRoom;
@@ -235,6 +237,13 @@ public class Blacksmith extends NPC {
 			BrokenSeal seal = ((Armor) second).checkSeal();
 			if (seal != null){
 				Dungeon.level.drop( seal, Dungeon.hero.pos );
+			}
+		}
+
+		if (second instanceof FirearmWeapon){
+			SpeedLoader loader = ((FirearmWeapon) second).checkLoader();
+			if (loader != null){
+				Dungeon.level.drop( loader, Dungeon.hero.pos );
 			}
 		}
 

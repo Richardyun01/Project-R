@@ -82,8 +82,14 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		Item result = changeItem(item);
 		
 		if (result == null){
-			//This shouldn't ever trigger
-			GLog.n( Messages.get(this, "nothing") );
+			if (item instanceof PsionicBlade) {
+				GLog.n( Messages.get(this, "cant_pblade") );
+			} else if (item instanceof FirearmWeapon) {
+				GLog.n( Messages.get(this, "cant_loader") );
+			} else {
+				//This shouldn't ever trigger
+				GLog.n( Messages.get(this, "nothing") );
+			}
 			curItem.collect( curUser.belongings.backpack );
 		} else {
 			if (result != item) {
@@ -121,9 +127,12 @@ public class ScrollOfTransmutation extends InventoryScroll {
 	public static Item changeItem( Item item ){
 		if (item instanceof MagesStaff) {
 			return changeStaff((MagesStaff) item);
-		}else if (item instanceof TippedDart){
+		} else if (item instanceof TippedDart){
 			return changeTippeDart( (TippedDart)item );
 		} else if (item instanceof MeleeWeapon || item instanceof MissileWeapon) {
+			if (item instanceof FirearmWeapon && ((FirearmWeapon) item).checkLoader() != null) {
+				return null;
+			}
 			return changeWeapon( (Weapon)item );
 		} else if (item instanceof Scroll) {
 			return changeScroll( (Scroll)item );
@@ -180,14 +189,19 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		if (w instanceof MeleeWeapon) {
 			int tier = (w instanceof FirearmWeapon) ?
 					((FirearmWeapon) w).tier : ((MeleeWeapon) w).tier;
-			if (Random.Int(2) == 0)
+			if (Random.Int(2) == 0) {
 				c = Generator.gunTiers[tier - 1];
-			else
+			} else {
 				if (Dungeon.hero.pointsInTalent(Talent.FREE_CHOICE) >= 1) {
 					c = Generator.gunTiers[tier - 1];
+					/*
+				} else if (Dungeon.hero.heroClass == HeroClass.NOISE && ((FirearmWeapon) w).checkLoader() != null) {
+					c = Generator.gunTiers[tier - 1];
+					*/
 				} else {
 					c = Generator.wepTiers[tier - 1];
 				}
+			}
 		} else {
 			c = Generator.misTiers[((MissileWeapon)w).tier - 1];
 		}
@@ -210,6 +224,12 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		n.cursedKnown = w.cursedKnown;
 		n.cursed = w.cursed;
 		n.augment = w.augment;
+
+		/*
+		if (n instanceof FirearmWeapon && ((FirearmWeapon) w).checkLoader() != null) {
+			((FirearmWeapon) n).affixLoader(new SpeedLoader());
+		}
+		*/
 		
 		return n;
 		

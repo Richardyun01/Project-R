@@ -48,7 +48,11 @@ public class ApachePistol extends FirearmWeapon{
 
     @Override
     public int STRReq(int lvl) {
-        return STRReq(tier, lvl)-1; //10 base strength req, down from 11
+        if (hero.heroClass == HeroClass.NOISE) {
+            return STRReq(tier, lvl);
+        } else {
+            return STRReq(tier, lvl) - 1;
+        }
     }
 
     @Override

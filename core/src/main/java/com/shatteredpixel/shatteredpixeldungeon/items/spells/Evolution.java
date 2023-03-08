@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Aria;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.BigBarrel;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Cleanser;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Fencer;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FrostGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Gungnir;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Hush;
@@ -95,8 +96,12 @@ public class Evolution extends InventorySpell{
         Item result = changeItem(item);
 
         if (result == null){
-            //This shouldn't ever trigger
-            GLog.n( Messages.get(this, "nothing") );
+            if (item instanceof FirearmWeapon && ((FirearmWeapon) item).checkLoader() != null) {
+                GLog.n(Messages.get(this, "cant_loader"));
+            } else {
+                //This shouldn't ever trigger
+                GLog.n( Messages.get(this, "nothing") );
+            }
             curItem.collect( curUser.belongings.backpack );
         } else {
             if (item.isEquipped(Dungeon.hero)){
@@ -122,17 +127,18 @@ public class Evolution extends InventorySpell{
     public static Item changeItem( Item item ){
         if (item instanceof Greatsword ||
             item instanceof Glaive ||
-            item instanceof Greatshield ||
-            item instanceof Hush ||
-            item instanceof Lauria ||
-            item instanceof SuperShotgun ||
-            item instanceof ThinLine ||
-            item instanceof Hydra ||
-            item instanceof AAWSM ||
-            item instanceof Spark ||
-            item instanceof Karasawa ||
-            item instanceof Cleanser ||
-            item instanceof FrostGun) {
+            item instanceof Greatshield) {
+            return changeWeapon((Weapon) item);
+        } else if ((item instanceof Hush ||
+                   item instanceof Lauria ||
+                   item instanceof SuperShotgun ||
+                   item instanceof ThinLine ||
+                   item instanceof Hydra ||
+                   item instanceof AAWSM ||
+                   item instanceof Spark ||
+                   item instanceof Karasawa ||
+                   item instanceof Cleanser ||
+                   item instanceof FrostGun) && ((FirearmWeapon) item).checkLoader() == null) {
             return changeWeapon((Weapon) item);
         } else {
             return null;
@@ -183,6 +189,12 @@ public class Evolution extends InventorySpell{
         n.cursedKnown = w.cursedKnown;
         n.cursed = w.cursed;
         n.augment = w.augment;
+
+        /*
+        if (w instanceof FirearmWeapon && ((FirearmWeapon) w).checkLoader() != null) {
+            ((FirearmWeapon) n).affixLoader(new SpeedLoader());
+        }
+        */
 
         return n;
     }

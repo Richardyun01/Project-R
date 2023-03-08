@@ -19,8 +19,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
-
-import java.util.ArrayList;
+import com.watabou.utils.Random;
 
 public class BigBarrel extends FirearmWeapon{
 
@@ -102,7 +101,7 @@ public class BigBarrel extends FirearmWeapon{
     public void onThrowBulletFirearmExplosive( int cell ) {
         CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 5);
         CellEmitter.center(cell).burst(BlastParticle.FACTORY, 5);
-        ArrayList<Char> affected = new ArrayList<>();
+
         for (int n : PathFinder.NEIGHBOURS25) {
             int c = cell + n;
             if (c >= 0 && c < Dungeon.level.length()) {
@@ -116,10 +115,13 @@ public class BigBarrel extends FirearmWeapon{
                 }
                 Char ch = Actor.findChar(c);
                 if (ch != null) {
-                    affected.add(ch);
+                    int damage = Random.NormalIntRange(Bulletmin(buffedLvl()),
+                            Bulletmax(buffedLvl()));
+                    ch.damage(damage, this);
                 }
             }
         }
+
         Sample.INSTANCE.play( Assets.Sounds.BLAST );
     }
 }

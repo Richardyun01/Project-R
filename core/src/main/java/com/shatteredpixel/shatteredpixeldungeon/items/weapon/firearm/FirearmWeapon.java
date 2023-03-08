@@ -207,44 +207,27 @@ public class FirearmWeapon extends MeleeWeapon {
 
         double dmgReduce = 1 - 0.1 * hero.pointsInTalent(Talent.QUANTITY_OVER_QUALITY);
 
-        if (Dungeon.hero.buff(BulletUp.class) != null) {
-            switch (type) {
-                case FirearmPrecision:
-                    return (int)((3 * tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION))) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
-                case FirearmExplosive:
-                    return (tier+4) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
-                case FirearmEnergy1:
-                case FirearmEnergy2:
-                    return tier + lvl + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
-                case FirearmShotgun:
-                    return (tier-1) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
-                case FirearmAuto:
-                    return (int)((tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE))*dmgReduce);
-                case FirearmPistol:
-                case FirearmEtc1:
-                case FirearmEtc2:
-                default:
-                    return tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
-            }
-        } else {
-            switch (type) {
-                case FirearmPrecision:
-                    return (int)((3 * tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
-                case FirearmExplosive:
-                    return (tier+4) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
-                case FirearmEnergy1:
-                case FirearmEnergy2:
-                    return tier + lvl;
-                case FirearmShotgun:
-                    return (tier-1) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
-                case FirearmAuto:
-                    return (int)((tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero))*dmgReduce);
-                case FirearmPistol:
-                case FirearmEtc1:
-                case FirearmEtc2:
-                default:
-                    return tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
-            }
+        int oneMoreBite = 0;
+        if (Dungeon.hero.buff(BulletUp.class) != null)
+            oneMoreBite = 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+
+        switch (type) {
+            case FirearmPrecision:
+                return (int) ((3 * tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1 + 0.075 * Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION))) + oneMoreBite;
+            case FirearmExplosive:
+                return (tier + 4) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + oneMoreBite;
+            case FirearmEnergy1:
+            case FirearmEnergy2:
+                return tier + lvl + oneMoreBite;
+            case FirearmShotgun:
+                return (tier - 1) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + oneMoreBite;
+            case FirearmAuto:
+                return (int) ((tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * dmgReduce) + oneMoreBite;
+            case FirearmPistol:
+            case FirearmEtc1:
+            case FirearmEtc2:
+            default:
+                return tier + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + oneMoreBite;
         }
     }
 
@@ -252,46 +235,28 @@ public class FirearmWeapon extends MeleeWeapon {
 
         double dmgReduce = 1 - 0.1 * hero.pointsInTalent(Talent.QUANTITY_OVER_QUALITY);
 
-        if (Dungeon.hero.buff(BulletUp.class) != null) {
-            switch (type) {
-                case FirearmPrecision:
-                    return (int)((6 * (tier+3) + lvl * (tier+3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION))) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
-                case FirearmAuto:
-                    return (int)((2*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE) * dmgReduce);
-                case FirearmShotgun:
-                    return (tier*2-2) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
-                case FirearmExplosive:
-                    return 8*(tier+6) + lvl*(tier+5) + RingOfSharpshooting.levelDamageBonus(hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
-                case FirearmEnergy1:
-                case FirearmEnergy2:
-                    return Math.round((3 * (tier + 1) + (lvl*3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero))) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
-                case FirearmEtc1:
-                case FirearmEtc2:
-                    return (5*tier) + (lvl*3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
-                case FirearmPistol:
-                default:
-                    return (5*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
-            }
-        } else {
-            switch (type) {
-                case FirearmPrecision:
-                    return (int)((6 * (tier+3) + lvl * (tier+3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION)));
-                case FirearmAuto:
-                    return (int)((2*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) * dmgReduce);
-                case FirearmShotgun:
-                    return (tier*2-2) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
-                case FirearmExplosive:
-                    return 8*(tier+6) + lvl*(tier+5) + RingOfSharpshooting.levelDamageBonus(hero);
-                case FirearmEnergy1:
-                case FirearmEnergy2:
-                    return Math.round((3 * (tier + 1) + (lvl*3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)));
-                case FirearmEtc1:
-                case FirearmEtc2:
-                    return (5*tier) + (lvl*3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
-                case FirearmPistol:
-                default:
-                    return (5*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
-            }
+        int oneMoreBite = 0;
+        if (Dungeon.hero.buff(BulletUp.class) != null)
+            oneMoreBite = 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+
+        switch (type) {
+            case FirearmPrecision:
+                return (int)((6 * (tier+3) + lvl * (tier+3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION))) + oneMoreBite;
+            case FirearmAuto:
+                return (int)((2*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) * dmgReduce) + oneMoreBite;
+            case FirearmShotgun:
+                return (tier*2-2) + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + oneMoreBite;
+            case FirearmExplosive:
+                return 8*(tier+6) + lvl*(tier+5) + RingOfSharpshooting.levelDamageBonus(hero) + oneMoreBite;
+            case FirearmEnergy1:
+            case FirearmEnergy2:
+                return Math.round((3 * (tier + 1) + (lvl*3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero))) + oneMoreBite;
+            case FirearmEtc1:
+            case FirearmEtc2:
+                return (5*tier) + (lvl*3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + oneMoreBite;
+            case FirearmPistol:
+            default:
+                return (5*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + oneMoreBite;
         }
     }
 

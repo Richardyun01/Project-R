@@ -962,7 +962,7 @@ public class DriedRose extends Artifact {
 							public void onSelect(Item item) {
 								if (!(item instanceof MeleeWeapon)) {
 									//do nothing, should only happen when window is cancelled
-								} else if (item.unique) {
+								} else if (item.unique || ((FirearmWeapon) item).checkLoader() != null) {
 									GLog.w( Messages.get(WndGhostHero.class, "cant_unique"));
 									hide();
 								} else if (!item.isIdentified()) {
