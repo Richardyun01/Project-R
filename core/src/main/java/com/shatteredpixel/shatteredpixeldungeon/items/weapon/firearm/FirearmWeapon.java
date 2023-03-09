@@ -29,7 +29,10 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.CorrosiveGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
@@ -41,6 +44,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.NoEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -51,6 +56,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Eye;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Lightning;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
@@ -62,6 +68,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
@@ -132,52 +139,33 @@ public class FirearmWeapon extends MeleeWeapon {
     public void setMaxRound() {}
 
     public void setReloadTime() {
+        float reloadMulti = 1f;
         if (loader != null) {
-            switch (type) {
-                case FirearmPistol:
-                    if ((hero.hasTalent(Talent.FIRE_PREPARATION) && Random.Int(100) < hero.pointsInTalent(Talent.FIRE_PREPARATION)*15)) {
-                        reload_time = 0;
-                    } else {
-                        reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero) * SpeedLoader.reloadMultiplier();
-                    }
-                    break;
-                case FirearmPrecision:
-                    reload_time = (2f + hero.pointsInTalent(Talent.FIRE_PREPARATION) * 0.5f) * RingOfReload.reloadMultiplier(Dungeon.hero) * SpeedLoader.reloadMultiplier();
-                    break;
-                case FirearmAuto:
-                case FirearmShotgun:
-                case FirearmExplosive:
-                case FirearmEnergy1:
-                case FirearmEnergy2:
-                case FirearmEtc1:
-                case FirearmEtc2:
-                default:
-                    reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero) * SpeedLoader.reloadMultiplier();
-                    break;
-            }
-        } else {
-            switch (type) {
-                case FirearmPistol:
-                    if ((hero.hasTalent(Talent.FIRE_PREPARATION) && Random.Int(100) < hero.pointsInTalent(Talent.FIRE_PREPARATION)*15)) {
-                        reload_time = 0;
-                    } else {
-                        reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);
-                    }
-                    break;
-                case FirearmPrecision:
-                    reload_time = (2f + hero.pointsInTalent(Talent.FIRE_PREPARATION) * 0.5f) * RingOfReload.reloadMultiplier(Dungeon.hero);// * SpeedLoader.reloadMultiplier(hero);
-                    break;
-                case FirearmAuto:
-                case FirearmShotgun:
-                case FirearmExplosive:
-                case FirearmEnergy1:
-                case FirearmEnergy2:
-                case FirearmEtc1:
-                case FirearmEtc2:
-                default:
-                    reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);// * SpeedLoader.reloadMultiplier(hero);
-                    break;
-            }
+            reloadMulti = SpeedLoader.reloadMultiplier();
+        }
+        switch (type) {
+            case FirearmPistol:
+                if ((hero.hasTalent(Talent.FIRE_PREPARATION) && Random.Int(100) < hero.pointsInTalent(Talent.FIRE_PREPARATION)*15)) {
+                    reload_time = 0;
+                } else {
+                    reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero) * reloadMulti;
+                }
+                break;
+            case FirearmPrecision:
+                reload_time = (2f + hero.pointsInTalent(Talent.FIRE_PREPARATION) * 0.5f) * RingOfReload.reloadMultiplier(Dungeon.hero) * reloadMulti;
+                break;
+            case FirearmShotgun:
+                reload_time = 1f * RingOfReload.reloadMultiplier(Dungeon.hero) * reloadMulti;
+                break;
+            case FirearmAuto:
+            case FirearmExplosive:
+            case FirearmEnergy1:
+            case FirearmEnergy2:
+            case FirearmEtc1:
+            case FirearmEtc2:
+            default:
+                reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero) * reloadMulti;
+                break;
         }
     }
 
@@ -241,7 +229,7 @@ public class FirearmWeapon extends MeleeWeapon {
 
         switch (type) {
             case FirearmPrecision:
-                return (int)((6 * (tier+3) + lvl * (tier+3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION))) + oneMoreBite;
+                return (int)((5 * (tier+3) + lvl * (tier+3) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero)) * (1+0.075*Dungeon.hero.pointsInTalent(Talent.FIRE_PREPARATION))) + oneMoreBite;
             case FirearmAuto:
                 return (int)((2*tier-1) + (lvl*tier) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) * dmgReduce) + oneMoreBite;
             case FirearmShotgun:
@@ -473,6 +461,7 @@ public class FirearmWeapon extends MeleeWeapon {
         setReloadTime();
         setMaxRound();
         String info = desc();
+        int loadtime = (int)(100 * (1 - SpeedLoader.reloadMultiplier()));
 
         if (levelKnown) {
             info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
@@ -519,6 +508,8 @@ public class FirearmWeapon extends MeleeWeapon {
             info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
         } else if (cursedKnown && cursed) {
             info += "\n\n" + Messages.get(Weapon.class, "cursed");
+        } else if (loader != null) {
+            info += "\n\n" + Messages.get(FirearmWeapon.class, "loader_attached", loadtime);
         } else if (!isIdentified() && cursedKnown){
             info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
         }
@@ -592,6 +583,20 @@ public class FirearmWeapon extends MeleeWeapon {
                 Char ch = Actor.findChar(c);
                 if (ch != null) {
                     affected.add(ch);
+                }
+                if (hero.hasTalent(Talent.MALICIOUS_FUEL)) {
+                    if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 1) {
+                        GameScene.add( Blob.seed( cell, 5, ToxicGas.class ) );
+                    } else if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 2) {
+                        GameScene.add( Blob.seed( cell, 5, CorrosiveGas.class ) );
+                    } else if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 3) {
+                        Buff.affect(ch, Ooze.class).set( Ooze.DURATION );
+                    }
+                }
+            }
+            if (hero.hasTalent(Talent.GRID_EXPOSURE)) {
+                if (Random.Int(10) < hero.pointsInTalent(Talent.GRID_EXPOSURE)) {
+                    GameScene.add( Blob.seed( cell, 1, Electricity.class ) );
                 }
             }
         }
@@ -773,9 +778,17 @@ public class FirearmWeapon extends MeleeWeapon {
                     }
                     for (Char target : targets){
                         curUser.shoot(target, this);
-                        if (target == hero && !target.isAlive()){
-                            Dungeon.fail(getClass());
-                            GLog.n(Messages.get(FirearmWeapon.class, "ondeath"));
+                        if (target == hero){
+                            if (hero.hasTalent(Talent.SHAPED_WARHEAD)) {
+                                int damage = damageRoll(hero);
+                                damage -= target.drRoll();
+                                damage *= (1-0.3*hero.pointsInTalent(Talent.SHAPED_WARHEAD));
+                                target.damage(damage, hero);
+                            }
+                            if (!target.isAlive()) {
+                                Dungeon.fail(getClass());
+                                GLog.n(Messages.get(FirearmWeapon.class, "ondeath"));
+                            }
                         }
                     }
                     onThrowBulletFirearmExplosive(cell);
@@ -808,6 +821,58 @@ public class FirearmWeapon extends MeleeWeapon {
                     round--;
                     break;
                 case FirearmEnergy1:
+                    for (int i = 0; i < shot; i++) {
+                        if (round <= 0) break;
+                        if (hero.hasTalent(Talent.DEATH_MACHINE) && Random.Int(10) <= hero.pointsInTalent(Talent.DEATH_MACHINE)) {
+                            //round preserves
+                        } else {
+                            round --;
+                        }
+
+                        Char enemy = Actor.findChar(cell);
+                        if (enemy == null || enemy == curUser) {
+                            parent = null;
+                            CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                            CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                        } else {
+                            if (hero.hasTalent(Talent.GRID_EXPOSURE)) {
+                                int dur = 1;
+                                if (hero.pointsInTalent(Talent.GRID_EXPOSURE) >= 3) {
+                                    dur = 2;
+                                }
+                                if (hero.pointsInTalent(Talent.GRID_EXPOSURE) >= 1) {
+                                    Buff.affect(hero, Recharging.class, (float)dur);
+                                    if (hero.pointsInTalent(Talent.GRID_EXPOSURE) >= 2) {
+                                        Buff.affect( hero, ArtifactRecharge.class).set(dur);
+                                    }
+                                }
+                            }
+                            if (hero.hasTalent(Talent.MALICIOUS_FUEL) && Random.Int(5) < hero.pointsInTalent(Talent.MALICIOUS_FUEL)) {
+                                ArrayList<Lightning.Arc> arcs = new ArrayList<>();
+                                ArrayList<Char> affected = new ArrayList<>();
+                                affected.clear();
+                                arcs.clear();
+
+                                Shocking.arc(hero, enemy, 2, affected, arcs);
+
+                                affected.remove(enemy); //defender isn't hurt by lightning
+                                for (Char ch : affected) {
+                                    if (ch.alignment != hero.alignment) {
+                                        ch.damage(Math.round(damageRoll(hero)*0.2f), this);
+                                    }
+                                }
+
+                                hero.sprite.parent.addToFront( new Lightning( arcs, null ) );
+                                Sample.INSTANCE.play( Assets.Sounds.LIGHTNING );
+                            }
+                            if (!curUser.shoot(enemy, this)) {
+                                CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                                CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                            }
+                        }
+                    }
+                    cooldown();
+                    break;
                 case FirearmEtc1:
                     for (int i = 0; i < shot; i++) {
                         if (round <= 0) break;
@@ -827,6 +892,9 @@ public class FirearmWeapon extends MeleeWeapon {
                                 CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
                                 CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
                             }
+                        }
+                        if (hero.hasTalent(Talent.GRID_EXPOSURE) && Random.Int(2) == 0) {
+                            Buff.affect( enemy, Paralysis.class, 0.5f + 0.5f*hero.pointsInTalent(Talent.GRID_EXPOSURE));
                         }
                     }
                     cooldown();
@@ -911,14 +979,6 @@ public class FirearmWeapon extends MeleeWeapon {
                 Buff.affect(findChar, Blindness.class, 1f);
                 Buff.affect(findChar, Cripple.class, 1f);
             }
-
-            /*
-            if (Dungeon.hero.hasTalent(Talent.DISCHARGE_SHOT) &&
-                    hero.buff(Talent.DischargeCooldown.class) == null) {
-                Buff.affect(findChar, NoEnergy.class).set(2, 2);
-                Buff.affect(hero, Talent.DischargeCooldown.class, (float)(80 - Dungeon.hero.pointsInTalent(Talent.DISCHARGE_SHOT)));
-            }
-            */
 
             switch (type) {
                 case FirearmPrecision:

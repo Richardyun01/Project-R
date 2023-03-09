@@ -82,12 +82,4 @@ public class Aria extends FirearmWeapon{
     public float accuracyFactorBullet(Char owner, Char target) {
         return Dungeon.level.adjacent(owner.pos, target.pos) ? 0f : 2f;
     }
-
-/*
-    @Override
-    protected void onThrow(int cell) {
-        Ballistica aim = new Ballistica(hero.pos, cell, Ballistica.PROJECTILE);
-        curUser.sprite.parent.add(new Beam.DeathRay(curUser.sprite.center(), DungeonTilemap.raisedTileCenterToWorld( aim.path.get(aim.dist) )));
-    }
-*/
 }

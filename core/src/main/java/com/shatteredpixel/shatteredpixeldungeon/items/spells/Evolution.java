@@ -85,7 +85,7 @@ public class Evolution extends InventorySpell{
                 item instanceof Hydra ||
                 item instanceof AAWSM ||
                 item instanceof Spark ||
-                item instanceof Supernova ||
+                item instanceof Karasawa ||
                 item instanceof Cleanser ||
                 item instanceof FrostGun);
     }

@@ -169,7 +169,7 @@ public enum Talent {
 	//Trigger Happy T3
 	QUANTITY_OVER_QUALITY(268, 3), ONE_MORE_ROUND(269, 3), SHOCK_AND_AWE(270, 3),
 	//Demolitionist T3
-	//MALICIOUS_FUEL(271, 3), GRID_EXPOSURE(272, 3), SHAPED_WARHEAD(273, 3),
+	MALICIOUS_FUEL(271, 3), GRID_EXPOSURE(272, 3), SHAPED_WARHEAD(273, 3),
 	//Bunker T3
 	//Stimpack T4
 	SUPER_STIMPACK(277,4), DRUG_COMPOUND(278, 4), PSYCHOTROPIC_CONTROL(279, 4),
@@ -798,6 +798,9 @@ public enum Talent {
 				break;
 			case TRIGGERHAPPY:
 				Collections.addAll(tierTalents, QUANTITY_OVER_QUALITY, ONE_MORE_ROUND, SHOCK_AND_AWE);
+				break;
+			case DEMOLITIONIST:
+				Collections.addAll(tierTalents, MALICIOUS_FUEL, GRID_EXPOSURE, SHAPED_WARHEAD);
 				break;
 		}
 		for (Talent talent : tierTalents){

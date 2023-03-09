@@ -6,7 +6,13 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.CorrosiveGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
@@ -118,6 +124,20 @@ public class BigBarrel extends FirearmWeapon{
                     int damage = Random.NormalIntRange(Bulletmin(buffedLvl()),
                             Bulletmax(buffedLvl()));
                     ch.damage(damage, this);
+                }
+                if (hero.hasTalent(Talent.MALICIOUS_FUEL)) {
+                    if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 1) {
+                        GameScene.add( Blob.seed( cell, 5, ToxicGas.class ) );
+                    } else if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 2) {
+                        GameScene.add( Blob.seed( cell, 5, CorrosiveGas.class ) );
+                    } else if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 3) {
+                        Buff.affect(ch, Ooze.class).set( Ooze.DURATION );
+                    }
+                }
+            }
+            if (hero.hasTalent(Talent.GRID_EXPOSURE)) {
+                if (Random.Int(10) < 1+hero.pointsInTalent(Talent.GRID_EXPOSURE)) {
+                    GameScene.add( Blob.seed( cell, 3*hero.pointsInTalent(Talent.GRID_EXPOSURE), Electricity.class ) );
                 }
             }
         }

@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Supercharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
@@ -114,6 +115,7 @@ public class Supernova extends FirearmWeapon{
         setReloadTime();
         setMaxRound();
         String info = desc();
+        int loadtime = (int)(100 * (1 - SpeedLoader.reloadMultiplier()));
 
         int lvl = level();
 
@@ -162,6 +164,8 @@ public class Supernova extends FirearmWeapon{
             info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
         } else if (cursedKnown && cursed) {
             info += "\n\n" + Messages.get(Weapon.class, "cursed");
+        } else if (loader != null) {
+            info += "\n\n" + Messages.get(FirearmWeapon.class, "loader_attached", loadtime);
         } else if (!isIdentified() && cursedKnown){
             info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
         }

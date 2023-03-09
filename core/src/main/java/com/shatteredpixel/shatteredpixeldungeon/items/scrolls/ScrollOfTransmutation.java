@@ -194,10 +194,6 @@ public class ScrollOfTransmutation extends InventoryScroll {
 			} else {
 				if (Dungeon.hero.pointsInTalent(Talent.FREE_CHOICE) >= 1) {
 					c = Generator.gunTiers[tier - 1];
-					/*
-				} else if (Dungeon.hero.heroClass == HeroClass.NOISE && ((FirearmWeapon) w).checkLoader() != null) {
-					c = Generator.gunTiers[tier - 1];
-					*/
 				} else {
 					c = Generator.wepTiers[tier - 1];
 				}
@@ -224,12 +220,6 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		n.cursedKnown = w.cursedKnown;
 		n.cursed = w.cursed;
 		n.augment = w.augment;
-
-		/*
-		if (n instanceof FirearmWeapon && ((FirearmWeapon) w).checkLoader() != null) {
-			((FirearmWeapon) n).affixLoader(new SpeedLoader());
-		}
-		*/
 		
 		return n;
 		

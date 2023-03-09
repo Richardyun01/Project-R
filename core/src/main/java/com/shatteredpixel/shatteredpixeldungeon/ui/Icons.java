@@ -172,6 +172,9 @@ public enum Icons {
 			case HUNTRESS:
 				icon.frame( icon.texture.uvRectBySize( 64, 16, 15, 15 ) );
 				break;
+			case NOISE:
+				icon.frame( icon.texture.uvRectBySize( 80, 16, 15, 15 ) );
+				break;
 
 			case EXIT:
 				icon.frame( icon.texture.uvRectBySize( 0, 32, 15, 11 ) );
@@ -408,7 +411,7 @@ public enum Icons {
 		case HUNTRESS:
 			return get( HUNTRESS );
 		case NOISE:
-			return get( HUNTRESS );
+			return get( NOISE );
 		default:
 			return null;
 		}

@@ -27,7 +27,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.watabou.utils.Random;
 
 public class WarpBlade extends MeleeWeapon {
 
@@ -45,12 +44,10 @@ public class WarpBlade extends MeleeWeapon {
                 lvl*(tier-1);   //level scaling
     }
 
-    public int proc(Char defender, int damage ) {
+    public int proc( Char defender, int damage ) {
 
-        if (Random.Int(3) == 0) {
-            Buff.affect( defender, Doom.class);
-            Splash.at( defender.sprite.center(), 0xFFB2D6FF, 5);
-        }
+        Buff.affect( defender, Doom.class );
+        Splash.at( defender.sprite.center(), 0xFFB2D6FF, 5);
 
         return damage;
     }

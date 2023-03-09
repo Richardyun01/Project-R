@@ -69,16 +69,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurs
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.Evolution;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.AAWSM;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.NotMachineGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Glaive;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
@@ -92,7 +88,7 @@ public enum HeroClass {
 	MAGE( HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK, HeroSubClass.ORACLE ),
 	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER, HeroSubClass.HITMAN ),
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN, HeroSubClass.POLARIS ),
-	NOISE( HeroSubClass.TRIGGERHAPPY );
+	NOISE( HeroSubClass.TRIGGERHAPPY, HeroSubClass.DEMOLITIONIST );
 
 	private HeroSubClass[] subClasses;
 
@@ -155,19 +151,6 @@ public enum HeroClass {
 		plate.upgrade(8).collect();
 		 **/
 //erase this finish
-		ScrollOfUpgrade upscroll = new ScrollOfUpgrade();
-		upscroll.quantity(30).collect();
-		ScrollOfTransmutation upscroll2 = new ScrollOfTransmutation();
-		upscroll2.quantity(30).collect();
-		Evolution upscroll3 = new Evolution();
-		upscroll3.quantity(30).collect();
-		ScrollOfIdentify upscroll4 = new ScrollOfIdentify();
-		upscroll4.quantity(30).collect();
-		PotionOfExperience enchan = new PotionOfExperience();
-		enchan.quantity(100).collect();
-		new Greatsword().collect();
-		new Glaive().collect();
-		new AAWSM().collect();
 
 		switch (this) {
 			case WARRIOR:

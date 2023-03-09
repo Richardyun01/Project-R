@@ -26,7 +26,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.Random;
 
@@ -46,11 +45,6 @@ public class MaxThunder extends FirearmWeapon{
         shot = 10;
 
         bullet_image = ItemSpriteSheet.TRIPLE_BULLET;
-    }
-
-    @Override
-    public void setReloadTime() {
-        reload_time = 1f * RingOfReload.reloadMultiplier(Dungeon.hero);
     }
 
     @Override

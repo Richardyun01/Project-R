@@ -7,7 +7,11 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.CorrosiveGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Inferno;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -21,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -116,6 +121,21 @@ public class FireStorm extends FirearmWeapon{
                 }
             }
             GameScene.add(Blob.seed(cell + n, 2, Fire.class));
+            if (hero.hasTalent(Talent.MALICIOUS_FUEL)) {
+                if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 1) {
+                    GameScene.add( Blob.seed( cell, 25, ToxicGas.class ) );
+                } else if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 2) {
+                    GameScene.add( Blob.seed( cell, 10, CorrosiveGas.class ) );
+                } else if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 3) {
+                    GameScene.add( Blob.seed( cell, 10, Inferno.class ) );
+                }
+            }
+            if (hero.hasTalent(Talent.GRID_EXPOSURE)) {
+                if (Random.Int(10) < 1+hero.pointsInTalent(Talent.GRID_EXPOSURE)) {
+                    GameScene.add( Blob.seed( cell, 3*hero.pointsInTalent(Talent.GRID_EXPOSURE), Electricity.class ) );
+                }
+            }
+
         }
         Sample.INSTANCE.play(Assets.Sounds.BURNING);
     }

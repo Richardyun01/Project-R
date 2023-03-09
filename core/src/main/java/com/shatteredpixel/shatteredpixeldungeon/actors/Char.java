@@ -108,8 +108,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Aria;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ArmRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Fencer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FrostGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Kaleidoscope;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Karasawa;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Madness;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.NotMachineGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ShortCarbine;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Spark;
@@ -424,6 +426,17 @@ public abstract class Char extends Actor {
 						//int distance = Dungeon.level.distance(hero.pos, enemy.pos) - 1;
 						float multiplier = Math.min(4f, (float)Math.pow(1.2f, dr + 1));
 						dmg = Math.round(dmg * multiplier);
+					}
+					if (Dungeon.hero.hasTalent(Talent.SHAPED_WARHEAD)) {
+						Hero h = (Hero)this;
+						if (h.belongings.weapon() instanceof Vega.Bullet ||
+							h.belongings.weapon() instanceof Karasawa.Bullet ||
+							h.belongings.weapon() instanceof Supernova.Bullet ||
+							h.belongings.weapon() instanceof FrostGun.Bullet ||
+							h.belongings.weapon() instanceof Madness.Bullet) {
+							float multiplier = Math.min((float)(1f + 0.2*hero.pointsInTalent(Talent.SHAPED_WARHEAD)), (float)Math.pow(1f, dr + 1));
+							dmg = Math.round(dmg * multiplier);
+						}
 					}
 				}
 			}
