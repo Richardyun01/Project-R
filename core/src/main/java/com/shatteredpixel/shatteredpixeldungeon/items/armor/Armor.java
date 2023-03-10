@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bunker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StimpackAdrenaline;
@@ -428,6 +429,12 @@ public class Armor extends EquipableItem {
 		
 		if (glyph != null && defender.buff(MagicImmune.class) == null) {
 			damage = glyph.proc( this, attacker, defender, damage );
+		}
+
+		Bunker bunker = defender.buff(Bunker.class);
+		int aEnc = STRReq() - ((Hero) defender).STR();
+		if (bunker != null){
+			damage *= 1 - 0.01f * bunker.defenceBonus(((Hero) defender).lvl, Math.max(0, -aEnc)) - 0.1f * Dungeon.hero.pointsInTalent(Talent.HEAVY_ARMOR);
 		}
 
 		if (hero.hasTalent(Talent.PSYCHOTROPIC_CONTROL) && defender.buff(StimpackAdrenaline.class) != null) {

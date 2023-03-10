@@ -55,7 +55,11 @@ public class BigBarrel extends FirearmWeapon{
 
     @Override
     public float accuracyFactorBullet(Char owner, Char target) {
-        return 2f;
+        if (hero.heroClass == HeroClass.NOISE) {
+            return 2f;
+        } else {
+            return 1.33f;
+        }
     }
 
     @Override
@@ -123,6 +127,9 @@ public class BigBarrel extends FirearmWeapon{
                 if (ch != null) {
                     int damage = Random.NormalIntRange(Bulletmin(buffedLvl()),
                             Bulletmax(buffedLvl()));
+                    if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 3) {
+                        Buff.affect(ch, Ooze.class).set( Ooze.DURATION );
+                    }
                     ch.damage(damage, this);
                 }
                 if (hero.hasTalent(Talent.MALICIOUS_FUEL)) {
@@ -130,8 +137,6 @@ public class BigBarrel extends FirearmWeapon{
                         GameScene.add( Blob.seed( cell, 5, ToxicGas.class ) );
                     } else if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 2) {
                         GameScene.add( Blob.seed( cell, 5, CorrosiveGas.class ) );
-                    } else if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 3) {
-                        Buff.affect(ch, Ooze.class).set( Ooze.DURATION );
                     }
                 }
             }

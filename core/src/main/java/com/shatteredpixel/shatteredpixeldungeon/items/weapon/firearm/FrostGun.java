@@ -55,7 +55,11 @@ public class FrostGun extends FirearmWeapon {
 
     @Override
     public float accuracyFactorBullet(Char owner, Char target) {
-        return 1.3f;
+        if (hero.heroClass == HeroClass.NOISE) {
+            return 1.3f;
+        } else {
+            return 1f;
+        }
     }
 
     @Override

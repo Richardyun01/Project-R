@@ -50,6 +50,7 @@ public class HeroIcon extends Image {
 	public static final int WARDEN      	= 7;
 	public static final int POLARIS			= 24;
 	public static final int TRIGGERHAPPY	= 25;
+	public static final int BUNKER			= 26;
 
 	//abilities
 	public static final int HEROIC_LEAP     = 8;

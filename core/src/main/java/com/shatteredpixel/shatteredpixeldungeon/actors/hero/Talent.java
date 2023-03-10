@@ -171,6 +171,7 @@ public enum Talent {
 	//Demolitionist T3
 	MALICIOUS_FUEL(271, 3), GRID_EXPOSURE(272, 3), SHAPED_WARHEAD(273, 3),
 	//Bunker T3
+	LIGHTWEIGHT_TOCHKA(274, 3), HEAVY_ARMOR(275, 3), SHRIKE_TURRET(276, 3),
 	//Stimpack T4
 	SUPER_STIMPACK(277,4), DRUG_COMPOUND(278, 4), PSYCHOTROPIC_CONTROL(279, 4),
 	//Sentry Gun T4
@@ -801,6 +802,9 @@ public enum Talent {
 				break;
 			case DEMOLITIONIST:
 				Collections.addAll(tierTalents, MALICIOUS_FUEL, GRID_EXPOSURE, SHAPED_WARHEAD);
+				break;
+			case BUNKER:
+				Collections.addAll(tierTalents, LIGHTWEIGHT_TOCHKA, HEAVY_ARMOR, SHRIKE_TURRET);
 				break;
 		}
 		for (Talent talent : tierTalents){

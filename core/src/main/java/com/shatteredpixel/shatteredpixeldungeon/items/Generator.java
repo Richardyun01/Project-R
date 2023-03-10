@@ -436,7 +436,7 @@ public class Generator {
 					RipperWeapon.class,
 					Scripture.class,
 			};
-			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4 };
+			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4 };
 			
 			WEP_T4.classes = new Class<?>[]{
 					Longsword.class,

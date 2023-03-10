@@ -21,8 +21,11 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -46,7 +49,11 @@ public class Madness extends FirearmWeapon {
 
     @Override
     public float accuracyFactorBullet(Char owner, Char target) {
-        return 2f;
+        if (hero.heroClass == HeroClass.NOISE) {
+            return 2f;
+        } else {
+            return 1f;
+        }
     }
 
     @Override

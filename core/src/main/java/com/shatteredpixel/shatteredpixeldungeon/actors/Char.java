@@ -38,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletHell;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bunker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
@@ -398,6 +399,12 @@ public abstract class Char extends Actor {
 				}
 			}
 
+			if (Dungeon.hero.subClass == HeroSubClass.BUNKER){
+				Buff.affect(Dungeon.hero, Bunker.class).gainStack();
+			}
+
+			Dungeon.hero.busy();
+
 			//we use a float here briefly so that we don't have to constantly round while
 			// potentially applying various multiplier effects
 			float dmg;
@@ -569,6 +576,7 @@ public abstract class Char extends Actor {
 			return false;
 			
 		}
+
 	}
 
 	public static int INFINITE_ACCURACY = 1_000_000;

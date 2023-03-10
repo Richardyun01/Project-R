@@ -34,15 +34,19 @@ public class AAWSM extends FirearmWeapon{
     @Override
     public void setReloadTime() {
         if (loader != null) {
-            reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero) * SpeedLoader.reloadMultiplier();
+            reload_time = 3f * RingOfReload.reloadMultiplier(Dungeon.hero) * SpeedLoader.reloadMultiplier();
         } else {
-            reload_time = 2f * RingOfReload.reloadMultiplier(Dungeon.hero);
+            reload_time = 3f * RingOfReload.reloadMultiplier(Dungeon.hero);
         }
     }
 
     @Override
     public float accuracyFactorBullet(Char owner, Char target) {
-        return 1.5f;
+        if (hero.heroClass == HeroClass.NOISE) {
+            return 1.5f;
+        } else {
+            return 1f;
+        }
     }
 
     @Override

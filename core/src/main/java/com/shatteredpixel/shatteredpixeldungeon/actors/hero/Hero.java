@@ -44,6 +44,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bunker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CloseQuarters;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
@@ -611,6 +612,14 @@ public class Hero extends Char {
 		if (momentum != null){
 			((HeroSprite)sprite).sprint( momentum.freerunning() ? 1.5f : 1f );
 			speed *= momentum.speedMultiplier();
+		} else {
+			((HeroSprite)sprite).sprint( 1f );
+		}
+
+		Bunker bunker = buff(Bunker.class);
+		if (bunker != null) {
+			((HeroSprite)sprite).sprint( bunker.bunkering() ? 0.2f+0.2f*pointsInTalent(Talent.LIGHTWEIGHT_TOCHKA) : 1f );
+			speed *= bunker.speedMultiplier();
 		} else {
 			((HeroSprite)sprite).sprint( 1f );
 		}
@@ -1324,6 +1333,11 @@ public class Hero extends Char {
 			dmg -= Defender.drRoll(belongings.weapon().buffedLvl());
 		}
 
+		Bunker bunker = buff(Bunker.class);
+		if (bunker != null && hero.hasTalent(Talent.HEAVY_ARMOR)) {
+			dmg -= 0.1 * pointsInTalent(Talent.HEAVY_ARMOR);
+		}
+
 		if (buff(Talent.WarriorFoodImmunity.class) != null){
 			if (pointsInTalent(Talent.IRON_STOMACH) == 1)       dmg = Math.round(dmg*0.25f);
 			else if (pointsInTalent(Talent.IRON_STOMACH) == 2)  dmg = Math.round(dmg*0.00f);
@@ -1934,6 +1948,10 @@ public class Hero extends Char {
 
 		if (hit && subClass == HeroSubClass.SPECOPS && belongings.weapon() instanceof FirearmWeapon) {
 			Buff.affect( this, CloseQuarters.class ).hit( enemy );
+		}
+
+		if (subClass == HeroSubClass.BUNKER && wasEnemy){
+			Buff.affect(this, Bunker.class).gainStack();
 		}
 
 		if (hit && hero.hasTalent(Talent.CANT_TOUCH_THIS) && Random.Int(10) < 3) {

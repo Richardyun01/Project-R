@@ -43,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Sh
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
+import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
@@ -72,7 +73,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Hydra;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.NotMachineGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Trench;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Vega;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
@@ -88,7 +92,7 @@ public enum HeroClass {
 	MAGE( HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK, HeroSubClass.ORACLE ),
 	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER, HeroSubClass.HITMAN ),
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN, HeroSubClass.POLARIS ),
-	NOISE( HeroSubClass.TRIGGERHAPPY, HeroSubClass.DEMOLITIONIST );
+	NOISE( HeroSubClass.TRIGGERHAPPY, HeroSubClass.DEMOLITIONIST, HeroSubClass.BUNKER );
 
 	private HeroSubClass[] subClasses;
 
@@ -151,6 +155,14 @@ public enum HeroClass {
 		plate.upgrade(8).collect();
 		 **/
 //erase this finish
+		PotionOfExperience enchan = new PotionOfExperience();
+		enchan.quantity(100).collect();
+		PotionOfStrength enchan2 = new PotionOfStrength();
+		enchan2.quantity(10).collect();
+		new TengusMask().collect();
+		new Hydra().collect();
+		new Vega().collect();
+		new Trench().collect();
 
 		switch (this) {
 			case WARRIOR:

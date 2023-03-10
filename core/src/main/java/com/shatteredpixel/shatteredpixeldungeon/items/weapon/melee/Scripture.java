@@ -26,15 +26,13 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCleansing;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Random;
 
 public class Scripture extends MeleeWeapon {
 
@@ -48,18 +46,18 @@ public class Scripture extends MeleeWeapon {
 
     @Override
     public int proc(Char attacker, Char defender, int damage) {
-        if (attacker.buff(Bless.class) == null) {
+        if (Random.Int(4) == 0) {
             Buff.affect( attacker, Bless.class, 2f);
-        } else if (attacker.buff(Adrenaline.class) == null) {
+        } else if (Random.Int(4) == 1) {
             Buff.affect( attacker, Adrenaline.class, 2f);
-        } else if (attacker.buff(Barrier.class) == null) {
+        } else if (Random.Int(4) == 2) {
             int barrAmt = 1;
             barrAmt = Math.min( barrAmt, attacker.HT - attacker.HP );
             if (barrAmt > 0 && attacker.isAlive()) {
                 Buff.affect(hero, Barrier.class).setShield((int) (2));
                 attacker.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( barrAmt ) );
             }
-        } else {
+        } else if (Random.Int(4) == 3) {
             int healAmt = 1;
             healAmt = Math.min( healAmt, attacker.HT - attacker.HP );
             if (healAmt > 0 && attacker.isAlive()) {
@@ -68,6 +66,7 @@ public class Scripture extends MeleeWeapon {
                 attacker.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healAmt ) );
             }
         }
+
         return super.proc( attacker, defender, damage );
     }
 

@@ -49,7 +49,8 @@ public enum HeroSubClass {
 	POLARIS(HeroIcon.POLARIS),
 
 	TRIGGERHAPPY(HeroIcon.TRIGGERHAPPY),
-	DEMOLITIONIST(HeroIcon.SNIPER);
+	DEMOLITIONIST(HeroIcon.SNIPER),
+	BUNKER(HeroIcon.BUNKER);
 
 
 	int icon;

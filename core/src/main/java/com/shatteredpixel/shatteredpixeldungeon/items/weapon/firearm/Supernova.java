@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Supercharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
@@ -58,7 +59,11 @@ public class Supernova extends FirearmWeapon{
 
     @Override
     public float accuracyFactorBullet(Char owner, Char target) {
-        return 2f;
+        if (hero.heroClass == HeroClass.NOISE) {
+            return 2f;
+        } else {
+            return 1f;
+        }
     }
 
     private int Damagefactor(int lvl) {

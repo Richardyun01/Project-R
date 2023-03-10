@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -52,7 +53,11 @@ public class Karasawa extends FirearmWeapon{
 
     @Override
     public float accuracyFactorBullet(Char owner, Char target) {
-        return 1.5f;
+        if (hero.heroClass == HeroClass.NOISE) {
+            return 1.5f;
+        } else {
+            return 1f;
+        }
     }
 
     @Override

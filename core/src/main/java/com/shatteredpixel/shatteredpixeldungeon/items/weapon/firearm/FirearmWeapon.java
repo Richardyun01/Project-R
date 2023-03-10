@@ -38,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bunker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CloseQuarters;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
@@ -583,14 +584,15 @@ public class FirearmWeapon extends MeleeWeapon {
                 Char ch = Actor.findChar(c);
                 if (ch != null) {
                     affected.add(ch);
+                    if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 3) {
+                        Buff.affect(ch, Ooze.class).set( Ooze.DURATION );
+                    }
                 }
                 if (hero.hasTalent(Talent.MALICIOUS_FUEL)) {
                     if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 1) {
                         GameScene.add( Blob.seed( cell, 5, ToxicGas.class ) );
                     } else if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 2) {
                         GameScene.add( Blob.seed( cell, 5, CorrosiveGas.class ) );
-                    } else if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 3) {
-                        Buff.affect(ch, Ooze.class).set( Ooze.DURATION );
                     }
                 }
             }
@@ -771,60 +773,84 @@ public class FirearmWeapon extends MeleeWeapon {
             Char findChar = Actor.findChar(cell);
             switch (type) {
                 case FirearmExplosive:
-                    targets = new ArrayList<>();
-                    if (Actor.findChar(cell) != null) targets.add(Actor.findChar(cell));
-                    for (int i : PathFinder.NEIGHBOURS8){
-                        if (Actor.findChar(cell + i) != null) targets.add(Actor.findChar(cell + i));
-                    }
-                    for (Char target : targets){
-                        curUser.shoot(target, this);
-                        if (target == hero){
-                            if (hero.hasTalent(Talent.SHAPED_WARHEAD)) {
-                                int damage = damageRoll(hero);
-                                damage -= target.drRoll();
-                                damage *= (1-0.3*hero.pointsInTalent(Talent.SHAPED_WARHEAD));
-                                target.damage(damage, hero);
-                            }
-                            if (!target.isAlive()) {
-                                Dungeon.fail(getClass());
-                                GLog.n(Messages.get(FirearmWeapon.class, "ondeath"));
+                    if (hero.buff(Bunker.class) != null && Random.Int(15) <= hero.pointsInTalent(Talent.SHRIKE_TURRET)) shot += 1;
+                    for (int j = 0; j < shot; j++) {
+                        targets = new ArrayList<>();
+                        if (Actor.findChar(cell) != null) targets.add(Actor.findChar(cell));
+                        for (int i : PathFinder.NEIGHBOURS8) {
+                            if (Actor.findChar(cell + i) != null)
+                                targets.add(Actor.findChar(cell + i));
+                        }
+                        for (Char target : targets) {
+                            curUser.shoot(target, this);
+                            if (target == hero) {
+                                if (hero.hasTalent(Talent.SHAPED_WARHEAD)) {
+                                    int damage = damageRoll(hero);
+                                    damage -= target.drRoll();
+                                    damage *= (1 - 0.3 * hero.pointsInTalent(Talent.SHAPED_WARHEAD));
+                                    target.damage(damage, hero);
+                                }
+                                if (!target.isAlive()) {
+                                    Dungeon.fail(getClass());
+                                    GLog.n(Messages.get(FirearmWeapon.class, "ondeath"));
+                                }
                             }
                         }
+                        onThrowBulletFirearmExplosive(cell);
+                        if (hero.hasTalent(Talent.DEATH_MACHINE) && Random.Int(10) <= hero.pointsInTalent(Talent.DEATH_MACHINE)) {
+                            //round preserves
+                        } else if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1) {
+
+                        } else {
+                            round--;
+                        }
                     }
-                    onThrowBulletFirearmExplosive(cell);
-                    if (hero.hasTalent(Talent.DEATH_MACHINE) && Random.Int(10) <= hero.pointsInTalent(Talent.DEATH_MACHINE)) {
-                        //round preserves
-                    } else {
-                        round --;
-                    }
+                    cooldown();
                     break;
                 case FirearmEnergy2:
-                    targets = new ArrayList<>();
-                    if (Actor.findChar(cell) != null) targets.add(Actor.findChar(cell));
-                    for (Char target : targets) {
-                        curUser.shoot(target, this);
+                    if (hero.buff(Bunker.class) != null && Random.Int(15) <= hero.pointsInTalent(Talent.SHRIKE_TURRET)) shot += 1;
+                    for (int i = 0; i < shot; i++) {
+                        targets = new ArrayList<>();
+                        if (Actor.findChar(cell) != null) targets.add(Actor.findChar(cell));
+                        for (Char target : targets) {
+                            curUser.shoot(target, this);
+                        }
+                        onThrowBulletFirearmEnergy2(cell);
+                        if (hero.hasTalent(Talent.ONE_MORE_ROUND) && Random.Int(10) < hero.pointsInTalent(Talent.ONE_MORE_ROUND)) {
+                            //round preserves
+                        } else if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1) {
+
+                        } else {
+                            round--;
+                        }
                     }
-                    onThrowBulletFirearmEnergy2(cell);
-                    if (hero.hasTalent(Talent.ONE_MORE_ROUND) && Random.Int(10) < hero.pointsInTalent(Talent.ONE_MORE_ROUND)) {
-                        //round preserves
-                    } else {
-                        round--;
-                    }
+                    cooldown();
                     break;
                 case FirearmEtc2:
-                    targets = new ArrayList<>();
-                    if (Actor.findChar(cell) != null) targets.add(Actor.findChar(cell));
-                    for (Char target : targets) {
-                        curUser.shoot(target, this);
+                    if (hero.buff(Bunker.class) != null && Random.Int(15) <= hero.pointsInTalent(Talent.SHRIKE_TURRET)) shot += 1;
+                    for (int i = 0; i < shot; i++) {
+                        targets = new ArrayList<>();
+                        if (Actor.findChar(cell) != null) targets.add(Actor.findChar(cell));
+                        for (Char target : targets) {
+                            curUser.shoot(target, this);
+                        }
+                        onThrowBulletFirearmEtc2(cell);
+                        if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1) {
+
+                        } else {
+                            round--;
+                        }
                     }
-                    onThrowBulletFirearmEtc2(cell);
-                    round--;
+                    cooldown();
                     break;
                 case FirearmEnergy1:
+                    if (hero.buff(Bunker.class) != null && Random.Int(15) <= hero.pointsInTalent(Talent.SHRIKE_TURRET)) shot += 1;
                     for (int i = 0; i < shot; i++) {
                         if (round <= 0) break;
                         if (hero.hasTalent(Talent.DEATH_MACHINE) && Random.Int(10) <= hero.pointsInTalent(Talent.DEATH_MACHINE)) {
                             //round preserves
+                        } else if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1) {
+
                         } else {
                             round --;
                         }
@@ -874,10 +900,13 @@ public class FirearmWeapon extends MeleeWeapon {
                     cooldown();
                     break;
                 case FirearmEtc1:
+                    if (hero.buff(Bunker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.SHRIKE_TURRET)) shot += 1;
                     for (int i = 0; i < shot; i++) {
                         if (round <= 0) break;
                         if (hero.hasTalent(Talent.DEATH_MACHINE) && Random.Int(10) <= hero.pointsInTalent(Talent.DEATH_MACHINE)) {
                             //round preserves
+                        } else if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1) {
+
                         } else {
                             round --;
                         }
@@ -900,9 +929,15 @@ public class FirearmWeapon extends MeleeWeapon {
                     cooldown();
                     break;
                 case FirearmPistol:
+                    if (hero.buff(Bunker.class) != null && Random.Int(5) <= hero.pointsInTalent(Talent.SHRIKE_TURRET)) shot += 1;
                     for (int i = 0; i < shot; i++) {
                         if (round <= 0) break;
-                        round--;
+                        if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1) {
+
+                        } else {
+                            round--;
+                        }
+
 
                         Char enemy = Actor.findChar(cell);
                         if (enemy == null || enemy == curUser) {
@@ -922,10 +957,13 @@ public class FirearmWeapon extends MeleeWeapon {
                     }
                     break;
                 case FirearmAuto:
+                    if (hero.buff(Bunker.class) != null && Random.Int(5) <= hero.pointsInTalent(Talent.SHRIKE_TURRET)) shot += 1;
                     for (int i = 0; i < shot; i++) {
                         if (round <= 0) break;
                         if (hero.hasTalent(Talent.ONE_MORE_ROUND) && Random.Int(10) < hero.pointsInTalent(Talent.ONE_MORE_ROUND)) {
                             //round preserves
+                        } else if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1) {
+
                         } else {
                             round--;
                         }
@@ -945,11 +983,39 @@ public class FirearmWeapon extends MeleeWeapon {
                     cooldown();
                     break;
                 case FirearmPrecision:
-                case FirearmShotgun:
-                default:
+                    if (hero.buff(Bunker.class) != null && Random.Int(10) <= hero.pointsInTalent(Talent.SHRIKE_TURRET)) shot += 1;
                     for (int i = 0; i < shot; i++) {
                         if (round <= 0) break;
-                        round--;
+                        if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1) {
+
+                        } else {
+                            round--;
+                        }
+
+                        Char enemy = Actor.findChar(cell);
+                        if (enemy == null || enemy == curUser) {
+                            parent = null;
+                            CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                            CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                        } else {
+                            if (!curUser.shoot(enemy, this)) {
+                                CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
+                                CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
+                            }
+                        }
+                    }
+                    cooldown();
+                    break;
+                case FirearmShotgun:
+                default:
+                    if (hero.buff(Bunker.class) != null && Random.Int(3) <= hero.pointsInTalent(Talent.SHRIKE_TURRET)) shot += 1;
+                    for (int i = 0; i < shot; i++) {
+                        if (round <= 0) break;
+                        if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1) {
+
+                        } else {
+                            round--;
+                        }
 
                         Char enemy = Actor.findChar(cell);
                         if (enemy == null || enemy == curUser) {

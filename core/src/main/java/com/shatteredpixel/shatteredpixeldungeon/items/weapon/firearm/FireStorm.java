@@ -10,9 +10,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.CorrosiveGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Inferno;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
@@ -58,7 +59,11 @@ public class FireStorm extends FirearmWeapon{
 
     @Override
     public float accuracyFactorBullet(Char owner, Char target) {
-        return 1.5f;
+        if (hero.heroClass == HeroClass.NOISE) {
+            return 1.5f;
+        } else {
+            return 1f;
+        }
     }
 
     @Override
@@ -118,6 +123,9 @@ public class FireStorm extends FirearmWeapon{
                 Char ch = Actor.findChar(c);
                 if (ch != null) {
                     affected.add(ch);
+                    if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 3) {
+                        Buff.affect(ch, Ooze.class).set( Ooze.DURATION );
+                    }
                 }
             }
             GameScene.add(Blob.seed(cell + n, 2, Fire.class));
@@ -126,8 +134,6 @@ public class FireStorm extends FirearmWeapon{
                     GameScene.add( Blob.seed( cell, 25, ToxicGas.class ) );
                 } else if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 2) {
                     GameScene.add( Blob.seed( cell, 10, CorrosiveGas.class ) );
-                } else if (hero.pointsInTalent(Talent.MALICIOUS_FUEL) == 3) {
-                    GameScene.add( Blob.seed( cell, 10, Inferno.class ) );
                 }
             }
             if (hero.hasTalent(Talent.GRID_EXPOSURE)) {
