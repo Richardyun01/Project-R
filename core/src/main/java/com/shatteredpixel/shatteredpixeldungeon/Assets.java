@@ -298,5 +298,6 @@ public class Assets {
 		public static final String NINJA_LOG= "sprites/ninja_log.png";
 		public static final String SPIRIT_HAWK= "sprites/spirit_hawk.png";
 		public static final String RED_SENTRY= "sprites/red_sentry.png";
+		public static final String SENTRY_GUN= "sprites/sentry_gun.png";
 	}
 }

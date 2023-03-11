@@ -175,6 +175,9 @@ public enum Talent {
 	//Stimpack T4
 	SUPER_STIMPACK(277,4), DRUG_COMPOUND(278, 4), PSYCHOTROPIC_CONTROL(279, 4),
 	//Sentry Gun T4
+	NIGHT_RAVEN(280, 4), BIO_DETECTOR(281, 4), BURST_SENTRY(282, 4),
+	//Danger Close T4
+	HEAT_ROUND(283, 4), EXPLOSIVE_PENETRATOR(284, 4), EMP_SHELL(285, 4),
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one

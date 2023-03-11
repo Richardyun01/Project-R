@@ -46,6 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpiritHawk;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.noise.SentryGun;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bestiary;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Piranha;
@@ -1255,6 +1256,18 @@ public abstract class Level implements Bundlable {
 			}
 		}
 
+		if (c instanceof SentryGun.SentryAlly && Dungeon.hero.pointsInTalent(Talent.BIO_DETECTOR) >= 3){
+			int range = 1+(Dungeon.hero.pointsInTalent(Talent.BIO_DETECTOR)-2);
+			for (Mob mob : mobs) {
+				int p = mob.pos;
+				if (!fieldOfView[p] && distance(c.pos, p) <= range) {
+					for (int i : PathFinder.NEIGHBOURS9) {
+						fieldOfView[mob.pos + i] = true;
+					}
+				}
+			}
+		}
+
 		//Currently only the hero can get mind vision or awareness
 		if (c.isAlive() && c == Dungeon.hero) {
 
@@ -1319,7 +1332,8 @@ public abstract class Level implements Bundlable {
 			for (Mob m : mobs){
 				if (m instanceof WandOfWarding.Ward
 						|| m instanceof WandOfRegrowth.Lotus
-						|| m instanceof SpiritHawk.HawkAlly){
+						|| m instanceof SpiritHawk.HawkAlly
+						|| m instanceof SentryGun.SentryAlly){
 					if (m.fieldOfView == null || m.fieldOfView.length != length()){
 						m.fieldOfView = new boolean[length()];
 						Dungeon.level.updateFieldOfView( m, m.fieldOfView );

@@ -1335,7 +1335,7 @@ public class Hero extends Char {
 
 		Bunker bunker = buff(Bunker.class);
 		if (bunker != null && hero.hasTalent(Talent.HEAVY_ARMOR)) {
-			dmg -= 0.1 * pointsInTalent(Talent.HEAVY_ARMOR);
+			dmg -= 0.2 * pointsInTalent(Talent.HEAVY_ARMOR);
 		}
 
 		if (buff(Talent.WarriorFoodImmunity.class) != null){

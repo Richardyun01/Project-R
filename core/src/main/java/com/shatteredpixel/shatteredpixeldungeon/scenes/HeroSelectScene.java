@@ -37,13 +37,13 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.StyledButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndTextInput;
 import com.shatteredpixel.shatteredpixeldungeon.utils.DungeonSeed;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndChallenges;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndHeroInfo;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndKeyBindings;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndMessage;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndTextInput;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.input.PointerEvent;
 import com.watabou.noosa.Camera;
@@ -205,7 +205,7 @@ public class HeroSelectScene extends PixelScene {
 		updateOptionsColor();
 		btnOptions.visible = false;
 
-		if (DeviceCompat.isDebug() || Badges.isUnlocked(Badges.Badge.VICTORY)){
+		if (/*DeviceCompat.isDebug() || */Badges.isUnlocked(Badges.Badge.VICTORY)){
 			add(btnOptions);
 		} else {
 			Dungeon.challenges = 0;

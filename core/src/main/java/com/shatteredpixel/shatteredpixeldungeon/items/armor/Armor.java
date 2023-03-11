@@ -434,7 +434,7 @@ public class Armor extends EquipableItem {
 		Bunker bunker = defender.buff(Bunker.class);
 		int aEnc = STRReq() - ((Hero) defender).STR();
 		if (bunker != null){
-			damage *= 1 - 0.01f * bunker.defenceBonus(((Hero) defender).lvl, Math.max(0, -aEnc)) - 0.1f * Dungeon.hero.pointsInTalent(Talent.HEAVY_ARMOR);
+			damage *= 1 - 0.01f * bunker.defenceBonus(((Hero) defender).lvl, Math.max(0, -aEnc)) - 0.2f * Dungeon.hero.pointsInTalent(Talent.HEAVY_ARMOR);
 		}
 
 		if (hero.hasTalent(Talent.PSYCHOTROPIC_CONTROL) && defender.buff(StimpackAdrenaline.class) != null) {

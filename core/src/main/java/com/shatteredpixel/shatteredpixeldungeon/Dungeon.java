@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpiritHawk;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.noise.SentryGun;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Ghost;
@@ -903,7 +904,8 @@ public class Dungeon {
 		for (Char ch : Actor.chars()){
 			if (ch instanceof WandOfWarding.Ward
 					|| ch instanceof WandOfRegrowth.Lotus
-					|| ch instanceof SpiritHawk.HawkAlly){
+					|| ch instanceof SpiritHawk.HawkAlly
+					|| ch instanceof SentryGun.SentryAlly){
 				x = ch.pos % level.width();
 				y = ch.pos / level.width();
 

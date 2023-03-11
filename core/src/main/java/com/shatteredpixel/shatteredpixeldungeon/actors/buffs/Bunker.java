@@ -84,14 +84,6 @@ public class Bunker extends Buff implements ActionIndicator.Action {
         }
     }
 
-    public float attackspeedBonus(int heroLvl, int excessWeaponStr) {
-        if (bunkeringTurns > 0) {
-            return heroLvl/2 + excessWeaponStr;
-        } else {
-            return 0;
-        }
-    }
-
     @Override
     public int icon() {
         return BuffIndicator.BUNKER;
