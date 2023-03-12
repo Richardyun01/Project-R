@@ -5,6 +5,36 @@ Based on the source code of 00-Evan's [Shattered Pixel Dungeon](https://github.c
 
 Project-R supports only Korean language yet.
 
+## New Contents
+- New Hero/Item Sprites/BGM
+- Completely New Story and Script(Not complete)
+---
+- New Weapon Class: Firearms
+    - Pistol: Basic firearm
+    - Precision: High-accuracy firearm - high damage, cannot attack near enemy
+    - Auto: Multiple burst - low accuracy, high DPS
+    - Shotgun: Scatter bullets - powerful against near enemy, cannot attack faraway enemy
+    - Explosive: Large Explosion - high damage, risk of self destruction
+    - Energy: Ignores Defense - Laser or Plasma
+    - Etc: Flamethrowers or concept weapons
+- New Melee Weapons
+    - 3 new in Tier 2
+    - 2 new in Tier 3/4
+    - 4 new in Tier 5
+- New Artifact
+    - AESA Radar
+    - Bio Plus
+- New Data Chip (Ring in SPD)
+    - Reload Support Chip
+---
+- 4 New Subclasses for Original Classes
+- 5th 1 tier talent for each class
+- 6th 2 tier talent for each class
+- New Class: Noise with 3 New Subclasses and 3 New Armor Ability(TBA More)
+- Easy Mode for Beginners!
+
+
+
 # Shattered Pixel Dungeon
 
 A Roguelike RPG, with randomly generated levels, items, enemies, and traps! Based on the [source code of Pixel Dungeon](https://github.com/00-Evan/pixel-dungeon-gradle), by [Watabou](https://www.watabou.ru).
