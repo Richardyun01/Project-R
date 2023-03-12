@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -48,7 +49,7 @@ import com.watabou.utils.Random;
 public class DangerClose extends ArmorAbility {
 
     {
-        baseChargeUse = 75f;
+        baseChargeUse = 65f;
     }
 
     @Override
@@ -105,7 +106,7 @@ public class DangerClose extends ArmorAbility {
                         if (hero.pointsInTalent(Talent.EMP_SHELL) >= 1) {
                             Buff.affect(ch, Blindness.class, 1*hero.pointsInTalent(Talent.EMP_SHELL));
                             if (hero.pointsInTalent(Talent.EMP_SHELL) >= 3) {
-                                Buff.affect(ch, Blindness.class, hero.pointsInTalent(Talent.EMP_SHELL)-2);
+                                Buff.affect(ch, Terror.class, hero.pointsInTalent(Talent.EMP_SHELL)-2);
                             }
                         }
                     }

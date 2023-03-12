@@ -432,8 +432,8 @@ public class Armor extends EquipableItem {
 		}
 
 		Bunker bunker = defender.buff(Bunker.class);
-		int aEnc = STRReq() - ((Hero) defender).STR();
-		if (bunker != null){
+		if (defender == hero && bunker != null){
+			int aEnc = STRReq() - ((Hero) defender).STR();
 			damage *= 1 - 0.01f * bunker.defenceBonus(((Hero) defender).lvl, Math.max(0, -aEnc)) - 0.2f * Dungeon.hero.pointsInTalent(Talent.HEAVY_ARMOR);
 		}
 

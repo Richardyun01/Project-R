@@ -49,7 +49,7 @@ public class SentryGun extends ArmorAbility {
     }
 
     {
-        baseChargeUse = 35f;
+        baseChargeUse = 45f;
     }
 
     @Override

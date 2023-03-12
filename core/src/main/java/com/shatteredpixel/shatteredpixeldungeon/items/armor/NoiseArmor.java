@@ -26,7 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 public class NoiseArmor extends ClassArmor {
 
     {
-        image = ItemSpriteSheet.ARMOR_HUNTRESS;
+        image = ItemSpriteSheet.ARMOR_NOISE;
     }
 
 }

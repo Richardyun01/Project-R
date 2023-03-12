@@ -273,13 +273,6 @@ public enum HeroClass {
 		NotMachineGun gun = new NotMachineGun();
 		(hero.belongings.weapon = gun).identify();
 
-		/*
-		RingOfReload reload = new RingOfReload();
-		reload.start = true;
-		(hero.belongings.ring = reload).identify().upgrade(3);
-		hero.belongings.ring.activate( hero );
-		*/
-
 		if (hero.belongings.weapon != null && hero.belongings.weapon instanceof FirearmWeapon){
 			((FirearmWeapon) hero.belongings.weapon).affixLoader(new SpeedLoader());
 		}
