@@ -107,7 +107,14 @@ public class Endure extends ArmorAbility {
 		public float adjustDamageTaken(float damage){
 			if (enduring) {
 				damageBonus += damage/2;
-				return damage/2f;
+
+				float damageMulti = 0.5f;
+				if (Dungeon.hero.hasTalent(Talent.SHRUG_IT_OFF)){
+					//total damage reduction is 60%/68%/74%/80%, based on points in talent
+					damageMulti *= Math.pow(0.8f, Dungeon.hero.pointsInTalent(Talent.SHRUG_IT_OFF));
+				}
+
+				return damage*damageMulti;
 			}
 			return damage;
 		}

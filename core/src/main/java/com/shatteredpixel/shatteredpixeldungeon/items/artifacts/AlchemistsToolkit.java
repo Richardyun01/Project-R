@@ -25,8 +25,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.AlchemyScene;
@@ -90,14 +88,14 @@ public class AlchemistsToolkit extends Artifact {
 		} else if (action.equals(AC_ENERGIZE)){
 			if (!isEquipped(hero))              GLog.i( Messages.get(this, "need_to_equip") );
 			else if (cursed)                    GLog.w( Messages.get(this, "cursed") );
-			else if (Dungeon.energy < 5)        GLog.w( Messages.get(this, "need_energy") );
+			else if (Dungeon.energy < 6)        GLog.w( Messages.get(this, "need_energy") );
 			else {
 
-				final int maxLevels = Math.min(levelCap - level(), Dungeon.energy/5);
+				final int maxLevels = Math.min(levelCap - level(), Dungeon.energy/6);
 
 				String[] options;
 				if (maxLevels > 1){
-					options = new String[]{ Messages.get(this, "energize_1"), Messages.get(this, "energize_all", 5*maxLevels, maxLevels)};
+					options = new String[]{ Messages.get(this, "energize_1"), Messages.get(this, "energize_all", 6*maxLevels, maxLevels)};
 				} else {
 					options = new String[]{ Messages.get(this, "energize_1")};
 				}
@@ -111,13 +109,13 @@ public class AlchemistsToolkit extends Artifact {
 						super.onSelect(index);
 
 						if (index == 0){
-							Dungeon.energy -= 5;
+							Dungeon.energy -= 6;
 							Sample.INSTANCE.play(Assets.Sounds.DRINK);
 							Sample.INSTANCE.playDelayed(Assets.Sounds.PUFF, 0.5f);
 							Dungeon.hero.sprite.operate(Dungeon.hero.pos);
 							upgrade();
 						} else if (index == 1){
-							Dungeon.energy -= 5*maxLevels;
+							Dungeon.energy -= 6*maxLevels;
 							Sample.INSTANCE.play(Assets.Sounds.DRINK);
 							Sample.INSTANCE.playDelayed(Assets.Sounds.PUFF, 0.5f);
 							Dungeon.hero.sprite.operate(Dungeon.hero.pos);

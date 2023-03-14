@@ -63,9 +63,16 @@ public class WandOfFireblast extends DamageWand {
 		return (1+lvl) * chargesPerCast();
 	}
 
-	//1x/2x/3x damage
+	//2/8/18 base damage with 2/4/6 scaling based on charges used
 	public int max(int lvl){
-		return (6+2*lvl) * chargesPerCast();
+		switch (chargesPerCast()){
+			case 1: default:
+				return 4+2*lvl;
+			case 2:
+				return 2*(5+2*lvl);
+			case 3:
+				return 3*(6+2*lvl);
+		}
 	}
 
 	ConeAOE cone;

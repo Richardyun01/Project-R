@@ -45,11 +45,8 @@ public class NotMachineGun extends FirearmWeapon {
         tier = 1;
         type = FirearmType.FirearmAuto;
         max_round = 8;
-        /**
-        if (Dungeon.hero.hasTalent(Talent.DEATH_MACHINE)) {
-            max_round += 2 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE);
-        } **/
         shot = 2;
+        bones = false;
 
         bullet_image = ItemSpriteSheet.DUAL_BULLET;
     }

@@ -29,7 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bat;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -44,13 +44,11 @@ import com.watabou.utils.PathFinder;
 
 import java.util.ArrayList;
 
-public class Pickaxe extends Weapon {
+public class Pickaxe extends MeleeWeapon {
 	
 	public static final String AC_MINE	= "MINE";
 	
 	public static final float TIME_TO_MINE = 2;
-
-	private static final String ENCHANTMENT	    = "enchantment";
 	
 	private static final Glowing BLOODY = new Glowing( 0x550000 );
 	
@@ -64,23 +62,14 @@ public class Pickaxe extends Weapon {
 		
 		defaultAction = AC_MINE;
 
+		tier = 2;
 	}
 	
 	public boolean bloodStained = false;
 
 	@Override
-	public int min(int lvl) {
-		return 2;   //tier 2
-	}
-
-	@Override
-	public int max(int lvl) {
-		return 15;  //tier 2
-	}
-
-	@Override
 	public int STRReq(int lvl) {
-		return STRReq(3, lvl); //tier 3
+		return super.STRReq(lvl) + 2; //tier 3 strength requirement with tier 2 damage stats
 	}
 
 	@Override
@@ -180,20 +169,24 @@ public class Pickaxe extends Weapon {
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 		super.storeInBundle( bundle );
-		enchantment = (Enchantment)bundle.get( ENCHANTMENT );
+		//enchantment = (Enchantment)bundle.get( ENCHANTMENT );
 		bundle.put( BLOODSTAINED, bloodStained );
 	}
 	
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle( bundle );
-		enchantment = (Enchantment)bundle.get( ENCHANTMENT );
+		//enchantment = (Enchantment)bundle.get( ENCHANTMENT );
 		bloodStained = bundle.getBoolean( BLOODSTAINED );
 	}
 	
 	@Override
 	public Glowing glowing() {
-		return bloodStained ? BLOODY : null;
+		if (super.glowing() == null) {
+			return bloodStained ? BLOODY : null;
+		} else {
+			return super.glowing();
+		}
 	}
 
 }

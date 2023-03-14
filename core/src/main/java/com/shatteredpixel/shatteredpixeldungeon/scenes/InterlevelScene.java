@@ -46,7 +46,6 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.StyledButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndError;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndStory;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.glwrap.Blending;
 import com.watabou.noosa.Camera;
@@ -172,6 +171,7 @@ public class InterlevelScene extends PixelScene {
 		} else if (DeviceCompat.isDebug()){
 			fadeTime = 0f;
 		}
+
 		
 		SkinnedBlock bg = new SkinnedBlock(Camera.main.width, Camera.main.height, loadingAsset ){
 			@Override

@@ -80,6 +80,8 @@ public class HeroSelectScene extends PixelScene {
 	private IconButton btnOptions;
 	private GameOptions optionsPane;
 	private IconButton btnExit;
+	private IconButton changeButton;
+	private int change;
 
 	@Override
 	public void create() {
@@ -174,6 +176,21 @@ public class HeroSelectScene extends PixelScene {
 			heroBtns.add(button);
 		}
 
+		changeButton = new IconButton(Icons.get(Icons.CHANGES)) {
+			@Override
+			protected void onClick() {
+				ChangeHero();
+			}
+			@Override
+			public void update() {
+				super.update();
+			}
+		};
+		changeButton.visible = changeButton.active = true;
+		changeButton.setSize(21, 21);
+		changeButton.setPos(0, 0);
+		add(changeButton);
+
 		optionsPane = new GameOptions();
 		optionsPane.visible = optionsPane.active = false;
 		optionsPane.layout();
@@ -205,7 +222,7 @@ public class HeroSelectScene extends PixelScene {
 		updateOptionsColor();
 		btnOptions.visible = false;
 
-		if (/*DeviceCompat.isDebug() || */Badges.isUnlocked(Badges.Badge.VICTORY)){
+		if (DeviceCompat.isDebug() || Badges.isUnlocked(Badges.Badge.VICTORY)){
 			add(btnOptions);
 		} else {
 			Dungeon.challenges = 0;
@@ -421,6 +438,40 @@ public class HeroSelectScene extends PixelScene {
 		}
 
 		updateOptionsColor();
+	}
+
+	private void ChangeHero() {
+		GamesInProgress.selectedClass = null;
+
+		background.visible = false;
+		startBtn.visible = false;
+		infoButton.visible = false;
+
+		if (change == 0) change = 1;
+		else change = 0;
+
+		int i = change * 5;
+
+		for (int j = 0; j < heroBtns.size(); j++) {
+			heroBtns.get(j).destroy();
+		}
+
+		HeroClass[] classes = HeroClass.values();
+
+		int btnWidth = HeroBtn.MIN_WIDTH;
+		int curX = (Camera.main.width - btnWidth*5)/2;
+		if (curX > 0) {
+			btnWidth += Math.min(curX/(5/2), 15);
+			curX = (Camera.main.width - btnWidth * 5)/2;
+		}
+		for (int p = 0; p < 6; p++) {
+			if (classes.length <= p+i) break;
+			HeroBtn button = new HeroBtn(classes[p+i]);
+			button.setRect(curX, Camera.main.height-HeroBtn.HEIGHT+3, btnWidth, HeroBtn.HEIGHT);
+			curX += btnWidth;
+			add(button);
+			heroBtns.add(button);
+		}
 	}
 
 	private float uiAlpha;
