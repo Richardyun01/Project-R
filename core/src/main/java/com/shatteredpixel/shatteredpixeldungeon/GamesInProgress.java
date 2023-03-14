@@ -21,7 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon;
 
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -36,7 +35,7 @@ import java.util.HashMap;
 
 public class GamesInProgress {
 	
-	public static final int MAX_SLOTS = 4;
+	public static final int MAX_SLOTS = 5;
 	
 	//null means we have loaded info and it is empty, no entry means unknown.
 	private static HashMap<Integer, Info> slotStates = new HashMap<>();

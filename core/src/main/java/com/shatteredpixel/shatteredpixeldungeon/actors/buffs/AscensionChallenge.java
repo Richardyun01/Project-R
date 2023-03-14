@@ -26,10 +26,34 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.Ratmogrify;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.*;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bat;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Brute;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Crab;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM100;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM200;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Elemental;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Eye;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Ghoul;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Gnoll;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Golem;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Guard;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Monk;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Necromancer;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rat;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.RipperDemon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Scorpio;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Shaman;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Skeleton;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Slime;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Spinner;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Succubus;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Swarm;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Thief;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Warlock;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Shopkeeper;
 import com.shatteredpixel.shatteredpixeldungeon.items.Amulet;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Languages;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -42,12 +66,12 @@ public class AscensionChallenge extends Buff {
 
 	private static HashMap<Class<?extends Mob>, Float> modifiers = new HashMap<>();
 	static {
-		modifiers.put(Rat.class,            8f);
-		modifiers.put(Snake.class,          7f);
-		modifiers.put(Gnoll.class,          7f);
-		modifiers.put(Swarm.class,          6.5f);
-		modifiers.put(Crab.class,           6f);
-		modifiers.put(Slime.class,          6f);
+		modifiers.put(Rat.class,            10f);
+		modifiers.put(Snake.class,          9f);
+		modifiers.put(Gnoll.class,          9f);
+		modifiers.put(Swarm.class,          8.5f);
+		modifiers.put(Crab.class,           8f);
+		modifiers.put(Slime.class,          8f);
 
 		modifiers.put(Skeleton.class,       5f);
 		modifiers.put(Thief.class,          5f);
@@ -61,10 +85,10 @@ public class AscensionChallenge extends Buff {
 		modifiers.put(Spinner.class,        2f);
 		modifiers.put(DM200.class,          2f);
 
-		modifiers.put(Ghoul.class,          1.5f);
-		modifiers.put(Elemental.class,      1.5f);
-		modifiers.put(Warlock.class,        1.33f);
-		modifiers.put(Monk.class,           1.33f);
+		modifiers.put(Ghoul.class,          1.67f);
+		modifiers.put(Elemental.class,      1.67f);
+		modifiers.put(Warlock.class,        1.5f);
+		modifiers.put(Monk.class,           1.5f);
 		modifiers.put(Golem.class,          1.33f);
 
 		modifiers.put(RipperDemon.class,    1.2f);
@@ -91,10 +115,10 @@ public class AscensionChallenge extends Buff {
 		return 1;
 	}
 
-	//distant mobs get constantly beckoned to the hero at 2.5+ stacks
+	//distant mobs get constantly beckoned to the hero at 2+ stacks
 	public static void beckonEnemies(){
 		if (Dungeon.hero.buff(AscensionChallenge.class) != null
-				&& Dungeon.hero.buff(AscensionChallenge.class).stacks >= 2.5f){
+				&& Dungeon.hero.buff(AscensionChallenge.class).stacks >= 2f){
 			for (Mob m : Dungeon.level.mobs){
 				if (m.alignment == Char.Alignment.ENEMY && m.distance(Dungeon.hero) > 8) {
 					m.beckon(Dungeon.hero.pos);

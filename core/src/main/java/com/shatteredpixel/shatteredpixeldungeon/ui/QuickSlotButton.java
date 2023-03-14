@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,10 +24,13 @@ package com.shatteredpixel.shatteredpixeldungeon.ui;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.QuickSlot;
 import com.shatteredpixel.shatteredpixeldungeon.SPDAction;
+import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -40,30 +43,30 @@ import com.watabou.noosa.Image;
 import com.watabou.utils.PathFinder;
 
 public class QuickSlotButton extends Button {
-	
+
 	private static QuickSlotButton[] instance = new QuickSlotButton[QuickSlot.SIZE];
 	private int slotNum;
 
 	private ItemSlot slot;
-	
+
 	private Image crossB;
 	private Image crossM;
-	
+
 	public static int targetingSlot = -1;
 	public static Char lastTarget = null;
-	
+
 	public QuickSlotButton( int slotNum ) {
 		super();
 		this.slotNum = slotNum;
 		item( select( slotNum ) );
-		
+
 		instance[slotNum] = this;
 	}
-	
+
 	@Override
 	public void destroy() {
 		super.destroy();
-		
+
 		reset();
 	}
 
@@ -72,11 +75,11 @@ public class QuickSlotButton extends Button {
 
 		lastTarget = null;
 	}
-	
+
 	@Override
 	protected void createChildren() {
 		super.createChildren();
-		
+
 		slot = new ItemSlot() {
 			@Override
 			protected void onClick() {
@@ -146,21 +149,21 @@ public class QuickSlotButton extends Button {
 		};
 		slot.showExtraInfo( false );
 		add( slot );
-		
+
 		crossB = Icons.TARGET.get();
 		crossB.visible = false;
 		add( crossB );
-		
+
 		crossM = new Image();
 		crossM.copy( crossB );
 	}
-	
+
 	@Override
 	protected void layout() {
 		super.layout();
-		
+
 		slot.fill( this );
-		
+
 		crossB.x = x + (width - crossB.width) / 2;
 		crossB.y = y + (height - crossB.height) / 2;
 		PixelScene.align(crossB);
@@ -211,7 +214,7 @@ public class QuickSlotButton extends Button {
 			return super.hoverText();
 		}
 	}
-	
+
 	@Override
 	protected void onClick() {
 		if (Dungeon.hero.ready && !GameScene.cancel()) {
@@ -244,22 +247,45 @@ public class QuickSlotButton extends Button {
 
 		@Override
 		public boolean itemSelectable(Item item) {
-			return item.defaultAction != null;
+			return item.defaultAction() != null;
 		}
 
 		@Override
 		public void onSelect(Item item) {
 			if (item != null) {
-				Dungeon.quickslot.setSlot( slotNum , item );
-				refresh();
+				set( slotNum , item );
 			}
 		}
 	};
 
+	public static void set(Item item){
+		for (int i = 0; i < instance.length; i++) {
+			if (select(i) == null || select(i) == item) {
+				set(i, item);
+				return;
+			}
+		}
+		set(0, item);
+	}
+
+	public static void set(int slotNum, Item item){
+		Dungeon.quickslot.setSlot( slotNum , item );
+		refresh();
+
+		//Remember if the player adds the waterskin as one of their first actions.
+		if (Statistics.duration + Actor.now() <= 10){
+			boolean containsWaterskin = false;
+			for (int i = 0; i < instance.length; i++) {
+				if (select(i) instanceof Waterskin) containsWaterskin = true;
+			}
+			if (containsWaterskin) SPDSettings.quickslotWaterskin(true);
+		}
+	}
+
 	private static Item select(int slotNum){
 		return Dungeon.quickslot.getItem( slotNum );
 	}
-	
+
 	public void item( Item item ) {
 		slot.item( item );
 		enableSlot();
@@ -273,7 +299,7 @@ public class QuickSlotButton extends Button {
 			slot.enable( false );
 		}
 	}
-	
+
 	private void enableSlot() {
 		slot.enable(Dungeon.quickslot.isNonePlaceholder( slotNum )
 				&& (Dungeon.hero.buff(LostInventory.class) == null || Dungeon.quickslot.getItem(slotNum).keptThoughLostInvent));
@@ -350,17 +376,25 @@ public class QuickSlotButton extends Button {
 		if (Toolbar.SWAP_INSTANCE != null){
 			Toolbar.SWAP_INSTANCE.updateVisuals();
 		}
+		//Remember if the player removes the waterskin as one of their first actions.
+		if (Statistics.duration + Actor.now() <= 10){
+			boolean containsWaterskin = false;
+			for (int i = 0; i < instance.length; i++) {
+				if (select(i) instanceof Waterskin) containsWaterskin = true;
+			}
+			if (!containsWaterskin) SPDSettings.quickslotWaterskin(false);
+		}
 	}
-	
+
 	public static void target( Char target ) {
 		if (target != null && target.alignment != Char.Alignment.ALLY) {
 			lastTarget = target;
-			
+
 			TargetHealthIndicator.instance.target( target );
 			InventoryPane.lastTarget = target;
 		}
 	}
-	
+
 	public static void cancel() {
 		if (targetingSlot != -1) {
 			for (QuickSlotButton btn : instance) {

@@ -46,7 +46,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.journal.RegionLorePage;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.GoldenKey;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.Key;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
-import com.shatteredpixel.shatteredpixeldungeon.journal.Journal;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.levels.builders.Builder;
 import com.shatteredpixel.shatteredpixeldungeon.levels.builders.FigureEightBuilder;
@@ -67,6 +66,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ChillingTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.DisintegrationTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ExplosiveTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.FrostTrap;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.PitfallTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.WornDartTrap;
 import com.watabou.utils.Bundle;
@@ -611,7 +611,8 @@ public abstract class RegularLevel extends Level {
 					if (t == null ||
 							! (t instanceof BurningTrap || t instanceof BlazingTrap
 							|| t instanceof ChillingTrap || t instanceof FrostTrap
-							|| t instanceof ExplosiveTrap || t instanceof DisintegrationTrap)) {
+							|| t instanceof ExplosiveTrap || t instanceof DisintegrationTrap
+							|| t instanceof PitfallTrap)) {
 						
 						return pos;
 					}

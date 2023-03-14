@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -41,7 +42,6 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
-import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
 import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
@@ -174,6 +174,7 @@ public class EtherealChains extends Artifact {
 			return;
 		} else {
 			charge -= chargeUse;
+			Invisibility.dispel(hero);
 			Talent.onArtifactUsed(hero);
 			updateQuickslot();
 		}
@@ -237,6 +238,7 @@ public class EtherealChains extends Artifact {
 			return;
 		} else {
 			charge -= chargeUse;
+			Invisibility.dispel(hero);
 			Talent.onArtifactUsed(hero);
 			updateQuickslot();
 		}

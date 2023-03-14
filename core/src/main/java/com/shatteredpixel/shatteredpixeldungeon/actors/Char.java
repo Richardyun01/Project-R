@@ -350,7 +350,7 @@ public abstract class Char extends Actor {
 
 			return false;
 
-		} else if (hit( this, enemy, accMulti )) {
+		} else if (hit( this, enemy, accMulti, false )) {
 			
 			int dr = Math.round(enemy.drRoll() * AscensionChallenge.statModifier(enemy));
 
@@ -583,10 +583,10 @@ public abstract class Char extends Actor {
 	public static int INFINITE_EVASION = 1_000_000;
 
 	final public static boolean hit( Char attacker, Char defender, boolean magic ) {
-		return hit(attacker, defender, magic ? 2f : 1f);
+		return hit(attacker, defender, magic ? 2f : 1f, magic);
 	}
 
-	public static boolean hit( Char attacker, Char defender, float accMulti ) {
+	public static boolean hit( Char attacker, Char defender, float accMulti, boolean magic ) {
 		float acuStat = attacker.attackSkill( defender );
 		float defStat = defender.defenseSkill( attacker );
 
@@ -610,7 +610,7 @@ public abstract class Char extends Actor {
 			acuRoll *= buff.evasionAndAccuracyFactor();
 		}
 		acuRoll *= AscensionChallenge.statModifier(attacker);
-		
+
 		float defRoll = Random.Float( defStat );
 		if (defender.buff(Bless.class) != null) defRoll *= 1.25f;
 		if (defender.buff(  Hex.class) != null) defRoll *= 0.8f;
@@ -618,7 +618,7 @@ public abstract class Char extends Actor {
 			defRoll *= buff.evasionAndAccuracyFactor();
 		}
 		defRoll *= AscensionChallenge.statModifier(defender);
-		
+
 		return (acuRoll * accMulti) >= defRoll;
 	}
 	

@@ -165,6 +165,10 @@ public class Item implements Bundlable {
 			
 		}
 	}
+
+	public String defaultAction(){
+		return defaultAction;
+	}
 	
 	public void execute( Hero hero ) {
 		execute( hero, defaultAction );

@@ -7,6 +7,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Stamina;
@@ -69,6 +70,7 @@ public class OpIntensify extends Artifact {
                         }
                     }
                 }
+                Invisibility.dispel(hero);
                 this.charge = 0;
                 updateQuickslot();
                 if (level() < this.levelCap) {

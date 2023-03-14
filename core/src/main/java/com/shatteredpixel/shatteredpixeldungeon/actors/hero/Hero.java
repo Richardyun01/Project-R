@@ -53,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Levitation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
@@ -802,6 +803,7 @@ public class Hero extends Char {
 		damageInterrupt = true;
 		waitOrPickup = false;
 		ready = true;
+		canSelfTrample = true;
 
 		AttackIndicator.updateState();
 		
@@ -825,6 +827,17 @@ public class Hero extends Char {
 		next();
 	}
 
+	private boolean canSelfTrample = false;
+	public boolean canSelfTrample(){
+		return canSelfTrample && !rooted && !flying &&
+				//standing in high grass
+				(Dungeon.level.map[pos] == Terrain.HIGH_GRASS ||
+						//standing in furrowed grass and not huntress
+						(heroClass != HeroClass.HUNTRESS && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS) ||
+						//standing on a plant
+						Dungeon.level.plants.get(pos) != null);
+	}
+
 	public boolean isStandingOnTrampleableGrass(){
 		return !rooted && !flying &&
 				(Dungeon.level.map[pos] == Terrain.HIGH_GRASS || (heroClass != HeroClass.HUNTRESS && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS));
@@ -833,10 +846,12 @@ public class Hero extends Char {
 	private boolean actMove( HeroAction.Move action ) {
 
 		if (getCloser( action.dst )) {
+			canSelfTrample = false;
 			return true;
 
 		//Hero moves in place if there is grass to trample
-		} else if (isStandingOnTrampleableGrass()){
+		} else if (canSelfTrample()){
+			canSelfTrample = false;
 			Dungeon.level.pressCell(pos);
 			spendAndNext( 1 / speed() );
 			return false;
@@ -1511,6 +1526,20 @@ public class Hero extends Char {
 
 		if (step != -1) {
 
+			float delay = 1 / speed();
+
+			if (Dungeon.level.pit[step] && !Dungeon.level.solid[step]
+					&& (!flying || buff(Levitation.class) != null && buff(Levitation.class).detachesWithinDelay(delay))){
+				if (!Chasm.jumpConfirmed){
+					Chasm.heroJump(this);
+					interrupt();
+				} else {
+					Chasm.heroFall(target);
+				}
+				canSelfTrample = false;
+				return false;
+			}
+
 			if (subClass == HeroSubClass.FREERUNNER){
 				Buff.affect(this, Momentum.class).gainStack();
 			}
@@ -1518,13 +1547,11 @@ public class Hero extends Char {
 			if (hero.belongings.weapon instanceof Murakumo) {
 				Buff.affect(this, MurakumoCharge.class).setDamageFactor(1+(hero.speed()));
 			}
-
-			float speed = speed();
 			
 			sprite.move(pos, step);
 			move(step);
 
-			spend( 1 / speed );
+			spend( delay );
 			justMoved = true;
 			
 			search(false);
