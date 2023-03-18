@@ -50,7 +50,8 @@ public enum HeroSubClass {
 
 	TRIGGERHAPPY(HeroIcon.TRIGGERHAPPY),
 	DEMOLITIONIST(HeroIcon.DEMOLITIONIST),
-	BUNKER(HeroIcon.BUNKER);
+	BUNKER(HeroIcon.BUNKER),
+	PHALANX(HeroIcon.PHALANX);
 
 
 	int icon;

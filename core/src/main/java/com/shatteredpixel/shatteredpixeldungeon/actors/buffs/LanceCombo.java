@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
@@ -79,6 +80,9 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
 
 		count++;
 		if (Dungeon.hero.hasTalent(Talent.BURNING_BLOOD) && Random.Int(10) <= Dungeon.hero.pointsInTalent(Talent.BURNING_BLOOD)) {
+			count++;
+		}
+		if (Dungeon.hero.subClass == HeroSubClass.PHALANX) {
 			count++;
 		}
 
@@ -224,7 +228,7 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
 			//special on-hit effects
 			switch (moveBeingUsed) {
 				case DISSECT:
-					Buff.affect(enemy, LanceBleeding.class).set( 5 );
+					Buff.affect(enemy, LanceBleeding.class).set( 5 + hero.pointsInTalent(Talent.PRECISE_DISSECTION) );
 					break;
 				case CRACKDOWN:
 					/*
@@ -252,10 +256,16 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
 								ch.sprite.flash();
 							}
 						}
-
+					}
+					if (hero.hasTalent(Talent.EXPLOSION) && Random.Int(20) < hero.pointsInTalent(Talent.EXPLOSION)) {
+						Buff.affect(enemy, Paralysis.class, 1);
 					}
 					break;
 				case MUTILATION:
+					if (hero.hasTalent(Talent.RED_RAGE) && hero.pointsInTalent(Talent.RED_RAGE) >= 2) {
+						Buff.affect(enemy, Cripple.class, 4);
+					}
+					break;
 				default:
 					//nothing
 					break;

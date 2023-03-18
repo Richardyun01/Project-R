@@ -118,6 +118,9 @@ abstract public class ClassArmor extends Armor {
 		case NOISE:
 			classArmor = new NoiseArmor();
 			break;
+		case LANCE:
+			classArmor = new LanceArmor();
+			break;
 		}
 		
 		classArmor.level(armor.trueLevel());

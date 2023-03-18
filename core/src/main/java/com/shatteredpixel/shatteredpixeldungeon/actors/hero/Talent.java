@@ -195,6 +195,8 @@ public enum Talent {
 	T_T3_1(303, 3), T_T3_2(304, 3), T_T3_3(305, 3),
 	//Vlad T3
 	V_T3_1(306, 3), V_T3_2(307, 3), V_T3_3(308, 3),
+	//Starburst T4
+	PHOBIC_SAW(309, 4), GRIND_DEFENCE(310, 4), WARPED_BLADE(311, 4),
 
 
 	//universal T4
@@ -874,6 +876,10 @@ public enum Talent {
 			case BUNKER:
 				Collections.addAll(tierTalents, LIGHTWEIGHT_TOCHKA, HEAVY_ARMOR, SHRIKE_TURRET);
 				break;
+			case PHALANX:
+				Collections.addAll(tierTalents, PRECISE_DISSECTION, EXPLOSION, RED_RAGE);
+				break;
+
 		}
 		for (Talent talent : tierTalents){
 			talents.get(2).put(talent, 0);

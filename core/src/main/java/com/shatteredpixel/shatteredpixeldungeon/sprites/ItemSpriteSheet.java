@@ -518,6 +518,7 @@ public class ItemSpriteSheet {
 	public static final int ARMOR_ROGUE     = ARMOR+7;
 	public static final int ARMOR_HUNTRESS  = ARMOR+8;
 	public static final int ARMOR_NOISE  	= ARMOR+9;
+	public static final int ARMOR_LANCE 	= ARMOR+10;
 	static{
 		assignItemRect(ARMOR_CLOTH,     15, 12);
 		assignItemRect(ARMOR_LEATHER,   12, 12);
@@ -528,6 +529,7 @@ public class ItemSpriteSheet {
 		assignItemRect(ARMOR_MAGE,      13, 15);
 		assignItemRect(ARMOR_ROGUE,     12, 14);
 		assignItemRect(ARMOR_HUNTRESS,  16, 16);
+		assignItemRect(ARMOR_NOISE,  	16, 16);
 		assignItemRect(ARMOR_NOISE,  	16, 16);
 	}
 
