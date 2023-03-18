@@ -35,6 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -67,8 +68,16 @@ public class ScrollOfUpgrade extends InventoryScroll {
 			boolean wasCursed = w.cursed;
 			boolean hadCursedEnchant = w.hasCurseEnchant();
 			boolean hadGoodEnchant = w.hasGoodEnchant();
-
-			w.upgrade();
+			w.isUpgraded = true;
+			if (w.enchantment != null && Dungeon.hero.hasTalent(Talent.BLOOD_ENGRAVEMENT)) {
+				if (Dungeon.hero.pointsInTalent(Talent.BLOOD_ENGRAVEMENT) == 2) {
+					w.upgrade(true);
+				} else if (w instanceof MeleeWeapon && Dungeon.hero.pointsInTalent(Talent.BLOOD_ENGRAVEMENT) == 1) {
+					w.upgrade(true);
+				}
+			} else {
+				w.upgrade();
+			}
 
 			if (w.cursedKnown && hadCursedEnchant && !w.hasCurseEnchant()){
 				removeCurse( Dungeon.hero );

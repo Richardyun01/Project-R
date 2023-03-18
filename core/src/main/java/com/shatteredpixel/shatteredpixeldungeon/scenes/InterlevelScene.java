@@ -172,6 +172,7 @@ public class InterlevelScene extends PixelScene {
 			fadeTime = 0f;
 		}
 
+
 		
 		SkinnedBlock bg = new SkinnedBlock(Camera.main.width, Camera.main.height, loadingAsset ){
 			@Override

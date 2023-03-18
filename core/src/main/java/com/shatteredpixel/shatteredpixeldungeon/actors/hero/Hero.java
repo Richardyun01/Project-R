@@ -53,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceCombo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Levitation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
@@ -466,6 +467,11 @@ public class Hero extends Char {
 		if (hit && subClass == HeroSubClass.GLADIATOR && wasEnemy){
 			Buff.affect( this, Combo.class ).hit( enemy );
 		}
+		if (hit && hero.heroClass == HeroClass.LANCE && wasEnemy){
+			if (!(hero.belongings.weapon instanceof FirearmWeapon.Bullet)) {
+				Buff.affect( this, LanceCombo.class ).hit( enemy );
+			}
+		}
 
 		return hit;
 	}
@@ -494,6 +500,25 @@ public class Hero extends Char {
 		if (this.hasTalent(Talent.PROPER_STICKING)) {
 			if (wep instanceof FirearmWeapon.Bullet) {
 				accuracy *= 1f + 0.1f * hero.pointsInTalent(Talent.PROPER_STICKING);
+			}
+		}
+
+		if (this.hasTalent(Talent.WILD_HUNT)) {
+			if (wep instanceof FirearmWeapon.Bullet && Random.Int(5) < hero.pointsInTalent(Talent.WILD_HUNT)) {
+				accuracy *= 99999999f;
+			}
+		}
+
+		if (this.heroClass != HeroClass.LANCE && this.hasTalent(Talent.COMPULSION)) {
+			accuracy *= 1f + 0.05f * hero.pointsInTalent(Talent.COMPULSION);
+		} else if (this.heroClass == HeroClass.LANCE && this.hasTalent(Talent.COMPULSION)) {
+			LanceCombo combo = (LanceCombo) buff(LanceCombo.class);
+			if (combo != null) {
+				int cnt = combo.getComboCount();
+				if (cnt >= 10) {
+					cnt = 10;
+				}
+				accuracy *= 1f + 0.01f * hero.pointsInTalent(Talent.COMPULSION) * cnt;
 			}
 		}
 
@@ -628,6 +653,10 @@ public class Hero extends Char {
 		NaturesPower.naturesPowerTracker natStrength = buff(NaturesPower.naturesPowerTracker.class);
 		if (natStrength != null){
 			speed *= (2f + 0.25f*pointsInTalent(Talent.GROWING_POWER));
+		}
+
+		if (hero.pointsInTalent(Talent.MOON_WALKING) >= 1) {
+			speed *= 1.05f;
 		}
 
 		speed = AscensionChallenge.modifyHeroSpeed(speed);
@@ -1971,6 +2000,12 @@ public class Hero extends Char {
 
 		if (hit && subClass == HeroSubClass.GLADIATOR && wasEnemy){
 			Buff.affect( this, Combo.class ).hit( enemy );
+		}
+
+		if (hit && hero.heroClass == HeroClass.LANCE && wasEnemy){
+			if (!(belongings.weapon() instanceof FirearmWeapon.Bullet)) {
+				Buff.affect( this, LanceCombo.class ).hit( enemy );
+			}
 		}
 
 		if (hit && subClass == HeroSubClass.SPECOPS && belongings.weapon() instanceof FirearmWeapon) {

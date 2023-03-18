@@ -54,6 +54,7 @@ public class Badges {
 		MASTERY_ROGUE,
 		MASTERY_HUNTRESS,
 		MASTERY_NOISE,
+		MASTERY_LANCE,
 		FOUND_RATMOGRIFY,
 
 		//bronze
@@ -61,6 +62,7 @@ public class Badges {
 		UNLOCK_ROGUE                ( 2 ),
 		UNLOCK_HUNTRESS             ( 3 ),
 		UNLOCK_NOISE				( 21 ),
+		UNLOCK_LANCE				( 22 ),
 		MONSTERS_SLAIN_1            ( 4 ),
 		MONSTERS_SLAIN_2            ( 5 ),
 		GOLD_COLLECTED_1            ( 6 ),
@@ -153,6 +155,7 @@ public class Badges {
 		VICTORY_ROGUE,
 		VICTORY_HUNTRESS,
 		VICTORY_NOISE,
+		VICTORY_LANCE,
 		VICTORY_ALL_CLASSES         ( 103, true ),
 		DEATH_FROM_ALL              ( 104, true ),
 		BOSS_SLAIN_3_GLADIATOR,
@@ -719,6 +722,7 @@ public class Badges {
 		victoryClassBadges.put(HeroClass.ROGUE, Badge.VICTORY_ROGUE);
 		victoryClassBadges.put(HeroClass.HUNTRESS, Badge.VICTORY_HUNTRESS);
 		victoryClassBadges.put(HeroClass.NOISE, Badge.VICTORY_NOISE);
+		//victoryClassBadges.put(HeroClass.LANCE, Badge.VICTORY_LANCE);
 	}
 
 	private static LinkedHashMap<HeroSubClass, Badge> thirdBossSubclassBadges = new LinkedHashMap<>();
@@ -848,6 +852,11 @@ public class Badges {
 		case NOISE:
 			badge = Badge.MASTERY_NOISE;
 			break;
+			/*
+		case LANCE:
+			badge = Badge.MASTERY_LANCE;
+			break;
+			*/
 		}
 		
 		unlock(badge);
@@ -878,6 +887,12 @@ public class Badges {
 	public static void validateNoiseUnlock(){
 		if ((Statistics.amuletObtained = true) && !isUnlocked(Badge.UNLOCK_NOISE)){
 			displayBadge( Badge.UNLOCK_NOISE );
+		}
+	}
+
+	public static void validateLanceUnlock(){
+		if ((Statistics.enemiesSlain >= 200) && !isUnlocked(Badge.UNLOCK_LANCE)){
+			displayBadge( Badge.UNLOCK_LANCE );
 		}
 	}
 	

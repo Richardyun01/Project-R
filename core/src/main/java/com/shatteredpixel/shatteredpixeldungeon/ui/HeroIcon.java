@@ -52,6 +52,9 @@ public class HeroIcon extends Image {
 	public static final int TRIGGERHAPPY	= 25;
 	public static final int DEMOLITIONIST	= 26;
 	public static final int BUNKER			= 27;
+	public static final int PHALANX			= 28;
+	public static final int TERCIO			= 29;
+	public static final int VLAD			= 30;
 
 	//abilities
 	public static final int HEROIC_LEAP     = 8;
@@ -66,10 +69,11 @@ public class HeroIcon extends Image {
 	public static final int SPECTRAL_BLADES = 17;
 	public static final int NATURES_POWER   = 18;
 	public static final int SPIRIT_HAWK     = 19;
-	public static final int RATMOGRIFY      = 20;
 	public static final int STIMPACK		= 28;
 	public static final int SENTRY_GUN		= 29;
 	public static final int DANGER_CLOSE	= 30;
+	public static final int RATMOGRIFY      = 20;
+
 
 	public HeroIcon(HeroSubClass subCls){
 		super( Assets.Interfaces.HERO_ICONS );

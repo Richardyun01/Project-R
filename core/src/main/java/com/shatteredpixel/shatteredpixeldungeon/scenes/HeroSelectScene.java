@@ -170,26 +170,13 @@ public class HeroSelectScene extends PixelScene {
 		infoButton.setSize(20, 21);
 		add(infoButton);
 
+		int i = 0;
 		for (HeroClass cl : HeroClass.values()){
 			HeroBtn button = new HeroBtn(cl);
 			add(button);
 			heroBtns.add(button);
+			if (++i >= 5) break;
 		}
-
-		changeButton = new IconButton(Icons.get(Icons.CHANGES)) {
-			@Override
-			protected void onClick() {
-				ChangeHero();
-			}
-			@Override
-			public void update() {
-				super.update();
-			}
-		};
-		changeButton.visible = changeButton.active = true;
-		changeButton.setSize(21, 21);
-		changeButton.setPos(0, 0);
-		add(changeButton);
 
 		optionsPane = new GameOptions();
 		optionsPane.visible = optionsPane.active = false;
@@ -221,6 +208,21 @@ public class HeroSelectScene extends PixelScene {
 		};
 		updateOptionsColor();
 		btnOptions.visible = false;
+
+		changeButton = new IconButton(Icons.get(Icons.CHANGES)) {
+			@Override
+			protected void onClick() {
+				ChangeHero();
+			}
+			@Override
+			public void update() {
+				super.update();
+			}
+		};
+		changeButton.visible = changeButton.active = true;
+		changeButton.setSize(21, 21);
+		changeButton.setPos(0, 0);
+		add(changeButton);
 
 		if (DeviceCompat.isDebug() || Badges.isUnlocked(Badges.Badge.VICTORY)){
 			add(btnOptions);
@@ -464,7 +466,7 @@ public class HeroSelectScene extends PixelScene {
 			btnWidth += Math.min(curX/(5/2), 15);
 			curX = (Camera.main.width - btnWidth * 5)/2;
 		}
-		for (int p = 0; p < 6; p++) {
+		for (int p = 0; p < 5; p++) {
 			if (classes.length <= p+i) break;
 			HeroBtn button = new HeroBtn(classes[p+i]);
 			button.setRect(curX, Camera.main.height-HeroBtn.HEIGHT+3, btnWidth, HeroBtn.HEIGHT);

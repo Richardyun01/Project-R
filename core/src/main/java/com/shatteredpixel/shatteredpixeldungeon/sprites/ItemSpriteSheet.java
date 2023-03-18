@@ -198,6 +198,8 @@ public class ItemSpriteSheet {
 	public static final int PRINCESS_MIRROR     = SPECIAL_ITEMS+4;
 	public static final int PSIONIC_NODE     	= SPECIAL_ITEMS+5;
 	public static final int SATELLITE_CANNON    = SPECIAL_ITEMS+6;
+	public static final int LANCE_INFO_1		= SPECIAL_ITEMS+7;
+	public static final int LANCE_INFO_2		= SPECIAL_ITEMS+8;
 
 	static{
 		assignItemRect(SPEED_LOADER,          	15, 15);
@@ -207,6 +209,8 @@ public class ItemSpriteSheet {
 		assignItemRect(PRINCESS_MIRROR,   		12, 14);
 		assignItemRect(PSIONIC_NODE,       		10, 16);
 		assignItemRect(SATELLITE_CANNON,       	16, 16);
+		assignItemRect(LANCE_INFO_1,        	14, 14);
+		assignItemRect(LANCE_INFO_2,        	10, 15);
 	}
 	
 	                                                                                    //16 free slots

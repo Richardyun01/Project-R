@@ -369,7 +369,6 @@ public abstract class Char extends Actor {
 					dr = 0;
 				}
 				if (h.belongings.weapon instanceof Fencer.Bullet ||
-
 					h.belongings.weapon instanceof Vega.Bullet   ||
 					h.belongings.weapon instanceof Karasawa.Bullet ||
 					h.belongings.weapon instanceof Kaleidoscope.Bullet ||
@@ -382,6 +381,9 @@ public abstract class Char extends Actor {
 					(hero.belongings.weapon instanceof SatelliteCannon.SpiritArrow) &&
 					Dungeon.hero.pointsInTalent(Talent.ASSAULT_CELL) >= 2 &&
 					satelliteCannon.EatItem >= 50) {
+					dr = 0;
+				}
+				if (hero.hasTalent(Talent.PRECISE_STRIKE) && Random.Int(10) < hero.pointsInTalent(Talent.PRECISE_STRIKE)) {
 					dr = 0;
 				}
 			}

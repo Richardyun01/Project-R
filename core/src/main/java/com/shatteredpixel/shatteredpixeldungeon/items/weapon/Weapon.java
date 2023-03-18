@@ -75,6 +75,7 @@ abstract public class Weapon extends KindOfWeapon {
 	public float    ACC = 1f;	// Accuracy modifier
 	public float	DLY	= 1f;	// Speed modifier
 	public int      RCH = 1;    // Reach modifier (only applies to melee hits)
+	public boolean isUpgraded = false;
 
 	public enum Augment {
 		SPEED   (0.7f, 0.6667f),
@@ -228,11 +229,15 @@ abstract public class Weapon extends KindOfWeapon {
 
 	@Override
 	public int reachFactor(Char owner) {
+		int reach = this.RCH;
 		if (hasEnchant(Projecting.class, owner)){
-			return RCH + Math.round(RingOfArcana.enchantPowerMultiplier(owner));
-		} else {
-			return RCH;
+			reach += Math.round(RingOfArcana.enchantPowerMultiplier(owner));
 		}
+		if (Dungeon.hero.hasTalent(Talent.HAIL_MARY) && (owner instanceof Hero)) {
+			reach++;
+		}
+
+		return reach;
 	}
 
 	public int STRReq() {
@@ -247,9 +252,13 @@ abstract public class Weapon extends KindOfWeapon {
 
 	protected static int STRReq(int tier, int lvl){
 		lvl = Math.max(0, lvl);
-
 		//strength req decreases at +1,+3,+6,+10,etc.
-		return (8 + tier * 2) - (int)(Math.sqrt(8 * lvl + 1) - 1)/2;
+		int strReq = (8 + tier * 2) - (int)(Math.sqrt(8 * lvl + 1) - 1)/2;
+		if (Dungeon.hero.hasTalent(Talent.HAIL_MARY)) {
+			strReq += (5 - Dungeon.hero.pointsInTalent(Talent.HAIL_MARY));
+		}
+
+		return strReq;
 	}
 
 	@Override

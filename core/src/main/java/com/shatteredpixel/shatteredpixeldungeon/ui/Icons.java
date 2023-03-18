@@ -48,6 +48,7 @@ public enum Icons {
 	ROGUE,
 	HUNTRESS,
 	NOISE,
+	LANCE,
 
 	//grey icons, mainly used for buttons, spacing for 16x16
 	EXIT,
@@ -174,6 +175,9 @@ public enum Icons {
 				break;
 			case NOISE:
 				icon.frame( icon.texture.uvRectBySize( 80, 16, 15, 15 ) );
+				break;
+			case LANCE:
+				icon.frame( icon.texture.uvRectBySize( 96, 16, 14, 14 ) );
 				break;
 
 			case EXIT:
@@ -412,6 +416,8 @@ public enum Icons {
 			return get( HUNTRESS );
 		case NOISE:
 			return get( NOISE );
+		case LANCE:
+			return get( LANCE );
 		default:
 			return null;
 		}

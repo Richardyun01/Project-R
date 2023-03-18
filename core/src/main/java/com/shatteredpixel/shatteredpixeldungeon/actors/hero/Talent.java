@@ -28,20 +28,24 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WandEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.Ratmogrify;
@@ -179,6 +183,20 @@ public enum Talent {
 	//Danger Close T4
 	HEAT_ROUND(283, 4), EXPLOSIVE_PENETRATOR(284, 4), EMP_SHELL(285, 4),
 
+	//Lance T1
+	MEAL_WITH_LIQUOR(288), HUNTERS_INTUITION(289), SOUL_ABSORB(290), PRECISE_STRIKE(291),
+	//Lance T2
+	SECRET_MEAL(292), BLOOD_ENGRAVEMENT(293), COMPULSION(294), MOON_WALKING(295), OVERCOMING_WEAKNESS(296), WILD_HUNT(297),
+	//Lance T3
+	BURNING_BLOOD(298, 3), HAIL_MARY(299, 3),
+	//Phalanx T3
+	PRECISE_DISSECTION(300, 3), EXPLOSION(301, 3), RED_RAGE(302, 3),
+	//Tercio T3
+	T_T3_1(303, 3), T_T3_2(304, 3), T_T3_3(305, 3),
+	//Vlad T3
+	V_T3_1(306, 3), V_T3_2(307, 3), V_T3_3(308, 3),
+
+
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
@@ -292,6 +310,12 @@ public enum Talent {
 		}
 	}
 
+	public static class NoCripple extends Buff {
+		public NoCripple() {
+			this.immunities.add(Cripple.class);
+		}
+	}
+
 	int icon;
 	int maxPoints;
 
@@ -324,6 +348,8 @@ public enum Talent {
 					return 122;
 				case NOISE:
 					return 286;
+				case LANCE:
+					return 318;
 			}
 		} else {
 			return icon;
@@ -411,6 +437,16 @@ public enum Talent {
 			updateQuickslot();
 		}
 
+		if (talent == HUNTERS_INTUITION && hero.pointsInTalent(HUNTERS_INTUITION) == 2) {
+			if (hero.belongings.weapon() != null && hero.belongings.weapon() instanceof MeleeWeapon) {
+				hero.belongings.weapon().identify();
+			}
+		}
+
+		if (talent == MOON_WALKING && hero.pointsInTalent(MOON_WALKING) == 2) {
+			Buff.affect(hero, NoCripple.class);
+		}
+
 	}
 
 	public static class CachedRationsDropped extends CounterBuff{{revivePersists = true;}};
@@ -466,6 +502,15 @@ public enum Talent {
 			//effectively 1/2 turns of infiniteBullet
 			Buff.prolong( hero, InfiniteBullet.class, 0.001f+hero.pointsInTalent(INFINITE_MEAL));
 		}
+		if (hero.hasTalent(MEAL_WITH_LIQUOR)){
+			//effectively 6/8 turns of adrenaline and 3/4 turns of Vertigo
+			Buff.affect( hero, Adrenaline.class, 4 + 2*hero.pointsInTalent(MEAL_WITH_LIQUOR));
+			Buff.affect( hero, Vertigo.class, 2 + hero.pointsInTalent(MEAL_WITH_LIQUOR));
+		}
+		if (hero.hasTalent(SECRET_MEAL)){
+			//effectively 2/3 turns of invisibility
+			Buff.affect( hero, Invisibility.class, 1 + hero.pointsInTalent(SECRET_MEAL));
+		}
 	}
 
 	public static class WarriorFoodImmunity extends FlavourBuff{
@@ -487,6 +532,11 @@ public enum Talent {
 		// 2x/instant for rogue (see onItemEqupped), also id's type on equip/on pickup
 		if (item instanceof Ring){
 			factor *= 1f + hero.pointsInTalent(THIEFS_INTUITION);
+		}
+
+		// 5x/instant speed for lance(see onItemEquipped)
+		if (item instanceof MeleeWeapon) {
+			factor *= 1f + 4*hero.pointsInTalent(HUNTERS_INTUITION);
 		}
 		return factor;
 	}
@@ -590,6 +640,9 @@ public enum Talent {
 		if (hero.pointsInTalent(MANIAS_INTUITION) >= 1 && item instanceof FirearmWeapon) {
 			item.identify();
 		}
+		if (hero.pointsInTalent(HUNTERS_INTUITION) >= 1 && item instanceof MeleeWeapon) {
+			item.identify();
+		}
 	}
 
 	public static void onItemCollected( Hero hero, Item item ){
@@ -597,6 +650,9 @@ public enum Talent {
 			if (item instanceof Ring) ((Ring) item).setKnown();
 		}
 		if (hero.pointsInTalent(MANIAS_INTUITION) == 2 && item instanceof FirearmWeapon) {
+			item.identify();
+		}
+		if (hero.pointsInTalent(HUNTERS_INTUITION) == 2 && item instanceof MeleeWeapon) {
 			item.identify();
 		}
 	}
@@ -684,6 +740,9 @@ public enum Talent {
 			case NOISE:
 				Collections.addAll(tierTalents, ONE_MORE_BITE, MANIAS_INTUITION, COVER_AND_RELOAD, INSTANT_FLEEING, REPAIRMENT);
 				break;
+			case LANCE:
+				Collections.addAll(tierTalents, MEAL_WITH_LIQUOR, HUNTERS_INTUITION, SOUL_ABSORB, PRECISE_STRIKE, REPAIRMENT);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -710,6 +769,9 @@ public enum Talent {
 			case NOISE:
 				Collections.addAll(tierTalents, INFINITE_MEAL, ADVANCED_ACCESSORY, DEATH_MACHINE, PROPER_STICKING, CANT_TOUCH_THIS, FREE_CHOICE);
 				break;
+			case LANCE:
+				Collections.addAll(tierTalents, SECRET_MEAL, BLOOD_ENGRAVEMENT, COMPULSION, MOON_WALKING, OVERCOMING_WEAKNESS, WILD_HUNT);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -735,6 +797,9 @@ public enum Talent {
 				break;
 			case NOISE:
 				Collections.addAll(tierTalents, DISCHARGE_SHOT, MULTIPLE_HANDS);
+				break;
+			case LANCE:
+				Collections.addAll(tierTalents, BURNING_BLOOD, HAIL_MARY);
 				break;
 		}
 		for (Talent talent : tierTalents){

@@ -47,6 +47,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.DirectableAlly;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
@@ -716,6 +717,7 @@ public abstract class Mob extends Char {
 			if (alignment == Alignment.ENEMY) {
 				Statistics.enemiesSlain++;
 				Badges.validateMonstersSlain();
+				Badges.validateLanceUnlock();
 				Statistics.qualifiedForNoKilling = false;
 
 				AscensionChallenge.processEnemyKill(this);
@@ -757,6 +759,17 @@ public abstract class Mob extends Char {
 
 		if (Dungeon.hero.hasTalent(Talent.TIME_CONSUME) && (magesStaff = (MagesStaff) Dungeon.hero.belongings.getItem(MagesStaff.class)) != null) {
 			magesStaff.gainCharge(((float) Dungeon.hero.pointsInTalent(Talent.TIME_CONSUME)) * 0.06f);
+		}
+
+		if (cause == hero && hero.heroClass == HeroClass.LANCE) {
+			float healFactor = Dungeon.hero.HP * (0.04f + 0.02f * hero.pointsInTalent(Talent.OVERCOMING_WEAKNESS)) + hero.pointsInTalent(Talent.SOUL_ABSORB);
+			healFactor = Math.min( healFactor, hero.HT - hero.HP );
+			Dungeon.hero.HP += (int)healFactor;
+		} else if (cause == hero && hero.heroClass != HeroClass.LANCE &&
+				   hero.hasTalent(Talent.OVERCOMING_WEAKNESS) && Random.Int(100) < hero.pointsInTalent(Talent.OVERCOMING_WEAKNESS)) {
+			float healFactor = Dungeon.hero.HP * 0.05f + hero.pointsInTalent(Talent.SOUL_ABSORB);
+			healFactor = Math.min( healFactor, hero.HT - hero.HP );
+			Dungeon.hero.HP += (int)healFactor;
 		}
 
 		super.die( cause );

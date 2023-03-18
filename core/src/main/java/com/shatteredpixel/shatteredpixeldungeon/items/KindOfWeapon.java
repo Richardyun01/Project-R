@@ -27,7 +27,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -102,7 +104,29 @@ abstract public class KindOfWeapon extends EquipableItem {
 	abstract public int max(int lvl);
 
 	public int damageRoll( Char owner ) {
-		return Random.NormalIntRange( min(), max() );
+		int critChance = 0;
+
+		if (owner == Dungeon.hero && Dungeon.hero.belongings.weapon() instanceof MeleeWeapon) {
+			if ( critChance > 0 ) {
+				if (Random.Int(100) < critChance) {
+					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+					Dungeon.hero.sprite.showStatus(CharSprite.NEUTRAL, "!");
+					int damageBonus = 0;
+					return Random.NormalIntRange(Math.round(0.75f * max()), max()) + damageBonus;
+				} else {
+					return Random.NormalIntRange( min(), max() );
+				}
+			} else {
+				if (Random.Int(100) < -critChance) {
+					Dungeon.hero.sprite.showStatus(CharSprite.NEUTRAL, "?");
+					return Random.NormalIntRange(min(), Math.round(0.5f * max()));
+				} else {
+					return Random.NormalIntRange( min(), max() );
+				}
+			}
+		} else {
+			return Random.NormalIntRange( min(), max() );
+		}
 	}
 	
 	public float accuracyFactor( Char owner, Char target ) {

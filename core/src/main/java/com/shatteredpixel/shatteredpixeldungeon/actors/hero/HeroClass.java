@@ -47,6 +47,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.IceBox;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
@@ -57,8 +58,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfDivineInspiration;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
@@ -69,8 +73,10 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMappi
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
@@ -78,6 +84,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.NotMachineG
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RuinSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
@@ -90,7 +97,8 @@ public enum HeroClass {
 	MAGE( HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK, HeroSubClass.ORACLE ),
 	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER, HeroSubClass.HITMAN ),
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN, HeroSubClass.POLARIS ),
-	NOISE( HeroSubClass.TRIGGERHAPPY, HeroSubClass.DEMOLITIONIST, HeroSubClass.BUNKER );
+	NOISE( HeroSubClass.TRIGGERHAPPY, HeroSubClass.DEMOLITIONIST, HeroSubClass.BUNKER),
+	LANCE( HeroSubClass.BERSERKER );
 
 	private HeroSubClass[] subClasses;
 
@@ -153,6 +161,14 @@ public enum HeroClass {
 		plate.upgrade(8).collect();
 		 **/
 //erase this finish
+		PlateArmor plate = new PlateArmor();
+		plate.upgrade(100).collect();
+		PotionOfDivineInspiration upscroll = new PotionOfDivineInspiration();
+		upscroll.quantity(30).collect();
+		ScrollOfUpgrade upscroll2 = new ScrollOfUpgrade();
+		upscroll2.quantity(30).collect();
+		StoneOfEnchantment upscroll3 = new StoneOfEnchantment();
+		upscroll3.quantity(30).collect();
 
 		switch (this) {
 			case WARRIOR:
@@ -173,6 +189,10 @@ public enum HeroClass {
 
 			case NOISE:
 				initNoise( hero );
+				break;
+
+			case LANCE:
+				initLance( hero );
 				break;
 		}
 
@@ -197,6 +217,8 @@ public enum HeroClass {
 				return Badges.Badge.MASTERY_HUNTRESS;
 			case NOISE:
 				return Badges.Badge.MASTERY_NOISE;
+			case LANCE:
+				return Badges.Badge.MASTERY_LANCE;
 		}
 		return null;
 	}
@@ -278,6 +300,15 @@ public enum HeroClass {
 		new RingOfReload().identify();
 	}
 
+	private static void initLance( Hero hero ) {
+
+		(hero.belongings.weapon = new RuinSpear()).identify();
+
+		new PotionOfParalyticGas().identify();
+		new ScrollOfTerror().identify();
+		new RingOfFuror().identify();
+	}
+
 	public String title() {
 		return Messages.get(HeroClass.class, name());
 	}
@@ -306,6 +337,8 @@ public enum HeroClass {
 				return new ArmorAbility[]{new SpectralBlades(), new NaturesPower(), new SpiritHawk()};
 			case NOISE:
 				return new ArmorAbility[]{new Stimpack(), new SentryGun(), new DangerClose()};
+			case LANCE:
+				return new ArmorAbility[]{new HeroicLeap(), new Shockwave(), new Endure()};
 		}
 	}
 
@@ -321,6 +354,8 @@ public enum HeroClass {
 				return Assets.Sprites.HUNTRESS;
 			case NOISE:
 				return Assets.Sprites.NOISE;
+			case LANCE:
+				return Assets.Sprites.LANCE;
 		}
 	}
 
@@ -336,6 +371,8 @@ public enum HeroClass {
 				return Assets.Splashes.HUNTRESS;
 			case NOISE:
 				return Assets.Splashes.NOISE;
+			case LANCE:
+				return Assets.Splashes.LANCE;
 		}
 	}
 	
@@ -354,6 +391,8 @@ public enum HeroClass {
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_HUNTRESS);
 			case NOISE:
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_NOISE);
+			case LANCE:
+				return Badges.isUnlocked(Badges.Badge.UNLOCK_LANCE);
 		}
 	}
 	

@@ -111,6 +111,7 @@ public class BuffIndicator extends Component {
 	public static final int SUPERCHARGE = 60;
 	public static final int NOENERGY 	= 61;
 	public static final int BUNKER	 	= 62;
+	public static final int LANCE_COMBO = 63;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;

@@ -131,6 +131,7 @@ public class TitleScene extends PixelScene {
 					return true;
 				}
 
+
 				return super.onLongClick();
 			}
 		};
