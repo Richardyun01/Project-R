@@ -162,6 +162,9 @@ public class Wandmaker extends NPC {
 				case NOISE:
 					msg1 += Messages.get(this, "intro_noise");
 					break;
+				case LANCE:
+					msg1 += Messages.get(this, "intro_lance");
+					break;
 			}
 
 			msg1 += Messages.get(this, "intro_1");

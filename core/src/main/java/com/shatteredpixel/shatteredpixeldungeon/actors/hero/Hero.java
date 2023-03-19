@@ -468,7 +468,7 @@ public class Hero extends Char {
 			Buff.affect( this, Combo.class ).hit( enemy );
 		}
 		if (hit && hero.heroClass == HeroClass.LANCE && wasEnemy){
-			if (!(hero.belongings.weapon instanceof FirearmWeapon.Bullet)) {
+			if (!(wep instanceof FirearmWeapon.Bullet)) {
 				Buff.affect( this, LanceCombo.class ).hit( enemy );
 			}
 		}

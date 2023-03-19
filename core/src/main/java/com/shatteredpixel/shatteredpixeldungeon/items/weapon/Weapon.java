@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StarburstBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
@@ -138,6 +139,12 @@ abstract public class Weapon extends KindOfWeapon {
 				positions.add(i);
 			}
 			Random.shuffle( positions );
+		}
+
+		if (hero.buff(StarburstBuff.class) != null) {
+			int damageBonus = attacker.buff(StarburstBuff.class).damageBonus();
+			attacker.buff(StarburstBuff.class).detach();
+			damage += damageBonus;
 		}
 
 		return damage;

@@ -58,7 +58,7 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
 
 	@Override
 	public int icon() {
-		return BuffIndicator.COMBO;
+		return BuffIndicator.LANCE_COMBO;
 	}
 	
 	@Override
@@ -79,10 +79,10 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
 	public void hit( Char enemy ) {
 
 		count++;
-		if (Dungeon.hero.hasTalent(Talent.BURNING_BLOOD) && Random.Int(10) <= Dungeon.hero.pointsInTalent(Talent.BURNING_BLOOD)) {
+		if (Dungeon.hero.hasTalent(Talent.BURNING_BLOOD) && Random.Int(10) < Dungeon.hero.pointsInTalent(Talent.BURNING_BLOOD)) {
 			count++;
 		}
-		if (Dungeon.hero.subClass == HeroSubClass.PHALANX) {
+		if (Dungeon.hero.subClass == HeroSubClass.PHALANX && Random.Int(10) < 1) {
 			count++;
 		}
 

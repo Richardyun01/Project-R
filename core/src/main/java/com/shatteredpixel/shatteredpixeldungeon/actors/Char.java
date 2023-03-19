@@ -69,6 +69,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Speed;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Stamina;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StarburstBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StimpackAdrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
@@ -133,6 +134,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GrimTrap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Fadeleaf;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
@@ -386,6 +388,11 @@ public abstract class Char extends Actor {
 				if (hero.hasTalent(Talent.PRECISE_STRIKE) && Random.Int(10) < hero.pointsInTalent(Talent.PRECISE_STRIKE)) {
 					dr = 0;
 				}
+				if (hero.hasTalent(Talent.GRIND_DEFENCE) && hero.buff(StarburstBuff.class) != null) {
+					if (Random.Int(4) < hero.pointsInTalent(Talent.GRIND_DEFENCE)) {
+						dr = 0;
+					}
+				}
 			}
 
 			if (this instanceof Hero
@@ -469,6 +476,13 @@ public abstract class Char extends Actor {
 				} else if (h.belongings.weapon() instanceof Kaleidoscope.Bullet ||
 						   h.belongings.weapon() instanceof Spark.Bullet) {
 					dmg *= 1 + 0.01f * buff(BulletHell.class).getCount();
+				}
+			}
+
+			if (this instanceof Hero && buff(StarburstBuff.class) != null && hero.hasTalent(Talent.WARPED_BLADE)) {
+				new Fadeleaf().activate(enemy);
+				if (Random.Int(4) < hero.pointsInTalent(Talent.WARPED_BLADE)) {
+					Buff.affect(enemy, MagicalSleep.class);
 				}
 			}
 
