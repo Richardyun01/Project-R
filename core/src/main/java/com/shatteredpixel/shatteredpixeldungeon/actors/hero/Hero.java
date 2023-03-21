@@ -55,6 +55,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceCombo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceCombo2;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceCombo3;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Levitation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
@@ -470,7 +471,9 @@ public class Hero extends Char {
 		}
 		if (hit && hero.heroClass == HeroClass.LANCE && wasEnemy){
 			if (hero.subClass == HeroSubClass.TERCIO) {
-				Buff.affect( this, LanceCombo2.class ).hit( enemy );
+                Buff.affect(this, LanceCombo2.class).hit(enemy);
+            } else if (hero.subClass == HeroSubClass.VLAD) {
+                Buff.affect(this, LanceCombo3.class).hit(enemy);
 			} else {
 				if (!(wep instanceof FirearmWeapon.Bullet)) {
 					Buff.affect( this, LanceCombo.class ).hit( enemy );
@@ -519,6 +522,7 @@ public class Hero extends Char {
 		} else if (this.heroClass == HeroClass.LANCE && this.hasTalent(Talent.COMPULSION)) {
 			LanceCombo combo = (LanceCombo) buff(LanceCombo.class);
 			LanceCombo2 combo2 = (LanceCombo2) buff(LanceCombo2.class);
+            LanceCombo3 combo3 = (LanceCombo3) buff(LanceCombo3.class);
 			if (combo != null) {
 				int cnt = combo.getComboCount();
 				if (cnt >= 10) {
@@ -531,7 +535,13 @@ public class Hero extends Char {
 					cnt = 10;
 				}
 				accuracy *= 1f + 0.01f * hero.pointsInTalent(Talent.COMPULSION) * cnt;
-			}
+			} else if (combo3 != null) {
+                int cnt = combo3.getComboCount();
+                if (cnt >= 10) {
+                    cnt = 10;
+                }
+                accuracy *= 1f + 0.01f * hero.pointsInTalent(Talent.COMPULSION) * cnt;
+            }
 		}
 
 		if (wep != null) {
@@ -2019,7 +2029,11 @@ public class Hero extends Char {
 				Buff.affect( this, LanceCombo2.class ).hit( enemy );
 			} else {
 				if (!(belongings.weapon() instanceof FirearmWeapon.Bullet)) {
-					Buff.affect( this, LanceCombo.class ).hit( enemy );
+                    if (hero.subClass == HeroSubClass.VLAD) {
+                        Buff.affect( this, LanceCombo3.class ).hit( enemy );
+                    } else {
+                        Buff.affect( this, LanceCombo.class ).hit( enemy );
+                    }
 				}
 			}
 		}

@@ -21,14 +21,13 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
@@ -38,16 +37,14 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
-import com.shatteredpixel.shatteredpixeldungeon.windows.WndCombo2;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndCombo4;
 import com.watabou.noosa.Image;
-import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
-import com.watabou.utils.PathFinder;
+import com.watabou.utils.Random;
 
-public class LanceCombo extends Buff implements ActionIndicator.Action {
+public class LanceCombo3 extends Buff implements ActionIndicator.Action {
 
     {
         type = buffType.POSITIVE;
@@ -78,6 +75,17 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
     public void hit( Char enemy ) {
 
         count++;
+        if (Dungeon.hero.hasTalent(Talent.BURNING_BLOOD) && Random.Int(10) < Dungeon.hero.pointsInTalent(Talent.BURNING_BLOOD)) {
+            count++;
+        }
+
+        if ((getHighestMove() != null)) {
+
+            ActionIndicator.setAction( this );
+
+            GLog.p( Messages.get(this, "combo", count) );
+
+        }
 
         BuffIndicator.refreshHero(); //refresh the buff visually on-hit
 
@@ -112,6 +120,8 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
     public void restoreFromBundle(Bundle bundle) {
         super.restoreFromBundle(bundle);
         count = bundle.getInt( COUNT );
+
+        if (getHighestMove() != null) ActionIndicator.setAction(this);
     }
 
     @Override
@@ -134,14 +144,11 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
 
     @Override
     public void doAction() {
-        GameScene.show(new WndCombo2(this));
-        GLog.p("combo activated");
+        GameScene.show(new WndCombo4(this));
     }
 
     public enum ComboMove {
-        DISSECT   (5, 0xFF00FF00), // skill-1
-        CRACKDOWN  (10, 0xFFFFFF00),  // skill-2
-        MUTILATION   (15, 0xFFFF0000); // skill-3
+        PREDATION   (50, 0xFF00FF00); // skill-1
 
         public int comboReq, tintColor;
 
@@ -153,6 +160,7 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
         public String desc(int count){
             return Messages.get(this, name()+"_desc");
         }
+
     }
 
     public ComboMove getHighestMove(){
@@ -173,7 +181,7 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
         return move.comboReq <= count;
     }
 
-    public void useMove(ComboMove move) {
+    public void useMove(ComboMove move){
         moveBeingUsed = move;
         GameScene.selectCell(listener);
     }
@@ -192,44 +200,33 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
 
         //variance in damage dealt
         switch (moveBeingUsed) {
-            case DISSECT:
-                dmgMulti = 1f + 0.15f * hero.pointsInTalent(Talent.PRECISE_DISSECTION);
-                break;
-            case CRACKDOWN:
-                dmgMulti = 1f + 0.1f * hero.pointsInTalent(Talent.EXPLOSION);
-                break;
-            case MUTILATION:
-                if (hero.hasTalent(Talent.RED_RAGE)) {
-                    dmgMulti = 1.2f;
+            case PREDATION:
+                if (enemy.properties().contains(Char.Property.BOSS)) {
+                    dmgMulti = 100;
                 } else {
-                    dmgMulti = 1f;
+                    dmgMulti = enemy.HP;
                 }
+                break;
+            default:
                 break;
         }
 
         if (hero.attack(enemy, dmgMulti, dmgBonus, Char.INFINITE_ACCURACY)){
             //special on-hit effects
             switch (moveBeingUsed) {
-                case DISSECT:
-                    Buff.affect(enemy, LanceBleeding.class).set( 5 );
-                    break;
-                case CRACKDOWN:
-                    WandOfBlastWave.BlastWave.blast(enemy.pos);
-                    PathFinder.buildDistanceMap(target.pos, BArray.not(Dungeon.level.solid, null), 1);
-                    for (Char ch : Actor.chars()) {
-                        if (ch != enemy && ch.alignment == Char.Alignment.ENEMY
-                                && PathFinder.distance[ch.pos] < Integer.MAX_VALUE) {
-                            int aoeHit = Math.round(target.damageRoll());
-                            aoeHit -= ch.drRoll();
-                            ch.damage(aoeHit, target);
-                            ch.sprite.bloodBurstA(target.sprite.center(), aoeHit);
-                            ch.sprite.flash();
+                case PREDATION:
+                    Mob affected = null;
+                    for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+                        if (mob.alignment != Char.Alignment.ALLY && Dungeon.level.heroFOV[mob.pos]) {
+                            Buff.affect( mob, Terror.class, Terror.DURATION ).object = hero.id();
+
+                            if (mob.buff(Terror.class) != null){
+                                affected = mob;
+                            }
                         }
                     }
+
                     break;
-                case MUTILATION:
-                    Buff.affect(enemy, LanceBleeding.class).set( 4 );
-                    Buff.affect(enemy, Vulnerable.class, 4);
                 default:
                     //nothing
                     break;
@@ -240,31 +237,23 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
 
         //Post-attack behaviour
         switch(moveBeingUsed){
-            case MUTILATION:
-                if (count > 0 && enemy.isAlive() && hero.canAttack(enemy) && (wasAlly || enemy.alignment != target.alignment)){
-                    int strikeNum = 3;
-                    if (hero.pointsInTalent(Talent.RED_RAGE) == 3) { strikeNum = 4; }
-                    for (int i = 0; i < strikeNum; i++) {
-                        target.sprite.attack(enemy.pos, new Callback() {
-                            @Override
-                            public void call() {
-                                doAttack(enemy);
-                            }
-                        });
-                    }
-                } else {
-                    detach();
-                    Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
-                    ActionIndicator.clearAction(LanceCombo.this);
-                    hero.spendAndNext(hero.attackDelay());
-                }
+            case PREDATION:
+                detach();
+                Buff.affect(hero, Bless.class, 15);
+                Buff.affect(hero, Stamina.class, 15);
+                float healFactor = Dungeon.hero.HP * 0.2f;
+                healFactor = Math.min( healFactor, hero.HT - hero.HP );
+                Dungeon.hero.HP += (int)healFactor;
+                ActionIndicator.clearAction(LanceCombo3.this);
+                hero.spendAndNext(hero.attackDelay());
                 break;
             default:
                 detach();
-                ActionIndicator.clearAction(LanceCombo.this);
+                ActionIndicator.clearAction(LanceCombo3.this);
                 hero.spendAndNext(hero.attackDelay());
                 break;
         }
+
     }
 
     private CellSelector.Listener listener = new CellSelector.Listener() {
@@ -277,13 +266,14 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
                     || enemy == target
                     || !Dungeon.level.heroFOV[cell]
                     || target.isCharmedBy( enemy )) {
-                GLog.w(Messages.get(LanceCombo.class, "bad_target"));
+                GLog.w(Messages.get(Combo.class, "bad_target"));
+
             } else if (!((Hero)target).canAttack(enemy)){
                 Ballistica c = new Ballistica(target.pos, enemy.pos, Ballistica.PROJECTILE);
                 if (c.collisionPos == enemy.pos){
                     final int leapPos = c.path.get(c.dist-1);
                     if (!Dungeon.level.passable[leapPos]){
-                        GLog.w(Messages.get(LanceCombo.class, "bad_target"));
+                        GLog.w(Messages.get(Combo.class, "bad_target"));
                     } else {
                         Dungeon.hero.busy();
                         target.sprite.jump(target.pos, leapPos, new Callback() {
@@ -303,7 +293,7 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
                         });
                     }
                 } else {
-                    GLog.w(Messages.get(LanceCombo.class, "bad_target"));
+                    GLog.w(Messages.get(Combo.class, "bad_target"));
                 }
             } else {
                 Dungeon.hero.busy();
@@ -318,7 +308,7 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
 
         @Override
         public String prompt() {
-            return Messages.get(LanceCombo.class, "prompt");
+            return Messages.get(Combo.class, "prompt");
         }
     };
 }
