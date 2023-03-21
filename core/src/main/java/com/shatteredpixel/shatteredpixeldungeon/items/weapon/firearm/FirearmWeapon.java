@@ -41,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bunker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CloseQuarters;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
@@ -172,7 +173,7 @@ public class FirearmWeapon extends MeleeWeapon {
 
     @Override
     public int min(int lvl) {
-        if (hero.heroClass == HeroClass.NOISE) {
+        if (hero.heroClass == HeroClass.NOISE || hero.subClass == HeroSubClass.TERCIO) {
             return  tier + 2 + //base
                     lvl;    //level scaling
         } else {
@@ -183,7 +184,7 @@ public class FirearmWeapon extends MeleeWeapon {
 
     @Override
     public int max(int lvl) {
-        if (hero.heroClass == HeroClass.NOISE) {
+        if (hero.heroClass == HeroClass.NOISE || hero.subClass == HeroSubClass.TERCIO) {
             return  3*(tier+1) + 2 +   //base
                     lvl*(tier+1);   //level scaling
         } else {
@@ -800,6 +801,8 @@ public class FirearmWeapon extends MeleeWeapon {
                             //round preserves
                         } else if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1 + hero.pointsInTalent(Talent.SHRIKE_TURRET)) {
 
+                        } else if (hero.buff(InfiniteBullet.class) != null) {
+
                         } else {
                             round--;
                         }
@@ -818,6 +821,8 @@ public class FirearmWeapon extends MeleeWeapon {
                             //round preserves
                         } else if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1 + hero.pointsInTalent(Talent.SHRIKE_TURRET)) {
 
+                        } else if (hero.buff(InfiniteBullet.class) != null) {
+
                         } else {
                             round--;
                         }
@@ -834,6 +839,8 @@ public class FirearmWeapon extends MeleeWeapon {
                         onThrowBulletFirearmEtc2(cell);
                         if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1 + hero.pointsInTalent(Talent.SHRIKE_TURRET)) {
 
+                        } else if (hero.buff(InfiniteBullet.class) != null) {
+
                         } else {
                             round--;
                         }
@@ -846,6 +853,8 @@ public class FirearmWeapon extends MeleeWeapon {
                         if (hero.hasTalent(Talent.DEATH_MACHINE) && Random.Int(10) <= hero.pointsInTalent(Talent.DEATH_MACHINE)) {
                             //round preserves
                         } else if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1 + hero.pointsInTalent(Talent.SHRIKE_TURRET)) {
+
+                        } else if (hero.buff(InfiniteBullet.class) != null) {
 
                         } else {
                             round --;
@@ -902,6 +911,8 @@ public class FirearmWeapon extends MeleeWeapon {
                             //round preserves
                         } else if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1 + hero.pointsInTalent(Talent.SHRIKE_TURRET)) {
 
+                        } else if (hero.buff(InfiniteBullet.class) != null) {
+
                         } else {
                             round --;
                         }
@@ -927,6 +938,8 @@ public class FirearmWeapon extends MeleeWeapon {
                     for (int i = 0; i < shot; i++) {
                         if (round <= 0) break;
                         if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1 + hero.pointsInTalent(Talent.SHRIKE_TURRET)) {
+
+                        } else if (hero.buff(InfiniteBullet.class) != null) {
 
                         } else {
                             round--;
@@ -957,6 +970,8 @@ public class FirearmWeapon extends MeleeWeapon {
                             //round preserves
                         } else if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1 + hero.pointsInTalent(Talent.SHRIKE_TURRET)) {
 
+                        } else if (hero.buff(InfiniteBullet.class) != null) {
+
                         } else {
                             round--;
                         }
@@ -981,6 +996,8 @@ public class FirearmWeapon extends MeleeWeapon {
                     for (int i = 0; i < shot; i++) {
                         if (round <= 0) break;
                         if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1 + hero.pointsInTalent(Talent.SHRIKE_TURRET)) {
+
+                        } else if (hero.buff(InfiniteBullet.class) != null) {
 
                         } else {
                             round--;

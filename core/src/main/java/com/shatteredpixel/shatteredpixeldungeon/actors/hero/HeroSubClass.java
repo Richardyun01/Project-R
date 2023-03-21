@@ -52,7 +52,9 @@ public enum HeroSubClass {
 	DEMOLITIONIST(HeroIcon.DEMOLITIONIST),
 	BUNKER(HeroIcon.BUNKER),
 
-	PHALANX(HeroIcon.PHALANX);
+	PHALANX(HeroIcon.PHALANX),
+	TERCIO(HeroIcon.TERCIO),
+	VLAD(HeroIcon.VLAD);
 
 
 	int icon;

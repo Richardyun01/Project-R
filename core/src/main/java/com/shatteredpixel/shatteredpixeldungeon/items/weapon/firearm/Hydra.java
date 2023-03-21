@@ -7,6 +7,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
@@ -51,14 +52,24 @@ public class Hydra extends FirearmWeapon{
 
     @Override
     public int min(int lvl) {
-        return  0 +  //base
-                lvl*2;    //level scaling
+        if (hero.heroClass == HeroClass.NOISE || hero.subClass == HeroSubClass.TERCIO) {
+            return  2 +  //base
+                    lvl*2;    //level scaling
+        } else {
+            return  0 +  //base
+                    lvl*2;    //level scaling
+        }
     }
 
     @Override
     public int max(int lvl) {
-        return  10 +    //base
-                lvl*3;   //level scaling
+        if (hero.heroClass == HeroClass.NOISE || hero.subClass == HeroSubClass.TERCIO) {
+            return  12 +    //base
+                    lvl*3;   //level scaling
+        } else {
+            return  10 +    //base
+                    lvl*3;   //level scaling
+        }
     }
 
     @Override

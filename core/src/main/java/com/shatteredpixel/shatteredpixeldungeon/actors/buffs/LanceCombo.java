@@ -228,22 +228,9 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
 			//special on-hit effects
 			switch (moveBeingUsed) {
 				case DISSECT:
-					Buff.affect(enemy, LanceBleeding.class).set( 5 + hero.pointsInTalent(Talent.PRECISE_DISSECTION) );
+					Buff.affect(enemy, LanceBleeding.class).set(hero.belongings.weapon.max() / 5 * (1+hero.pointsInTalent(Talent.PRECISE_DISSECTION)));
 					break;
 				case CRACKDOWN:
-					/*
-					PathFinder.buildDistanceMap(target.pos, BArray.not(Dungeon.level.solid, null), 1);
-					for (Char ch : Actor.chars()) {
-						if (ch != enemy && ch.alignment == Char.Alignment.ENEMY
-								&& PathFinder.distance[ch.pos] < Integer.MAX_VALUE) {
-							int aoeHit = Math.round(target.damageRoll());
-							aoeHit -= ch.drRoll();
-							ch.damage(aoeHit, target);
-							ch.sprite.bloodBurstA(target.sprite.center(), aoeHit);
-							ch.sprite.flash();
-						}
-					}
-					*/
 					WandOfBlastWave.BlastWave.blast(enemy.pos);
 					for (int n : PathFinder.NEIGHBOURS9) {
 						int c = enemy.pos + n;
@@ -257,7 +244,7 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
 							}
 						}
 					}
-					if (hero.hasTalent(Talent.EXPLOSION) && Random.Int(20) < hero.pointsInTalent(Talent.EXPLOSION)) {
+					if (hero.hasTalent(Talent.EXPLOSION) && Random.Int(5) < hero.pointsInTalent(Talent.EXPLOSION)) {
 						Buff.affect(enemy, Paralysis.class, 1);
 					}
 					break;
@@ -290,7 +277,7 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
 							doAttack(enemy);
 						}
 					});
-					Buff.affect(enemy, LanceBleeding.class).set( 4 );
+					Buff.affect(enemy, LanceBleeding.class).set( hero.belongings.weapon.max() / 3 );
 					Buff.affect(enemy, Vulnerable.class, 4);
 				} else {
 					detach();

@@ -192,9 +192,9 @@ public enum Talent {
 	//Phalanx T3
 	PRECISE_DISSECTION(300, 3), EXPLOSION(301, 3), RED_RAGE(302, 3),
 	//Tercio T3
-	T_T3_1(303, 3), T_T3_2(304, 3), T_T3_3(305, 3),
+	FASTER_HAND(303, 3), RUTHLESS_CHARGE(304, 3), BAD_BLOOD(305, 3),
 	//Vlad T3
-	V_T3_1(306, 3), V_T3_2(307, 3), V_T3_3(308, 3),
+	HUNGER_AND_THIRST(306, 3), GREAT_MAW(307, 3), FITTEST_SURVIVAL(308, 3),
 	//Starburst T4
 	PHOBIC_SAW(309, 4), GRIND_DEFENCE(310, 4), WARPED_BLADE(311, 4),
 
@@ -879,7 +879,12 @@ public enum Talent {
 			case PHALANX:
 				Collections.addAll(tierTalents, PRECISE_DISSECTION, EXPLOSION, RED_RAGE);
 				break;
-
+			case TERCIO:
+				Collections.addAll(tierTalents, FASTER_HAND, RUTHLESS_CHARGE, BAD_BLOOD);
+				break;
+			case VLAD:
+				Collections.addAll(tierTalents, HUNGER_AND_THIRST, GREAT_MAW, FITTEST_SURVIVAL);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			talents.get(2).put(talent, 0);

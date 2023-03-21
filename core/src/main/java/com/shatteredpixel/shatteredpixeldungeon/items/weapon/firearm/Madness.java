@@ -52,7 +52,7 @@ public class Madness extends FirearmWeapon {
         if (hero.heroClass == HeroClass.NOISE) {
             return 2f;
         } else {
-            return 1f;
+            return 1.5f;
         }
     }
 
