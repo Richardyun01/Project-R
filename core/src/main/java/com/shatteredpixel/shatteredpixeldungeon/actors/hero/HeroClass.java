@@ -30,6 +30,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbili
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpectralBlades;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpiritHawk;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.lance.AfterImage;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.lance.BloodWine;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.lance.Starburst;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.ElementalBlast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WarpBeacon;
@@ -81,8 +83,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.NotMachineGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.SuperShotgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gauntlet;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RuinSpear;
@@ -168,7 +170,7 @@ public enum HeroClass {
 		upscroll.quantity(30).collect();
 		PotionOfStrength upscroll2 = new PotionOfStrength();
 		upscroll2.quantity(30).collect();
-		new SuperShotgun().collect();
+		new Gauntlet().collect();
 		new TengusMask().collect();
 
 		switch (this) {
@@ -339,7 +341,7 @@ public enum HeroClass {
 			case NOISE:
 				return new ArmorAbility[]{new Stimpack(), new SentryGun(), new DangerClose()};
 			case LANCE:
-				return new ArmorAbility[]{new Starburst()};
+				return new ArmorAbility[]{new Starburst(), new AfterImage(), new BloodWine()};
 		}
 	}
 

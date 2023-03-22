@@ -722,7 +722,7 @@ public class Badges {
 		victoryClassBadges.put(HeroClass.ROGUE, Badge.VICTORY_ROGUE);
 		victoryClassBadges.put(HeroClass.HUNTRESS, Badge.VICTORY_HUNTRESS);
 		victoryClassBadges.put(HeroClass.NOISE, Badge.VICTORY_NOISE);
-		//victoryClassBadges.put(HeroClass.LANCE, Badge.VICTORY_LANCE);
+		victoryClassBadges.put(HeroClass.LANCE, Badge.VICTORY_LANCE);
 	}
 
 	private static LinkedHashMap<HeroSubClass, Badge> thirdBossSubclassBadges = new LinkedHashMap<>();
@@ -852,11 +852,9 @@ public class Badges {
 		case NOISE:
 			badge = Badge.MASTERY_NOISE;
 			break;
-			/*
 		case LANCE:
 			badge = Badge.MASTERY_LANCE;
 			break;
-			*/
 		}
 		
 		unlock(badge);

@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AfterImageBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArcaneArmor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
@@ -636,8 +637,9 @@ public abstract class Char extends Actor {
 		acuRoll *= AscensionChallenge.statModifier(attacker);
 
 		float defRoll = Random.Float( defStat );
-		if (defender.buff(Bless.class) != null) defRoll *= 1.25f;
-		if (defender.buff(  Hex.class) != null) defRoll *= 0.8f;
+		if (defender.buff(			Bless.class) != null) 	defRoll *= 1.25f;
+		if (defender.buff( AfterImageBuff.class) != null) 	defRoll *= INFINITE_EVASION;
+		if (defender.buff(	 Hex.class) != null) 			defRoll *= 0.8f;
 		for (ChampionEnemy buff : defender.buffs(ChampionEnemy.class)){
 			defRoll *= buff.evasionAndAccuracyFactor();
 		}
@@ -694,6 +696,7 @@ public abstract class Char extends Actor {
 		if ( buff( StimpackAdrenaline.class ) != null) speed *= 2f;
 		if ( buff( Haste.class ) != null) speed *= 3f;
 		if ( buff( Dread.class ) != null) speed *= 2f;
+		if ( buff( AfterImageBuff.class ) != null && hero.hasTalent(Talent.IMAGE_WALKING)) speed *= 1f + 0.1f*hero.pointsInTalent(Talent.IMAGE_WALKING);
 		return speed;
 	}
 

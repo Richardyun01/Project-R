@@ -113,6 +113,7 @@ public class BuffIndicator extends Component {
 	public static final int BUNKER	 	= 62;
 	public static final int LANCE_COMBO = 63;
 	public static final int BLOOD_BULLET= 73;
+	public static final int AFTER_IMAGE = 74;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;

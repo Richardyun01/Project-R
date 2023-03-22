@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
@@ -148,7 +149,7 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
     }
 
     public enum ComboMove {
-        PREDATION   (50, 0xFF00FF00); // skill-1
+        PREDATION   (50-4*Dungeon.hero.pointsInTalent(Talent.HUNGER_AND_THIRST), 0xFF00FF00); // skill-1
 
         public int comboReq, tintColor;
 
@@ -202,7 +203,7 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
         switch (moveBeingUsed) {
             case PREDATION:
                 if (enemy.properties().contains(Char.Property.BOSS)) {
-                    dmgMulti = 100;
+                    dmgMulti = 100 + 25*hero.pointsInTalent(Talent.GREAT_MAW);
                 } else {
                     dmgMulti = enemy.HP;
                 }
@@ -241,9 +242,20 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
                 detach();
                 Buff.affect(hero, Bless.class, 15);
                 Buff.affect(hero, Stamina.class, 15);
-                float healFactor = Dungeon.hero.HP * 0.2f;
+                float healFactor;
+                if (hero.hasTalent(Talent.FITTEST_SURVIVAL)) {
+                    healFactor = Dungeon.hero.HP * 0.3f;
+                } else {
+                    healFactor = Dungeon.hero.HP * 0.2f;
+                }
                 healFactor = Math.min( healFactor, hero.HT - hero.HP );
                 Dungeon.hero.HP += (int)healFactor;
+                if (hero.hasTalent(Talent.FITTEST_SURVIVAL) && hero.pointsInTalent(Talent.FITTEST_SURVIVAL) >= 2) {
+                    PotionOfHealing.cure(hero);
+                }
+                if (hero.hasTalent(Talent.FITTEST_SURVIVAL) && hero.pointsInTalent(Talent.FITTEST_SURVIVAL) >= 3) {
+                    Buff.affect(hero, Barrier.class).setShield((int) (0.4f * hero.HT + 10));
+                }
                 ActionIndicator.clearAction(LanceCombo3.this);
                 hero.spendAndNext(hero.attackDelay());
                 break;
@@ -267,7 +279,6 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
                     || !Dungeon.level.heroFOV[cell]
                     || target.isCharmedBy( enemy )) {
                 GLog.w(Messages.get(Combo.class, "bad_target"));
-
             } else if (!((Hero)target).canAttack(enemy)){
                 Ballistica c = new Ballistica(target.pos, enemy.pos, Ballistica.PROJECTILE);
                 if (c.collisionPos == enemy.pos){

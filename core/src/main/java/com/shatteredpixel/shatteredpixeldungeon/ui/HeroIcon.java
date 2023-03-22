@@ -73,6 +73,8 @@ public class HeroIcon extends Image {
 	public static final int SENTRY_GUN		= 29;
 	public static final int DANGER_CLOSE	= 30;
 	public static final int STARBURST 		= 34;
+	public static final int AFTERIMAGE 		= 35;
+	public static final int BLOOD_WINE		= 36;
 	public static final int RATMOGRIFY      = 20;
 
 
