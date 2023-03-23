@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
@@ -76,7 +77,11 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
     public void hit( Char enemy ) {
 
         count++;
-        if (Dungeon.hero.hasTalent(Talent.BURNING_BLOOD) && Random.Int(10) < Dungeon.hero.pointsInTalent(Talent.BURNING_BLOOD)) {
+        if (Dungeon.hero.hasTalent(Talent.BURNING_BLOOD) && Random.Int(10) < Dungeon.hero.pointsInTalent(Talent.BURNING_BLOOD) ||
+            Dungeon.hero.hasTalent(Talent.HUNGER_AND_THIRST) && Random.Int(10) < Dungeon.hero.pointsInTalent(Talent.HUNGER_AND_THIRST)) {
+            count++;
+        }
+        if (enemy.buff(LancePredationTracker.class) != null) {
             count++;
         }
 
@@ -110,17 +115,24 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
     }
 
     private static final String COUNT = "count";
+    private static final String TRACK_USED = "track_used";
+    private static final String TRACK_COOLDOWN = "track_cooldown";
 
     @Override
     public void storeInBundle(Bundle bundle) {
         super.storeInBundle(bundle);
         bundle.put(COUNT, count);
+        bundle.put(TRACK_USED, trackUsed);
+        bundle.put(TRACK_COOLDOWN, trackCooldown);
     }
 
     @Override
     public void restoreFromBundle(Bundle bundle) {
         super.restoreFromBundle(bundle);
         count = bundle.getInt( COUNT );
+
+        trackUsed = bundle.getBoolean(TRACK_USED);
+        trackUsed = bundle.getBoolean(TRACK_COOLDOWN);
 
         if (getHighestMove() != null) ActionIndicator.setAction(this);
     }
@@ -149,7 +161,8 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
     }
 
     public enum ComboMove {
-        PREDATION   (50-4*Dungeon.hero.pointsInTalent(Talent.HUNGER_AND_THIRST), 0xFF00FF00); // skill-1
+        TRACK       (0, 0xFF00FF00), // skill-1
+        PREDATION   (50, 0xFFFF0000); // skill-2
 
         public int comboReq, tintColor;
 
@@ -163,6 +176,9 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
         }
 
     }
+
+    private boolean trackUsed = false;
+    private boolean trackCooldown = false;
 
     public ComboMove getHighestMove(){
         ComboMove best = null;
@@ -183,8 +199,31 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
     }
 
     public void useMove(ComboMove move){
-        moveBeingUsed = move;
-        GameScene.selectCell(listener);
+        if (move == ComboMove.TRACK) {
+            if (Dungeon.hero.buff(Talent.TrackCoolDown.class) == null) {
+                trackUsed = true;
+                trackCooldown = true;
+                Invisibility.dispel();
+                SpellSprite.show(Dungeon.hero, SpellSprite.VISION, 1, 0.77f, 0.9f);
+                Buff.affect(Dungeon.hero, Talent.TrackCoolDown.class, 100);
+                Mob affected1 = null;
+                for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+                    if (mob.alignment != Char.Alignment.ALLY && Dungeon.level.heroFOV[mob.pos]) {
+                        Buff.affect(mob, LancePredationTracker.class, LancePredationTracker.DURATION);
+                        if (mob.buff(LancePredationTracker.class) != null){
+                            affected1 = mob;
+                        }
+                    }
+                }
+                ((Hero)target).spendAndNext(Actor.TICK);
+                Dungeon.hero.busy();
+            } else {
+                GLog.n(Messages.get(this, "cannot_use"));
+            }
+        } else {
+            moveBeingUsed = move;
+            GameScene.selectCell(listener);
+        }
     }
 
     private static ComboMove moveBeingUsed;
@@ -208,6 +247,7 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
                     dmgMulti = enemy.HP;
                 }
                 break;
+            case TRACK:
             default:
                 break;
         }
@@ -216,18 +256,18 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
             //special on-hit effects
             switch (moveBeingUsed) {
                 case PREDATION:
-                    Mob affected = null;
+                    SpellSprite.show(hero, SpellSprite.PREDATION, 1, 0.77f, 0.9f);
+                    Mob affected2 = null;
                     for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
                         if (mob.alignment != Char.Alignment.ALLY && Dungeon.level.heroFOV[mob.pos]) {
                             Buff.affect( mob, Terror.class, Terror.DURATION ).object = hero.id();
-
                             if (mob.buff(Terror.class) != null){
-                                affected = mob;
+                                affected2 = mob;
                             }
                         }
                     }
-
                     break;
+                case TRACK:
                 default:
                     //nothing
                     break;
@@ -259,6 +299,7 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
                 ActionIndicator.clearAction(LanceCombo3.this);
                 hero.spendAndNext(hero.attackDelay());
                 break;
+            case TRACK:
             default:
                 detach();
                 ActionIndicator.clearAction(LanceCombo3.this);

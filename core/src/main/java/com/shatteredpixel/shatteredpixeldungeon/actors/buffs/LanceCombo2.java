@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
@@ -109,17 +110,20 @@ public class LanceCombo2 extends Buff implements ActionIndicator.Action {
     }
 
     private static final String COUNT = "count";
+    private static final String BLEEDING_USED = "bleeding_used";
 
     @Override
     public void storeInBundle(Bundle bundle) {
         super.storeInBundle(bundle);
         bundle.put(COUNT, count);
+        bundle.put(BLEEDING_USED, bleedingBulletUsed);
     }
 
     @Override
     public void restoreFromBundle(Bundle bundle) {
         super.restoreFromBundle(bundle);
         count = bundle.getInt( COUNT );
+        bleedingBulletUsed = bundle.getBoolean(BLEEDING_USED);
 
         if (getHighestMove() != null) ActionIndicator.setAction(this);
     }
@@ -168,7 +172,7 @@ public class LanceCombo2 extends Buff implements ActionIndicator.Action {
 
     }
 
-    private boolean bleedingBulletUse = false;
+    private boolean bleedingBulletUsed = false;
 
     public ComboMove getHighestMove(){
         ComboMove best = null;
@@ -190,38 +194,23 @@ public class LanceCombo2 extends Buff implements ActionIndicator.Action {
 
     public void useMove(ComboMove move){
         if (move == ComboMove.BLEEDING_BULLET) {
-            bleedingBulletUse = true;
-            Invisibility.dispel();
-            Buff.affect(target, LanceCombo2.BleedingBulletTracker.class, Actor.TICK);
-            ((Hero)target).spendAndNext(Actor.TICK);
-            Dungeon.hero.busy();
+            if (Dungeon.hero.buff(InfiniteBullet.class) == null) {
+                bleedingBulletUsed = true;
+                Invisibility.dispel();
+                SpellSprite.show(Dungeon.hero, SpellSprite.BLOOD, 1, 0.77f, 0.9f);
+                Buff.affect(target, LanceBleedingBullet.class, LanceBleedingBullet.DURATION);
+                ((Hero)target).spendAndNext(Actor.TICK);
+                Dungeon.hero.busy();
+            } else {
+                GLog.n(Messages.get(this, "cannot_use"));
+            }
         } else {
             moveBeingUsed = move;
             GameScene.selectCell(listener);
         }
     }
 
-    public static class BleedingBulletTracker extends FlavourBuff{
-        { actPriority = HERO_PRIO+1;}
 
-        @Override
-        public int icon() {
-            return BuffIndicator.BLOOD_BULLET;
-        }
-
-        @Override
-        public String desc() {
-            return Messages.get(this, "desc", 5);
-        }
-
-        public boolean bloodbullet;
-
-        @Override
-        public void detach() {
-            if (!bloodbullet && target.buff(LanceCombo2.class) != null) target.buff(LanceCombo2.class).detach();
-            super.detach();
-        }
-    }
 
     private static ComboMove moveBeingUsed;
 
@@ -249,7 +238,7 @@ public class LanceCombo2 extends Buff implements ActionIndicator.Action {
             //special on-hit effects
             switch (moveBeingUsed) {
                 case FAST_DRAW:
-                    if (hero.buff(BleedingBulletTracker.class) == null) {
+                    if (hero.buff(LanceBleedingBullet.class) == null) {
                         if (!wasAlly) hit(enemy);
                         //trace a ballistica to our target (which will also extend past them
                         Ballistica trajectory = new Ballistica(target.pos, enemy.pos, Ballistica.STOP_TARGET);
@@ -269,12 +258,6 @@ public class LanceCombo2 extends Buff implements ActionIndicator.Action {
                     }
                     break;
                 case BLEEDING_BULLET:
-                    if (hero.buff(InfiniteBullet.class) == null) {
-                        Buff.affect(hero, BleedingBulletTracker.class, 5);
-                    } else {
-                        GLog.n(Messages.get(this, "cannot_use"));
-                    }
-                    break;
                 default:
                     //nothing
                     break;

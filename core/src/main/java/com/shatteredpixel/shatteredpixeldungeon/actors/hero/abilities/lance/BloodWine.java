@@ -23,7 +23,7 @@ import com.watabou.noosa.audio.Sample;
 public class BloodWine extends ArmorAbility {
 
     {
-        baseChargeUse = 30f;
+        baseChargeUse = 45f;
     }
 
     @Override

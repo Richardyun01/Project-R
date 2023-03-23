@@ -133,6 +133,7 @@ public class FirearmWeapon extends MeleeWeapon {
 
     protected SpeedLoader loader;
 
+    //setting the emition of flamethrowers
     public void setEmitting() {
         max_dist = 5;
         degree = 30;
@@ -325,6 +326,7 @@ public class FirearmWeapon extends MeleeWeapon {
                 setReloadTime();
                 setMaxRound();
                 switch (type) {
+                    //flamethrowers can hit anyway, so they have strength restrictions
                     case FirearmEtc2:
                         if (hero.STR() < STRReq()) {
                             usesTargeting = false;
@@ -567,6 +569,7 @@ public class FirearmWeapon extends MeleeWeapon {
         return acc;
     }
 
+    //explosion at 3x3 grid
     public void onThrowBulletFirearmExplosive( int cell ) {
         CellEmitter.get(cell).burst(SmokeParticle.FACTORY, 2);
         CellEmitter.center(cell).burst(BlastParticle.FACTORY, 2);
@@ -607,6 +610,7 @@ public class FirearmWeapon extends MeleeWeapon {
     }
 
 
+    //fires invisible bullet and draws laser effect
     public void onThrowBulletFirearmEnergy2( int cell ) {
         Ballistica beam = new Ballistica(hero.pos, cell, Ballistica.PROJECTILE);
         for (int c : beam.subPath(0, beam.dist))
@@ -627,6 +631,7 @@ public class FirearmWeapon extends MeleeWeapon {
         updateQuickslot();
     }
 
+    //fires invisible bullet and and draws flames
     public void onThrowBulletFirearmEtc2( int cell ) {
         Ballistica aim = new Ballistica(hero.pos, cell, Ballistica.WONT_STOP); //Always Projecting and no distance limit, see MissileWeapon.throwPos
         setEmitting();
@@ -964,6 +969,7 @@ public class FirearmWeapon extends MeleeWeapon {
                     }
                     break;
                 case FirearmAuto:
+                    //fires designated rounds per shot
                     for (int i = 0; i < shot; i++) {
                         if (round <= 0) break;
                         if (hero.hasTalent(Talent.ONE_MORE_ROUND) && Random.Int(10) < hero.pointsInTalent(Talent.ONE_MORE_ROUND)) {
@@ -993,6 +999,7 @@ public class FirearmWeapon extends MeleeWeapon {
                 case FirearmPrecision:
                 case FirearmShotgun:
                 default:
+                    //fires all designated rounds at once
                     for (int i = 0; i < shot; i++) {
                         if (round <= 0) break;
                         if (hero.buff(Bunker.class) != null && Random.Int(10) <= 1 + hero.pointsInTalent(Talent.SHRIKE_TURRET)) {

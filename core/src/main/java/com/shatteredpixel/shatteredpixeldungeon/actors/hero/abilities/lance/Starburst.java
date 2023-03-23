@@ -15,7 +15,7 @@ import com.watabou.noosa.audio.Sample;
 public class Starburst extends ArmorAbility {
 
     {
-        baseChargeUse = 25f;
+        baseChargeUse = 55f;
     }
 
     @Override

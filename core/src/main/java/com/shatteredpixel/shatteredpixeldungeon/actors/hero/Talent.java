@@ -315,10 +315,22 @@ public enum Talent {
 			return Messages.get((Object) this, "desc", dispTurns());
 		}
 	}
-
 	public static class NoCripple extends Buff {
 		public NoCripple() {
 			this.immunities.add(Cripple.class);
+		}
+	}
+	public static class TrackCoolDown extends FlavourBuff{
+		public static final float DURATION	= 100f;
+		public int icon() {
+			return BuffIndicator.TIME;
+		}
+		public void tintIcon(Image icon) { icon.hardlight(1f, 2f, 0.25f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 100); }
+		public String toString() { return Messages.get(this, "name"); }
+		@Override
+		public String desc() {
+			return Messages.get(this, "desc", dispTurns(visualcooldown()));
 		}
 	}
 

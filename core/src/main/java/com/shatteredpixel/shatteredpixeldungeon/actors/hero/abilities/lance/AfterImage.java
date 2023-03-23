@@ -15,7 +15,7 @@ import com.watabou.noosa.audio.Sample;
 public class AfterImage extends ArmorAbility {
 
     {
-        baseChargeUse = 35f;
+        baseChargeUse = 60f;
     }
 
     @Override

@@ -56,7 +56,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBleeding;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceCombo2;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBleedingBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LifeLink;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSleep;
@@ -483,7 +483,7 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero &&
-				buff(LanceCombo2.BleedingBulletTracker.class) != null &&
+				buff(LanceBleedingBullet.class) != null &&
 				hero.belongings.weapon() instanceof FirearmWeapon.Bullet) {
 				Buff.affect(enemy, LanceBleeding.class).set(hero.belongings.weapon.max()/(4- hero.pointsInTalent(Talent.BAD_BLOOD)));
 			}
