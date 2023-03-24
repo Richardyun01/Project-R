@@ -57,6 +57,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBleedingBullet;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LancePredationTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LifeLink;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSleep;
@@ -631,6 +632,8 @@ public abstract class Char extends Actor {
 		float acuRoll = Random.Float( acuStat );
 		if (attacker.buff(Bless.class) != null) acuRoll *= 1.25f;
 		if (attacker.buff(  Hex.class) != null) acuRoll *= 0.8f;
+		if (attacker.buff(Talent.TrackCoolDown.class) != null &&
+			defender.buff(LancePredationTracker.class) != null) acuRoll *= INFINITE_ACCURACY;
 		for (ChampionEnemy buff : attacker.buffs(ChampionEnemy.class)){
 			acuRoll *= buff.evasionAndAccuracyFactor();
 		}
@@ -696,7 +699,7 @@ public abstract class Char extends Actor {
 		if ( buff( StimpackAdrenaline.class ) != null) speed *= 2f;
 		if ( buff( Haste.class ) != null) speed *= 3f;
 		if ( buff( Dread.class ) != null) speed *= 2f;
-		if ( buff( AfterImageBuff.class ) != null && hero.hasTalent(Talent.IMAGE_WALKING)) speed *= 1f + 0.1f*hero.pointsInTalent(Talent.IMAGE_WALKING);
+		if ( buff( AfterImageBuff.class ) != null && hero.hasTalent(Talent.IMAGE_WALKING)) speed *= 1f + 0.15f*hero.pointsInTalent(Talent.IMAGE_WALKING);
 		return speed;
 	}
 

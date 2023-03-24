@@ -205,11 +205,11 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
                 trackCooldown = true;
                 Invisibility.dispel();
                 SpellSprite.show(Dungeon.hero, SpellSprite.VISION, 1, 0.77f, 0.9f);
-                Buff.affect(Dungeon.hero, Talent.TrackCoolDown.class, 100);
+                Buff.affect(Dungeon.hero, Talent.TrackCoolDown.class, 70-4*Dungeon.hero.pointsInTalent(Talent.HUNGER_AND_THIRST));
                 Mob affected1 = null;
                 for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
                     if (mob.alignment != Char.Alignment.ALLY && Dungeon.level.heroFOV[mob.pos]) {
-                        Buff.affect(mob, LancePredationTracker.class, LancePredationTracker.DURATION);
+                        Buff.affect(mob, LancePredationTracker.class, LancePredationTracker.DURATION+2*Dungeon.hero.pointsInTalent(Talent.HUNGER_AND_THIRST));
                         if (mob.buff(LancePredationTracker.class) != null){
                             affected1 = mob;
                         }
@@ -242,9 +242,9 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
         switch (moveBeingUsed) {
             case PREDATION:
                 if (enemy.properties().contains(Char.Property.BOSS)) {
-                    dmgMulti = 100 + 25*hero.pointsInTalent(Talent.GREAT_MAW);
+                    dmgBonus = 100;
                 } else {
-                    dmgMulti = enemy.HP;
+                    dmgBonus = enemy.HP;
                 }
                 break;
             case TRACK:
@@ -261,6 +261,9 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
                     for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
                         if (mob.alignment != Char.Alignment.ALLY && Dungeon.level.heroFOV[mob.pos]) {
                             Buff.affect( mob, Terror.class, Terror.DURATION ).object = hero.id();
+                            if (hero.hasTalent(Talent.GREAT_TERROR)) {
+                                Buff.affect( mob, Amok.class, 3*hero.pointsInTalent(Talent.GREAT_TERROR) );
+                            }
                             if (mob.buff(Terror.class) != null){
                                 affected2 = mob;
                             }

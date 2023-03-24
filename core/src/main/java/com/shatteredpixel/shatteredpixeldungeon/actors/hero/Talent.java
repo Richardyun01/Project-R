@@ -194,7 +194,7 @@ public enum Talent {
 	//Tercio T3
 	FASTER_HAND(303, 3), RUTHLESS_CHARGE(304, 3), BAD_BLOOD(305, 3),
 	//Vlad T3
-	HUNGER_AND_THIRST(306, 3), GREAT_MAW(307, 3), FITTEST_SURVIVAL(308, 3),
+	HUNGER_AND_THIRST(306, 3), GREAT_TERROR(307, 3), FITTEST_SURVIVAL(308, 3),
 	//Starburst T4
 	PHOBIC_SAW(309, 4), GRIND_DEFENCE(310, 4), WARPED_BLADE(311, 4),
 	//Afterimage T4
@@ -321,7 +321,7 @@ public enum Talent {
 		}
 	}
 	public static class TrackCoolDown extends FlavourBuff{
-		public static final float DURATION	= 100f;
+		public static final float DURATION	= 70f;
 		public int icon() {
 			return BuffIndicator.TIME;
 		}
@@ -899,7 +899,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, FASTER_HAND, RUTHLESS_CHARGE, BAD_BLOOD);
 				break;
 			case VLAD:
-				Collections.addAll(tierTalents, HUNGER_AND_THIRST, GREAT_MAW, FITTEST_SURVIVAL);
+				Collections.addAll(tierTalents, HUNGER_AND_THIRST, GREAT_TERROR, FITTEST_SURVIVAL);
 				break;
 		}
 		for (Talent talent : tierTalents){

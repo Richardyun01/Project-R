@@ -27,7 +27,7 @@ public class LanceArmor extends ClassArmor {
 
 
     {
-        image = ItemSpriteSheet.ARMOR_HUNTRESS;
+        image = ItemSpriteSheet.ARMOR_LANCE;
     }
 
 }
