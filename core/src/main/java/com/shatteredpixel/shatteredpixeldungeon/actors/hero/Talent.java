@@ -42,6 +42,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PhysicalEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
@@ -202,6 +203,9 @@ public enum Talent {
 	//Blood Wine T4
 	TOXIC_WINE(315, 4), ALCOHOLIC_FRENZY(316, 4), HANGOVER(317, 4),
 
+	//Carroll T1
+	STRENGTHENING_MEAL(320), ADVENTURERS_INTUITION(321), PATIENT_STRIKE(322), SPEEDY_MOVEMENT(323),
+
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
@@ -269,6 +273,7 @@ public enum Talent {
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / 20); }
 	};
 	public static class SpiritBladesTracker extends FlavourBuff{};
+	public static class PatientStrikeTracker extends FlavourBuff{};
 	public static class ProphecyCoolDown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(1f, 2f, 0.25f); }
@@ -529,6 +534,10 @@ public enum Talent {
 			//effectively 2/3 turns of invisibility
 			Buff.affect( hero, Invisibility.class, 1 + hero.pointsInTalent(SECRET_MEAL));
 		}
+		if (hero.hasTalent(STRENGTHENING_MEAL)){
+			//2 bonus physical damage for next 2/3 attacks
+			Buff.affect( hero, PhysicalEmpower.class).set(2, 1 + hero.pointsInTalent(STRENGTHENING_MEAL));
+		}
 	}
 
 	public static class WarriorFoodImmunity extends FlavourBuff{
@@ -717,6 +726,17 @@ public enum Talent {
 			Buff.prolong(hero, Haste.class, 1f + hero.pointsInTalent(Talent.INSTANT_FLEEING));
 		}
 
+		if (hero.hasTalent(PATIENT_STRIKE)){
+			if (hero.buff(PatientStrikeTracker.class) != null
+					&& !(hero.belongings.attackingWeapon() instanceof MissileWeapon)){
+				hero.buff(PatientStrikeTracker.class).detach();
+				dmg += Random.IntRange(hero.pointsInTalent(Talent.PATIENT_STRIKE), 2);
+				if (!(enemy instanceof Mob) || !((Mob) enemy).surprisedBy(hero)){
+					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG, 0.75f, 1.2f);
+				}
+			}
+		}
+
 		return dmg;
 	}
 
@@ -760,6 +780,9 @@ public enum Talent {
 				break;
 			case LANCE:
 				Collections.addAll(tierTalents, MEAL_WITH_LIQUOR, HUNTERS_INTUITION, SOUL_ABSORB, PRECISE_STRIKE, REPAIRMENT);
+				break;
+			case CARROLL:
+				Collections.addAll(tierTalents, STRENGTHENING_MEAL, ADVENTURERS_INTUITION, PATIENT_STRIKE, SPEEDY_MOVEMENT);
 				break;
 		}
 		for (Talent talent : tierTalents){

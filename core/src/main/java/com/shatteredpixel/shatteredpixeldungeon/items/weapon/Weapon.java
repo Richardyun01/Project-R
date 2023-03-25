@@ -292,7 +292,7 @@ abstract public class Weapon extends KindOfWeapon {
 
 	public Item upgrade(boolean enchant) {
 
-		if (enchant) {
+		if (enchant){
 			if (enchantment == null){
 				enchant(Enchantment.random());
 			}
@@ -305,7 +305,9 @@ abstract public class Weapon extends KindOfWeapon {
 		}
 
 		cursed = false;
-		
+
+		Item result = super.upgrade();
+		Badges.validateCarrollUnlock();
 		return super.upgrade();
 	}
 	

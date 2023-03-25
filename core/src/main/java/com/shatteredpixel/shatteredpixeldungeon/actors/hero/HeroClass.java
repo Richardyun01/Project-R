@@ -62,7 +62,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlam
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
@@ -79,6 +81,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ApachePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.NotMachineGun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
@@ -87,6 +90,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RuinSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.DeviceCompat;
@@ -98,7 +102,8 @@ public enum HeroClass {
 	ROGUE( HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER, HeroSubClass.HITMAN ),
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN, HeroSubClass.POLARIS ),
 	NOISE( HeroSubClass.TRIGGERHAPPY, HeroSubClass.DEMOLITIONIST, HeroSubClass.BUNKER),
-	LANCE( HeroSubClass.PHALANX, HeroSubClass.TERCIO, HeroSubClass.VLAD );
+	LANCE( HeroSubClass.PHALANX, HeroSubClass.TERCIO, HeroSubClass.VLAD ),
+	CARROLL();
 
 	private HeroSubClass[] subClasses;
 
@@ -161,6 +166,7 @@ public enum HeroClass {
 		plate.upgrade(8).collect();
 		 **/
 //erase this finish
+		new RingOfForce().collect();
 
 		switch (this) {
 			case WARRIOR:
@@ -185,6 +191,10 @@ public enum HeroClass {
 
 			case LANCE:
 				initLance( hero );
+				break;
+
+			case CARROLL:
+				initCarroll( hero );
 				break;
 		}
 
@@ -211,6 +221,8 @@ public enum HeroClass {
 				return Badges.Badge.MASTERY_NOISE;
 			case LANCE:
 				return Badges.Badge.MASTERY_LANCE;
+			case CARROLL:
+				return Badges.Badge.MASTERY_CARROLL;
 		}
 		return null;
 	}
@@ -301,6 +313,22 @@ public enum HeroClass {
 		new RingOfFuror().identify();
 	}
 
+	private static void initCarroll( Hero hero ) {
+
+		ApachePistol gun = new ApachePistol();
+		(hero.belongings.weapon = gun).identify();
+
+		ThrowingSpike spikes = new ThrowingSpike();
+		spikes.quantity(2).collect();
+
+		Dungeon.quickslot.setSlot(0, gun);
+		Dungeon.quickslot.setSlot(1, spikes);
+
+		new PotionOfStrength().identify();
+		new ScrollOfTransmutation().identify();
+		new RingOfAccuracy().identify();
+	}
+
 	public String title() {
 		return Messages.get(HeroClass.class, name());
 	}
@@ -331,6 +359,8 @@ public enum HeroClass {
 				return new ArmorAbility[]{new Stimpack(), new SentryGun(), new DangerClose()};
 			case LANCE:
 				return new ArmorAbility[]{new Starburst(), new AfterImage(), new BloodWine()};
+			case CARROLL:
+				return new ArmorAbility[]{};
 		}
 	}
 
@@ -348,6 +378,8 @@ public enum HeroClass {
 				return Assets.Sprites.NOISE;
 			case LANCE:
 				return Assets.Sprites.LANCE;
+			case CARROLL:
+				return Assets.Sprites.CARROLL;
 		}
 	}
 
@@ -365,6 +397,8 @@ public enum HeroClass {
 				return Assets.Splashes.NOISE;
 			case LANCE:
 				return Assets.Splashes.LANCE;
+			case CARROLL:
+				return Assets.Splashes.CARROLL;
 		}
 	}
 	
@@ -385,6 +419,8 @@ public enum HeroClass {
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_NOISE);
 			case LANCE:
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_LANCE);
+			case CARROLL:
+				return Badges.isUnlocked(Badges.Badge.UNLOCK_CARROLL);
 		}
 	}
 	

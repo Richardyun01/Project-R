@@ -464,6 +464,7 @@ public class ItemSpriteSheet {
 	public static final int TRIDENT         = MISSILE_WEP+13;
 	public static final int THROWING_HAMMER = MISSILE_WEP+14;
 	public static final int FORCE_CUBE      = MISSILE_WEP+15;
+	public static final int THROWING_SPIKE  = MISSILE_WEP+15;
 	
 	static{
 		assignItemRect(SPIRIT_BOW,      15, 15);
@@ -487,6 +488,7 @@ public class ItemSpriteSheet {
 		assignItemRect(TRIDENT,         16, 16);
 		assignItemRect(THROWING_HAMMER, 16, 16);
 		assignItemRect(FORCE_CUBE,      11, 12);
+		assignItemRect(THROWING_SPIKE, 16, 16);
 	}
 	
 	public static final int TIPPED_DARTS    =                               xy(1, 11);  //16 slots

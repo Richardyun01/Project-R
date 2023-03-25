@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.MagicalHolster;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.PotionBandolier;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.ScrollHolder;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -55,6 +56,7 @@ public class Badges {
 		MASTERY_HUNTRESS,
 		MASTERY_NOISE,
 		MASTERY_LANCE,
+		MASTERY_CARROLL,
 		FOUND_RATMOGRIFY,
 
 		//bronze
@@ -63,6 +65,7 @@ public class Badges {
 		UNLOCK_HUNTRESS             ( 3 ),
 		UNLOCK_NOISE				( 21 ),
 		UNLOCK_LANCE				( 22 ),
+		UNLOCK_CARROLL 				( 23 ),
 		MONSTERS_SLAIN_1            ( 4 ),
 		MONSTERS_SLAIN_2            ( 5 ),
 		GOLD_COLLECTED_1            ( 6 ),
@@ -109,6 +112,8 @@ public class Badges {
 		BOSS_SLAIN_1_ROGUE,
 		BOSS_SLAIN_1_HUNTRESS,
 		BOSS_SLAIN_1_NOISE,
+		BOSS_SLAIN_1_LANCE,
+		BOSS_SLAIN_1_CARROLL,
 		BOSS_SLAIN_1_ALL_CLASSES    ( 54, true ),
 		GAMES_PLAYED_2              ( 55, true ),
 		HIGH_SCORE_2                ( 56 ),
@@ -156,6 +161,7 @@ public class Badges {
 		VICTORY_HUNTRESS,
 		VICTORY_NOISE,
 		VICTORY_LANCE,
+		VICTORY_CARROLL,
 		VICTORY_ALL_CLASSES         ( 103, true ),
 		DEATH_FROM_ALL              ( 104, true ),
 		BOSS_SLAIN_3_GLADIATOR,
@@ -172,6 +178,9 @@ public class Badges {
 		BOSS_SLAIN_3_POLARIS,
 		BOSS_SLAIN_3_TRIGGERHAPPY,
 		BOSS_SLAIN_3_DEMOLITIONIST,
+		BOSS_SLAIN_3_PHALANX,
+		BOSS_SLAIN_3_TERCIO,
+		BOSS_SLAIN_3_VLAD,
 		BOSS_SLAIN_3_ALL_SUBCLASSES ( 105, true ),
 		BOSS_CHALLENGE_3            ( 106 ),
 		BOSS_CHALLENGE_4            ( 107 ),
@@ -712,7 +721,9 @@ public class Badges {
 		firstBossClassBadges.put(HeroClass.MAGE, Badge.BOSS_SLAIN_1_MAGE);
 		firstBossClassBadges.put(HeroClass.ROGUE, Badge.BOSS_SLAIN_1_ROGUE);
 		firstBossClassBadges.put(HeroClass.HUNTRESS, Badge.BOSS_SLAIN_1_HUNTRESS);
-		firstBossClassBadges.put(HeroClass.NOISE, Badge.BOSS_SLAIN_1_HUNTRESS);
+		firstBossClassBadges.put(HeroClass.NOISE, Badge.BOSS_SLAIN_1_NOISE);
+		firstBossClassBadges.put(HeroClass.LANCE, Badge.BOSS_SLAIN_1_LANCE);
+		firstBossClassBadges.put(HeroClass.CARROLL, Badge.BOSS_SLAIN_1_CARROLL);
 	}
 
 	private static LinkedHashMap<HeroClass, Badge> victoryClassBadges = new LinkedHashMap<>();
@@ -723,6 +734,7 @@ public class Badges {
 		victoryClassBadges.put(HeroClass.HUNTRESS, Badge.VICTORY_HUNTRESS);
 		victoryClassBadges.put(HeroClass.NOISE, Badge.VICTORY_NOISE);
 		victoryClassBadges.put(HeroClass.LANCE, Badge.VICTORY_LANCE);
+		victoryClassBadges.put(HeroClass.CARROLL, Badge.VICTORY_CARROLL);
 	}
 
 	private static LinkedHashMap<HeroSubClass, Badge> thirdBossSubclassBadges = new LinkedHashMap<>();
@@ -740,6 +752,9 @@ public class Badges {
 		thirdBossSubclassBadges.put(HeroSubClass.POLARIS, Badge.BOSS_SLAIN_3_POLARIS);
 		thirdBossSubclassBadges.put(HeroSubClass.TRIGGERHAPPY, Badge.BOSS_SLAIN_3_TRIGGERHAPPY);
 		thirdBossSubclassBadges.put(HeroSubClass.DEMOLITIONIST, Badge.BOSS_SLAIN_3_DEMOLITIONIST);
+		thirdBossSubclassBadges.put(HeroSubClass.DEMOLITIONIST, Badge.BOSS_SLAIN_3_PHALANX);
+		thirdBossSubclassBadges.put(HeroSubClass.DEMOLITIONIST, Badge.BOSS_SLAIN_3_TERCIO);
+		thirdBossSubclassBadges.put(HeroSubClass.DEMOLITIONIST, Badge.BOSS_SLAIN_3_VLAD);
 	}
 	
 	public static void validateBossSlain() {
@@ -855,6 +870,9 @@ public class Badges {
 		case LANCE:
 			badge = Badge.MASTERY_LANCE;
 			break;
+		case CARROLL:
+			badge = Badge.MASTERY_CARROLL;
+			break;
 		}
 		
 		unlock(badge);
@@ -891,6 +909,23 @@ public class Badges {
 	public static void validateLanceUnlock(){
 		if ((Statistics.enemiesSlain >= 200) && !isUnlocked(Badge.UNLOCK_LANCE)){
 			displayBadge( Badge.UNLOCK_LANCE );
+		}
+	}
+
+	public static void validateCarrollUnlock(){
+		if (!isUnlocked(Badge.UNLOCK_CARROLL) && Dungeon.hero != null
+				&& Dungeon.hero.belongings.weapon instanceof MeleeWeapon
+				&& ((MeleeWeapon) Dungeon.hero.belongings.weapon).tier >= 2
+				&& ((MeleeWeapon) Dungeon.hero.belongings.weapon).STRReq() <= Dungeon.hero.STR()){
+
+			if (Dungeon.hero.belongings.weapon.isIdentified() &&
+					((MeleeWeapon) Dungeon.hero.belongings.weapon).STRReq() <= Dungeon.hero.STR()) {
+				displayBadge(Badge.UNLOCK_CARROLL);
+
+			} else if (!Dungeon.hero.belongings.weapon.isIdentified() &&
+					((MeleeWeapon) Dungeon.hero.belongings.weapon).STRReq(0) <= Dungeon.hero.STR()){
+				displayBadge(Badge.UNLOCK_CARROLL);
+			}
 		}
 	}
 	

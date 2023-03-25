@@ -207,6 +207,12 @@ public class WndHeroInfo extends WndTabbed {
 							new ItemSprite(ItemSpriteSheet.RUINSPEAR),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
+				case CARROLL:
+					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.APACHE_PISTOL),
+							new ItemSprite(ItemSpriteSheet.WAR_HAMMER),
+							new ItemSprite(ItemSpriteSheet.THROWING_SPIKE),
+							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
+					break;
 			}
 			for (Image im : icons) {
 				add(im);

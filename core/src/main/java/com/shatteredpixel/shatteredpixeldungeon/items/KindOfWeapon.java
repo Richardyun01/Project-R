@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
@@ -59,6 +60,7 @@ abstract public class KindOfWeapon extends EquipableItem {
 			hero.belongings.weapon = this;
 			activate( hero );
 			Talent.onItemEquipped(hero, this);
+			Badges.validateCarrollUnlock();
 			ActionIndicator.updateIcon();
 			updateQuickslot();
 			
@@ -77,6 +79,51 @@ abstract public class KindOfWeapon extends EquipableItem {
 			return false;
 		}
 	}
+
+	/*
+	public boolean equipSecondary( Hero hero ){
+		detachAll( hero.belongings.backpack );
+
+		if (hero.belongings.secondWep == null || hero.belongings.secondWep.doUnequip( hero, true )) {
+
+			hero.belongings.secondWep = this;
+			activate( hero );
+			Talent.onItemEquipped(hero, this);
+			Badges.validateCarrollUnlock();
+			ActionIndicator.updateIcon();
+			updateQuickslot();
+
+			cursedKnown = true;
+			if (cursed) {
+				equipCursed( hero );
+				GLog.n( Messages.get(KindOfWeapon.class, "equip_cursed") );
+			}
+
+			if (hero.hasTalent(Talent.SWIFT_EQUIP)) {
+				if (hero.buff(Talent.SwiftEquipCooldown.class) == null){
+					hero.spendAndNext(-hero.cooldown());
+					Buff.affect(hero, Talent.SwiftEquipCooldown.class, 29f)
+							.secondUse = hero.pointsInTalent(Talent.SWIFT_EQUIP) == 2;
+					GLog.i(Messages.get(this, "swift_equip"));
+				} else if (hero.buff(Talent.SwiftEquipCooldown.class).hasSecondUse()) {
+					hero.spendAndNext(-hero.cooldown());
+					hero.buff(Talent.SwiftEquipCooldown.class).secondUse = false;
+					GLog.i(Messages.get(this, "swift_equip"));
+				} else {
+					hero.spendAndNext(TIME_TO_EQUIP);
+				}
+			} else {
+				hero.spendAndNext(TIME_TO_EQUIP);
+			}
+			return true;
+
+		} else {
+
+			collect( hero.belongings.backpack );
+			return false;
+		}
+	}
+	*/
 
 	@Override
 	public boolean doUnequip( Hero hero, boolean collect, boolean single ) {

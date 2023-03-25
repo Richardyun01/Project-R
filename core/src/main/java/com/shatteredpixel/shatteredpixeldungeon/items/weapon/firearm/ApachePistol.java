@@ -79,7 +79,7 @@ public class ApachePistol extends FirearmWeapon{
     @Override
     public int Bulletmin(int lvl) {
         if (Dungeon.hero.buff(BulletUp.class) != null) {
-            return tier + lvl + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+            return tier+1 + lvl + hero.pointsInTalent(Talent.ONE_MORE_BITE);
         } else {
             return tier + lvl;
         }
