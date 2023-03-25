@@ -58,6 +58,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projec
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Unstable;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampiric;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
@@ -231,7 +233,13 @@ abstract public class Weapon extends KindOfWeapon {
 	}
 
 	protected float speedMultiplier(Char owner ){
-		return RingOfFuror.attackSpeedMultiplier(owner);
+		float multi = RingOfFuror.attackSpeedMultiplier(owner);
+
+		if (owner.buff(Scimitar.SwordDance.class) != null){
+			multi += 0.6f;
+		}
+
+		return multi;
 	}
 
 	@Override
@@ -308,7 +316,7 @@ abstract public class Weapon extends KindOfWeapon {
 
 		Item result = super.upgrade();
 		Badges.validateCarrollUnlock();
-		return super.upgrade();
+		return result;
 	}
 	
 	@Override
@@ -403,11 +411,27 @@ abstract public class Weapon extends KindOfWeapon {
 		public abstract int proc( Weapon weapon, Char attacker, Char defender, int damage );
 
 		protected float procChanceMultiplier( Char attacker ){
+			return genericProcChanceMultiplier( attacker );
+		}
+
+		public static float genericProcChanceMultiplier( Char attacker ){
 			float multi = RingOfArcana.enchantPowerMultiplier(attacker);
 			Berserk rage = attacker.buff(Berserk.class);
 			if (rage != null) {
 				multi = rage.enchantFactor(multi);
 			}
+
+			if (attacker.buff(RunicBlade.RunicSlashTracker.class) != null){
+				multi += 2.5f;
+				attacker.buff(RunicBlade.RunicSlashTracker.class).detach();
+			}
+
+			/*
+			if (attacker.buff(ElementalStrike.DirectedPowerTracker.class) != null){
+				multi += attacker.buff(ElementalStrike.DirectedPowerTracker.class).enchBoost;
+				attacker.buff(ElementalStrike.DirectedPowerTracker.class).detach();
+			}
+			*/
 
 			if (attacker.buff(Talent.SpiritBladesTracker.class) != null
 					&& ((Hero)attacker).pointsInTalent(Talent.SPIRIT_BLADES) == 4){
@@ -417,6 +441,7 @@ abstract public class Weapon extends KindOfWeapon {
 					&& ((Hero)attacker).pointsInTalent(Talent.STRIKING_WAVE) == 4){
 				multi += 0.2f;
 			}
+
 			return multi;
 		}
 

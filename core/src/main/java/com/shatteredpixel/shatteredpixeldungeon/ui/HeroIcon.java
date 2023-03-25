@@ -55,6 +55,7 @@ public class HeroIcon extends Image {
 	public static final int PHALANX			= 31;
 	public static final int TERCIO			= 32;
 	public static final int VLAD			= 33;
+	public static final int CHALLENGER		= 34;
 
 	//abilities
 	public static final int HEROIC_LEAP     = 8;

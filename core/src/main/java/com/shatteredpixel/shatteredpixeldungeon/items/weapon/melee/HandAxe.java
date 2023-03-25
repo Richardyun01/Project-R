@@ -22,6 +22,8 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class HandAxe extends MeleeWeapon {
@@ -40,5 +42,15 @@ public class HandAxe extends MeleeWeapon {
 		return  4*(tier+1) +    //12 base, down from 15
 				lvl*(tier+1);   //scaling unchanged
 	}
+	@Override
+	public String targetingPrompt() {
+		return Messages.get(this, "prompt");
+	}
+
+	@Override
+	protected void carrollability(Hero hero, Integer target) {
+		Mace.heavyBlowAbility(hero, target, 1.65f, this);
+	}
+
 
 }

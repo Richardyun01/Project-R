@@ -22,7 +22,17 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.utils.Callback;
+
+import java.util.ArrayList;
 
 public class Whip extends MeleeWeapon {
 
@@ -39,6 +49,45 @@ public class Whip extends MeleeWeapon {
 	public int max(int lvl) {
 		return  3*(tier+1) +    //12 base, down from 20
 				lvl*(tier);     //+3 per level, down from +4
+	}
+
+	@Override
+	protected void carrollability(Hero hero, Integer target) {
+
+		ArrayList<Char> targets = new ArrayList<>();
+
+		hero.belongings.abilityWeapon = this;
+		for (Char ch : Actor.chars()){
+			if (ch.alignment == Char.Alignment.ENEMY
+					&& !hero.isCharmedBy(ch)
+					&& Dungeon.level.heroFOV[ch.pos]
+					&& hero.canAttack(ch)){
+				targets.add(ch);
+			}
+		}
+		hero.belongings.abilityWeapon = null;
+
+		if (targets.isEmpty()) {
+			GLog.w(Messages.get(this, "ability_no_target"));
+			return;
+		}
+
+		throwSound();
+		hero.sprite.attack(hero.pos, new Callback() {
+			@Override
+			public void call() {
+				beforeAbilityUsed(hero);
+				for (Char ch : targets) {
+					hero.attack(ch);
+					if (!ch.isAlive()){
+						onAbilityKill(hero);
+					}
+				}
+				Invisibility.dispel();
+				hero.spendAndNext(hero.attackDelay());
+				afterAbilityUsed(hero);
+			}
+		});
 	}
 
 }

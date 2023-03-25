@@ -181,6 +181,7 @@ public class Badges {
 		BOSS_SLAIN_3_PHALANX,
 		BOSS_SLAIN_3_TERCIO,
 		BOSS_SLAIN_3_VLAD,
+		BOSS_SLAIN_3_CHALLENGER,
 		BOSS_SLAIN_3_ALL_SUBCLASSES ( 105, true ),
 		BOSS_CHALLENGE_3            ( 106 ),
 		BOSS_CHALLENGE_4            ( 107 ),
@@ -752,9 +753,11 @@ public class Badges {
 		thirdBossSubclassBadges.put(HeroSubClass.POLARIS, Badge.BOSS_SLAIN_3_POLARIS);
 		thirdBossSubclassBadges.put(HeroSubClass.TRIGGERHAPPY, Badge.BOSS_SLAIN_3_TRIGGERHAPPY);
 		thirdBossSubclassBadges.put(HeroSubClass.DEMOLITIONIST, Badge.BOSS_SLAIN_3_DEMOLITIONIST);
-		thirdBossSubclassBadges.put(HeroSubClass.DEMOLITIONIST, Badge.BOSS_SLAIN_3_PHALANX);
-		thirdBossSubclassBadges.put(HeroSubClass.DEMOLITIONIST, Badge.BOSS_SLAIN_3_TERCIO);
-		thirdBossSubclassBadges.put(HeroSubClass.DEMOLITIONIST, Badge.BOSS_SLAIN_3_VLAD);
+		thirdBossSubclassBadges.put(HeroSubClass.BUNKER, Badge.BOSS_SLAIN_3_VLAD);
+		thirdBossSubclassBadges.put(HeroSubClass.PHALANX, Badge.BOSS_SLAIN_3_PHALANX);
+		thirdBossSubclassBadges.put(HeroSubClass.TERCIO, Badge.BOSS_SLAIN_3_TERCIO);
+		thirdBossSubclassBadges.put(HeroSubClass.VLAD, Badge.BOSS_SLAIN_3_VLAD);
+		thirdBossSubclassBadges.put(HeroSubClass.CHALLENGER, Badge.BOSS_SLAIN_3_CHALLENGER);
 	}
 	
 	public static void validateBossSlain() {

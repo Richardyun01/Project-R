@@ -24,7 +24,9 @@ package com.shatteredpixel.shatteredpixeldungeon.sprites;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Cleanser;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Volcano;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Crossbow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Bolas;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.FishingSpear;
@@ -152,13 +154,19 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 		}
 		
 		float speed = SPEED;
-		if (item instanceof Dart && Dungeon.hero.belongings.weapon() instanceof Crossbow){
+		if (item instanceof Dart
+				&& (Dungeon.hero.belongings.weapon() instanceof Crossbow
+				|| Dungeon.hero.belongings.secondWep() instanceof Crossbow)){
 			speed *= 3f;
-			
 		} else if (item instanceof SpiritBow.SpiritArrow
 				|| item instanceof ScorpioSprite.ScorpioShot
 				|| item instanceof TenguSprite.TenguShuriken){
 			speed *= 1.5f;
+		} else if (item instanceof Cleanser.Bullet
+				|| item instanceof Volcano.Bullet) {
+			speed *= 999f;
+		} else if (item instanceof FirearmWeapon.Bullet) {
+			speed *= 2.5f;
 		}
 		
 		PosTweener tweener = new PosTweener( this, to, d.length() / speed );

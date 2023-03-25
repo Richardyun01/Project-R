@@ -22,6 +22,8 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class RipperWeapon extends MeleeWeapon {
@@ -45,6 +47,16 @@ public class RipperWeapon extends MeleeWeapon {
     public int min(int lvl) {
         return  5 +
                 lvl;
+    }
+
+    @Override
+    public String targetingPrompt() {
+        return Messages.get(this, "prompt");
+    }
+
+    @Override
+    protected void carrollability(Hero hero, Integer target) {
+        Sword.cleaveAbility(hero, target, 1.35f, this);
     }
 
 }

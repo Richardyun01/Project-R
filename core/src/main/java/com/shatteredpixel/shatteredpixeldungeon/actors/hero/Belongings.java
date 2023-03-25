@@ -82,6 +82,9 @@ public class Belongings implements Iterable<Item> {
 	//used to ensure that the duelist always uses the weapon she's using the ability of
 	public KindOfWeapon abilityWeapon = null;
 
+	//used by the challenger subclass
+	public KindOfWeapon secondWep = null;
+
 	//*** these accessor methods are so that worn items can be affected by various effects/debuffs
 	// we still want to access the raw equipped items in cases where effects should be ignored though,
 	// such as when equipping something, showing an interface, or dealing with items from a dead hero
@@ -140,6 +143,15 @@ public class Belongings implements Iterable<Item> {
 		}
 	}
 
+	public KindOfWeapon secondWep(){
+		boolean lostInvent = owner != null && owner.buff(LostInventory.class) != null;
+		if (!lostInvent || (secondWep != null && secondWep.keptThoughLostInvent)){
+			return secondWep;
+		} else {
+			return null;
+		}
+	}
+
 	// ***
 	
 	private static final String WEAPON		= "weapon";
@@ -147,6 +159,8 @@ public class Belongings implements Iterable<Item> {
 	private static final String ARTIFACT   = "artifact";
 	private static final String MISC       = "misc";
 	private static final String RING       = "ring";
+
+	private static final String SECOND_WEP = "second_wep";
 
 	public void storeInBundle( Bundle bundle ) {
 		
@@ -157,6 +171,7 @@ public class Belongings implements Iterable<Item> {
 		bundle.put( ARTIFACT, artifact );
 		bundle.put( MISC, misc );
 		bundle.put( RING, ring );
+		bundle.put( SECOND_WEP, secondWep );
 	}
 	
 	public void restoreFromBundle( Bundle bundle ) {
@@ -178,6 +193,9 @@ public class Belongings implements Iterable<Item> {
 
 		ring = (Ring) bundle.get(RING);
 		if (ring() != null)         ring().activate( owner );
+
+		secondWep = (KindOfWeapon) bundle.get(SECOND_WEP);
+		if (secondWep() != null)    secondWep().activate(owner);
 	}
 	
 	public static void preview( GamesInProgress.Info info, Bundle bundle ) {
@@ -314,6 +332,10 @@ public class Belongings implements Iterable<Item> {
 			ring().identify();
 			Badges.validateItemLevelAquired(ring());
 		}
+		if (secondWep() != null){
+			secondWep().identify();
+			Badges.validateItemLevelAquired(secondWep());
+		}
 		for (Item item : backpack) {
 			if (item instanceof EquipableItem || item instanceof Wand) {
 				item.cursedKnown = true;
@@ -400,6 +422,9 @@ public class Belongings implements Iterable<Item> {
 				break;
 			case 4:
 				equipped[4] = ring = null;
+				break;
+			case 5:
+				equipped[5] = secondWep = null;
 				break;
 			default:
 				backpackIterator.remove();

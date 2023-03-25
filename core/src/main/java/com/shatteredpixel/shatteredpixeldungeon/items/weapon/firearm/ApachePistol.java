@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -67,11 +68,16 @@ public class ApachePistol extends FirearmWeapon{
 
     @Override
     public int max(int lvl) {
-        if (hero.heroClass == HeroClass.NOISE) {
-            return  4*(tier+1) + 2 +   //8 base, down from 10
+        if (hero.heroClass == HeroClass.NOISE || hero.subClass == HeroSubClass.TERCIO) {
+            return 4 * (tier + 1) + 2 +   //8 base, down from 10
+                    lvl * (tier + 1);   //scaling unchanged
+            /**
+        } else if () {
+            return 5*(tier+1) +
                     lvl*(tier+1);   //scaling unchanged
+            */
         } else {
-            return  4*(tier+1) +    //8 base, down from 10
+            return  3*(tier+1) +    //6 base, down from 10
                     lvl*(tier+1);   //scaling unchanged
         }
     }
@@ -93,5 +99,41 @@ public class ApachePistol extends FirearmWeapon{
             return 4 * tier + lvl;
         }
     }
+/**
+    @Override
+    public float abilityChargeUse( Hero hero ) {
+        return 0;
+    }
 
+    @Override
+    protected void carrollability(Hero hero, Integer target) {
+        ApachePistol.changeAbility(hero, this);
+    }
+
+    public static void changeAbility(Hero hero, FirearmWeapon wep){
+        wep.beforeAbilityUsed(hero);
+        if (hero.buff(.class) != null) {
+            hero.buff(FunctionChange.class).onUse = !hero.buff(FunctionChange.class).onUse;
+        }
+        Sample.INSTANCE.play( Assets.Sounds.UNLOCK );
+        hero.sprite.operate(hero.pos);
+        afterAbilityUsed(hero);
+    }
+
+    public static class FunctionChange extends FlavourBuff {
+
+        {
+            announced = true;
+            type = buffType.POSITIVE;
+        }
+
+        public boolean onUse = true;
+
+        @Override
+        public int icon() {
+            return BuffIndicator.DUEL_EVASIVE;
+        }
+
+    }
+**/
 }

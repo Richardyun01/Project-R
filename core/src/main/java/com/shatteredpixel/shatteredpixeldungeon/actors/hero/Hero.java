@@ -38,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.SacrificialFire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AdrenalineSurge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AnkhInvulnerability;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awareness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
@@ -63,6 +64,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MurakumoCharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.NoEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PhysicalEmpower;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Supercharge;
@@ -135,7 +138,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Trench;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Defender;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Murakumo;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sai;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
@@ -481,6 +488,10 @@ public class Hero extends Char {
 			}
 		}
 
+		if (hit && heroClass == HeroClass.CARROLL && wasEnemy){
+			Buff.append( this, Sai.ComboStrikeTracker.class, Sai.ComboStrikeTracker.DURATION);
+		}
+
 		return hit;
 	}
 	
@@ -505,6 +516,10 @@ public class Hero extends Char {
 			accuracy *= 1.25f;
 		}
 
+		if (buff(Scimitar.SwordDance.class) != null){
+			accuracy *= 0.8f;
+		}
+
 		if (this.hasTalent(Talent.PROPER_STICKING)) {
 			if (wep instanceof FirearmWeapon.Bullet) {
 				accuracy *= 1f + 0.1f * hero.pointsInTalent(Talent.PROPER_STICKING);
@@ -513,7 +528,7 @@ public class Hero extends Char {
 
 		if (this.hasTalent(Talent.WILD_HUNT)) {
 			if (wep instanceof FirearmWeapon.Bullet && Random.Int(5) < hero.pointsInTalent(Talent.WILD_HUNT)) {
-				accuracy *= 99999999f;
+				accuracy *= INFINITE_ACCURACY;
 			}
 		}
 
@@ -561,6 +576,10 @@ public class Hero extends Char {
 			}
 			return INFINITE_EVASION;
 		}
+
+		if (buff(RoundShield.GuardTracker.class) != null){
+			return INFINITE_EVASION;
+		}
 		
 		float evasion = defenseSkill;
 		
@@ -572,6 +591,14 @@ public class Hero extends Char {
 
 		if (belongings.armor() != null) {
 			evasion = belongings.armor().evasionFactor(this, evasion);
+		}
+
+		if (buff(Talent.RestoredAgilityTracker.class) != null){
+			if (pointsInTalent(Talent.RESTORED_AGILITY) == 1){
+				evasion *= 4f;
+			} else if (pointsInTalent(Talent.RESTORED_AGILITY) == 2){
+				return INFINITE_EVASION;
+			}
 		}
 
 		if (hero.hasTalent(Talent.AGILE_NERVE)) {
@@ -588,15 +615,21 @@ public class Hero extends Char {
 	@Override
 	public String defenseVerb() {
 		Combo.ParryTracker parry = buff(Combo.ParryTracker.class);
-		if (parry == null){
-			return super.defenseVerb();
-		} else {
+		if (parry != null){
 			parry.parried = true;
 			if (buff(Combo.class).getComboCount() < 9 || pointsInTalent(Talent.ENHANCED_COMBO) < 2){
 				parry.detach();
 			}
 			return Messages.get(Monk.class, "parried");
 		}
+
+		if (buff(RoundShield.GuardTracker.class) != null){
+			buff(RoundShield.GuardTracker.class).detach();
+			Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 1, Random.Float(0.96f, 1.05f));
+			return Messages.get(RoundShield.GuardTracker.class, "guarded");
+		}
+
+		return super.defenseVerb();
 	}
 
 	@Override
@@ -634,12 +667,43 @@ public class Hero extends Char {
 		KindOfWeapon wep = belongings.weapon();
 		int dmg;
 
-		if (wep != null) {
+		if (!RingOfForce.fightingUnarmed(this)) {
 			dmg = wep.damageRoll( this );
+
+			if (heroClass != HeroClass.CARROLL
+					&& hasTalent(Talent.LIGHTWEIGHT_CHARGE)
+					&& wep instanceof MeleeWeapon) {
+				if (((MeleeWeapon) wep).tier == 2) {
+					dmg = Math.round(dmg * (1f + 0.067f*pointsInTalent(Talent.LIGHTWEIGHT_CHARGE)));
+				} else if (((MeleeWeapon) wep).tier == 3) {
+					dmg = Math.round(dmg * (1f + 0.05f*pointsInTalent(Talent.LIGHTWEIGHT_CHARGE)));
+				}
+			}
+
 			if (!(wep instanceof MissileWeapon)) dmg += RingOfForce.armedDamageBonus(this);
 		} else {
 			dmg = RingOfForce.damageRoll(this);
+			if (RingOfForce.unarmedGetsWeaponAugment(this)){
+				dmg = ((Weapon)belongings.attackingWeapon()).augment.damageFactor(dmg);
+			}
 		}
+
+		PhysicalEmpower emp = buff(PhysicalEmpower.class);
+		if (emp != null){
+			dmg += emp.dmgBoost;
+			emp.left--;
+			if (emp.left <= 0) {
+				emp.detach();
+			}
+			Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG, 0.75f, 1.2f);
+		}
+
+		if (heroClass != HeroClass.CARROLL
+				&& hasTalent(Talent.WEAPON_RECHARGING)
+				&& (buff(Recharging.class) != null || buff(ArtifactRecharge.class) != null)){
+			dmg = Math.round(dmg * 1.025f + (.025f*pointsInTalent(Talent.WEAPON_RECHARGING)));
+		}
+
 		if (dmg < 0) dmg = 0;
 		
 		return dmg;
@@ -723,15 +787,33 @@ public class Hero extends Char {
 			return 0;
 		}
 
-		if (belongings.weapon() != null) {
-			
-			return belongings.weapon().delayFactor( this );
-			
+		if (hasTalent(Talent.SPEEDY_MOVEMENT) && Random.Int(100) < pointsInTalent(Talent.SPEEDY_MOVEMENT) * 5) {
+			return 0;
+		}
+
+		float delay = 1f;
+
+		if (!RingOfForce.fightingUnarmed(this)) {
+
+			return delay * belongings.attackingWeapon().delayFactor( this );
+
 		} else {
 			//Normally putting furor speed on unarmed attacks would be unnecessary
 			//But there's going to be that one guy who gets a furor+force ring combo
 			//This is for that one guy, you shall get your fists of fury!
-			return 1f/RingOfFuror.attackSpeedMultiplier(this);
+			float speed = RingOfFuror.attackSpeedMultiplier(this);
+
+			//ditto for furor + sword dance!
+			if (buff(Scimitar.SwordDance.class) != null){
+				speed += 0.6f;
+			}
+
+			//and augments + brawler's stance! My goodness, so many options now compared to 2014!
+			if (RingOfForce.unarmedGetsWeaponAugment(this)){
+				delay = ((Weapon)belongings.weapon).augment.delayFactor(delay);
+			}
+
+			return delay/speed;
 		}
 	}
 
@@ -1249,7 +1331,7 @@ public class Hero extends Char {
 		enemy = action.target;
 
 		if (enemy.isAlive() && canAttack( enemy ) && !isCharmedBy( enemy ) && enemy.invisible == 0) {
-			
+
 			sprite.attack( enemy.pos );
 
 			return false;
@@ -2022,6 +2104,10 @@ public class Hero extends Char {
 
 		if (hit && subClass == HeroSubClass.GLADIATOR && wasEnemy){
 			Buff.affect( this, Combo.class ).hit( enemy );
+		}
+
+		if (hit && heroClass == HeroClass.CARROLL && wasEnemy) {
+			Buff.append(this, Sai.ComboStrikeTracker.class, Sai.ComboStrikeTracker.DURATION);
 		}
 
 		if (hit && hero.heroClass == HeroClass.LANCE && wasEnemy){

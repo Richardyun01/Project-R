@@ -76,6 +76,9 @@ public class WndHeroInfo extends WndTabbed {
 			case LANCE:
 				tabIcon = new ItemSprite(ItemSpriteSheet.RUINSPEAR, null);
 				break;
+			case CARROLL:
+				tabIcon = new ItemSprite(ItemSpriteSheet.APACHE_PISTOL, null);
+				break;
 		}
 
 		int finalHeight = MIN_HEIGHT;

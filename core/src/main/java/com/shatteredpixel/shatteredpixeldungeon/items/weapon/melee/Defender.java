@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
@@ -68,6 +69,11 @@ public class Defender extends MeleeWeapon {
     //see Hero.damage for antimagic effects
     public static int drRoll(int level) {
         return Random.NormalIntRange(0, 2 + 2 * level); //2 extra defence, plus 2 per level;
+    }
+
+    @Override
+    protected void carrollability(Hero hero, Integer target) {
+        RoundShield.guardAbility(hero, 3, this);
     }
 
 }

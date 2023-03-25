@@ -79,4 +79,9 @@ public class ThunderSpear extends MeleeWeapon {
         return super.proc(charR, charR2, i);
     }
 
+    @Override
+    protected void carrollability(Hero hero, Integer target) {
+        FusionLance.bashAbility(hero, target, 0.85f, this);
+    }
+
 }

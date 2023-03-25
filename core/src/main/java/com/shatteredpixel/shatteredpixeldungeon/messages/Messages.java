@@ -45,12 +45,17 @@ public class Messages {
 	private static ArrayList<I18NBundle> bundles;
 	private static Languages lang;
 
+	private static Locale locale;
+
 	public static final String NO_TEXT_FOUND = "!!!NO TEXT FOUND!!!";
 
 	public static Languages lang(){
 		return lang;
 	}
 
+	public static Locale locale(){
+		return locale;
+	}
 
 
 	/**
@@ -77,12 +82,19 @@ public class Messages {
 		//seeing as missing keys are part of our process, this is faster than throwing an exception
 		I18NBundle.setExceptionOnMissingKey(false);
 
-		bundles = new ArrayList<>();
+		//store language and locale info for various string logic
 		Messages.lang = lang;
-		Locale locale = new Locale(lang.code());
+		if (lang == Languages.ENGLISH){
+			locale = Locale.ENGLISH;
+		} else {
+			locale = new Locale(lang.code());
+		}
 
+		//strictly match the language code when fetching bundles however
+		bundles = new ArrayList<>();
+		Locale bundleLocal = new Locale(lang.code());
 		for (String file : prop_files) {
-			bundles.add(I18NBundle.createBundle(Gdx.files.internal(file), locale));
+			bundles.add(I18NBundle.createBundle(Gdx.files.internal(file), bundleLocal));
 		}
 	}
 
@@ -153,7 +165,7 @@ public class Messages {
 
 	public static String capitalize( String str ){
 		if (str.length() == 0)  return str;
-		else                    return Character.toTitleCase( str.charAt( 0 ) ) + str.substring( 1 );
+		else                    return str.substring( 0, 1 ).toUpperCase(locale) + str.substring( 1 );
 	}
 
 	//Words which should not be capitalized in title case, mostly prepositions which appear ingame
@@ -183,5 +195,13 @@ public class Messages {
 
 		//Otherwise, use sentence case
 		return capitalize(str);
+	}
+
+	public static String upperCase( String str ){
+		return str.toUpperCase(locale);
+	}
+
+	public static String lowerCase( String str ){
+		return str.toLowerCase(locale);
 	}
 }

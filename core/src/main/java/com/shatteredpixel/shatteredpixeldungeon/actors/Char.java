@@ -567,6 +567,24 @@ public abstract class Char extends Actor {
 				enemy.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(Preparation.class, "assassinated"));
 			}
 
+			Talent.CombinedLethalityTriggerTracker combinedLethality = buff(Talent.CombinedLethalityTriggerTracker.class);
+			if (combinedLethality != null){
+				if ( enemy.isAlive() && enemy.alignment != alignment && !Char.hasProp(enemy, Property.BOSS)
+						&& !Char.hasProp(enemy, Property.MINIBOSS) && this instanceof Hero &&
+						(enemy.HP/(float)enemy.HT) <= 0.10f*((Hero)this).pointsInTalent(Talent.COMBINED_LETHALITY)) {
+					enemy.HP = 0;
+					if (!enemy.isAlive()) {
+						enemy.die(this);
+					} else {
+						//helps with triggering any on-damage effects that need to activate
+						enemy.damage(-1, this);
+						DeathMark.processFearTheReaper(enemy);
+					}
+					enemy.sprite.showStatus(CharSprite.NEGATIVE, Messages.get(Talent.CombinedLethalityTriggerTracker.class, "executed"));
+				}
+				combinedLethality.detach();
+			}
+
 			enemy.sprite.bloodBurstA( sprite.center(), effectiveDamage );
 			enemy.sprite.flash();
 
@@ -699,6 +717,7 @@ public abstract class Char extends Actor {
 		if ( buff( StimpackAdrenaline.class ) != null) speed *= 2f;
 		if ( buff( Haste.class ) != null) speed *= 3f;
 		if ( buff( Dread.class ) != null) speed *= 2f;
+		if ( buff( Murakumo.RushStance.class ) != null) speed *= 1.5f;
 		if ( buff( AfterImageBuff.class ) != null && hero.hasTalent(Talent.IMAGE_WALKING)) speed *= 1f + 0.15f*hero.pointsInTalent(Talent.IMAGE_WALKING);
 		return speed;
 	}

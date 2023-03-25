@@ -22,6 +22,8 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Greatsword extends MeleeWeapon {
@@ -32,6 +34,25 @@ public class Greatsword extends MeleeWeapon {
 		hitSoundPitch = 1f;
 
 		tier=5;
+	}
+
+	@Override
+	public float abilityChargeUse( Hero hero ) {
+		if (hero.buff(Sword.CleaveTracker.class) != null){
+			return 0;
+		} else {
+			return super.abilityChargeUse( hero );
+		}
+	}
+
+	@Override
+	public String targetingPrompt() {
+		return Messages.get(this, "prompt");
+	}
+
+	@Override
+	protected void carrollability(Hero hero, Integer target) {
+		Sword.cleaveAbility(hero, target, 1.20f, this);
 	}
 
 }

@@ -205,6 +205,12 @@ public enum Talent {
 
 	//Carroll T1
 	STRENGTHENING_MEAL(320), ADVENTURERS_INTUITION(321), PATIENT_STRIKE(322), SPEEDY_MOVEMENT(323),
+	//Carroll T2
+	FOCUSED_MEAL(132), RESTORED_AGILITY(133), WEAPON_RECHARGING(134), LETHAL_HASTE(135), SWIFT_EQUIP(136), HAWKEYE(222),
+	//Carroll T3
+	LIGHTWEIGHT_CHARGE(137, 3), DEADLY_FOLLOWUP(138, 3),
+	//Challenger T3
+	SECONDARY_CHARGE(139, 3), TWIN_UPGRADES(140, 3), COMBINED_LETHALITY(141, 3),
 
 
 	//universal T4
@@ -338,6 +344,47 @@ public enum Talent {
 			return Messages.get(this, "desc", dispTurns(visualcooldown()));
 		}
 	}
+	public static class RestoredAgilityTracker extends FlavourBuff{};
+	public static class LethalHasteCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 100); }
+	};
+	public static class SwiftEquipCooldown extends FlavourBuff{
+		public boolean secondUse;
+		public boolean hasSecondUse(){
+			return secondUse && cooldown() > 24f;
+		}
+
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) {
+			if (hasSecondUse()) icon.hardlight(0.85f, 0f, 1.0f);
+			else                icon.hardlight(0.35f, 0f, 0.7f);
+		}
+		public float iconFadePercent() { return GameMath.gate(0, visualcooldown() / 30f, 1); }
+
+		private static final String SECOND_USE = "second_use";
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+			bundle.put(SECOND_USE, secondUse);
+		}
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+			secondUse = bundle.getBoolean(SECOND_USE);
+		}
+	};
+	public static class DeadlyFollowupTracker extends FlavourBuff{};
+	public static class CombinedLethalityAbilityTracker extends FlavourBuff{
+		public MeleeWeapon weapon;
+	};
+	public static class CombinedLethalityTriggerTracker extends FlavourBuff{
+		{ type = buffType.POSITIVE; }
+		public int icon() { return BuffIndicator.CORRUPT; }
+		public void tintIcon(Image icon) { icon.hardlight(0.6f, 0.15f, 0.6f); }
+	};
+	public static class CounterAbilityTacker extends FlavourBuff{};
 
 	int icon;
 	int maxPoints;
@@ -373,6 +420,8 @@ public enum Talent {
 					return 286;
 				case LANCE:
 					return 318;
+				case CARROLL:
+					return 350;
 			}
 		} else {
 			return icon;
@@ -448,6 +497,10 @@ public enum Talent {
 
 		if (talent == HEIGHTENED_SENSES || talent == FARSIGHT){
 			Dungeon.observe();
+		}
+
+		if (talent == SECONDARY_CHARGE || talent == TWIN_UPGRADES){
+			Item.updateQuickslot();
 		}
 
 		if (talent == MANIAS_INTUITION && hero.pointsInTalent(MANIAS_INTUITION) == 2) {
@@ -535,8 +588,17 @@ public enum Talent {
 			Buff.affect( hero, Invisibility.class, 1 + hero.pointsInTalent(SECRET_MEAL));
 		}
 		if (hero.hasTalent(STRENGTHENING_MEAL)){
-			//2 bonus physical damage for next 2/3 attacks
-			Buff.affect( hero, PhysicalEmpower.class).set(2, 1 + hero.pointsInTalent(STRENGTHENING_MEAL));
+			//3 bonus physical damage for next 2/3 attacks
+			Buff.affect( hero, PhysicalEmpower.class).set(3, 1 + hero.pointsInTalent(STRENGTHENING_MEAL));
+		}
+		if (hero.hasTalent(FOCUSED_MEAL)){
+			if (hero.heroClass == HeroClass.CARROLL){
+				//1/1.5 charge for the duelist
+				//Buff.affect( hero, MeleeWeapon.Charger.class ).gainCharge(0.5f*(hero.pointsInTalent(FOCUSED_MEAL)+1));
+			} else {
+				// lvl/3 / lvl/2 bonus dmg on next hit for other classes
+				Buff.affect( hero, PhysicalEmpower.class).set(Math.round(hero.lvl / (4f - hero.pointsInTalent(FOCUSED_MEAL))), 1);
+			}
 		}
 	}
 
@@ -615,6 +677,9 @@ public enum Talent {
 				}
 			}
 			Dungeon.observe();
+		}
+		if (hero.hasTalent(RESTORED_AGILITY)){
+			Buff.prolong(hero, RestoredAgilityTracker.class, hero.cooldown());
 		}
 	}
 
@@ -737,6 +802,17 @@ public enum Talent {
 			}
 		}
 
+		if (hero.hasTalent(DEADLY_FOLLOWUP)) {
+			if (hero.belongings.attackingWeapon() instanceof MissileWeapon) {
+				Buff.prolong(enemy, DeadlyFollowupTracker.class, 5f);
+			} else if (enemy.buff(DeadlyFollowupTracker.class) != null){
+				dmg = Math.round(dmg * (1.0f + .08f*hero.pointsInTalent(DEADLY_FOLLOWUP)));
+				if (!(enemy instanceof Mob) || !((Mob) enemy).surprisedBy(hero)){
+					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG, 0.75f, 1.2f);
+				}
+			}
+		}
+
 		return dmg;
 	}
 
@@ -782,7 +858,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, MEAL_WITH_LIQUOR, HUNTERS_INTUITION, SOUL_ABSORB, PRECISE_STRIKE, REPAIRMENT);
 				break;
 			case CARROLL:
-				Collections.addAll(tierTalents, STRENGTHENING_MEAL, ADVENTURERS_INTUITION, PATIENT_STRIKE, SPEEDY_MOVEMENT);
+				Collections.addAll(tierTalents, STRENGTHENING_MEAL, ADVENTURERS_INTUITION, PATIENT_STRIKE, SPEEDY_MOVEMENT, REPAIRMENT);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -813,6 +889,9 @@ public enum Talent {
 			case LANCE:
 				Collections.addAll(tierTalents, SECRET_MEAL, BLOOD_ENGRAVEMENT, COMPULSION, MOON_WALKING, OVERCOMING_WEAKNESS, WILD_HUNT);
 				break;
+			case CARROLL:
+				Collections.addAll(tierTalents, FOCUSED_MEAL, RESTORED_AGILITY, WEAPON_RECHARGING, LETHAL_HASTE, SWIFT_EQUIP, HAWKEYE);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -841,6 +920,9 @@ public enum Talent {
 				break;
 			case LANCE:
 				Collections.addAll(tierTalents, BURNING_BLOOD, HAIL_MARY);
+				break;
+			case CARROLL:
+				Collections.addAll(tierTalents, LIGHTWEIGHT_CHARGE, DEADLY_FOLLOWUP);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -923,6 +1005,9 @@ public enum Talent {
 				break;
 			case VLAD:
 				Collections.addAll(tierTalents, HUNGER_AND_THIRST, GREAT_TERROR, FITTEST_SURVIVAL);
+				break;
+			case CHALLENGER:
+				Collections.addAll(tierTalents, SECONDARY_CHARGE, TWIN_UPGRADES, COMBINED_LETHALITY);
 				break;
 		}
 		for (Talent talent : tierTalents){

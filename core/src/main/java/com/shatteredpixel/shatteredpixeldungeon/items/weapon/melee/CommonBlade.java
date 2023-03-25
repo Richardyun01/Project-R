@@ -23,6 +23,8 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class CommonBlade extends MeleeWeapon {
@@ -46,5 +48,19 @@ public class CommonBlade extends MeleeWeapon {
     @Override
     public int defenseFactor( Char owner ) {
         return 2;	//2 extra defence
+    }
+
+    @Override
+    public float abilityChargeUse(Hero hero) {
+        return 2*super.abilityChargeUse(hero);
+    }
+
+    @Override
+    protected void carrollability(Hero hero, Integer target) {
+        beforeAbilityUsed(hero);
+        Buff.prolong(hero, Quarterstaff.DefensiveStance.class, 7f); //4 turns as using the ability is instant
+        hero.sprite.operate(hero.pos);
+        hero.next();
+        afterAbilityUsed(hero);
     }
 }

@@ -19,40 +19,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
+package com.shatteredpixel.shatteredpixeldungeon.items.armor;
 
-import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Shortsword extends MeleeWeapon {
+public class CarrollArmor extends ClassArmor {
 
-	{
-		image = ItemSpriteSheet.SHORTSWORD;
-		hitSound = Assets.Sounds.HIT_SLASH;
-		hitSoundPitch = 1.1f;
 
-		tier = 2;
-	}
-
-	@Override
-	public float abilityChargeUse( Hero hero ) {
-		if (hero.buff(Sword.CleaveTracker.class) != null){
-			return 0;
-		} else {
-			return super.abilityChargeUse( hero );
-		}
-	}
-
-	@Override
-	public String targetingPrompt() {
-		return Messages.get(this, "prompt");
-	}
-
-	@Override
-	protected void carrollability(Hero hero, Integer target) {
-		Sword.cleaveAbility(hero, target, 1.30f, this);
-	}
+    {
+        image = ItemSpriteSheet.ARMOR_CARROLL;
+    }
 
 }

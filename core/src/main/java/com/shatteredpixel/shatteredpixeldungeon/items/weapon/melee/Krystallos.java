@@ -26,6 +26,8 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Krystallos extends MeleeWeapon {
@@ -55,5 +57,15 @@ public class Krystallos extends MeleeWeapon {
         }
 
         return super.proc(attacker, defender, damage);
+    }
+
+    @Override
+    public String targetingPrompt() {
+        return Messages.get(this, "prompt");
+    }
+
+    @Override
+    protected void carrollability(Hero hero, Integer target) {
+        Mace.heavyBlowAbility(hero, target, 1.6f, this);
     }
 }

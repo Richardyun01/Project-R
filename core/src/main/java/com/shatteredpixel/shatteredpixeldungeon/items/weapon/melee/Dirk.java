@@ -65,4 +65,14 @@ public class Dirk extends MeleeWeapon {
 		return super.damageRoll(owner);
 	}
 
+	@Override
+	public float abilityChargeUse( Hero hero ) {
+		return 2*super.abilityChargeUse(hero);
+	}
+
+	@Override
+	protected void carrollability(Hero hero, Integer target) {
+		Dagger.sneakAbility(hero, 6, this);
+	}
+
 }
