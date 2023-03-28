@@ -30,7 +30,10 @@ Project-R supports only Korean language yet.
 - 4 New Subclasses for Original Classes
 - 5th 1 tier talent for each class
 - 6th 2 tier talent for each class
-- New Class: Noise with 3 New Subclasses and 3 New Armor Ability(TBA More)
+- New Class
+    - Noise(Firearm based) with 3 New Subclasses and 3 New Armor Ability
+    - Lance(Warrior derived) with 3 New Subclasses and 3 New Armor Ability
+    - Carroll(Duelist based) with 3 New Subclasses and 3 New Armor Ability
 - Easy Mode for Beginners!
 
 
