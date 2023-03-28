@@ -26,6 +26,7 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -44,6 +45,9 @@ public class Volcano extends FirearmWeapon{
         max_round = 2;
         reload_time = 3;
         ACC = 2f;
+
+        firearm = true;
+        firearmEtc = true;
 
         bullet_image = ItemSpriteSheet.NOTHING;
         bullet_sound = Assets.Sounds.PUFF;
@@ -68,6 +72,11 @@ public class Volcano extends FirearmWeapon{
         } else {
             return (tier+4)*4 + lvl*6 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
         }
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target ) {
+        Madness.shootAbility(hero, this);
     }
 
 }

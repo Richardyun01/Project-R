@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Cleanser extends FirearmWeapon{
@@ -39,8 +40,16 @@ public class Cleanser extends FirearmWeapon{
         reload_time = 3;
         ACC = 2f;
 
+        firearm = true;
+        firearmEtc = true;
+
         bullet_image = ItemSpriteSheet.NOTHING;
         bullet_sound = Assets.Sounds.PUFF;
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target ) {
+        Madness.shootAbility(hero, this);
     }
 
 }

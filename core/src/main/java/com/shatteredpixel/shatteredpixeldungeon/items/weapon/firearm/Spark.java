@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -45,6 +46,9 @@ public class Spark extends FirearmWeapon{
         tier = 5;
         type = FirearmType.FirearmEnergy2;
         max_round = 3;
+
+        firearm = true;
+        firearmEnergy = true;
 
         bullet_image = ItemSpriteSheet.NOTHING;
         bullet_sound = Assets.Sounds.ZAP;
@@ -76,6 +80,11 @@ public class Spark extends FirearmWeapon{
         } else {
             return (int)(((tier+13) + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero))*(1 - 0.1 * hero.pointsInTalent(Talent.QUANTITY_OVER_QUALITY)));
         }
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target ) {
+        Vega.shootAbility(hero, this);
     }
 
 }

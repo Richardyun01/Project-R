@@ -1,6 +1,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+import static com.shatteredpixel.shatteredpixeldungeon.actors.Char.INFINITE_ACCURACY;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -13,6 +14,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -22,6 +24,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
@@ -42,6 +45,9 @@ public class BigBarrel extends FirearmWeapon{
         type = FirearmType.FirearmExplosive;
         max_round = 1;
 
+        firearm = true;
+        firearmExplosive = true;
+
         bullet_image = ItemSpriteSheet.SHELL;
     }
 
@@ -57,9 +63,16 @@ public class BigBarrel extends FirearmWeapon{
     @Override
     public float accuracyFactorBullet(Char owner, Char target) {
         if (hero.heroClass == HeroClass.NOISE) {
-            return 2f;
+            return 1.5f;
+        } else if (owner instanceof Hero &&
+                owner.buff(Harmonica.GuidedShot.class) != null &&
+                owner.buff(MeleeWeapon.Charger.class) != null &&
+                owner.buff(Harmonica.GuidedShot.class).onUse &&
+                owner.buff(MeleeWeapon.Charger.class).charges >= 1) {
+            owner.buff(MeleeWeapon.Charger.class).charges--;
+            return INFINITE_ACCURACY;
         } else {
-            return 1.33f;
+            return 1f;
         }
     }
 
@@ -149,5 +162,10 @@ public class BigBarrel extends FirearmWeapon{
         }
 
         Sample.INSTANCE.play( Assets.Sounds.BLAST );
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target ) {
+        Harmonica.shootAbility(hero, this);
     }
 }

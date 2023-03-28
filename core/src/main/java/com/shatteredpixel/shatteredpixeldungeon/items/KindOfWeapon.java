@@ -50,6 +50,16 @@ abstract public class KindOfWeapon extends EquipableItem {
 	protected String hitSound = Assets.Sounds.HIT;
 	protected float hitSoundPitch = 1f;
 
+	public boolean firearm = false;
+	public boolean firearmPistol = false;
+	public boolean firearmAuto = false;
+	public boolean firearmPrecision = false;
+	public boolean firearmShotgun = false;
+	public boolean firearmExplosive = false;
+	public boolean firearmEnergy = false;
+	public boolean firearmEtc = false;
+	public boolean bullet = false;
+
 	@Override
 	public void execute(Hero hero, String action) {
 		if (hero.subClass == HeroSubClass.CHALLENGER && action.equals(AC_EQUIP)){

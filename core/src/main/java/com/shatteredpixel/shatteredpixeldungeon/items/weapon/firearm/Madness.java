@@ -25,9 +25,16 @@ import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.watabou.noosa.Image;
+import com.watabou.noosa.audio.Sample;
 
 public class Madness extends FirearmWeapon {
 
@@ -42,6 +49,9 @@ public class Madness extends FirearmWeapon {
         tier = 6;
         type = FirearmType.FirearmEtc1;
         max_round = 1;
+
+        firearm = true;
+        firearmEtc = true;
 
         bullet_image = ItemSpriteSheet.KOJIMA_PARTICLE;
         bullet_sound = Assets.Sounds.BLAST;
@@ -73,6 +83,84 @@ public class Madness extends FirearmWeapon {
     @Override
     public int Bulletmax(int lvl) {
         return 200 + (lvl*25);
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target ) {
+        Madness.shootAbility(hero, this);
+    }
+
+    public static void shootAbility(Hero hero, FirearmWeapon wep) {
+        wep.beforeAbilityUsed(hero);
+        if (hero.buff(OverCharge.class) != null) {
+            hero.buff(OverCharge.class).onUse = !hero.buff(OverCharge.class).onUse;
+        }
+        Sample.INSTANCE.play( Assets.Sounds.UNLOCK );
+        hero.sprite.operate(hero.pos);
+        wep.afterAbilityUsed(hero);
+    }
+
+    public static class OverCharge extends Buff {
+
+        public static float HIT_CHARGE_USE = 5f;
+
+        public boolean onUse = true;
+
+        {
+            announced = true;
+            type = buffType.POSITIVE;
+        }
+
+        public int hitsLeft(){
+            MeleeWeapon.Charger charger = Buff.affect(target, MeleeWeapon.Charger.class);
+            float charges = charger.charges;
+            charges += charger.partialCharge;
+
+            return (int)(charges/HIT_CHARGE_USE);
+        }
+
+        public int maxHit(){
+            MeleeWeapon.Charger charger = Buff.affect(target, MeleeWeapon.Charger.class);
+            float maxCharges = charger.chargeCap();
+
+            return (int)(maxCharges);
+        }
+
+        @Override
+        public int icon() {
+            return BuffIndicator.DUEL_SNIPER;
+        }
+
+        @Override
+        public void tintIcon(Image icon) {
+            if (hitsLeft() == 0 || !onUse){
+                icon.brightness(0.25f);
+            } else {
+                icon.resetColor();
+            }
+        }
+
+        @Override
+        public float iconFadePercent() {
+            float usableCharges = hitsLeft()*HIT_CHARGE_USE;
+
+            return 1f - (usableCharges /  Buff.affect(target, MeleeWeapon.Charger.class).chargeCap());
+        }
+
+        @Override
+        public String iconTextDisplay() {
+            return Integer.toString(hitsLeft());
+        }
+
+        @Override
+        public String desc() {
+            if (!onUse) {
+                return Messages.get(this, "no_use", hitsLeft(), maxHit());
+            } else {
+                return Messages.get(this, "desc", hitsLeft(), maxHit());
+            }
+        }
+
     }
 
 }

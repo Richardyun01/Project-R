@@ -71,7 +71,7 @@ public class Dirk extends MeleeWeapon {
 	}
 
 	@Override
-	protected void carrollability(Hero hero, Integer target) {
+	protected void carrollAbility(Hero hero, Integer target) {
 		Dagger.sneakAbility(hero, 6, this);
 	}
 

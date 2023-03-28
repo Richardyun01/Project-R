@@ -61,7 +61,7 @@ public class Sai extends MeleeWeapon {
 	}
 
 	@Override
-	protected void carrollability(Hero hero, Integer target) {
+	protected void carrollAbility(Hero hero, Integer target) {
 		Sai.comboStrikeAbility(hero, target, 0.25f, this);
 	}
 

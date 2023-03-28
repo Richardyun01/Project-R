@@ -103,7 +103,7 @@ public class Flail extends MeleeWeapon {
 	}
 
 	@Override
-	protected void carrollability(Hero hero, Integer target) {
+	protected void carrollAbility(Hero hero, Integer target) {
 
 		beforeAbilityUsed(hero);
 		SpinAbilityTracker spin = hero.buff(SpinAbilityTracker.class);

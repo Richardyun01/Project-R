@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -36,6 +37,9 @@ public class Flashback extends FirearmWeapon {
         image = ItemSpriteSheet.FLASHBACK;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
+
+        firearm = true;
+        firearmPistol = true;
 
         tier = 4;
         type = FirearmType.FirearmPistol;
@@ -50,6 +54,11 @@ public class Flashback extends FirearmWeapon {
     @Override
     public float accuracyFactorBullet(Char owner, Char target) {
         return (Dungeon.level.distance(owner.pos, target.pos) <= 3) ? 1.4f : 0.9f;
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target ) {
+        Revolver.shootAbility(hero, this);
     }
 
 }

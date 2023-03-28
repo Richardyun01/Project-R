@@ -24,6 +24,8 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Wave extends FirearmWeapon{
@@ -41,12 +43,29 @@ public class Wave extends FirearmWeapon{
         max_round = 7;
         shot = 7;
 
+        firearm = true;
+        firearmShotgun = true;
+
         bullet_image = ItemSpriteSheet.TRIPLE_BULLET;
     }
 
     @Override
     public float accuracyFactorBullet(Char owner, Char target) {
-        return Dungeon.level.adjacent(owner.pos, target.pos) ? 1.5f : 0f;
+        if (owner instanceof Hero &&
+                owner.buff(Blunderbust.SlugShot.class) != null &&
+                owner.buff(MeleeWeapon.Charger.class) != null &&
+                owner.buff(Blunderbust.SlugShot.class).onUse &&
+                owner.buff(MeleeWeapon.Charger.class).charges >= 1) {
+            owner.buff(MeleeWeapon.Charger.class).charges--;
+            return 1f;
+        } else {
+            return Dungeon.level.adjacent(owner.pos, target.pos) ? 1.5f : 0f;
+        }
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target ) {
+        Blunderbust.shootAbility(hero, this);
     }
 
 }

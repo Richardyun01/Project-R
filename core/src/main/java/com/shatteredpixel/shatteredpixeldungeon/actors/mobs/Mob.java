@@ -65,6 +65,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Blunderbust;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Harmonica;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Madness;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Revolver;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ShortCarbine;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Tat;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Vega;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
@@ -755,6 +763,24 @@ public abstract class Mob extends Char {
 					&& Dungeon.hero.buff(Talent.LethalHasteCooldown.class) == null){
 				Buff.affect(Dungeon.hero, Talent.LethalHasteCooldown.class, 100f);
 				Buff.affect(Dungeon.hero, Haste.class, 1.67f + Dungeon.hero.pointsInTalent(Talent.LETHAL_HASTE));
+			}
+
+			if (cause == hero
+					&& hero.belongings.attackingWeapon().bullet
+					&& hero.heroClass == HeroClass.CARROLL) {
+				if (hero.buff(Revolver.APShot.class) != null ||
+					hero.buff(Tat.PrecisionShot.class) != null ||
+					hero.buff(ShortCarbine.InfiniteShot.class) != null ||
+					hero.buff(Blunderbust.SlugShot.class) != null ||
+					hero.buff(Harmonica.GuidedShot.class) != null ||
+					hero.buff(Vega.BreakerShot.class) != null ||
+					hero.buff(Madness.OverCharge.class) != null) {
+					Buff.affect(hero, FirearmWeapon.Charger.class).killCount++;
+					if (FirearmWeapon.Charger.killCount == 3) {
+						Buff.affect(hero, FirearmWeapon.Charger.class).charges++;
+						FirearmWeapon.Charger.killCount = 0;
+					}
+				}
 			}
 		}
 

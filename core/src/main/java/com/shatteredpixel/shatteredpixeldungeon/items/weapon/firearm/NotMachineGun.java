@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
@@ -47,6 +48,9 @@ public class NotMachineGun extends FirearmWeapon {
         max_round = 8;
         shot = 2;
         bones = false;
+
+        firearm = true;
+        firearmAuto = true;
 
         bullet_image = ItemSpriteSheet.DUAL_BULLET;
     }
@@ -95,7 +99,11 @@ public class NotMachineGun extends FirearmWeapon {
         } else {
             return 3 + lvl + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
         }
+    }
 
+    @Override
+    protected void carrollAbility(Hero hero, Integer target ) {
+        ShortCarbine.shootAbility(hero, this);
     }
 
 }

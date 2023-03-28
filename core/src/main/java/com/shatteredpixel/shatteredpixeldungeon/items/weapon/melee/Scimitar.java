@@ -51,7 +51,7 @@ public class Scimitar extends MeleeWeapon {
 	}
 
 	@Override
-	protected void carrollability(Hero hero, Integer target) {
+	protected void carrollAbility(Hero hero, Integer target) {
 		beforeAbilityUsed(hero);
 		Buff.prolong(hero, SwordDance.class, 5f); //5 turns as using the ability is instant
 		hero.sprite.operate(hero.pos);

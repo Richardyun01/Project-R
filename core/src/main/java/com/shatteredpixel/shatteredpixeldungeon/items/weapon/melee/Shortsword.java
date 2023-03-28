@@ -51,7 +51,7 @@ public class Shortsword extends MeleeWeapon {
 	}
 
 	@Override
-	protected void carrollability(Hero hero, Integer target) {
+	protected void carrollAbility(Hero hero, Integer target) {
 		Sword.cleaveAbility(hero, target, 1.30f, this);
 	}
 

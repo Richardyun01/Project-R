@@ -41,6 +41,9 @@ public class Fencer extends FirearmWeapon {
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
+        firearm = true;
+        firearmPistol = true;
+
         tier = 6;
         type = FirearmType.FirearmPistol;
         max_round = 3;// + 1 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE);;

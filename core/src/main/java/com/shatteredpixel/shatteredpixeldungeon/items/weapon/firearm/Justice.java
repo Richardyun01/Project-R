@@ -1,16 +1,19 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+import static com.shatteredpixel.shatteredpixeldungeon.actors.Char.INFINITE_ACCURACY;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Justice extends FirearmWeapon{
@@ -27,6 +30,9 @@ public class Justice extends FirearmWeapon{
         type = FirearmType.FirearmExplosive;
         max_round = 1;
 
+        firearm = true;
+        firearmExplosive = true;
+
         bullet_image = ItemSpriteSheet.ROCKET_1;
         bullet_sound = Assets.Sounds.PUFF;
     }
@@ -35,6 +41,13 @@ public class Justice extends FirearmWeapon{
     public float accuracyFactorBullet(Char owner, Char target) {
         if (hero.heroClass == HeroClass.NOISE) {
             return 1.5f;
+        } else if (owner instanceof Hero &&
+                owner.buff(Harmonica.GuidedShot.class) != null &&
+                owner.buff(MeleeWeapon.Charger.class) != null &&
+                owner.buff(Harmonica.GuidedShot.class).onUse &&
+                owner.buff(MeleeWeapon.Charger.class).charges >= 1) {
+            owner.buff(MeleeWeapon.Charger.class).charges--;
+            return INFINITE_ACCURACY;
         } else {
             return 1f;
         }
@@ -78,6 +91,11 @@ public class Justice extends FirearmWeapon{
         } else {
             return (tier+1)*9 + lvl*7 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
         }
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target ) {
+        Harmonica.shootAbility(hero, this);
     }
 
 }

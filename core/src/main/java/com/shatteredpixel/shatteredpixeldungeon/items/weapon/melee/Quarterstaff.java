@@ -56,7 +56,7 @@ public class Quarterstaff extends MeleeWeapon {
 	}
 
 	@Override
-	protected void carrollability(Hero hero, Integer target) {
+	protected void carrollAbility(Hero hero, Integer target) {
 		beforeAbilityUsed(hero);
 		Buff.prolong(hero, DefensiveStance.class, 5f); //4 turns as using the ability is instant
 		hero.sprite.operate(hero.pos);

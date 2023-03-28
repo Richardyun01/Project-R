@@ -63,7 +63,7 @@ public class Crossbow extends MeleeWeapon {
 	}
 
 	@Override
-	protected void carrollability(Hero hero, Integer target) {
+	protected void carrollAbility(Hero hero, Integer target) {
 		if (hero.buff(ChargedShot.class) != null){
 			GLog.w(Messages.get(this, "ability_cant_use"));
 			return;

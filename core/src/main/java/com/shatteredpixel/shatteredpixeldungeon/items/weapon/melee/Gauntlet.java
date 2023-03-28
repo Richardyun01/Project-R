@@ -49,7 +49,7 @@ public class Gauntlet extends MeleeWeapon {
 	}
 
 	@Override
-	protected void carrollability(Hero hero, Integer target) {
+	protected void carrollAbility(Hero hero, Integer target) {
 		Sai.comboStrikeAbility(hero, target, 0.20f, this);
 	}
 

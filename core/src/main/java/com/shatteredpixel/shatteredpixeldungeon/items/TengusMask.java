@@ -25,6 +25,8 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceCombo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -110,6 +112,10 @@ public class TengusMask extends Item {
 
 		if (Dungeon.hero.subClass == HeroSubClass.POLARIS) {
 			new BowConverter().collect();
+		}
+
+		if (Dungeon.hero.buff(LanceCombo.class) != null && Dungeon.hero.subClass != HeroSubClass.PHALANX) {
+			Buff.detach(Dungeon.hero, LanceCombo.class);
 		}
 
 	}

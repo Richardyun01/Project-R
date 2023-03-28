@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
@@ -46,6 +47,9 @@ public class Karasawa extends FirearmWeapon{
         tier = 5;
         type = FirearmType.FirearmEnergy1;
         max_round = 1;
+
+        firearm = true;
+        firearmEnergy = true;
 
         bullet_image = ItemSpriteSheet.ENERGY_BULLET_2;
         bullet_sound = Assets.Sounds.LIGHTNING;
@@ -76,6 +80,11 @@ public class Karasawa extends FirearmWeapon{
         } else {
             return (tier+5)*4 + lvl*6 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
         }
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target ) {
+        Vega.shootAbility(hero, this);
     }
 
 }

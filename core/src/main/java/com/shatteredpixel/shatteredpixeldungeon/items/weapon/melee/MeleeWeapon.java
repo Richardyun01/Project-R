@@ -36,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -57,14 +58,11 @@ public class MeleeWeapon extends Weapon {
 	@Override
 	public void activate(Char ch) {
 		super.activate(ch);
-		if (ch instanceof Hero && ((Hero) ch).heroClass == HeroClass.CARROLL){
-			Buff.affect(ch, Charger.class);
-		}
 	}
 
 	@Override
 	public String defaultAction() {
-		if (Dungeon.hero != null && Dungeon.hero.heroClass == HeroClass.CARROLL){
+		if (Dungeon.hero != null && Dungeon.hero.heroClass == HeroClass.CARROLL && !(Dungeon.hero.belongings.weapon instanceof FirearmWeapon)){
 			return AC_ABILITY;
 		} else {
 			return super.defaultAction();
@@ -121,7 +119,7 @@ public class MeleeWeapon extends Weapon {
 			} else {
 
 				if (targetingPrompt() == null){
-					carrollability(hero, hero.pos);
+					carrollAbility(hero, hero.pos);
 					updateQuickslot();
 				} else {
 					usesTargeting = useTargeting();
@@ -129,7 +127,7 @@ public class MeleeWeapon extends Weapon {
 						@Override
 						public void onSelect(Integer cell) {
 							if (cell != null) {
-								carrollability(hero, cell);
+								carrollAbility(hero, cell);
 								updateQuickslot();
 							}
 						}
@@ -185,7 +183,7 @@ public class MeleeWeapon extends Weapon {
 		return dst; //weapon abilities do not use projectile logic, no autoaim
 	}
 
-	protected void carrollability( Hero hero, Integer target ){
+	protected void carrollAbility( Hero hero, Integer target ){
 		//do nothing by default
 	}
 
@@ -405,6 +403,8 @@ public class MeleeWeapon extends Weapon {
 	}
 
 	public static class Charger extends Buff implements ActionIndicator.Action {
+
+		public static int killCount = 0;
 
 		public int charges = 3;
 		public float partialCharge;

@@ -177,7 +177,7 @@ public class Pickaxe extends MeleeWeapon {
 	}
 
 	@Override
-	protected void carrollability(Hero hero, Integer target) {
+	protected void carrollAbility(Hero hero, Integer target) {
 		if (target == null) {
 			return;
 		}

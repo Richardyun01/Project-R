@@ -119,6 +119,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Kaleidoscop
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Karasawa;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Madness;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.NotMachineGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Revolver;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ShortCarbine;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Spark;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Standard;
@@ -127,6 +128,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ThinLine;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Trench;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Vega;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Murakumo;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RipperWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarpBlade;
@@ -396,6 +398,13 @@ public abstract class Char extends Actor {
 					if (Random.Int(4) < hero.pointsInTalent(Talent.GRIND_DEFENCE)) {
 						dr = 0;
 					}
+				}
+				if (hero instanceof Hero &&
+						hero.buff(Revolver.APShot.class) != null &&
+						hero.buff(MeleeWeapon.Charger.class) != null &&
+						hero.buff(Revolver.APShot.class).onUse &&
+						hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
+					dr = 0;
 				}
 			}
 

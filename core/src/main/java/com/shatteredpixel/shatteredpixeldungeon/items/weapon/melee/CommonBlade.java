@@ -56,7 +56,7 @@ public class CommonBlade extends MeleeWeapon {
     }
 
     @Override
-    protected void carrollability(Hero hero, Integer target) {
+    protected void carrollAbility(Hero hero, Integer target) {
         beforeAbilityUsed(hero);
         Buff.prolong(hero, Quarterstaff.DefensiveStance.class, 7f); //4 turns as using the ability is instant
         hero.sprite.operate(hero.pos);

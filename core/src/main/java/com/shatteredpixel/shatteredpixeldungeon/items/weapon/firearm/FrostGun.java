@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -48,6 +49,9 @@ public class FrostGun extends FirearmWeapon {
         tier = 4;
         type = FirearmType.FirearmEtc1;
         max_round = 2;
+
+        firearm = true;
+        firearmEtc = true;
 
         bullet_image = ItemSpriteSheet.ICICLE;
         bullet_sound = Assets.Sounds.SHATTER;
@@ -103,6 +107,11 @@ public class FrostGun extends FirearmWeapon {
         }
 
         return super.proc(attacker, defender, damage);
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target ) {
+        Madness.shootAbility(hero, this);
     }
 
 }

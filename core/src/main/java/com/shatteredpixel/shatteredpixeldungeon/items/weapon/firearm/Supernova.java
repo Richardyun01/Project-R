@@ -53,6 +53,9 @@ public class Supernova extends FirearmWeapon{
         type = FirearmType.FirearmEnergy1;
         max_round = 1;
 
+        firearm = true;
+        firearmEnergy = true;
+
         bullet_image = ItemSpriteSheet.ENERGY_BULLET_3;
         bullet_sound = Assets.Sounds.PUFF;
     }
@@ -180,6 +183,11 @@ public class Supernova extends FirearmWeapon{
 
     public String statsInfo(){
         return Messages.get(this, "stats_desc");
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target ) {
+        Vega.shootAbility(hero, this);
     }
 
 }

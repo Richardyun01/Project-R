@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
@@ -43,6 +44,9 @@ public class Trench extends FirearmWeapon {
         type = FirearmType.FirearmAuto;
         max_round = 30;
         shot = 6;
+
+        firearm = true;
+        firearmAuto = true;
 
         bullet_image = ItemSpriteSheet.DUAL_BULLET;
     }
@@ -70,6 +74,11 @@ public class Trench extends FirearmWeapon {
         } else {
             return 0.8f;
         }
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target ) {
+        ShortCarbine.shootAbility(hero, this);
     }
 
 }

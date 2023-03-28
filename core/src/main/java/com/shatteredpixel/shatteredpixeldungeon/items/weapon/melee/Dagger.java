@@ -80,7 +80,7 @@ public class Dagger extends MeleeWeapon {
 	}
 
 	@Override
-	protected void carrollability(Hero hero, Integer target) {
+	protected void carrollAbility(Hero hero, Integer target) {
 		sneakAbility(hero, 8, this);
 	}
 

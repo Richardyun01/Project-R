@@ -23,15 +23,18 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+import static com.shatteredpixel.shatteredpixeldungeon.actors.Char.INFINITE_ACCURACY;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Aria extends FirearmWeapon{
@@ -47,6 +50,9 @@ public class Aria extends FirearmWeapon{
         tier = 6;
         type = FirearmType.FirearmPrecision;
         max_round = 1;
+
+        firearm = true;
+        firearmPrecision = true;
 
         bullet_image = ItemSpriteSheet.SNIPER_BULLET;
     }
@@ -80,6 +86,23 @@ public class Aria extends FirearmWeapon{
 
     @Override
     public float accuracyFactorBullet(Char owner, Char target) {
-        return Dungeon.level.adjacent(owner.pos, target.pos) ? 0f : 2f;
+        if (owner instanceof Hero &&
+                owner.buff(Tat.PrecisionShot.class) != null &&
+                owner.buff(MeleeWeapon.Charger.class) != null &&
+                owner.buff(Tat.PrecisionShot.class).onUse &&
+                owner.buff(MeleeWeapon.Charger.class).charges >= 1) {
+            owner.buff(MeleeWeapon.Charger.class).charges--;
+            return INFINITE_ACCURACY;
+        } else {
+            return Dungeon.level.adjacent(owner.pos, target.pos) ? 0f : 2f;
+        }
+    }
+
+    @Override
+    public float abilityChargeUse( Hero hero ) { return 0; }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target ) {
+        Tat.shootAbility(hero, this);
     }
 }

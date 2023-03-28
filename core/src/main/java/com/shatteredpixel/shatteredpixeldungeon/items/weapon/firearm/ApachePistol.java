@@ -27,10 +27,14 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.audio.Sample;
 
 public class ApachePistol extends FirearmWeapon{
 
@@ -47,9 +51,11 @@ public class ApachePistol extends FirearmWeapon{
         max_round = 3;// + 1 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE);
     }
 
+    public static boolean change = false;
+
     @Override
     public int STRReq(int lvl) {
-        if (hero.heroClass == HeroClass.NOISE) {
+        if (hero.heroClass == HeroClass.NOISE || hero.heroClass == HeroClass.CARROLL) {
             return STRReq(tier, lvl);
         } else {
             return STRReq(tier, lvl) - 1;
@@ -71,11 +77,11 @@ public class ApachePistol extends FirearmWeapon{
         if (hero.heroClass == HeroClass.NOISE || hero.subClass == HeroSubClass.TERCIO) {
             return 4 * (tier + 1) + 2 +   //8 base, down from 10
                     lvl * (tier + 1);   //scaling unchanged
-            /**
-        } else if () {
-            return 5*(tier+1) +
+
+        } else if (change) {
+            return 5*(tier+1)-1 +
                     lvl*(tier+1);   //scaling unchanged
-            */
+
         } else {
             return  3*(tier+1) +    //6 base, down from 10
                     lvl*(tier+1);   //scaling unchanged
@@ -93,47 +99,43 @@ public class ApachePistol extends FirearmWeapon{
 
     @Override
     public int Bulletmax(int lvl) {
-        if (Dungeon.hero.buff(BulletUp.class) != null) {
-            return 4 * tier + lvl + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+        if (!change) {
+            if (Dungeon.hero.buff(BulletUp.class) != null) {
+                return 4 * tier + lvl + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+            } else {
+                return 4 * tier + lvl;
+            }
         } else {
-            return 4 * tier + lvl;
+            if (Dungeon.hero.buff(BulletUp.class) != null) {
+                return tier + lvl + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+            } else {
+                return tier + lvl;
+            }
         }
     }
-/**
+
     @Override
     public float abilityChargeUse( Hero hero ) {
         return 0;
     }
 
     @Override
-    protected void carrollability(Hero hero, Integer target) {
+    protected void carrollAbility(Hero hero, Integer target) {
         ApachePistol.changeAbility(hero, this);
     }
 
     public static void changeAbility(Hero hero, FirearmWeapon wep){
         wep.beforeAbilityUsed(hero);
-        if (hero.buff(.class) != null) {
-            hero.buff(FunctionChange.class).onUse = !hero.buff(FunctionChange.class).onUse;
+        if (!change) {
+            GLog.w(Messages.get(wep, "mode_close"));
+            change = true;
+        } else {
+            GLog.w(Messages.get(wep, "mode_shot"));
+            change = false;
         }
         Sample.INSTANCE.play( Assets.Sounds.UNLOCK );
         hero.sprite.operate(hero.pos);
-        afterAbilityUsed(hero);
+        wep.afterAbilityUsed(hero);
     }
 
-    public static class FunctionChange extends FlavourBuff {
-
-        {
-            announced = true;
-            type = buffType.POSITIVE;
-        }
-
-        public boolean onUse = true;
-
-        @Override
-        public int icon() {
-            return BuffIndicator.DUEL_EVASIVE;
-        }
-
-    }
-**/
 }

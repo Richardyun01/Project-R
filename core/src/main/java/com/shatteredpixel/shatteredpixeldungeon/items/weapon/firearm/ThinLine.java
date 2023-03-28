@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
@@ -42,6 +43,9 @@ public class ThinLine extends FirearmWeapon {
         max_round = 15;// + 3 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE);;
         shot = 3;
 
+        firearm = true;
+        firearmAuto = true;
+
         bullet_image = ItemSpriteSheet.DUAL_BULLET;
     }
 
@@ -59,6 +63,11 @@ public class ThinLine extends FirearmWeapon {
         } else {
             return 0.8f;
         }
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target ) {
+        ShortCarbine.shootAbility(hero, this);
     }
 
 }

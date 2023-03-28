@@ -50,6 +50,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Roots;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -94,6 +95,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class FirearmWeapon extends MeleeWeapon {
+
+    {
+        defaultAction = AC_SHOOT;
+    }
 
     public enum FirearmType {
         FirearmPistol,
@@ -260,6 +265,56 @@ public class FirearmWeapon extends MeleeWeapon {
     }
 
     @Override
+    public float abilityChargeUse( Hero hero ) { return 0; }
+
+    protected void carrollAbility( Hero hero, Integer target ){
+        //do nothing by default
+    }
+
+    protected void beforeAbilityUsed(Hero hero ){
+        hero.belongings.abilityWeapon = this;
+        Charger charger = Buff.affect(hero, Charger.class);
+
+        if (Dungeon.hero.belongings.weapon == this) {
+            charger.partialCharge -= abilityChargeUse(hero);
+            while (charger.partialCharge < 0 && charger.charges > 0) {
+                charger.charges--;
+                charger.partialCharge++;
+            }
+        } else {
+            charger.secondPartialCharge -= abilityChargeUse(hero);
+            while (charger.secondPartialCharge < 0 && charger.secondCharges > 0) {
+                charger.secondCharges--;
+                charger.secondPartialCharge++;
+            }
+        }
+
+        if (hero.buff(Talent.CombinedLethalityAbilityTracker.class) != null
+                && hero.buff(Talent.CombinedLethalityAbilityTracker.class).weapon != null
+                && hero.buff(Talent.CombinedLethalityAbilityTracker.class).weapon != this){
+            Buff.affect(hero, Talent.CombinedLethalityTriggerTracker.class, 5f);
+        }
+
+        updateQuickslot();
+    }
+
+    protected void afterAbilityUsed( Hero hero ){
+        hero.belongings.abilityWeapon = null;
+        if (hero.hasTalent(Talent.COMBINED_LETHALITY)) {
+            Talent.CombinedLethalityAbilityTracker tracker = hero.buff(Talent.CombinedLethalityAbilityTracker.class);
+            if (tracker == null || tracker.weapon == this || tracker.weapon == null){
+                Buff.affect(hero, Talent.CombinedLethalityAbilityTracker.class, hero.cooldown()).weapon = this;
+            } else {
+                //we triggered the talent, so remove the tracker
+                tracker.detach();
+            }
+        }
+        if (hero.buff(Talent.CounterAbilityTacker.class) != null){
+            hero.buff(Talent.CounterAbilityTacker.class).detach();
+        }
+    }
+
+    @Override
     public void storeInBundle(Bundle bundle) {
         super.storeInBundle(bundle);
         bundle.put(MAX_ROUND, max_round);
@@ -388,7 +443,163 @@ public class FirearmWeapon extends MeleeWeapon {
 
     @Override
     public void activate(Char ch) {
-
+        if (ch instanceof Hero && ((Hero) ch).heroClass == HeroClass.CARROLL){
+            Buff.affect(ch, Charger.class);
+        }
+        switch (type) {
+            case FirearmPistol:
+                Buff.affect(ch, Revolver.APShot.class);
+                break;
+            case FirearmPrecision:
+                Buff.affect(ch, Tat.PrecisionShot.class);
+                break;
+            case FirearmAuto:
+                Buff.affect(ch, ShortCarbine.InfiniteShot.class);
+                break;
+            case FirearmShotgun:
+                Buff.affect(ch, Blunderbust.SlugShot.class);
+                break;
+            case FirearmExplosive:
+            case FirearmEnergy1:
+            case FirearmEnergy2:
+            case FirearmEtc1:
+            case FirearmEtc2:
+            default:
+                break;
+        }
+        if (ch instanceof Hero && ((Hero) ch).buff(Revolver.APShot.class) != null) {
+            if (((Hero) ch).belongings.weapon == null && ((Hero) ch).belongings.secondWep == null) {
+                ((Hero) ch).buff(Revolver.APShot.class).detach();
+            } else {
+                if (((Hero) ch).belongings.weapon == null) {
+                    if (!((Hero) ch).belongings.secondWep.firearmAuto) {
+                        ((Hero) ch).buff(Revolver.APShot.class).detach();
+                    }
+                } else if (((Hero) ch).belongings.secondWep == null) {
+                    if (!((Hero) ch).belongings.weapon.firearmAuto) {
+                        ((Hero) ch).buff(Revolver.APShot.class).detach();
+                    }
+                } else {
+                    if (!((Hero) ch).belongings.weapon.firearmAuto && !((Hero) ch).belongings.secondWep.firearmAuto) {
+                        ((Hero) ch).buff(Revolver.APShot.class).detach();
+                    }
+                }
+            }
+        }
+        if (ch instanceof Hero && ((Hero) ch).buff(Tat.PrecisionShot.class) != null) {
+            if (((Hero) ch).belongings.weapon == null && ((Hero) ch).belongings.secondWep == null) {
+                ((Hero) ch).buff(Tat.PrecisionShot.class).detach();
+            } else {
+                if (((Hero) ch).belongings.weapon == null) {
+                    if (!((Hero) ch).belongings.secondWep.firearmPrecision) {
+                        ((Hero) ch).buff(Tat.PrecisionShot.class).detach();
+                    }
+                } else if (((Hero) ch).belongings.secondWep == null) {
+                    if (!((Hero) ch).belongings.weapon.firearmPrecision) {
+                        ((Hero) ch).buff(Tat.PrecisionShot.class).detach();
+                    }
+                } else {
+                    if (!((Hero) ch).belongings.weapon.firearmPrecision && !((Hero) ch).belongings.secondWep.firearmPrecision) {
+                        ((Hero) ch).buff(Tat.PrecisionShot.class).detach();
+                    }
+                }
+            }
+        }
+        if (ch instanceof Hero && ((Hero) ch).buff(ShortCarbine.InfiniteShot.class) != null) {
+            if (((Hero) ch).belongings.weapon == null && ((Hero) ch).belongings.secondWep == null) {
+                ((Hero) ch).buff(ShortCarbine.InfiniteShot.class).detach();
+            } else {
+                if (((Hero) ch).belongings.weapon == null) {
+                    if (!((Hero) ch).belongings.secondWep.firearmAuto) {
+                        ((Hero) ch).buff(ShortCarbine.InfiniteShot.class).detach();
+                    }
+                } else if (((Hero) ch).belongings.secondWep == null) {
+                    if (!((Hero) ch).belongings.weapon.firearmAuto) {
+                        ((Hero) ch).buff(ShortCarbine.InfiniteShot.class).detach();
+                    }
+                } else {
+                    if (!((Hero) ch).belongings.weapon.firearmAuto && !((Hero) ch).belongings.secondWep.firearmAuto) {
+                        ((Hero) ch).buff(ShortCarbine.InfiniteShot.class).detach();
+                    }
+                }
+            }
+        }
+        if (ch instanceof Hero && ((Hero) ch).buff(Blunderbust.SlugShot.class) != null) {
+            if (((Hero) ch).belongings.weapon == null && ((Hero) ch).belongings.secondWep == null) {
+                ((Hero) ch).buff(Blunderbust.SlugShot.class).detach();
+            } else {
+                if (((Hero) ch).belongings.weapon == null) {
+                    if (!((Hero) ch).belongings.secondWep.firearmAuto) {
+                        ((Hero) ch).buff(Blunderbust.SlugShot.class).detach();
+                    }
+                } else if (((Hero) ch).belongings.secondWep == null) {
+                    if (!((Hero) ch).belongings.weapon.firearmAuto) {
+                        ((Hero) ch).buff(Blunderbust.SlugShot.class).detach();
+                    }
+                } else {
+                    if (!((Hero) ch).belongings.weapon.firearmAuto && !((Hero) ch).belongings.secondWep.firearmAuto) {
+                        ((Hero) ch).buff(Blunderbust.SlugShot.class).detach();
+                    }
+                }
+            }
+        }
+        if (ch instanceof Hero && ((Hero) ch).buff(Harmonica.GuidedShot.class) != null) {
+            if (((Hero) ch).belongings.weapon == null && ((Hero) ch).belongings.secondWep == null) {
+                ((Hero) ch).buff(Harmonica.GuidedShot.class).detach();
+            } else {
+                if (((Hero) ch).belongings.weapon == null) {
+                    if (!((Hero) ch).belongings.secondWep.firearmAuto) {
+                        ((Hero) ch).buff(Harmonica.GuidedShot.class).detach();
+                    }
+                } else if (((Hero) ch).belongings.secondWep == null) {
+                    if (!((Hero) ch).belongings.weapon.firearmAuto) {
+                        ((Hero) ch).buff(Harmonica.GuidedShot.class).detach();
+                    }
+                } else {
+                    if (!((Hero) ch).belongings.weapon.firearmAuto && !((Hero) ch).belongings.secondWep.firearmAuto) {
+                        ((Hero) ch).buff(Harmonica.GuidedShot.class).detach();
+                    }
+                }
+            }
+        }
+        if (ch instanceof Hero && ((Hero) ch).buff(Vega.BreakerShot.class) != null) {
+            if (((Hero) ch).belongings.weapon == null && ((Hero) ch).belongings.secondWep == null) {
+                ((Hero) ch).buff(Vega.BreakerShot.class).detach();
+            } else {
+                if (((Hero) ch).belongings.weapon == null) {
+                    if (!((Hero) ch).belongings.secondWep.firearmAuto) {
+                        ((Hero) ch).buff(Vega.BreakerShot.class).detach();
+                    }
+                } else if (((Hero) ch).belongings.secondWep == null) {
+                    if (!((Hero) ch).belongings.weapon.firearmAuto) {
+                        ((Hero) ch).buff(Vega.BreakerShot.class).detach();
+                    }
+                } else {
+                    if (!((Hero) ch).belongings.weapon.firearmAuto && !((Hero) ch).belongings.secondWep.firearmAuto) {
+                        ((Hero) ch).buff(Vega.BreakerShot.class).detach();
+                    }
+                }
+            }
+        }
+        if (ch instanceof Hero && ((Hero) ch).buff(Madness.OverCharge.class) != null) {
+            if (((Hero) ch).belongings.weapon == null && ((Hero) ch).belongings.secondWep == null) {
+                ((Hero) ch).buff(Madness.OverCharge.class).detach();
+            } else {
+                if (((Hero) ch).belongings.weapon == null) {
+                    if (!((Hero) ch).belongings.secondWep.firearmAuto) {
+                        ((Hero) ch).buff(Madness.OverCharge.class).detach();
+                    }
+                } else if (((Hero) ch).belongings.secondWep == null) {
+                    if (!((Hero) ch).belongings.weapon.firearmAuto) {
+                        ((Hero) ch).buff(Madness.OverCharge.class).detach();
+                    }
+                } else {
+                    if (!((Hero) ch).belongings.weapon.firearmAuto && !((Hero) ch).belongings.secondWep.firearmAuto) {
+                        ((Hero) ch).buff(Madness.OverCharge.class).detach();
+                    }
+                }
+            }
+        }
     }
 
     public void affixLoader(SpeedLoader loader){
@@ -516,6 +727,10 @@ public class FirearmWeapon extends MeleeWeapon {
             info += "\n\n" + Messages.get(FirearmWeapon.class, "loader_attached", loadtime);
         } else if (!isIdentified() && cursedKnown){
             info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
+        }
+
+        if (Dungeon.hero.heroClass == HeroClass.CARROLL){
+            info += "\n\n" + Messages.get(this, "ability_desc");
         }
 
         return info;
@@ -690,6 +905,8 @@ public class FirearmWeapon extends MeleeWeapon {
         {
             image = bullet_image;
             hitSound = bullet_sound;
+
+            bullet = true;
         }
 
         @Override
@@ -846,6 +1063,12 @@ public class FirearmWeapon extends MeleeWeapon {
 
                         } else if (hero.buff(InfiniteBullet.class) != null) {
 
+                        } else if (hero instanceof Hero &&
+                                hero.buff(Madness.OverCharge.class) != null &&
+                                hero.buff(MeleeWeapon.Charger.class) != null &&
+                                hero.buff(Madness.OverCharge.class).onUse &&
+                                hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
+                            hero.buff(MeleeWeapon.Charger.class).charges -= 5;
                         } else {
                             round--;
                         }
@@ -918,6 +1141,12 @@ public class FirearmWeapon extends MeleeWeapon {
 
                         } else if (hero.buff(InfiniteBullet.class) != null) {
 
+                        } else if (hero instanceof Hero &&
+                                hero.buff(Madness.OverCharge.class) != null &&
+                                hero.buff(MeleeWeapon.Charger.class) != null &&
+                                hero.buff(Madness.OverCharge.class).onUse &&
+                                hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
+                            hero.buff(MeleeWeapon.Charger.class).charges -= 5;
                         } else {
                             round --;
                         }
@@ -978,6 +1207,12 @@ public class FirearmWeapon extends MeleeWeapon {
 
                         } else if (hero.buff(InfiniteBullet.class) != null) {
 
+                        } else if (hero instanceof Hero &&
+                                    hero.buff(ShortCarbine.InfiniteShot.class) != null &&
+                                    hero.buff(MeleeWeapon.Charger.class) != null &&
+                                    hero.buff(ShortCarbine.InfiniteShot.class).onUse &&
+                                    hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
+                            hero.buff(MeleeWeapon.Charger.class).charges -= 2;
                         } else {
                             round--;
                         }
@@ -1037,6 +1272,15 @@ public class FirearmWeapon extends MeleeWeapon {
                 !Dungeon.level.flamable[cell] && findChar != null) {
                 Buff.affect(findChar, Blindness.class, 1f);
                 Buff.affect(findChar, Cripple.class, 1f);
+            }
+
+            if (hero instanceof Hero &&
+                    hero.buff(Vega.BreakerShot.class) != null &&
+                    hero.buff(MeleeWeapon.Charger.class) != null &&
+                    hero.buff(Vega.BreakerShot.class).onUse &&
+                    hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
+                hero.buff(MeleeWeapon.Charger.class).charges--;
+                Buff.affect(findChar, Vulnerable.class, 3f);
             }
 
             switch (type) {

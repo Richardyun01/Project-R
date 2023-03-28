@@ -62,7 +62,7 @@ public class RoundShield extends MeleeWeapon {
 	}
 
 	@Override
-	protected void carrollability(Hero hero, Integer target) {
+	protected void carrollAbility(Hero hero, Integer target) {
 		RoundShield.guardAbility(hero, 5, this);
 	}
 

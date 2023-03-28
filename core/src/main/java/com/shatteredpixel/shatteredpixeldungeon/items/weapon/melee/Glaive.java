@@ -50,7 +50,7 @@ public class Glaive extends MeleeWeapon {
 	}
 
 	@Override
-	protected void carrollability(Hero hero, Integer target) {
+	protected void carrollAbility(Hero hero, Integer target) {
 		Spear.spikeAbility(hero, target, 1.3f, this);
 	}
 

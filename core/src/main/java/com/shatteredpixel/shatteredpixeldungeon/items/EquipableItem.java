@@ -28,6 +28,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.journal.Guidebook;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Blunderbust;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Harmonica;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Madness;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Revolver;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ShortCarbine;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Tat;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Vega;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -81,6 +88,139 @@ public abstract class EquipableItem extends Item {
 			}
 		} else if (action.equals( AC_UNEQUIP )) {
 			doUnequip( hero, true );
+			if (hero.buff(Revolver.APShot.class) != null) {
+				if (hero.belongings.weapon == null && hero.belongings.secondWep == null) {
+					hero.buff(Revolver.APShot.class).detach();
+				} else {
+					if (hero.belongings.weapon == null) {
+						if (!hero.belongings.secondWep.firearmPrecision) {
+							hero.buff(Revolver.APShot.class).detach();
+						}
+					} else if (hero.belongings.secondWep == null) {
+						if (!hero.belongings.weapon.firearmPrecision) {
+							hero.buff(Revolver.APShot.class).detach();
+						}
+					} else {
+						if (!hero.belongings.weapon.firearmPrecision && !hero.belongings.secondWep.firearmPrecision) {
+							hero.buff(Revolver.APShot.class).detach();
+						}
+					}
+				}
+			}
+			if (hero.buff(Tat.PrecisionShot.class) != null) {
+				if (hero.belongings.weapon == null && hero.belongings.secondWep == null) {
+					hero.buff(Tat.PrecisionShot.class).detach();
+				} else {
+					if (hero.belongings.weapon == null) {
+						if (!hero.belongings.secondWep.firearmPrecision) {
+							hero.buff(Tat.PrecisionShot.class).detach();
+						}
+					} else if (hero.belongings.secondWep == null) {
+						if (!hero.belongings.weapon.firearmPrecision) {
+							hero.buff(Tat.PrecisionShot.class).detach();
+						}
+					} else {
+						if (!hero.belongings.weapon.firearmPrecision && !hero.belongings.secondWep.firearmPrecision) {
+							hero.buff(Tat.PrecisionShot.class).detach();
+						}
+					}
+				}
+			}
+			if (hero.buff(ShortCarbine.InfiniteShot.class) != null) {
+				if (hero.belongings.weapon == null && hero.belongings.secondWep == null) {
+					hero.buff(ShortCarbine.InfiniteShot.class).detach();
+				} else {
+					if (hero.belongings.weapon == null) {
+						if (!hero.belongings.secondWep.firearmAuto) {
+							hero.buff(ShortCarbine.InfiniteShot.class).detach();
+						}
+					} else if (hero.belongings.secondWep == null) {
+						if (!hero.belongings.weapon.firearmAuto) {
+							hero.buff(ShortCarbine.InfiniteShot.class).detach();
+						}
+					} else {
+						if (!hero.belongings.weapon.firearmAuto && !hero.belongings.secondWep.firearmAuto) {
+							hero.buff(ShortCarbine.InfiniteShot.class).detach();
+						}
+					}
+				}
+			}
+			if (hero.buff(Blunderbust.SlugShot.class) != null) {
+				if (hero.belongings.weapon == null && hero.belongings.secondWep == null) {
+					hero.buff(Blunderbust.SlugShot.class).detach();
+				} else {
+					if (hero.belongings.weapon == null) {
+						if (!hero.belongings.secondWep.firearmPrecision) {
+							hero.buff(Blunderbust.SlugShot.class).detach();
+						}
+					} else if (hero.belongings.secondWep == null) {
+						if (!hero.belongings.weapon.firearmPrecision) {
+							hero.buff(Blunderbust.SlugShot.class).detach();
+						}
+					} else {
+						if (!hero.belongings.weapon.firearmPrecision && !hero.belongings.secondWep.firearmPrecision) {
+							hero.buff(Blunderbust.SlugShot.class).detach();
+						}
+					}
+				}
+			}
+			if (hero.buff(Harmonica.GuidedShot.class) != null) {
+				if (hero.belongings.weapon == null && hero.belongings.secondWep == null) {
+					hero.buff(Harmonica.GuidedShot.class).detach();
+				} else {
+					if (hero.belongings.weapon == null) {
+						if (!hero.belongings.secondWep.firearmPrecision) {
+							hero.buff(Harmonica.GuidedShot.class).detach();
+						}
+					} else if (hero.belongings.secondWep == null) {
+						if (!hero.belongings.weapon.firearmPrecision) {
+							hero.buff(Harmonica.GuidedShot.class).detach();
+						}
+					} else {
+						if (!hero.belongings.weapon.firearmPrecision && !hero.belongings.secondWep.firearmPrecision) {
+							hero.buff(Harmonica.GuidedShot.class).detach();
+						}
+					}
+				}
+			}
+			if (hero.buff(Vega.BreakerShot.class) != null) {
+				if (hero.belongings.weapon == null && hero.belongings.secondWep == null) {
+					hero.buff(Vega.BreakerShot.class).detach();
+				} else {
+					if (hero.belongings.weapon == null) {
+						if (!hero.belongings.secondWep.firearmPrecision) {
+							hero.buff(Vega.BreakerShot.class).detach();
+						}
+					} else if (hero.belongings.secondWep == null) {
+						if (!hero.belongings.weapon.firearmPrecision) {
+							hero.buff(Vega.BreakerShot.class).detach();
+						}
+					} else {
+						if (!hero.belongings.weapon.firearmPrecision && !hero.belongings.secondWep.firearmPrecision) {
+							hero.buff(Vega.BreakerShot.class).detach();
+						}
+					}
+				}
+			}
+			if (hero.buff(Madness.OverCharge.class) != null) {
+				if (hero.belongings.weapon == null && hero.belongings.secondWep == null) {
+					hero.buff(Madness.OverCharge.class).detach();
+				} else {
+					if (hero.belongings.weapon == null) {
+						if (!hero.belongings.secondWep.firearmPrecision) {
+							hero.buff(Madness.OverCharge.class).detach();
+						}
+					} else if (hero.belongings.secondWep == null) {
+						if (!hero.belongings.weapon.firearmPrecision) {
+							hero.buff(Madness.OverCharge.class).detach();
+						}
+					} else {
+						if (!hero.belongings.weapon.firearmPrecision && !hero.belongings.secondWep.firearmPrecision) {
+							hero.buff(Madness.OverCharge.class).detach();
+						}
+					}
+				}
+			}
 		}
 	}
 
