@@ -477,15 +477,15 @@ public class FirearmWeapon extends MeleeWeapon {
                 ((Hero) ch).buff(Revolver.APShot.class).detach();
             } else {
                 if (((Hero) ch).belongings.weapon == null) {
-                    if (!((Hero) ch).belongings.secondWep.firearmAuto) {
+                    if (!((Hero) ch).belongings.secondWep.firearmPistol) {
                         ((Hero) ch).buff(Revolver.APShot.class).detach();
                     }
                 } else if (((Hero) ch).belongings.secondWep == null) {
-                    if (!((Hero) ch).belongings.weapon.firearmAuto) {
+                    if (!((Hero) ch).belongings.weapon.firearmPistol) {
                         ((Hero) ch).buff(Revolver.APShot.class).detach();
                     }
                 } else {
-                    if (!((Hero) ch).belongings.weapon.firearmAuto && !((Hero) ch).belongings.secondWep.firearmAuto) {
+                    if (!((Hero) ch).belongings.weapon.firearmPistol && !((Hero) ch).belongings.secondWep.firearmPistol) {
                         ((Hero) ch).buff(Revolver.APShot.class).detach();
                     }
                 }
@@ -534,15 +534,15 @@ public class FirearmWeapon extends MeleeWeapon {
                 ((Hero) ch).buff(Blunderbust.SlugShot.class).detach();
             } else {
                 if (((Hero) ch).belongings.weapon == null) {
-                    if (!((Hero) ch).belongings.secondWep.firearmAuto) {
+                    if (!((Hero) ch).belongings.secondWep.firearmShotgun) {
                         ((Hero) ch).buff(Blunderbust.SlugShot.class).detach();
                     }
                 } else if (((Hero) ch).belongings.secondWep == null) {
-                    if (!((Hero) ch).belongings.weapon.firearmAuto) {
+                    if (!((Hero) ch).belongings.weapon.firearmShotgun) {
                         ((Hero) ch).buff(Blunderbust.SlugShot.class).detach();
                     }
                 } else {
-                    if (!((Hero) ch).belongings.weapon.firearmAuto && !((Hero) ch).belongings.secondWep.firearmAuto) {
+                    if (!((Hero) ch).belongings.weapon.firearmShotgun && !((Hero) ch).belongings.secondWep.firearmShotgun) {
                         ((Hero) ch).buff(Blunderbust.SlugShot.class).detach();
                     }
                 }
@@ -553,15 +553,15 @@ public class FirearmWeapon extends MeleeWeapon {
                 ((Hero) ch).buff(Harmonica.GuidedShot.class).detach();
             } else {
                 if (((Hero) ch).belongings.weapon == null) {
-                    if (!((Hero) ch).belongings.secondWep.firearmAuto) {
+                    if (!((Hero) ch).belongings.secondWep.firearmExplosive) {
                         ((Hero) ch).buff(Harmonica.GuidedShot.class).detach();
                     }
                 } else if (((Hero) ch).belongings.secondWep == null) {
-                    if (!((Hero) ch).belongings.weapon.firearmAuto) {
+                    if (!((Hero) ch).belongings.weapon.firearmExplosive) {
                         ((Hero) ch).buff(Harmonica.GuidedShot.class).detach();
                     }
                 } else {
-                    if (!((Hero) ch).belongings.weapon.firearmAuto && !((Hero) ch).belongings.secondWep.firearmAuto) {
+                    if (!((Hero) ch).belongings.weapon.firearmExplosive && !((Hero) ch).belongings.secondWep.firearmExplosive) {
                         ((Hero) ch).buff(Harmonica.GuidedShot.class).detach();
                     }
                 }
@@ -572,15 +572,15 @@ public class FirearmWeapon extends MeleeWeapon {
                 ((Hero) ch).buff(Vega.BreakerShot.class).detach();
             } else {
                 if (((Hero) ch).belongings.weapon == null) {
-                    if (!((Hero) ch).belongings.secondWep.firearmAuto) {
+                    if (!((Hero) ch).belongings.secondWep.firearmEnergy) {
                         ((Hero) ch).buff(Vega.BreakerShot.class).detach();
                     }
                 } else if (((Hero) ch).belongings.secondWep == null) {
-                    if (!((Hero) ch).belongings.weapon.firearmAuto) {
+                    if (!((Hero) ch).belongings.weapon.firearmEnergy) {
                         ((Hero) ch).buff(Vega.BreakerShot.class).detach();
                     }
                 } else {
-                    if (!((Hero) ch).belongings.weapon.firearmAuto && !((Hero) ch).belongings.secondWep.firearmAuto) {
+                    if (!((Hero) ch).belongings.weapon.firearmEnergy && !((Hero) ch).belongings.secondWep.firearmEnergy) {
                         ((Hero) ch).buff(Vega.BreakerShot.class).detach();
                     }
                 }
@@ -591,15 +591,15 @@ public class FirearmWeapon extends MeleeWeapon {
                 ((Hero) ch).buff(Madness.OverCharge.class).detach();
             } else {
                 if (((Hero) ch).belongings.weapon == null) {
-                    if (!((Hero) ch).belongings.secondWep.firearmAuto) {
+                    if (!((Hero) ch).belongings.secondWep.firearmEtc) {
                         ((Hero) ch).buff(Madness.OverCharge.class).detach();
                     }
                 } else if (((Hero) ch).belongings.secondWep == null) {
-                    if (!((Hero) ch).belongings.weapon.firearmAuto) {
+                    if (!((Hero) ch).belongings.weapon.firearmEtc) {
                         ((Hero) ch).buff(Madness.OverCharge.class).detach();
                     }
                 } else {
-                    if (!((Hero) ch).belongings.weapon.firearmAuto && !((Hero) ch).belongings.secondWep.firearmAuto) {
+                    if (!((Hero) ch).belongings.weapon.firearmEtc && !((Hero) ch).belongings.secondWep.firearmEtc) {
                         ((Hero) ch).buff(Madness.OverCharge.class).detach();
                     }
                 }

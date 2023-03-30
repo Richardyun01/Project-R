@@ -91,11 +91,11 @@ public class MeleeWeapon extends Weapon {
 	public void execute(Hero hero, String action) {
 		super.execute(hero, action);
 
-		if (action.equals(AC_ABILITY)){
+		if (action.equals(AC_ABILITY) && this instanceof MeleeWeapon){
 			if (!isEquipped(hero)) {
 				if (hero.hasTalent(Talent.SWIFT_EQUIP)){
 					if (hero.buff(Talent.SwiftEquipCooldown.class) == null
-							|| hero.buff(Talent.SwiftEquipCooldown.class).hasSecondUse()){
+						|| hero.buff(Talent.SwiftEquipCooldown.class).hasSecondUse()){
 						execute(hero, AC_EQUIP);
 					} else {
 						GLog.w(Messages.get(this, "ability_need_equip"));

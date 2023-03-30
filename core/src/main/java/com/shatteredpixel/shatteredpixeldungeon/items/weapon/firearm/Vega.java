@@ -131,7 +131,7 @@ public class Vega extends FirearmWeapon{
 
         @Override
         public int icon() {
-            return BuffIndicator.DUEL_SNIPER;
+            return BuffIndicator.DUEL_ENERGY;
         }
 
         @Override

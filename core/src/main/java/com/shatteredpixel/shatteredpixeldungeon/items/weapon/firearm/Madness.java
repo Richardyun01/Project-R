@@ -128,7 +128,7 @@ public class Madness extends FirearmWeapon {
 
         @Override
         public int icon() {
-            return BuffIndicator.DUEL_SNIPER;
+            return BuffIndicator.DUEL_ETC;
         }
 
         @Override

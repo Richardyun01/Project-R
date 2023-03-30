@@ -93,15 +93,15 @@ public abstract class EquipableItem extends Item {
 					hero.buff(Revolver.APShot.class).detach();
 				} else {
 					if (hero.belongings.weapon == null) {
-						if (!hero.belongings.secondWep.firearmPrecision) {
+						if (!hero.belongings.secondWep.firearmPistol) {
 							hero.buff(Revolver.APShot.class).detach();
 						}
 					} else if (hero.belongings.secondWep == null) {
-						if (!hero.belongings.weapon.firearmPrecision) {
+						if (!hero.belongings.weapon.firearmPistol) {
 							hero.buff(Revolver.APShot.class).detach();
 						}
 					} else {
-						if (!hero.belongings.weapon.firearmPrecision && !hero.belongings.secondWep.firearmPrecision) {
+						if (!hero.belongings.weapon.firearmPistol && !hero.belongings.secondWep.firearmPistol) {
 							hero.buff(Revolver.APShot.class).detach();
 						}
 					}
@@ -150,15 +150,15 @@ public abstract class EquipableItem extends Item {
 					hero.buff(Blunderbust.SlugShot.class).detach();
 				} else {
 					if (hero.belongings.weapon == null) {
-						if (!hero.belongings.secondWep.firearmPrecision) {
+						if (!hero.belongings.secondWep.firearmShotgun) {
 							hero.buff(Blunderbust.SlugShot.class).detach();
 						}
 					} else if (hero.belongings.secondWep == null) {
-						if (!hero.belongings.weapon.firearmPrecision) {
+						if (!hero.belongings.weapon.firearmShotgun) {
 							hero.buff(Blunderbust.SlugShot.class).detach();
 						}
 					} else {
-						if (!hero.belongings.weapon.firearmPrecision && !hero.belongings.secondWep.firearmPrecision) {
+						if (!hero.belongings.weapon.firearmShotgun && !hero.belongings.secondWep.firearmShotgun) {
 							hero.buff(Blunderbust.SlugShot.class).detach();
 						}
 					}
@@ -169,15 +169,15 @@ public abstract class EquipableItem extends Item {
 					hero.buff(Harmonica.GuidedShot.class).detach();
 				} else {
 					if (hero.belongings.weapon == null) {
-						if (!hero.belongings.secondWep.firearmPrecision) {
+						if (!hero.belongings.secondWep.firearmExplosive) {
 							hero.buff(Harmonica.GuidedShot.class).detach();
 						}
 					} else if (hero.belongings.secondWep == null) {
-						if (!hero.belongings.weapon.firearmPrecision) {
+						if (!hero.belongings.weapon.firearmExplosive) {
 							hero.buff(Harmonica.GuidedShot.class).detach();
 						}
 					} else {
-						if (!hero.belongings.weapon.firearmPrecision && !hero.belongings.secondWep.firearmPrecision) {
+						if (!hero.belongings.weapon.firearmExplosive && !hero.belongings.secondWep.firearmExplosive) {
 							hero.buff(Harmonica.GuidedShot.class).detach();
 						}
 					}
@@ -188,15 +188,15 @@ public abstract class EquipableItem extends Item {
 					hero.buff(Vega.BreakerShot.class).detach();
 				} else {
 					if (hero.belongings.weapon == null) {
-						if (!hero.belongings.secondWep.firearmPrecision) {
+						if (!hero.belongings.secondWep.firearmEnergy) {
 							hero.buff(Vega.BreakerShot.class).detach();
 						}
 					} else if (hero.belongings.secondWep == null) {
-						if (!hero.belongings.weapon.firearmPrecision) {
+						if (!hero.belongings.weapon.firearmEnergy) {
 							hero.buff(Vega.BreakerShot.class).detach();
 						}
 					} else {
-						if (!hero.belongings.weapon.firearmPrecision && !hero.belongings.secondWep.firearmPrecision) {
+						if (!hero.belongings.weapon.firearmEnergy && !hero.belongings.secondWep.firearmEnergy) {
 							hero.buff(Vega.BreakerShot.class).detach();
 						}
 					}
@@ -207,15 +207,15 @@ public abstract class EquipableItem extends Item {
 					hero.buff(Madness.OverCharge.class).detach();
 				} else {
 					if (hero.belongings.weapon == null) {
-						if (!hero.belongings.secondWep.firearmPrecision) {
+						if (!hero.belongings.secondWep.firearmEtc) {
 							hero.buff(Madness.OverCharge.class).detach();
 						}
 					} else if (hero.belongings.secondWep == null) {
-						if (!hero.belongings.weapon.firearmPrecision) {
+						if (!hero.belongings.weapon.firearmEtc) {
 							hero.buff(Madness.OverCharge.class).detach();
 						}
 					} else {
-						if (!hero.belongings.weapon.firearmPrecision && !hero.belongings.secondWep.firearmPrecision) {
+						if (!hero.belongings.weapon.firearmEtc && !hero.belongings.secondWep.firearmEtc) {
 							hero.buff(Madness.OverCharge.class).detach();
 						}
 					}
