@@ -82,6 +82,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.Challenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.DeathMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Elemental;
@@ -993,6 +994,10 @@ public abstract class Char extends Actor {
 			}
 		}
 
+		if (sprite != null && buff(Challenge.SpectatorFreeze.class) != null){
+			return; //can't add buffs while frozen and game is loaded
+		}
+
 		buffs.add( buff );
 		if (Actor.chars().contains(this)) Actor.add( buff );
 
@@ -1136,7 +1141,7 @@ public abstract class Char extends Actor {
 	//similar to isImmune, but only factors in damage.
 	//Is used in AI decision-making
 	public boolean isInvulnerable( Class effect ){
-		return false;
+		return buff(Challenge.SpectatorFreeze.class) != null;
 	}
 
 	protected HashSet<Property> properties = new HashSet<>();
@@ -1155,6 +1160,7 @@ public abstract class Char extends Actor {
 				new HashSet<Class>( Arrays.asList(AllyBuff.class, Dread.class) )),
 		MINIBOSS ( new HashSet<Class>(),
 				new HashSet<Class>( Arrays.asList(AllyBuff.class, Dread.class, NoEnergy.class) )),
+		BOSS_MINION,
 		UNDEAD,
 		DEMONIC,
 		INORGANIC ( new HashSet<Class>(),

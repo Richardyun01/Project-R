@@ -310,6 +310,11 @@ public class InventoryPane extends Component {
 		equipped.get(4).item(stuff.ring == null ? new WndBag.Placeholder( ItemSpriteSheet.RING_HOLDER ) : stuff.ring);
 
 		ArrayList<Item> items = lastBag.items;
+
+		if (lastBag == stuff.backpack && stuff.secondWep != null){
+			items.add(0, stuff.secondWep);
+		}
+
 		int j = 0;
 		for (int i = 0; i < 20; i++){
 			if (i == 0 && lastBag != stuff.backpack){

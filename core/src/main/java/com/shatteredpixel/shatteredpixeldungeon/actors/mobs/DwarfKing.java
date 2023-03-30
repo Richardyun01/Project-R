@@ -60,7 +60,6 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.KingSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BossHealthBar;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
@@ -562,6 +561,7 @@ public class DwarfKing extends Mob {
 
 	public static class DKGhoul extends Ghoul {
 		{
+			properties.add(Property.BOSS_MINION);
 			state = HUNTING;
 		}
 
@@ -574,12 +574,14 @@ public class DwarfKing extends Mob {
 
 	public static class DKMonk extends Monk {
 		{
+			properties.add(Property.BOSS_MINION);
 			state = HUNTING;
 		}
 	}
 
 	public static class DKWarlock extends Warlock {
 		{
+			properties.add(Property.BOSS_MINION);
 			state = HUNTING;
 		}
 
@@ -594,6 +596,7 @@ public class DwarfKing extends Mob {
 
 	public static class DKGolem extends Golem {
 		{
+			properties.add(Property.BOSS_MINION);
 			state = HUNTING;
 		}
 	}

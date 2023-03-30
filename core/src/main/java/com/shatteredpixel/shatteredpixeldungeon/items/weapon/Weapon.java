@@ -36,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Annoying;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Displacing;
@@ -250,6 +251,12 @@ abstract public class Weapon extends KindOfWeapon {
 		}
 		if (Dungeon.hero.hasTalent(Talent.HAIL_MARY) && (owner instanceof Hero)) {
 			reach++;
+		}
+		if (owner instanceof Hero && RingOfForce.fightingUnarmed((Hero) owner)){
+			reach = 1; //brawlers stance benefits from enchantments, but not innate reach
+			if (!RingOfForce.unarmedGetsWeaponEnchantment((Hero) owner)){
+				return reach;
+			}
 		}
 
 		return reach;

@@ -445,27 +445,32 @@ public class FirearmWeapon extends MeleeWeapon {
     public void activate(Char ch) {
         if (ch instanceof Hero && ((Hero) ch).heroClass == HeroClass.CARROLL){
             Buff.affect(ch, Charger.class);
+            switch (type) {
+                case FirearmPistol:
+                    Buff.affect(ch, Revolver.APShot.class);
+                    break;
+                case FirearmPrecision:
+                    Buff.affect(ch, Tat.PrecisionShot.class);
+                    break;
+                case FirearmAuto:
+                    Buff.affect(ch, ShortCarbine.InfiniteShot.class);
+                    break;
+                case FirearmShotgun:
+                    Buff.affect(ch, Blunderbust.SlugShot.class);
+                    break;
+                case FirearmExplosive:
+                    Buff.affect(ch, Harmonica.GuidedShot.class);
+                    break;
+                case FirearmEnergy1:
+                case FirearmEnergy2:
+                    Buff.affect(ch, Vega.BreakerShot.class);
+                    break;
+                case FirearmEtc1:
+                case FirearmEtc2:
+                    Buff.affect(ch, Madness.OverCharge.class);
+                default:
+                    break;
         }
-        switch (type) {
-            case FirearmPistol:
-                Buff.affect(ch, Revolver.APShot.class);
-                break;
-            case FirearmPrecision:
-                Buff.affect(ch, Tat.PrecisionShot.class);
-                break;
-            case FirearmAuto:
-                Buff.affect(ch, ShortCarbine.InfiniteShot.class);
-                break;
-            case FirearmShotgun:
-                Buff.affect(ch, Blunderbust.SlugShot.class);
-                break;
-            case FirearmExplosive:
-            case FirearmEnergy1:
-            case FirearmEnergy2:
-            case FirearmEtc1:
-            case FirearmEtc2:
-            default:
-                break;
         }
         if (ch instanceof Hero && ((Hero) ch).buff(Revolver.APShot.class) != null) {
             if (((Hero) ch).belongings.weapon == null && ((Hero) ch).belongings.secondWep == null) {
@@ -1212,7 +1217,7 @@ public class FirearmWeapon extends MeleeWeapon {
                                     hero.buff(MeleeWeapon.Charger.class) != null &&
                                     hero.buff(ShortCarbine.InfiniteShot.class).onUse &&
                                     hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
-                            hero.buff(MeleeWeapon.Charger.class).charges -= 2;
+                            hero.buff(MeleeWeapon.Charger.class).charges--;
                         } else {
                             round--;
                         }

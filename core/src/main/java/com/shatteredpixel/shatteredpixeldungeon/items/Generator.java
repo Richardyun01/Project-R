@@ -185,6 +185,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Quarterstaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Rapier;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RipperWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RoundShield;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RuinSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sai;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
@@ -409,11 +410,11 @@ public class Generator {
 					Dagger.class,
 					Gloves.class,
 					//CommonBlade.class,
-					//RuinSpear.class,
+					RuinSpear.class,
 					//Krystallos.class,
 					//PsionicBlade.class,
 			};
-			WEP_T1.probs = new float[]{ 1, 0, 1, 1 }; //, 1, 1, 1, 0
+			WEP_T1.probs = new float[]{ 1, 0, 1, 1, 1 }; //, 1, 1, 0
 			
 			WEP_T2.classes = new Class<?>[]{
 					Shortsword.class,

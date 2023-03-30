@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.Challenge;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Pushing;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
@@ -246,7 +247,10 @@ public class Ghoul extends Mob {
 				return true;
 			}
 
-			turnsToRevive--;
+			//have to delay this manually here are a downed ghouls can't be directly frozen otherwise
+			if (target.buff(Challenge.DuelParticipant.class) == null) {
+				turnsToRevive--;
+			}
 			if (turnsToRevive <= 0){
 				if (Actor.findChar( ghoul.pos ) != null) {
 					ArrayList<Integer> candidates = new ArrayList<>();
@@ -327,7 +331,9 @@ public class Ghoul extends Mob {
 		public static Ghoul searchForHost(Ghoul dieing){
 
 			for (Char ch : Actor.chars()){
-				if (ch != dieing && ch instanceof Ghoul && ch.alignment == dieing.alignment){
+				if (ch != dieing && ch instanceof Ghoul
+						&& ch.alignment == dieing.alignment
+						&& ch.buff(Challenge.SpectatorFreeze.class) == null){
 					if (ch.fieldOfView == null){
 						ch.fieldOfView = new boolean[Dungeon.level.length()];
 						Dungeon.level.updateFieldOfView( ch, ch.fieldOfView );

@@ -206,11 +206,13 @@ public enum Talent {
 	//Carroll T1
 	STRENGTHENING_MEAL(320), ADVENTURERS_INTUITION(321), PATIENT_STRIKE(322), SPEEDY_MOVEMENT(323),
 	//Carroll T2
-	FOCUSED_MEAL(132), RESTORED_AGILITY(133), WEAPON_RECHARGING(134), LETHAL_HASTE(135), SWIFT_EQUIP(136), HAWKEYE(222),
+	FOCUSED_MEAL(324), RESTORED_AGILITY(325), WEAPON_RECHARGING(326), LETHAL_HASTE(327), SWIFT_EQUIP(328), HAWKEYE(329),
 	//Carroll T3
-	LIGHTWEIGHT_CHARGE(137, 3), DEADLY_FOLLOWUP(138, 3),
+	LIGHTWEIGHT_CHARGE(330, 3), DEADLY_FOLLOWUP(331, 3),
 	//Challenger T3
-	SECONDARY_CHARGE(139, 3), TWIN_UPGRADES(140, 3), COMBINED_LETHALITY(141, 3),
+	SECONDARY_CHARGE(332, 3), TWIN_UPGRADES(333, 3), COMBINED_LETHALITY(334, 3),
+	//Challenge T4
+	CLOSE_THE_GAP(341, 4), INVIGORATING_VICTORY(342, 4), ELIMINATION_MATCH(343, 4),
 
 
 	//universal T4
@@ -622,10 +624,13 @@ public enum Talent {
 		if (item instanceof Ring){
 			factor *= 1f + hero.pointsInTalent(THIEFS_INTUITION);
 		}
-
 		// 5x/instant speed for lance(see onItemEquipped)
 		if (item instanceof MeleeWeapon) {
 			factor *= 1f + 4*hero.pointsInTalent(HUNTERS_INTUITION);
+		}
+		// 3x/5x speed for carroll
+		if (item instanceof Weapon) {
+			factor *= 1f + 2*hero.pointsInTalent(ADVENTURERS_INTUITION);
 		}
 		return factor;
 	}

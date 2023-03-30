@@ -372,7 +372,8 @@ public class MeleeWeapon extends Weapon {
 	@Override
 	public String status() {
 		if (isEquipped(Dungeon.hero)
-				&& Dungeon.hero.buff(Charger.class) != null) {
+				&& Dungeon.hero.buff(Charger.class) != null
+				&& Dungeon.hero.heroClass == HeroClass.CARROLL) {
 			Charger buff = Dungeon.hero.buff(Charger.class);
 			if (Dungeon.hero.belongings.weapon == this) {
 				return buff.charges + "/" + buff.chargeCap();

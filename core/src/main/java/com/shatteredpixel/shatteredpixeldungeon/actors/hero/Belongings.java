@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.GamesInProgress;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
@@ -56,6 +57,10 @@ public class Belongings implements Iterable<Item> {
 				if (item instanceof Bag){
 					cap++;
 				}
+			}
+			if (Dungeon.hero != null && Dungeon.hero.belongings.secondWep != null){
+				//secondary weapons still occupy an inv. slot
+				cap--;
 			}
 			return cap;
 		}
@@ -345,7 +350,7 @@ public class Belongings implements Iterable<Item> {
 	}
 	
 	public void uncurseEquipped() {
-		ScrollOfRemoveCurse.uncurse( owner, armor(), weapon(), artifact(), misc(), ring());
+		ScrollOfRemoveCurse.uncurse( owner, armor(), weapon(), artifact(), misc(), ring(), secondWep());
 	}
 	
 	public Item randomUnequipped() {
@@ -377,7 +382,7 @@ public class Belongings implements Iterable<Item> {
 		
 		private Iterator<Item> backpackIterator = backpack.iterator();
 		
-		private Item[] equipped = {weapon, armor, artifact, misc, ring};
+		private Item[] equipped = {weapon, armor, artifact, misc, ring, secondWep};
 		private int backpackIndex = equipped.length;
 		
 		@Override

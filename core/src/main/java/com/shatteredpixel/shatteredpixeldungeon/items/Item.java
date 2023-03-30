@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.TippedDart;
@@ -113,6 +114,11 @@ public class Item implements Bundlable {
 	}
 
 	public final boolean doPickUp( Hero hero ) {
+		if (this instanceof Weapon &&
+			hero.hasTalent(Talent.ADVENTURERS_INTUITION) &&
+			hero.pointsInTalent(Talent.ADVENTURERS_INTUITION) >= 2) {
+			this.cursedKnown = true;
+		}
 		return doPickUp( hero, hero.pos );
 	}
 

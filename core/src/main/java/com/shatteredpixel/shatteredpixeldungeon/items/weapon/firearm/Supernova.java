@@ -178,6 +178,10 @@ public class Supernova extends FirearmWeapon{
             info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
         }
 
+        if (Dungeon.hero.heroClass == HeroClass.CARROLL){
+            info += "\n\n" + Messages.get(this, "ability_desc");
+        }
+
         return info;
     }
 

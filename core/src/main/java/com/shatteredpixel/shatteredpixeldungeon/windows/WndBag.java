@@ -242,10 +242,16 @@ public class WndBag extends WndTabbed {
 		placeItem( stuff.misc != null ? stuff.misc : new Placeholder( ItemSpriteSheet.SOMETHING ) );
 		placeItem( stuff.ring != null ? stuff.ring : new Placeholder( ItemSpriteSheet.RING_HOLDER ) );
 
+		int equipped = 5;
+
 		//the container itself if it's not the root backpack
 		if (container != Dungeon.hero.belongings.backpack){
 			placeItem(container);
 			count--; //don't count this one, as it's not actually inside of itself
+		} else if (stuff.secondWep != null) {
+			//second weapon always goes to the front of view on main bag
+			placeItem(stuff.secondWep);
+			equipped++;
 		}
 
 		// Items in the bag, except other containers (they have tags at the bottom)
@@ -258,7 +264,7 @@ public class WndBag extends WndTabbed {
 		}
 		
 		// Free Space
-		while ((count - 5) < container.capacity()) {
+		while ((count - equipped) < container.capacity()) {
 			placeItem( null );
 		}
 	}

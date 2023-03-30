@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.QuickSlot;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.Challenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpectralBlades;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpiritHawk;
@@ -48,6 +49,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Sh
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
+import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
@@ -171,10 +173,13 @@ public enum HeroClass {
 //erase this finish
 		new Tat().collect();
 		new ShortCarbine().collect();
+		new TengusMask().collect();
 		ScrollOfIdentify ident = new ScrollOfIdentify();
 		ident.quantity(31).collect();
 		RingOfMight plate = new RingOfMight();
 		plate.upgrade(8).collect();
+		PotionOfExperience enchan = new PotionOfExperience();
+		enchan.quantity(100).collect();
 
 		switch (this) {
 			case WARRIOR:
@@ -368,7 +373,7 @@ public enum HeroClass {
 			case LANCE:
 				return new ArmorAbility[]{new Starburst(), new AfterImage(), new BloodWine()};
 			case CARROLL:
-				return new ArmorAbility[]{};
+				return new ArmorAbility[]{new Challenge()};
 		}
 	}
 

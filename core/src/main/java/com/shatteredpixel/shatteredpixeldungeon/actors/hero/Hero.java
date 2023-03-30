@@ -72,6 +72,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Supercharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tacsight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.Challenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
@@ -423,7 +424,7 @@ public class Hero extends Char {
 
 	@Override
 	public void hitSound(float pitch) {
-		if ( belongings.weapon() != null ){
+		if (!RingOfForce.fightingUnarmed(this)){
 			belongings.weapon().hitSound(pitch);
 		} else if (RingOfForce.getBuffedBonus(this, RingOfForce.Force.class) > 0) {
 			//pitch deepens by 2.5% (additive) per point of strength, down to 75%
@@ -559,7 +560,7 @@ public class Hero extends Char {
             }
 		}
 
-		if (wep != null) {
+		if (!RingOfForce.fightingUnarmed(this)) {
 			return (int)(attackSkill * accuracy * wep.accuracyFactor( this, target ));
 		} else {
 			return (int)(attackSkill * accuracy);
@@ -755,6 +756,7 @@ public class Hero extends Char {
 	public boolean canSurpriseAttack(){
 		if (belongings.weapon() == null || !(belongings.weapon() instanceof Weapon))    			return true;
 		if (belongings.weapon() == null || !(belongings.weapon() instanceof FirearmWeapon.Bullet))  return true;
+		if (RingOfForce.fightingUnarmed(this))  												return true;
 		if (STR() < ((Weapon)belongings.weapon()).STRReq())                             			return false;
 		if (belongings.weapon() instanceof Flail)                                       			return false;
 		if (belongings.weapon() instanceof Trench.Bullet)											return false;
@@ -1375,7 +1377,12 @@ public class Hero extends Char {
 	public int attackProc( final Char enemy, int damage ) {
 		damage = super.attackProc( enemy, damage );
 		
-		KindOfWeapon wep = belongings.weapon();
+		KindOfWeapon wep;
+		if (RingOfForce.fightingUnarmed(this) && !RingOfForce.unarmedGetsWeaponEnchantment(this)){
+			wep = null;
+		} else {
+			wep = belongings.attackingWeapon();
+		}
 
 		if (wep != null) damage = wep.proc( this, enemy, damage );
 
@@ -1497,6 +1504,10 @@ public class Hero extends Char {
 		int effectiveDamage = preHP - postHP;
 
 		if (effectiveDamage <= 0) return;
+
+		if (buff(Challenge.DuelParticipant.class) != null){
+			buff(Challenge.DuelParticipant.class).addDamage(effectiveDamage);
+		}
 
 		//flash red when hit for serious damage.
 		float percentDMG = effectiveDamage / (float)preHP; //percent of current HP that was taken
@@ -2142,6 +2153,18 @@ public class Hero extends Char {
 			if (hero.pointsInTalent(Talent.CANT_TOUCH_THIS) == 2) {
 				Buff.affect( enemy, NoEnergy.class ).set(2, 2);
 			}
+		}
+
+		RingOfForce.BrawlersStance brawlStance = buff(RingOfForce.BrawlersStance.class);
+		if (brawlStance != null && brawlStance.hitsLeft() > 0){
+			MeleeWeapon.Charger charger = Buff.affect(this, MeleeWeapon.Charger.class);
+			charger.partialCharge -= RingOfForce.BrawlersStance.HIT_CHARGE_USE;
+			while (charger.partialCharge < 0) {
+				charger.charges--;
+				charger.partialCharge++;
+			}
+			BuffIndicator.refreshHero();
+			Item.updateQuickslot();
 		}
 
 		curAction = null;
