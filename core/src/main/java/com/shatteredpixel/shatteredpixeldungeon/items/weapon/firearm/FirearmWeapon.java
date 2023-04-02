@@ -96,10 +96,6 @@ import java.util.ArrayList;
 
 public class FirearmWeapon extends MeleeWeapon {
 
-    {
-        defaultAction = AC_SHOOT;
-    }
-
     public enum FirearmType {
         FirearmPistol,
         FirearmPrecision,
@@ -262,6 +258,11 @@ public class FirearmWeapon extends MeleeWeapon {
         } else {
             return STRReq(tier, lvl) + 1;
         }
+    }
+
+    @Override
+    public String defaultAction() {
+        return AC_SHOOT;
     }
 
     @Override
@@ -447,7 +448,9 @@ public class FirearmWeapon extends MeleeWeapon {
             Buff.affect(ch, Charger.class);
             switch (type) {
                 case FirearmPistol:
-                    Buff.affect(ch, Revolver.APShot.class);
+                    if (!(this instanceof ApachePistol || this instanceof Reiterpallasch)) {
+                        Buff.affect(ch, Revolver.APShot.class);
+                    }
                     break;
                 case FirearmPrecision:
                     Buff.affect(ch, Tat.PrecisionShot.class);
@@ -459,7 +462,9 @@ public class FirearmWeapon extends MeleeWeapon {
                     Buff.affect(ch, Blunderbust.SlugShot.class);
                     break;
                 case FirearmExplosive:
-                    Buff.affect(ch, Harmonica.GuidedShot.class);
+                    if (!(this instanceof Gungnir)) {
+                        Buff.affect(ch, Harmonica.GuidedShot.class);
+                    }
                     break;
                 case FirearmEnergy1:
                 case FirearmEnergy2:

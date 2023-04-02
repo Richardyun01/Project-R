@@ -89,8 +89,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ApachePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.NotMachineGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Reiterpallasch;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Revolver;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Executioner;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RuinSpear;
@@ -173,8 +174,8 @@ public enum HeroClass {
 		plate.upgrade(8).collect();
 		 **/
 //erase this finish
-		new RingOfForce().collect();
-		new Executioner().collect();
+		new Revolver().collect();
+		new Reiterpallasch().collect();
 		new TengusMask().collect();
 		ScrollOfIdentify ident = new ScrollOfIdentify();
 		ident.quantity(31).collect();
