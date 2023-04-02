@@ -56,7 +56,6 @@ public class HeroIcon extends Image {
 	public static final int TERCIO			= 32;
 	public static final int VLAD			= 33;
 	public static final int CHALLENGER		= 37;
-	public static final int CHALLENGE		= 40;
 
 	//abilities
 	public static final int HEROIC_LEAP     = 8;
@@ -77,6 +76,9 @@ public class HeroIcon extends Image {
 	public static final int STARBURST 		= 34;
 	public static final int AFTERIMAGE 		= 35;
 	public static final int BLOOD_WINE		= 36;
+	public static final int CHALLENGE		= 40;
+	public static final int ELEMENTAL_STRIKE= 41;
+	public static final int FEINT			= 42;
 	public static final int RATMOGRIFY      = 20;
 
 

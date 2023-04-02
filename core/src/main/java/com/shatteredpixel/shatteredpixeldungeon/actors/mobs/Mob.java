@@ -50,6 +50,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.Feint;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.DirectableAlly;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
@@ -230,6 +231,13 @@ public abstract class Mob extends Char {
 		
 		boolean enemyInFOV = enemy != null && enemy.isAlive() && fieldOfView[enemy.pos] && enemy.invisible <= 0;
 
+		//prevents action, but still updates enemy seen status
+		if (buff(Feint.AfterImage.FeintConfusion.class) != null){
+			enemySeen = enemyInFOV;
+			spend( TICK );
+			return true;
+		}
+
 		return state.act( enemyInFOV, justAlerted );
 	}
 	
@@ -374,6 +382,16 @@ public abstract class Mob extends Char {
 						closest = curr;
 					}
 				}
+				//if we were going to target the hero, but an afterimage exists, target that instead
+				if (closest == Dungeon.hero){
+					for (Char ch : enemies){
+						if (ch instanceof Feint.AfterImage){
+							closest = ch;
+							break;
+						}
+					}
+				}
+
 				return closest;
 			}
 
@@ -686,6 +704,12 @@ public abstract class Mob extends Char {
 			state = HUNTING;
 		}
 	}
+
+	public void clearEnemy(){
+		enemy = null;
+		enemySeen = false;
+		if (state == HUNTING) state = WANDERING;
+	}
 	
 	public boolean isTargeting( Char ch){
 		return enemy == ch;
@@ -765,9 +789,9 @@ public abstract class Mob extends Char {
 				Buff.affect(Dungeon.hero, Haste.class, 1.67f + Dungeon.hero.pointsInTalent(Talent.LETHAL_HASTE));
 			}
 
-			if (cause == hero
-					&& hero.belongings.attackingWeapon().bullet
-					&& hero.heroClass == HeroClass.CARROLL) {
+
+			if (Dungeon.hero.heroClass == HeroClass.CARROLL
+					&& Dungeon.hero.belongings.attackingWeapon().bullet) {
 				if (hero.buff(Revolver.APShot.class) != null ||
 					hero.buff(Tat.PrecisionShot.class) != null ||
 					hero.buff(ShortCarbine.InfiniteShot.class) != null ||

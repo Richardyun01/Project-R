@@ -73,6 +73,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tacsight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.Challenge;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.ElementalStrike;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
@@ -1815,6 +1816,12 @@ public class Hero extends Char {
 				buff(Talent.RejuvenatingStepsFurrow.class).countDown(percent*200f);
 				if (buff(Talent.RejuvenatingStepsFurrow.class).count() <= 0){
 					buff(Talent.RejuvenatingStepsFurrow.class).detach();
+				}
+			}
+			if (buff(ElementalStrike.ElementalStrikeFurrowCounter.class) != null){
+				buff(ElementalStrike.ElementalStrikeFurrowCounter.class).countDown(percent*20f);
+				if (buff(ElementalStrike.ElementalStrikeFurrowCounter.class).count() <= 0){
+					buff(ElementalStrike.ElementalStrikeFurrowCounter.class).detach();
 				}
 			}
 		}

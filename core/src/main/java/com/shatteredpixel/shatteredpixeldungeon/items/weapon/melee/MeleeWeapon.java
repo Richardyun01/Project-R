@@ -36,7 +36,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -62,7 +61,7 @@ public class MeleeWeapon extends Weapon {
 
 	@Override
 	public String defaultAction() {
-		if (Dungeon.hero != null && Dungeon.hero.heroClass == HeroClass.CARROLL && !(Dungeon.hero.belongings.weapon instanceof FirearmWeapon)){
+		if (Dungeon.hero != null && Dungeon.hero.heroClass == HeroClass.CARROLL && (Dungeon.hero.belongings.weapon instanceof MeleeWeapon)){
 			return AC_ABILITY;
 		} else {
 			return super.defaultAction();

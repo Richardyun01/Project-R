@@ -28,6 +28,8 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.QuickSlot;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.Challenge;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.ElementalStrike;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.Feint;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.NaturesPower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpectralBlades;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.huntress.SpiritHawk;
@@ -67,6 +69,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
@@ -86,9 +89,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ApachePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.NotMachineGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ShortCarbine;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Tat;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Executioner;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RuinSpear;
@@ -171,8 +173,8 @@ public enum HeroClass {
 		plate.upgrade(8).collect();
 		 **/
 //erase this finish
-		new Tat().collect();
-		new ShortCarbine().collect();
+		new RingOfForce().collect();
+		new Executioner().collect();
 		new TengusMask().collect();
 		ScrollOfIdentify ident = new ScrollOfIdentify();
 		ident.quantity(31).collect();
@@ -373,7 +375,7 @@ public enum HeroClass {
 			case LANCE:
 				return new ArmorAbility[]{new Starburst(), new AfterImage(), new BloodWine()};
 			case CARROLL:
-				return new ArmorAbility[]{new Challenge()};
+				return new ArmorAbility[]{new Challenge(), new ElementalStrike(), new Feint()};
 		}
 	}
 

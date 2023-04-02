@@ -211,9 +211,14 @@ public enum Talent {
 	LIGHTWEIGHT_CHARGE(330, 3), DEADLY_FOLLOWUP(331, 3),
 	//Challenger T3
 	SECONDARY_CHARGE(332, 3), TWIN_UPGRADES(333, 3), COMBINED_LETHALITY(334, 3),
+	//Bounty Hunter T3
+	//Captain T3
 	//Challenge T4
 	CLOSE_THE_GAP(341, 4), INVIGORATING_VICTORY(342, 4), ELIMINATION_MATCH(343, 4),
-
+	//Elemental Strike T4
+	ELEMENTAL_REACH(344, 4), STRIKING_FORCE(345, 4), DIRECTED_POWER(346, 4),
+	//Duelist A3 T4
+	FEIGNED_RETREAT(347, 4), EXPOSE_WEAKNESS(348, 4), COUNTER_ABILITY(349, 4),
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one

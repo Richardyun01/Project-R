@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StarburstBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.ElementalStrike;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
@@ -433,12 +434,10 @@ abstract public class Weapon extends KindOfWeapon {
 				attacker.buff(RunicBlade.RunicSlashTracker.class).detach();
 			}
 
-			/*
 			if (attacker.buff(ElementalStrike.DirectedPowerTracker.class) != null){
 				multi += attacker.buff(ElementalStrike.DirectedPowerTracker.class).enchBoost;
 				attacker.buff(ElementalStrike.DirectedPowerTracker.class).detach();
 			}
-			*/
 
 			if (attacker.buff(Talent.SpiritBladesTracker.class) != null
 					&& ((Hero)attacker).pointsInTalent(Talent.SPIRIT_BLADES) == 4){
