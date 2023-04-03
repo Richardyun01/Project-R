@@ -69,7 +69,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
-import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfFuror;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
@@ -110,7 +109,7 @@ public enum HeroClass {
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN, HeroSubClass.POLARIS ),
 	NOISE( HeroSubClass.TRIGGERHAPPY, HeroSubClass.DEMOLITIONIST, HeroSubClass.BUNKER),
 	LANCE( HeroSubClass.PHALANX, HeroSubClass.TERCIO, HeroSubClass.VLAD ),
-	CARROLL( HeroSubClass.CHALLENGER );
+	CARROLL( HeroSubClass.CHALLENGER, HeroSubClass.CAPTAIN );
 
 	private HeroSubClass[] subClasses;
 

@@ -56,7 +56,8 @@ public enum HeroSubClass {
 	TERCIO(HeroIcon.TERCIO),
 	VLAD(HeroIcon.VLAD),
 
-	CHALLENGER(HeroIcon.CHALLENGER);
+	CHALLENGER(HeroIcon.CHALLENGER),
+	CAPTAIN(HeroIcon.CAPTAIN);
 
 
 	int icon;

@@ -428,6 +428,10 @@ public class MeleeWeapon extends Weapon {
 					partialCharge += 1/(14f - 4f*points);
 				}
 
+				if (Dungeon.hero.hasTalent(Talent.ENERGY_TRANSMISSION)) {
+					partialCharge += 1*(1-0.1f*Dungeon.hero.pointsInTalent(Talent.ENERGY_TRANSMISSION));
+				}
+
 				if (partialCharge >= 1){
 					charges++;
 					partialCharge--;
@@ -477,7 +481,7 @@ public class MeleeWeapon extends Weapon {
 		}
 
 		public int chargeCap(){
-			return Math.min(10, 3 + (Dungeon.hero.lvl-1)/3);
+			return Math.min(10, 3 + (Dungeon.hero.lvl-1)/3) + 2*Dungeon.hero.pointsInTalent(Talent.EXTRA_STACK);
 		}
 
 		public int secondChargeCap(){

@@ -212,7 +212,9 @@ public enum Talent {
 	//Challenger T3
 	SECONDARY_CHARGE(332, 3), TWIN_UPGRADES(333, 3), COMBINED_LETHALITY(334, 3),
 	//Bounty Hunter T3
+	CATCH_IF_YOU_CAN(335, 3), CHASE_PANIC(336, 3), EXTRA_BOUNTY(337, 3),
 	//Captain T3
+	EXTRA_STACK(338, 3), ENERGY_TRANSMISSION(339, 3), ENHANCED_SHIP(340, 3),
 	//Challenge T4
 	CLOSE_THE_GAP(341, 4), INVIGORATING_VICTORY(342, 4), ELIMINATION_MATCH(343, 4),
 	//Elemental Strike T4
@@ -392,6 +394,21 @@ public enum Talent {
 		public void tintIcon(Image icon) { icon.hardlight(0.6f, 0.15f, 0.6f); }
 	};
 	public static class CounterAbilityTacker extends FlavourBuff{};
+	public static class SupplyCoolDown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / (1000*(1-0.1f*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP)))); }
+	};
+	public static class ReconCoolDown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / (2000*(1-0.1f*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP)))); }
+	};
+	public static class AnnihilationCoolDown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / (3000*(1-0.1f*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP)))); }
+	};
 
 	int icon;
 	int maxPoints;
@@ -1018,6 +1035,9 @@ public enum Talent {
 				break;
 			case CHALLENGER:
 				Collections.addAll(tierTalents, SECONDARY_CHARGE, TWIN_UPGRADES, COMBINED_LETHALITY);
+				break;
+			case CAPTAIN:
+				Collections.addAll(tierTalents, EXTRA_STACK, ENERGY_TRANSMISSION, ENHANCED_SHIP);
 				break;
 		}
 		for (Talent talent : tierTalents){

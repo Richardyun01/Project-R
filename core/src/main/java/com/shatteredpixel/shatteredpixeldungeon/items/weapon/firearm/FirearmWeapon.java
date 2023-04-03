@@ -444,7 +444,7 @@ public class FirearmWeapon extends MeleeWeapon {
 
     @Override
     public void activate(Char ch) {
-        if (ch instanceof Hero && ((Hero) ch).heroClass == HeroClass.CARROLL){
+        if (ch instanceof Hero && ((Hero) ch).heroClass == HeroClass.CARROLL && STRReq() <= Dungeon.hero.STR()){
             Buff.affect(ch, Charger.class);
             switch (type) {
                 case FirearmPistol:
@@ -489,6 +489,8 @@ public class FirearmWeapon extends MeleeWeapon {
                     if (!((Hero) ch).belongings.weapon.firearmPistol) {
                         ((Hero) ch).buff(Revolver.APShot.class).detach();
                     }
+                } else if (((Hero) ch).belongings.weapon.firearmPistol && STRReq() > Dungeon.hero.STR()) {
+                    ((Hero) ch).buff(Revolver.APShot.class).detach();
                 } else {
                     if (!((Hero) ch).belongings.weapon.firearmPistol && !((Hero) ch).belongings.secondWep.firearmPistol) {
                         ((Hero) ch).buff(Revolver.APShot.class).detach();
@@ -508,6 +510,8 @@ public class FirearmWeapon extends MeleeWeapon {
                     if (!((Hero) ch).belongings.weapon.firearmPrecision) {
                         ((Hero) ch).buff(Tat.PrecisionShot.class).detach();
                     }
+                } else if (((Hero) ch).belongings.weapon.firearmPistol && STRReq() > Dungeon.hero.STR()) {
+                    ((Hero) ch).buff(Tat.PrecisionShot.class).detach();
                 } else {
                     if (!((Hero) ch).belongings.weapon.firearmPrecision && !((Hero) ch).belongings.secondWep.firearmPrecision) {
                         ((Hero) ch).buff(Tat.PrecisionShot.class).detach();
@@ -527,6 +531,8 @@ public class FirearmWeapon extends MeleeWeapon {
                     if (!((Hero) ch).belongings.weapon.firearmAuto) {
                         ((Hero) ch).buff(ShortCarbine.InfiniteShot.class).detach();
                     }
+                } else if (((Hero) ch).belongings.weapon.firearmPistol && STRReq() > Dungeon.hero.STR()) {
+                    ((Hero) ch).buff(ShortCarbine.InfiniteShot.class).detach();
                 } else {
                     if (!((Hero) ch).belongings.weapon.firearmAuto && !((Hero) ch).belongings.secondWep.firearmAuto) {
                         ((Hero) ch).buff(ShortCarbine.InfiniteShot.class).detach();
@@ -546,6 +552,8 @@ public class FirearmWeapon extends MeleeWeapon {
                     if (!((Hero) ch).belongings.weapon.firearmShotgun) {
                         ((Hero) ch).buff(Blunderbust.SlugShot.class).detach();
                     }
+                } else if (((Hero) ch).belongings.weapon.firearmPistol && STRReq() > Dungeon.hero.STR()) {
+                    ((Hero) ch).buff(Blunderbust.SlugShot.class).detach();
                 } else {
                     if (!((Hero) ch).belongings.weapon.firearmShotgun && !((Hero) ch).belongings.secondWep.firearmShotgun) {
                         ((Hero) ch).buff(Blunderbust.SlugShot.class).detach();
@@ -565,6 +573,8 @@ public class FirearmWeapon extends MeleeWeapon {
                     if (!((Hero) ch).belongings.weapon.firearmExplosive) {
                         ((Hero) ch).buff(Harmonica.GuidedShot.class).detach();
                     }
+                } else if (((Hero) ch).belongings.weapon.firearmPistol && STRReq() > Dungeon.hero.STR()) {
+                    ((Hero) ch).buff(Harmonica.GuidedShot.class).detach();
                 } else {
                     if (!((Hero) ch).belongings.weapon.firearmExplosive && !((Hero) ch).belongings.secondWep.firearmExplosive) {
                         ((Hero) ch).buff(Harmonica.GuidedShot.class).detach();
@@ -584,6 +594,8 @@ public class FirearmWeapon extends MeleeWeapon {
                     if (!((Hero) ch).belongings.weapon.firearmEnergy) {
                         ((Hero) ch).buff(Vega.BreakerShot.class).detach();
                     }
+                } else if (((Hero) ch).belongings.weapon.firearmPistol && STRReq() > Dungeon.hero.STR()) {
+                    ((Hero) ch).buff(Vega.BreakerShot.class).detach();
                 } else {
                     if (!((Hero) ch).belongings.weapon.firearmEnergy && !((Hero) ch).belongings.secondWep.firearmEnergy) {
                         ((Hero) ch).buff(Vega.BreakerShot.class).detach();
@@ -603,6 +615,8 @@ public class FirearmWeapon extends MeleeWeapon {
                     if (!((Hero) ch).belongings.weapon.firearmEtc) {
                         ((Hero) ch).buff(Madness.OverCharge.class).detach();
                     }
+                } else if (((Hero) ch).belongings.weapon.firearmPistol && STRReq() > Dungeon.hero.STR()) {
+                    ((Hero) ch).buff(Madness.OverCharge.class).detach();
                 } else {
                     if (!((Hero) ch).belongings.weapon.firearmEtc && !((Hero) ch).belongings.secondWep.firearmEtc) {
                         ((Hero) ch).buff(Madness.OverCharge.class).detach();
