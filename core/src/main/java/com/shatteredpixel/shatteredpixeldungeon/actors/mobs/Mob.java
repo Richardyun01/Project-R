@@ -792,7 +792,7 @@ public abstract class Mob extends Char {
 			}
 			if (cause == hero
 				&& hero.subClass == HeroSubClass.CAPTAIN) {
-				Buff.affect(this, CarrollCombo.class).kill(enemy);
+				Buff.affect(Dungeon.hero, CarrollCombo.class).kill(enemy);
 			}
 
 			if (Dungeon.hero.heroClass == HeroClass.CARROLL

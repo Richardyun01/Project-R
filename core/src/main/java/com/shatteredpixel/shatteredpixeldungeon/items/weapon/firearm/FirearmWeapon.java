@@ -444,7 +444,7 @@ public class FirearmWeapon extends MeleeWeapon {
 
     @Override
     public void activate(Char ch) {
-        if (ch instanceof Hero && ((Hero) ch).heroClass == HeroClass.CARROLL && STRReq() <= Dungeon.hero.STR()){
+        if (ch instanceof Hero && ((Hero) ch).heroClass == HeroClass.CARROLL /*&& STRReq() <= Dungeon.hero.STR()*/){
             Buff.affect(ch, Charger.class);
             switch (type) {
                 case FirearmPistol:

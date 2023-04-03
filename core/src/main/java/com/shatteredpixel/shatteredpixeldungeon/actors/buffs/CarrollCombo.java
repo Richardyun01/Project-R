@@ -35,6 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
@@ -194,9 +195,11 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
             if (Dungeon.hero.buff(Talent.SupplyCoolDown.class) == null) {
                 new PotionOfLesserHealing().collect();
                 new SmallRation().collect();
+                Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(CarrollCombo.class, "add", new Object[0]), new Object[0]);
                 Buff.affect(Dungeon.hero, Talent.SupplyCoolDown.class, 1000-100*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
                 ((Hero) target).spendAndNext(Actor.TICK);
                 Dungeon.hero.busy();
+                detach();
             } else {
                 GLog.n(Messages.get(this, "cannot_use"));
             }
@@ -204,10 +207,12 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
             if (Dungeon.hero.buff(Talent.ReconCoolDown.class) == null) {
                 Buff.affect(Dungeon.hero, Awareness.class, 2f);
                 Buff.affect(Dungeon.hero, MindVision.class, 2f);
+                Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(CarrollCombo.class, "rec", new Object[0]), new Object[0]);
                 Buff.affect(Dungeon.hero, Talent.ReconCoolDown.class, 2000-200*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
                 Dungeon.hero.sprite.operate(Dungeon.hero.pos);
                 Sample.INSTANCE.play(Assets.Sounds.READ);
                 ((Hero) target).spendAndNext(Actor.TICK);
+                detach();
             } else {
                 GLog.n(Messages.get(this, "cannot_use"));
             }
@@ -215,10 +220,13 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
             if (Dungeon.hero.buff(Talent.AnnihilationCoolDown.class) == null && Dungeon.hero.buff(MindVision.class) == null) {
                 for (Mob mob : (Mob[]) Dungeon.level.mobs.toArray(new Mob[0])) {
                     if (mob.alignment != Char.Alignment.ALLY &&
-                        Dungeon.level.heroFOV[mob.pos] &&
-                        !mob.properties().contains(Char.Property.BOSS) &&
-                        !mob.properties().contains(Char.Property.MINIBOSS)) {
-                        mob.damage(Random.NormalIntRange(5000, 8000), Dungeon.hero);
+                        Dungeon.level.heroFOV[mob.pos]) {
+                        if (mob.properties().contains(Char.Property.BOSS) ||
+                            mob.properties().contains(Char.Property.MINIBOSS)) {
+                            mob.damage(Random.NormalIntRange(100, 101), Dungeon.hero);
+                        } else {
+                            mob.damage(Random.NormalIntRange(5000, 8000), Dungeon.hero);
+                        }
                     }
                 }
                 Sample.INSTANCE.play(Assets.Sounds.BLAST);
@@ -226,6 +234,7 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
                 Camera.main.shake(2.0f, 0.5f);
                 Buff.affect(Dungeon.hero, Talent.AnnihilationCoolDown.class, 3000-300*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
                 ((Hero) target).spendAndNext(Actor.TICK);
+                detach();
             } else {
                 GLog.n(Messages.get(this, "cannot_use"));
             }
