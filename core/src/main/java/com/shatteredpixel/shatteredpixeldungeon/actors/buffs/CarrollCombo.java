@@ -28,11 +28,30 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
+import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.Honeypot;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.Stylus;
+import com.shatteredpixel.shatteredpixeldungeon.items.Torch;
+import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.SmallRation;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLesserHealing;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfClairvoyance;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfIntuition;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Icecap;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Stormvine;
+import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
@@ -48,6 +67,7 @@ import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
+import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 public class CarrollCombo extends Buff implements ActionIndicator.Action {
@@ -82,7 +102,7 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
 
         count++;
         if (Dungeon.hero.hasTalent(Talent.ENHANCED_SHIP) &&
-                Random.Int(20) < Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP)) {
+                Random.Int(10) < Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP)) {
             count++;
         }
 
@@ -139,12 +159,7 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
     @Override
     public Image actionIcon() {
         Image icon;
-        if (((Hero)target).belongings.weapon() != null){
-            icon = new ItemSprite(((Hero)target).belongings.weapon().image, null);
-        } else {
-            icon = new ItemSprite(new Item(){ {image = ItemSpriteSheet.WEAPON_HOLDER; }});
-        }
-
+        icon = new ItemSprite(new Item(){ {image = ItemSpriteSheet.TEMP_SHIP; }});
         icon.tint(getHighestMove().tintColor);
         return icon;
     }
@@ -155,9 +170,11 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
     }
 
     public enum ComboMove {
-        SUPPLY   (10, 0xFF00FF00), // skill-1
-        RECON  (20, 0xFFFFFF00),  // skill-2
-        ANNHILATION   (30, 0xFFFF0000); // skill-3
+        CAS(5, 0xFF00FF00),         // skill-1
+        SUPPLYI   (10, 0xFFCCFF00), // skill-2
+        RECON  (20, 0xFFFFFF00),    // skill-3
+        SUPPLYII (30, 0xFFFFCC00),  // skill-4
+        ANNIHILATION (40, 0xFFFF0000); // skill-5
 
         public int comboReq, tintColor;
 
@@ -167,7 +184,20 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
         }
 
         public String desc(int count){
-            return Messages.get(this, name()+"_desc");
+            switch (this){
+                default:
+                    return Messages.get(this, name()+"_desc");
+                case CAS:
+                    return Messages.get(this, name()+"_desc", 50-5*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
+                case SUPPLYI:
+                    return Messages.get(this, name()+"_desc", 500-50*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
+                case RECON:
+                    return Messages.get(this, name()+"_desc", 1000-100*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
+                case SUPPLYII:
+                    return Messages.get(this, name()+"_desc", 1500-150*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
+                case ANNIHILATION:
+                    return Messages.get(this, name()+"_desc", 2500-250*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
+            }
         }
 
     }
@@ -190,16 +220,58 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
         return move.comboReq <= count;
     }
 
-    public void useMove(ComboMove move){
-        if (move == ComboMove.SUPPLY) {
-            if (Dungeon.hero.buff(Talent.SupplyCoolDown.class) == null) {
+    public void useMove(ComboMove move) {
+        if (move == ComboMove.CAS) {
+            if (Dungeon.hero.buff(Talent.CasCoolDown.class) == null) {
+                moveBeingUsed = move;
+                GameScene.selectCell(listener);
+            } else {
+                GLog.n(Messages.get(this, "cannot_use"));
+            }
+        } else if (move == ComboMove.SUPPLYI) {
+            if (Dungeon.hero.buff(Talent.SupplyICoolDown.class) == null) {
                 new PotionOfLesserHealing().collect();
                 new SmallRation().collect();
+                if (Dungeon.hero.pointsInTalent(Talent.ADVANCED_SYSTEM) >= 3) {
+                    int n = Random.Int(10);
+                    switch (n) {
+                        case 0:
+                            new StoneOfIntuition().collect();
+                            break;
+                        case 1:
+                            new StoneOfClairvoyance().collect();
+                            break;
+                        case 2:
+                            new Stormvine.Seed().collect();
+                            break;
+                        case 3:
+                            new Icecap.Seed().collect();
+                            break;
+                        case 4:
+                            new ThrowingStone().collect();
+                            break;
+                        case 5:
+                            new PotionOfLesserHealing().collect();
+                            break;
+                        case 6:
+                            new SmallRation().collect();
+                            break;
+                        case 7:
+                            new Honeypot.ShatteredPot().collect();
+                            break;
+                        case 8:
+                            new Torch().collect();
+                            break;
+                        case 9:
+                            new ThrowingKnife().collect();
+                            break;
+                    }
+                }
                 Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(CarrollCombo.class, "add", new Object[0]), new Object[0]);
-                Buff.affect(Dungeon.hero, Talent.SupplyCoolDown.class, 1000-100*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
+                Buff.affect(Dungeon.hero, Talent.SupplyICoolDown.class, 500-50*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
                 ((Hero) target).spendAndNext(Actor.TICK);
                 Dungeon.hero.busy();
-                detach();
+                count -= 10;
             } else {
                 GLog.n(Messages.get(this, "cannot_use"));
             }
@@ -208,21 +280,68 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
                 Buff.affect(Dungeon.hero, Awareness.class, 2f);
                 Buff.affect(Dungeon.hero, MindVision.class, 2f);
                 Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(CarrollCombo.class, "rec", new Object[0]), new Object[0]);
-                Buff.affect(Dungeon.hero, Talent.ReconCoolDown.class, 2000-200*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
+                Buff.affect(Dungeon.hero, Talent.ReconCoolDown.class, 1000 - 100 * Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
                 Dungeon.hero.sprite.operate(Dungeon.hero.pos);
                 Sample.INSTANCE.play(Assets.Sounds.READ);
                 ((Hero) target).spendAndNext(Actor.TICK);
-                detach();
+                count -= 20;
             } else {
                 GLog.n(Messages.get(this, "cannot_use"));
             }
-        } else if (move == ComboMove.ANNHILATION){
+        } else if (move == ComboMove.SUPPLYII) {
+            if (Dungeon.hero.buff(Talent.SupplyIICoolDown.class) == null) {
+                new PotionOfHealing().collect();
+                new Pasty().collect();
+                if (Dungeon.hero.pointsInTalent(Talent.ADVANCED_SYSTEM) >= 3) {
+                    int n = Random.Int(10);
+                    switch (n) {
+                        case 0:
+                            new ScrollOfIdentify().collect();
+                            break;
+                        case 1:
+                            new ScrollOfRemoveCurse().collect();
+                            break;
+                        case 2:
+                            new ScrollOfMagicMapping().collect();
+                            break;
+                        case 3:
+                            new Sungrass.Seed().collect();
+                            break;
+                        case 4:
+                            new Bomb().collect();
+                            break;
+                        case 5:
+                            new PotionOfHealing().collect();
+                            break;
+                        case 6:
+                            new Pasty().collect();
+                            break;
+                        case 7:
+                            new Honeypot().collect();
+                            break;
+                        case 8:
+                            new Stylus().collect();
+                            break;
+                        case 9:
+                            new PotionOfMindVision().collect();
+                            break;
+                    }
+                }
+                Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(CarrollCombo.class, "add", new Object[0]), new Object[0]);
+                Buff.affect(Dungeon.hero, Talent.SupplyIICoolDown.class, 1500-150*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
+                ((Hero) target).spendAndNext(Actor.TICK);
+                Dungeon.hero.busy();
+                count -= 30;
+            } else {
+                GLog.n(Messages.get(this, "cannot_use"));
+            }
+        } else if (move == ComboMove.ANNIHILATION){
             if (Dungeon.hero.buff(Talent.AnnihilationCoolDown.class) == null && Dungeon.hero.buff(MindVision.class) == null) {
                 for (Mob mob : (Mob[]) Dungeon.level.mobs.toArray(new Mob[0])) {
                     if (mob.alignment != Char.Alignment.ALLY &&
                         Dungeon.level.heroFOV[mob.pos]) {
-                        if (mob.properties().contains(Char.Property.BOSS) ||
-                            mob.properties().contains(Char.Property.MINIBOSS)) {
+                        if ((mob.properties().contains(Char.Property.BOSS) ||
+                            mob.properties().contains(Char.Property.MINIBOSS)) && Dungeon.hero.pointsInTalent(Talent.ADVANCED_SYSTEM)>=1) {
                             mob.damage(Random.NormalIntRange(100, 101), Dungeon.hero);
                         } else {
                             mob.damage(Random.NormalIntRange(5000, 8000), Dungeon.hero);
@@ -232,9 +351,9 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
                 Sample.INSTANCE.play(Assets.Sounds.BLAST);
                 GameScene.flash(-2130706433);
                 Camera.main.shake(2.0f, 0.5f);
-                Buff.affect(Dungeon.hero, Talent.AnnihilationCoolDown.class, 3000-300*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
+                Buff.affect(Dungeon.hero, Talent.AnnihilationCoolDown.class, 2500-250*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
                 ((Hero) target).spendAndNext(Actor.TICK);
-                detach();
+                count -= 40;
             } else {
                 GLog.n(Messages.get(this, "cannot_use"));
             }
@@ -258,9 +377,11 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
 
         //variance in damage dealt
         switch (moveBeingUsed) {
-            case SUPPLY:
+            case CAS:
+            case SUPPLYI:
             case RECON:
-            case ANNHILATION:
+            case SUPPLYII:
+            case ANNIHILATION:
                 dmgMulti = 0f;
                 break;
         }
@@ -268,9 +389,33 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
         if (hero.attack(enemy, dmgMulti, dmgBonus, Char.INFINITE_ACCURACY)){
             //special on-hit effects
             switch (moveBeingUsed) {
-                case SUPPLY:
+                case CAS:
+                    for (int n : PathFinder.NEIGHBOURS9) {
+                        int c = enemy.pos + n;
+                        if (Dungeon.level.heroFOV[c]) {
+                            CellEmitter.get(c).burst(SmokeParticle.FACTORY, 3);
+                            CellEmitter.center(c).burst(BlastParticle.FACTORY, 3);
+                        }
+                        if (Dungeon.level.flamable[c]) {
+                            Dungeon.level.destroy(c);
+                            GameScene.updateMap(c);
+                        }
+                        Char ch = Actor.findChar(c);
+                        if (ch != null && ch != hero) {
+                            int damage;
+                            if (hero.pointsInTalent(Talent.ADVANCED_SYSTEM) >= 2) {
+                                damage = 55;
+                            } else {
+                                damage = 35;
+                            }
+                            ch.damage(damage, this);
+                        }
+                    }
+                    break;
+                case SUPPLYI:
                 case RECON:
-                case ANNHILATION:
+                case SUPPLYII:
+                case ANNIHILATION:
                 default:
                     //nothing
                     break;
@@ -281,9 +426,15 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
 
         //Post-attack behaviour
         switch(moveBeingUsed){
-            case SUPPLY:
+            case CAS:
+                Buff.affect(Dungeon.hero, Talent.CasCoolDown.class, 50-5*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
+                count -= 5;
+                hero.spendAndNext(hero.attackDelay());
+                break;
+            case SUPPLYI:
             case RECON:
-            case ANNHILATION:
+            case SUPPLYII:
+            case ANNIHILATION:
             default:
                 detach();
                 ActionIndicator.clearAction(CarrollCombo.this);
@@ -299,38 +450,15 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
         public void onSelect(Integer cell) {
             if (cell == null) return;
             final Char enemy = Actor.findChar( cell );
+            if (enemy == Dungeon.hero){
+                GLog.w(Messages.get(this, "bad_target"));
+                return;
+            }
             if (enemy == null
                     || enemy == target
                     || !Dungeon.level.heroFOV[cell]) {
                 GLog.w(Messages.get(Combo.class, "bad_target"));
 
-            } else if (!((Hero)target).canAttack(enemy)){
-                Ballistica c = new Ballistica(target.pos, enemy.pos, Ballistica.PROJECTILE);
-                if (c.collisionPos == enemy.pos){
-                    final int leapPos = c.path.get(c.dist-1);
-                    if (!Dungeon.level.passable[leapPos]){
-                        GLog.w(Messages.get(Combo.class, "bad_target"));
-                    } else {
-                        Dungeon.hero.busy();
-                        target.sprite.jump(target.pos, leapPos, new Callback() {
-                            @Override
-                            public void call() {
-                                target.move(leapPos);
-                                Dungeon.level.occupyCell(target);
-                                Dungeon.observe();
-                                GameScene.updateFog();
-                                target.sprite.attack(cell, new Callback() {
-                                    @Override
-                                    public void call() {
-                                        doAttack(enemy);
-                                    }
-                                });
-                            }
-                        });
-                    }
-                } else {
-                    GLog.w(Messages.get(Combo.class, "bad_target"));
-                }
             } else {
                 Dungeon.hero.busy();
                 target.sprite.attack(cell, new Callback() {

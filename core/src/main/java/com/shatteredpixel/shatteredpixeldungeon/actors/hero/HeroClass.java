@@ -109,7 +109,7 @@ public enum HeroClass {
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN, HeroSubClass.POLARIS ),
 	NOISE( HeroSubClass.TRIGGERHAPPY, HeroSubClass.DEMOLITIONIST, HeroSubClass.BUNKER),
 	LANCE( HeroSubClass.PHALANX, HeroSubClass.TERCIO, HeroSubClass.VLAD ),
-	CARROLL( HeroSubClass.CHALLENGER, HeroSubClass.CAPTAIN );
+	CARROLL( HeroSubClass.CHALLENGER, HeroSubClass.BOUNTYHUNTER, HeroSubClass.CAPTAIN );
 
 	private HeroSubClass[] subClasses;
 

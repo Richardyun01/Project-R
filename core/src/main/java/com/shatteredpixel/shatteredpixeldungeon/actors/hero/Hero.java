@@ -44,6 +44,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awareness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BountyTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bunker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
@@ -533,6 +534,12 @@ public class Hero extends Char {
 				accuracy *= INFINITE_ACCURACY;
 			}
 		}
+
+		/*
+		if (this instanceof Hero && enemy.buff(BountyTracker.Bounty.class) != null) {
+			accuracy *= 1.1f;
+		}
+		*/
 
 		if (this.heroClass != HeroClass.LANCE && this.hasTalent(Talent.COMPULSION)) {
 			accuracy *= 1f + 0.05f * hero.pointsInTalent(Talent.COMPULSION);
@@ -1691,6 +1698,10 @@ public class Hero extends Char {
 
 			if (hero.belongings.weapon instanceof Murakumo) {
 				Buff.affect(this, MurakumoCharge.class).setDamageFactor(1+(hero.speed()));
+			}
+
+			if (hero.subClass == HeroSubClass.BOUNTYHUNTER && hero.buff(BountyTracker.class) == null) {
+				Buff.affect(this, BountyTracker.class).indicate();
 			}
 			
 			sprite.move(pos, step);

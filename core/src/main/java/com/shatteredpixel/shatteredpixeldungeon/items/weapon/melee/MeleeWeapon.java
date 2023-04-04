@@ -481,7 +481,7 @@ public class MeleeWeapon extends Weapon {
 		}
 
 		public int chargeCap(){
-			return Math.min(10, 3 + (Dungeon.hero.lvl-1)/3) + 2*Dungeon.hero.pointsInTalent(Talent.EXTRA_STACK);
+			return Math.min(10, 3 + (Dungeon.hero.lvl-1)/3) + Dungeon.hero.pointsInTalent(Talent.ENERGY_TRANSMISSION);
 		}
 
 		public int secondChargeCap(){

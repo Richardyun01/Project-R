@@ -21,7 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.windows;
 
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CarrollCombo;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -55,11 +54,7 @@ public class WndCombo5 extends Window {
         pos = title.bottom() + 3*MARGIN;
 
         Image icon;
-        if (Dungeon.hero.belongings.weapon() != null){
-            icon = new ItemSprite(Dungeon.hero.belongings.weapon().image, null);
-        } else {
-            icon = new ItemSprite(new Item(){ {image = ItemSpriteSheet.WEAPON_HOLDER; }});
-        }
+        icon = new ItemSprite(new Item(){ {image = ItemSpriteSheet.TEMP_SHIP; }});
 
         for (CarrollCombo.ComboMove move : CarrollCombo.ComboMove.values()) {
             Image ic = new Image(icon);

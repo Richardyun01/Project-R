@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BountyTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CarrollCombo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
@@ -867,7 +868,11 @@ public abstract class Mob extends Char {
 		}
 
 		if (hero.hasTalent(Talent.HEAD_HUNTER)) {
-			dropBonus += 0.01f + 0.03f * hero.pointsInTalent(Talent.HEAD_HUNTER);
+			dropBonus += 0.03f + 0.03f * hero.pointsInTalent(Talent.HEAD_HUNTER);
+		}
+
+		if (this.buff(BountyTracker.Bounty.class) != null) {
+			dropBonus += 0.03f + 0.03f * hero.pointsInTalent(Talent.EXTRA_BOUNTY);
 		}
 
 		return lootChance * dropBonus;

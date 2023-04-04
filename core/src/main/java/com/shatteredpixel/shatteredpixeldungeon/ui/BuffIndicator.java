@@ -130,7 +130,8 @@ public class BuffIndicator extends Component {
 	public static final int DUEL_ENERGY = 79;
 	public static final int DUEL_ETC 	= 80;
 	public static final int CHALLENGE   = 81;
-	public static final int CARROLL_COMBO= 82;
+	public static final int BOUNTY		= 82;
+	public static final int CARROLL_COMBO= 83;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;

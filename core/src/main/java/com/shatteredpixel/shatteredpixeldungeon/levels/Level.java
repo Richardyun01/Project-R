@@ -1295,7 +1295,18 @@ public abstract class Level implements Bundlable {
 						}
 					}
 				}
-			} else if (!(((Hero) c).subClass == HeroSubClass.POLARIS)) {
+			} else if (((Hero) c).subClass == HeroSubClass.CAPTAIN) {
+				Hero h = (Hero) c;
+				int range = 3+h.pointsInTalent(Talent.HEIGHTENED_SENSES);
+				for (Mob mob : mobs) {
+					int p = mob.pos;
+					if (!fieldOfView[p] && distance(c.pos, p) <= range) {
+						for (int i : PathFinder.NEIGHBOURS9) {
+							heroMindFov[mob.pos + i] = true;
+						}
+					}
+				}
+			} else if (!(((Hero) c).subClass == HeroSubClass.POLARIS) || !(((Hero) c).subClass == HeroSubClass.CAPTAIN)) {
 				Hero h = (Hero) c;
 				int range = 1+h.pointsInTalent(Talent.HEIGHTENED_SENSES);
 				for (Mob mob : mobs) {

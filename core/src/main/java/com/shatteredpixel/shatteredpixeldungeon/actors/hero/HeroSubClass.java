@@ -57,6 +57,7 @@ public enum HeroSubClass {
 	VLAD(HeroIcon.VLAD),
 
 	CHALLENGER(HeroIcon.CHALLENGER),
+	BOUNTYHUNTER(HeroIcon.BOUNTY_HUNTER),
 	CAPTAIN(HeroIcon.CAPTAIN);
 
 
