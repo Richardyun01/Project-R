@@ -29,13 +29,15 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
-import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
-import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIcon;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Image;
@@ -69,7 +71,7 @@ public class BountyTracker extends Buff implements ActionIndicator.Action {
     @Override
     public Image actionIcon() {
         Image icon;
-        icon = new BuffIcon(BuffIndicator.BOUNTY, true);
+        icon = new ItemSprite(new Item(){ {image = ItemSpriteSheet.BOUNTY; }});
         return icon;
     }
 
@@ -104,7 +106,7 @@ public class BountyTracker extends Buff implements ActionIndicator.Action {
                 hero.busy();
                 Sample.INSTANCE.play( Assets.Sounds.READ );
                 ((HeroSprite)hero.sprite).read();
-                hero.sprite.centerEmitter().start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
+                SpellSprite.show(target, SpellSprite.BOUNTY, 1, 1, 0);
                 hero.next();
             }
         }
@@ -149,7 +151,7 @@ public class BountyTracker extends Buff implements ActionIndicator.Action {
 
         @Override
         public String desc() {
-            return Messages.get(this, "desc");
+            return Messages.get(this, "desc", 15);
         }
     }
 

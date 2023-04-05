@@ -78,6 +78,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ShortCarbin
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Tat;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Vega;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
@@ -835,6 +836,13 @@ public abstract class Mob extends Char {
 			Dungeon.hero.HP += (int)healFactor;
 		}
 
+		if (cause == hero &&
+				hero.subClass == HeroSubClass.BOUNTYHUNTER &&
+				hero.hasTalent(Talent.END_GAME) &&
+				this.buff(BountyTracker.Bounty.class) != null) {
+			Buff.affect( hero, MeleeWeapon.Charger.class ).gainCharge((hero.pointsInTalent(Talent.END_GAME)+1));
+		}
+
 		super.die( cause );
 
 		if (!(this instanceof Wraith)
@@ -872,7 +880,7 @@ public abstract class Mob extends Char {
 		}
 
 		if (this.buff(BountyTracker.Bounty.class) != null) {
-			dropBonus += 0.03f + 0.03f * hero.pointsInTalent(Talent.EXTRA_BOUNTY);
+			dropBonus += 0.1f + 0.1f * hero.pointsInTalent(Talent.EXTRA_BOUNTY);
 		}
 
 		return lootChance * dropBonus;

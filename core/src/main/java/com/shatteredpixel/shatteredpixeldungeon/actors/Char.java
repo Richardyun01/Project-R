@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BountyTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletHell;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bunker;
@@ -406,6 +407,10 @@ public abstract class Char extends Actor {
 						hero.buff(Revolver.APShot.class).onUse &&
 						hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
 					dr = 0;
+				}
+
+				if (((Hero) this).subClass == HeroSubClass.BOUNTYHUNTER && enemy.buff(BountyTracker.Bounty.class) != null) {
+					dmgMulti *= 1.15f;
 				}
 			}
 

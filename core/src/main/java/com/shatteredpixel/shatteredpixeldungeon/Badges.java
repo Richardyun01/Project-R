@@ -183,6 +183,7 @@ public class Badges {
 		BOSS_SLAIN_3_TERCIO,
 		BOSS_SLAIN_3_VLAD,
 		BOSS_SLAIN_3_CHALLENGER,
+		BOSS_SLAIN_3_BOUNTYHUNTER,
 		BOSS_SLAIN_3_CAPTAIN,
 		BOSS_SLAIN_3_ALL_SUBCLASSES ( 105, true ),
 		BOSS_CHALLENGE_3            ( 106 ),
@@ -760,6 +761,7 @@ public class Badges {
 		thirdBossSubclassBadges.put(HeroSubClass.TERCIO, Badge.BOSS_SLAIN_3_TERCIO);
 		thirdBossSubclassBadges.put(HeroSubClass.VLAD, Badge.BOSS_SLAIN_3_VLAD);
 		thirdBossSubclassBadges.put(HeroSubClass.CHALLENGER, Badge.BOSS_SLAIN_3_CHALLENGER);
+		thirdBossSubclassBadges.put(HeroSubClass.CHALLENGER, Badge.BOSS_SLAIN_3_BOUNTYHUNTER);
 		thirdBossSubclassBadges.put(HeroSubClass.CAPTAIN, Badge.BOSS_SLAIN_3_CAPTAIN);
 	}
 	

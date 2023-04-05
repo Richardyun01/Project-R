@@ -543,12 +543,6 @@ public class Hero extends Char {
 			}
 		}
 
-		/*
-		if (this.subClass == HeroSubClass.BOUNTYHUNTER && enemy.buff(BountyTracker.Bounty.class) != null) {
-			accuracy *= 1.1f;
-		}
-		*/
-
 		if (this.heroClass != HeroClass.LANCE && this.hasTalent(Talent.COMPULSION)) {
 			accuracy *= 1f + 0.05f * hero.pointsInTalent(Talent.COMPULSION);
 		} else if (this.heroClass == HeroClass.LANCE && this.hasTalent(Talent.COMPULSION)) {

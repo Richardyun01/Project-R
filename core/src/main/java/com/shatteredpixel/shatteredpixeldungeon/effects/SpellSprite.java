@@ -44,6 +44,7 @@ public class SpellSprite extends Image {
 	public static final int BUNKER      = 8;
 	public static final int BLOOD		= 9;
 	public static final int PREDATION	= 10;
+	public static final int BOUNTY		= 11;
 	
 	private static final int SIZE	= 16;
 	
