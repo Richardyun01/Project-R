@@ -132,7 +132,7 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
 
     @Override
     public String desc() {
-        return Messages.get(this, "desc", count);
+        return Messages.get(this, "desc", count, 0.3f*count);
     }
 
     private static final String COUNT = "count";

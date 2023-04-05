@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Web;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.WellWater;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Awareness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BountyTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
@@ -1295,18 +1296,7 @@ public abstract class Level implements Bundlable {
 						}
 					}
 				}
-			} else if (((Hero) c).subClass == HeroSubClass.CAPTAIN) {
-				Hero h = (Hero) c;
-				int range = 3+h.pointsInTalent(Talent.HEIGHTENED_SENSES);
-				for (Mob mob : mobs) {
-					int p = mob.pos;
-					if (!fieldOfView[p] && distance(c.pos, p) <= range) {
-						for (int i : PathFinder.NEIGHBOURS9) {
-							heroMindFov[mob.pos + i] = true;
-						}
-					}
-				}
-			} else if (!(((Hero) c).subClass == HeroSubClass.POLARIS) || !(((Hero) c).subClass == HeroSubClass.CAPTAIN)) {
+			} else if (!(((Hero) c).subClass == HeroSubClass.POLARIS)) {
 				Hero h = (Hero) c;
 				int range = 1+h.pointsInTalent(Talent.HEIGHTENED_SENSES);
 				for (Mob mob : mobs) {
@@ -1322,6 +1312,13 @@ public abstract class Level implements Bundlable {
 			if (c.buff( Awareness.class ) != null) {
 				for (Heap heap : heaps.valueList()) {
 					int p = heap.pos;
+					for (int i : PathFinder.NEIGHBOURS9) heroMindFov[p+i] = true;
+				}
+			}
+
+			for (Mob m : mobs){
+				if (m.buff(BountyTracker.Bounty.class) != null && Dungeon.hero.hasTalent(Talent.CHASE_PANIC) && !(m.properties().contains(Char.Property.BOSS) || m.properties().contains(Char.Property.MINIBOSS))) {
+					int p = m.pos;
 					for (int i : PathFinder.NEIGHBOURS9) heroMindFov[p+i] = true;
 				}
 			}

@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -93,6 +94,12 @@ public class BountyTracker extends Buff implements ActionIndicator.Action {
                 BountyTracker buff = hero.buff(BountyTracker.class);
                 Buff.affect(enemy, Bounty.class);
                 Buff.affect(hero, BountyCoolDown.class).set();
+                if (hero.hasTalent(Talent.CHASE_PANIC) && hero.pointsInTalent(Talent.CHASE_PANIC) >= 2) {
+                    Buff.affect(enemy, Terror.class, 5);
+                    if (hero.pointsInTalent(Talent.CHASE_PANIC) >= 3) {
+                        Buff.affect(enemy, Slow.class, 5);
+                    }
+                }
                 buff.clearAction();
                 hero.busy();
                 Sample.INSTANCE.play( Assets.Sounds.READ );

@@ -48,6 +48,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BountyTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bunker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CarrollCombo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CloseQuarters;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
@@ -535,8 +536,15 @@ public class Hero extends Char {
 			}
 		}
 
+		if (this.subClass == HeroSubClass.CAPTAIN) {
+			CarrollCombo combo = (CarrollCombo) buff(CarrollCombo.class);
+			if (combo != null) {
+				accuracy *= 0.3f * combo.getComboCount();
+			}
+		}
+
 		/*
-		if (this instanceof Hero && enemy.buff(BountyTracker.Bounty.class) != null) {
+		if (this.subClass == HeroSubClass.BOUNTYHUNTER && enemy.buff(BountyTracker.Bounty.class) != null) {
 			accuracy *= 1.1f;
 		}
 		*/
