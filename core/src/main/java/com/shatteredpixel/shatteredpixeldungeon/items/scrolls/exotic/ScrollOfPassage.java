@@ -22,7 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.NoTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -41,25 +41,30 @@ public class ScrollOfPassage extends ExoticScroll {
 	@Override
 	public void doRead() {
 
-		identify();
-		readAnimation();
-		
-		if (!Dungeon.interfloorTeleportAllowed()) {
-			
-			GLog.w( Messages.get(ScrollOfTeleportation.class, "no_tele") );
-			return;
-			
+		if (Dungeon.hero.belongings.armor() != null && Dungeon.hero.belongings.armor().hasGlyph(NoTeleportation.class, Dungeon.hero)) {
+			GLog.n(Messages.get(NoTeleportation.class, "cant_use"));
+			curItem.collect( curUser.belongings.backpack );
+		} else {
+			identify();
+			readAnimation();
+
+			if (!Dungeon.interfloorTeleportAllowed()) {
+
+				GLog.w( Messages.get(ScrollOfTeleportation.class, "no_tele") );
+				return;
+
+			}
+
+			TimekeepersHourglass.timeFreeze timeFreeze = Dungeon.hero.buff(TimekeepersHourglass.timeFreeze.class);
+			if (timeFreeze != null) timeFreeze.disarmPressedTraps();
+			Swiftthistle.TimeBubble timeBubble = Dungeon.hero.buff(Swiftthistle.TimeBubble.class);
+			if (timeBubble != null) timeBubble.disarmPressedTraps();
+
+			InterlevelScene.mode = InterlevelScene.Mode.RETURN;
+			InterlevelScene.returnDepth = Math.max(1, (Dungeon.depth - 1 - (Dungeon.depth-2)%5));
+			InterlevelScene.returnBranch = 0;
+			InterlevelScene.returnPos = -1;
+			Game.switchScene( InterlevelScene.class );
 		}
-
-		TimekeepersHourglass.timeFreeze timeFreeze = Dungeon.hero.buff(TimekeepersHourglass.timeFreeze.class);
-		if (timeFreeze != null) timeFreeze.disarmPressedTraps();
-		Swiftthistle.TimeBubble timeBubble = Dungeon.hero.buff(Swiftthistle.TimeBubble.class);
-		if (timeBubble != null) timeBubble.disarmPressedTraps();
-
-		InterlevelScene.mode = InterlevelScene.Mode.RETURN;
-		InterlevelScene.returnDepth = Math.max(1, (Dungeon.depth - 1 - (Dungeon.depth-2)%5));
-		InterlevelScene.returnBranch = 0;
-		InterlevelScene.returnPos = -1;
-		Game.switchScene( InterlevelScene.class );
 	}
 }

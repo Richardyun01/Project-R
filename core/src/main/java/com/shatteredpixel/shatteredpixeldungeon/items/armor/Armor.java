@@ -45,7 +45,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Corrosion;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Displacement;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Metabolism;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Multiplicity;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.NoTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Overgrowth;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Slower;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.Stench;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Affection;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
@@ -653,7 +655,8 @@ public class Armor extends EquipableItem {
 
 		private static final Class<?>[] curses = new Class<?>[]{
 				AntiEntropy.class, Corrosion.class, Displacement.class, Metabolism.class,
-				Multiplicity.class, Stench.class, Overgrowth.class, Bulk.class
+				Multiplicity.class, Stench.class, Overgrowth.class, Bulk.class, Slower.class,
+				NoTeleportation.class
 		};
 		
 		public abstract int proc( Armor armor, Char attacker, Char defender, int damage );

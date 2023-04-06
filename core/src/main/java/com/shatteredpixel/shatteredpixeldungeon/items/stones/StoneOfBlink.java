@@ -24,9 +24,12 @@ package com.shatteredpixel.shatteredpixeldungeon.items.stones;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.NoTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 
 public class StoneOfBlink extends Runestone {
 	
@@ -44,11 +47,16 @@ public class StoneOfBlink extends Runestone {
 	
 	@Override
 	protected void onThrow(int cell) {
-		if (Actor.findChar(cell) != null && throwPath.dist >= 1){
-			cell = throwPath.path.get(throwPath.dist-1);
+		if (Dungeon.hero.belongings.armor() != null && Dungeon.hero.belongings.armor().hasGlyph(NoTeleportation.class, Dungeon.hero)) {
+			GLog.n(Messages.get(NoTeleportation.class, "cant_use"));
+			Dungeon.level.drop(this, cell).sprite.drop();
+		} else {
+			if (Actor.findChar(cell) != null && throwPath.dist >= 1) {
+				cell = throwPath.path.get(throwPath.dist - 1);
+			}
+			throwPath = null;
+			super.onThrow(cell);
 		}
-		throwPath = null;
-		super.onThrow(cell);
 	}
 	
 	@Override

@@ -25,10 +25,9 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Pushing;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.NoTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfPassage;
@@ -60,25 +59,29 @@ public class BeaconOfReturning extends Spell {
 	
 	@Override
 	protected void onCast(final Hero hero) {
-		
-		if (returnDepth == -1){
-			setBeacon(hero);
+
+		if (Dungeon.hero.belongings.armor() != null && Dungeon.hero.belongings.armor().hasGlyph(NoTeleportation.class, Dungeon.hero)) {
+			GLog.n(Messages.get(NoTeleportation.class, "cant_use"));
 		} else {
-			GameScene.show(new WndOptions(new ItemSprite(this),
-					Messages.titleCase(name()),
-					Messages.get(BeaconOfReturning.class, "wnd_body"),
-					Messages.get(BeaconOfReturning.class, "wnd_set"),
-					Messages.get(BeaconOfReturning.class, "wnd_return")){
-				@Override
-				protected void onSelect(int index) {
-					if (index == 0){
-						setBeacon(hero);
-					} else if (index == 1){
-						returnBeacon(hero);
+			if (returnDepth == -1){
+				setBeacon(hero);
+			} else {
+				GameScene.show(new WndOptions(new ItemSprite(this),
+						Messages.titleCase(name()),
+						Messages.get(BeaconOfReturning.class, "wnd_body"),
+						Messages.get(BeaconOfReturning.class, "wnd_set"),
+						Messages.get(BeaconOfReturning.class, "wnd_return")){
+					@Override
+					protected void onSelect(int index) {
+						if (index == 0){
+							setBeacon(hero);
+						} else if (index == 1){
+							returnBeacon(hero);
+						}
 					}
-				}
-			});
-			
+				});
+
+			}
 		}
 	}
 	

@@ -50,6 +50,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.NoTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
@@ -146,14 +147,16 @@ public class CursedWand {
 			//random teleportation
 			case 2:
 				if(Random.Int(2) == 0) {
-					if (user != null && !user.properties().contains(Char.Property.IMMOVABLE)) {
+					if (user != null && !user.properties().contains(Char.Property.IMMOVABLE) &&
+						(Dungeon.hero.belongings.armor() != null && Dungeon.hero.belongings.armor().hasGlyph(NoTeleportation.class, Dungeon.hero))) {
 						ScrollOfTeleportation.teleportChar(user);
 					} else {
 						return cursedEffect(origin, user, targetPos);
 					}
 				} else {
 					Char ch = Actor.findChar( targetPos );
-					if (ch != null && !ch.properties().contains(Char.Property.IMMOVABLE)) {
+					if (ch != null && !ch.properties().contains(Char.Property.IMMOVABLE) &&
+						(Dungeon.hero.belongings.armor() != null && Dungeon.hero.belongings.armor().hasGlyph(NoTeleportation.class, Dungeon.hero))) {
 						ScrollOfTeleportation.teleportChar(ch);
 						tryForWandProc(ch, origin);
 					} else {
