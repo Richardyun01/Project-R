@@ -46,6 +46,18 @@ import java.util.ArrayList;
 
 public class Lunge extends MeleeWeapon {
 
+    {
+
+        defaultAction = "ZAP";
+        usesTargeting = true;
+
+        image = ItemSpriteSheet.LUNGE;
+        hitSound = Assets.Sounds.HIT;
+        hitSoundPitch = 1.0f;
+        tier = 2;
+
+    }
+
     public static final String AC_ZAP = "ZAP";
     private static final String CHARGE = "arts";
     protected static CellSelector.Listener zapper = new CellSelector.Listener() {
@@ -65,7 +77,7 @@ public class Lunge extends MeleeWeapon {
                     QuickSlotButton.target(Actor.findChar(intValue));
                 }
                 if (lunge.tryToZap(Lunge.curUser, num.intValue())) {
-                    lunge.mo7894fx(ballistica, new Callback() {
+                    lunge.fx(ballistica, new Callback() {
                         public void call() {
                             lunge.onZap(ballistica);
                         }
@@ -81,15 +93,6 @@ public class Lunge extends MeleeWeapon {
     private int arts = 3;
     private int artschargeCap = 3;
     protected int collisionProperties = 6;
-
-    public Lunge() {
-        this.image = ItemSpriteSheet.LUNGE;
-        this.hitSound = Assets.Sounds.HIT;
-        this.hitSoundPitch = 1.0f;
-        this.tier = 2;
-        this.usesTargeting = true;
-        this.defaultAction = "ZAP";
-    }
 
     public int max(int i) {
         return (this.tier * 5) + (i * this.tier);
@@ -155,9 +158,7 @@ public class Lunge extends MeleeWeapon {
         }
     }
 
-    /* access modifiers changed from: protected */
-    /* renamed from: fx */
-    public void mo7894fx(Ballistica ballistica, Callback callback) {
+    public void fx(Ballistica ballistica, Callback callback) {
         MagicMissile.boltFromChar(curUser.sprite.parent, 0, curUser.sprite, ballistica.collisionPos.intValue(), callback);
         Sample.INSTANCE.play(Assets.Sounds.ZAP);
     }
@@ -187,6 +188,16 @@ public class Lunge extends MeleeWeapon {
         this.arts--;
         updateQuickslot();
         curUser.spendAndNext(1.0f);
+    }
+
+    @Override
+    public String targetingPrompt() {
+        return Messages.get(this, "prompt");
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target) {
+        Dagger.sneakAbility(hero, 6, this);
     }
 
 }

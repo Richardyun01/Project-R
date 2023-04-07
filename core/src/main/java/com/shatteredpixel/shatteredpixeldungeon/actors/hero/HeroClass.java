@@ -51,10 +51,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Sh
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
-import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
-import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.IceBox;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
@@ -84,17 +82,19 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.CurseInfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ApachePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Gungnir;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.NotMachineGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Reiterpallasch;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lunge;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MoonlightBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RuinSpear;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scripture;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
@@ -174,20 +174,16 @@ public enum HeroClass {
 		plate.upgrade(8).collect();
 		 **/
 //erase this finish
-		new Reiterpallasch().collect();
-		new TengusMask().collect();
-		ScrollOfTeleportation ident = new ScrollOfTeleportation();
-		ident.quantity(31).collect();
-		RingOfMight plate = new RingOfMight();
-		plate.upgrade(8).collect();
-		PlateArmor plate2 = new PlateArmor();
-		plate2.upgrade(8).collect();
+		new Gungnir().collect();
+		new MoonlightBlade().collect();
+		new Scripture().collect();
+		new Lunge().collect();
 		PotionOfExperience enchan = new PotionOfExperience();
 		enchan.quantity(100).collect();
-		CurseInfusion enchan2 = new CurseInfusion();
+		ScrollOfIdentify enchan2 = new ScrollOfIdentify();
 		enchan2.quantity(100).collect();
-		ScrollOfRemoveCurse enchan3 = new ScrollOfRemoveCurse();
-		enchan3.quantity(100).collect();
+		RingOfMight plate = new RingOfMight();
+		plate.upgrade(10).collect();
 
 		switch (this) {
 			case WARRIOR:

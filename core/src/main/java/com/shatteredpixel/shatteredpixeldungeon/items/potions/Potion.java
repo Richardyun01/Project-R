@@ -43,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfCor
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfShroudingFog;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfSnapFreeze;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.exotic.PotionOfStormClouds;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Gungnir;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -234,24 +235,25 @@ public class Potion extends Item {
 		} else if (action.equals( AC_DRINK )) {
 			
 			if (isKnown() && mustThrowPots.contains(getClass())) {
-				
-					GameScene.show(
+
+				GameScene.show(
 						new WndOptions(new ItemSprite(this),
 								Messages.get(Potion.class, "harmful"),
 								Messages.get(Potion.class, "sure_drink"),
-								Messages.get(Potion.class, "yes"), Messages.get(Potion.class, "no") ) {
+								Messages.get(Potion.class, "yes"), Messages.get(Potion.class, "no")) {
 							@Override
 							protected void onSelect(int index) {
 								if (index == 0) {
-									drink( hero );
+									drink(hero);
 								}
 							}
 						}
-					);
-					
-				} else {
-					drink( hero );
-				}
+				);
+			} else if (Dungeon.hero.buff(Gungnir.TwilightStance.class) != null) {
+				GLog.n(Messages.get(this, "cant"));
+			} else {
+				drink( hero );
+			}
 			
 		}
 	}

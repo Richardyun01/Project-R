@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -74,6 +75,32 @@ public class Scripture extends MeleeWeapon {
     public int max(int lvl) {
         return  4*(tier) +    //12 base, down from 20
                 lvl*(tier);
+    }
+
+    @Override
+    public int defenseFactor( Char owner ) {
+        return 2;	//2 extra defence
+    }
+
+    @Override
+    public float abilityChargeUse(Hero hero) {
+        return 2*super.abilityChargeUse(hero);
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target) {
+        beforeAbilityUsed(hero);
+        Buff.prolong(hero, Bless.class, 10f);
+        Buff.prolong(hero, Adrenaline.class, 10f);
+        int barrAmt = 1;
+        barrAmt = Math.min( barrAmt, hero.HT - hero.HP );
+        if (barrAmt > 0 && hero.isAlive()) {
+            Buff.affect(hero, Barrier.class).setShield((int) (15));
+            hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( barrAmt ) );
+        }
+        hero.sprite.operate(hero.pos);
+        hero.next();
+        afterAbilityUsed(hero);
     }
 
 }

@@ -23,14 +23,18 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
 public class SurrationSaw extends MeleeWeapon {
@@ -55,4 +59,58 @@ public class SurrationSaw extends MeleeWeapon {
         return super.proc( attacker, defender, damage );
     }
 
+    @Override
+    public float abilityChargeUse(Hero hero) {
+        return 2*super.abilityChargeUse(hero);
+    }
+
+    @Override
+    public String targetingPrompt() {
+        return Messages.get(this, "prompt");
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target) {
+        sawAbility(hero, target, 0.1f, this);
+    }
+
+    public static void sawAbility(Hero hero, Integer target, float bleedingAmt, MeleeWeapon wep){
+        if (target == null) {
+            return;
+        }
+
+        Char enemy = Actor.findChar(target);
+        if (enemy == null || enemy == hero || hero.isCharmedBy(enemy) || !Dungeon.level.heroFOV[target]) {
+            GLog.w(Messages.get(wep, "ability_no_target"));
+            return;
+        }
+
+        hero.belongings.abilityWeapon = wep;
+        if (!hero.canAttack(enemy)){
+            GLog.w(Messages.get(wep, "ability_bad_position"));
+            hero.belongings.abilityWeapon = null;
+            return;
+        }
+        hero.belongings.abilityWeapon = null;
+
+        hero.sprite.attack(enemy.pos, new Callback() {
+            @Override
+            public void call() {
+                wep.beforeAbilityUsed(hero);
+                AttackIndicator.target(enemy);
+                if (hero.attack(enemy, 1, 0, Char.INFINITE_ACCURACY)){
+                    Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+                }
+
+                Invisibility.dispel();
+                hero.spendAndNext(hero.attackDelay());
+                if (!enemy.isAlive()){
+                    wep.onAbilityKill(hero);
+                } else {
+                    Buff.affect(enemy, Bleeding.class).set(enemy.HP*bleedingAmt);
+                }
+                wep.afterAbilityUsed(hero);
+            }
+        });
+    }
 }

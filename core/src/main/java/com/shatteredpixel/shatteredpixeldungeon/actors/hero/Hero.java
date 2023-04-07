@@ -138,6 +138,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SatelliteCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Gungnir;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Supernova;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Trench;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Defender;
@@ -806,6 +807,10 @@ public class Hero extends Char {
 
 		if (hasTalent(Talent.SPEEDY_MOVEMENT) && Random.Int(100) < pointsInTalent(Talent.SPEEDY_MOVEMENT) * 5) {
 			return 0;
+		}
+
+		if (buff(Gungnir.TwilightStance.class) != null) {
+			return 0.5f;
 		}
 
 		float delay = 1f;
@@ -1511,6 +1516,10 @@ public class Hero extends Char {
 		if (buff(Talent.WarriorFoodImmunity.class) != null){
 			if (pointsInTalent(Talent.IRON_STOMACH) == 1)       dmg = Math.round(dmg*0.25f);
 			else if (pointsInTalent(Talent.IRON_STOMACH) == 2)  dmg = Math.round(dmg*0.00f);
+		}
+
+		if (buff(Gungnir.TwilightStance.class) != null){
+			dmg -= 999999;
 		}
 
 		int preHP = HP + shielding();

@@ -74,6 +74,7 @@ public class Tat extends FirearmWeapon{
         Tat.shootAbility(hero, this);
     }
 
+
     public static void shootAbility(Hero hero, FirearmWeapon wep) {
         wep.beforeAbilityUsed(hero);
         if (hero.buff(PrecisionShot.class) != null) {
@@ -146,5 +147,6 @@ public class Tat extends FirearmWeapon{
         }
 
     }
+
 
 }

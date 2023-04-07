@@ -117,6 +117,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ArmRifle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Fencer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FrostGun;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Gungnir;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Kaleidoscope;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Karasawa;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Madness;
@@ -511,6 +512,10 @@ public abstract class Char extends Actor {
 				}
 			}
 
+			if (hero.buff(Gungnir.TwilightStance.class) != null) {
+				dmg *= 2;
+			}
+
 			for (ChampionEnemy buff : buffs(ChampionEnemy.class)){
 				dmg *= buff.meleeDamageFactor();
 			}
@@ -673,9 +678,10 @@ public abstract class Char extends Actor {
 		acuRoll *= AscensionChallenge.statModifier(attacker);
 
 		float defRoll = Random.Float( defStat );
-		if (defender.buff(			Bless.class) != null) 	defRoll *= 1.25f;
-		if (defender.buff( AfterImageBuff.class) != null) 	defRoll *= INFINITE_EVASION;
-		if (defender.buff(	 Hex.class) != null) 			defRoll *= 0.8f;
+		if (defender.buff(					Bless.class) != null) 	defRoll *= 1.25f;
+		if (defender.buff( 		   AfterImageBuff.class) != null) 	defRoll *= INFINITE_EVASION;
+		if (defender.buff( Gungnir.TwilightStance.class) != null) 	defRoll *= INFINITE_EVASION;
+		if (defender.buff(	 		  		  Hex.class) != null) 	defRoll *= 0.8f;
 		for (ChampionEnemy buff : defender.buffs(ChampionEnemy.class)){
 			defRoll *= buff.evasionAndAccuracyFactor();
 		}

@@ -6,17 +6,31 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.BlastParticle;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SmokeParticle;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
 
@@ -161,10 +175,91 @@ public class Gungnir extends FirearmWeapon{
             info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
         }
 
+        if (Dungeon.hero.heroClass == HeroClass.CARROLL){
+            info += "\n\n" + Messages.get(this, "ability_desc");
+        }
+
         return info;
     }
 
     public String statsInfo(){
         return Messages.get(this, "stats_desc");
+    }
+
+    @Override
+    public String status() {
+        if (isEquipped(Dungeon.hero)
+                && Dungeon.hero.buff(Charger.class) != null
+                && Dungeon.hero.heroClass == HeroClass.CARROLL) {
+            Charger buff = Dungeon.hero.buff(Charger.class);
+            if (Dungeon.hero.belongings.weapon == this) {
+                return buff.charges + "/" + buff.chargeCap();
+            } else {
+                return buff.secondCharges + "/" + buff.secondChargeCap();
+            }
+        } else {
+            return super.status();
+        }
+    }
+
+    @Override
+    public float abilityChargeUse(Hero hero) {
+        return ((Buff.affect(hero, Charger.class).charges + Buff.affect(hero, Charger.class).partialCharge))*super.abilityChargeUse(hero);
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target) {
+        if (hero.belongings.weapon == this &&
+                (Buff.affect(hero, Charger.class).charges + Buff.affect(hero, Charger.class).partialCharge) >= 5) {
+            beforeAbilityUsed(hero);
+            hero.HP = 1;
+            Buff.prolong(hero, Gungnir.TwilightStance.class, 3 * ((Buff.affect(hero, Charger.class).charges + Buff.affect(hero, Charger.class).partialCharge)));
+            hero.sprite.operate(hero.pos);
+            hero.next();
+            afterAbilityUsed(hero);
+        } else {
+            GLog.n(Messages.get(this, "ability_not_enough_charge"));
+        }
+    }
+
+    public static class TwilightStance extends FlavourBuff {
+
+        {
+            announced = true;
+            type = buffType.POSITIVE;
+        }
+
+        public static final float DURATION	= 3*((Buff.affect(hero, Charger.class).charges + Buff.affect(hero, Charger.class).partialCharge));
+
+        @Override
+        public int icon() {
+            return BuffIndicator.DUEL_EVASIVE;
+        }
+
+        @Override
+        public float iconFadePercent() {
+            return Math.max(0, (DURATION - visualcooldown()) / DURATION);
+        }
+
+        @Override
+        public void fx(boolean on) {
+            if (on) target.sprite.aura( 0xFFFF00 );
+            else target.sprite.clearAura();
+        }
+
+        {
+            immunities.add(Paralysis.class);
+            immunities.add(Frost.class);
+            immunities.add(Burning.class);
+            immunities.add(Poison.class);
+            immunities.add(Bleeding.class);
+            immunities.add(Corrosion.class);
+            immunities.add(Ooze.class);
+
+            immunities.add( ToxicGas.class );
+            immunities.add( Electricity.class );
+
+            immunities.addAll( AntiMagic.RESISTS );
+        }
     }
 }

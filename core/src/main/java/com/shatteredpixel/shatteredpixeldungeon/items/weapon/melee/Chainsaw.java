@@ -22,16 +22,9 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ChaliceOfBlood;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
-import com.watabou.utils.Random;
 
 public class Chainsaw extends MeleeWeapon {
 
@@ -50,6 +43,21 @@ public class Chainsaw extends MeleeWeapon {
     public int max(int lvl) {
         return  Math.round(3*(tier+2)) +        //18 base, down from 25
                 lvl*Math.round(0.5f*(tier+2));  //+3 per level, down from +5
+    }
+
+    @Override
+    public float abilityChargeUse(Hero hero) {
+        return 2*super.abilityChargeUse(hero);
+    }
+
+    @Override
+    public String targetingPrompt() {
+        return Messages.get(this, "prompt");
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target) {
+        SurrationSaw.sawAbility(hero, target, 0.05f, this);
     }
 
 }
