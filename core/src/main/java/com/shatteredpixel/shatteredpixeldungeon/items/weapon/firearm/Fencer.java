@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletUp;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -75,6 +76,11 @@ public class Fencer extends FirearmWeapon {
         } else {
             return (3*tier) + (9*lvl) + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
         }
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target ) {
+        Revolver.shootAbility(hero, this);
     }
 
 }

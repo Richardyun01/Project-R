@@ -36,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -288,6 +289,17 @@ public class MeleeWeapon extends Weapon {
 					return otherLevel;
 				}
 
+			}
+			if (other instanceof FirearmWeapon.Bullet) {
+				evaluatingTwinUpgrades = true;
+				int otherLevel = other.buffedLvl();
+				evaluatingTwinUpgrades = false;
+
+				//weaker weapon needs to be 2/1/0 tiers lower, based on talent level
+				if ((tier + (3 - Dungeon.hero.pointsInTalent(Talent.TWIN_UPGRADES))) <= ((FirearmWeapon.Bullet) other).tier
+						&& otherLevel > super.buffedLvl()) {
+					return otherLevel;
+				}
 			}
 		}
 		return super.buffedLvl();

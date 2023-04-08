@@ -379,13 +379,15 @@ public abstract class Char extends Actor {
 					h.belongings.weapon instanceof WarpBlade) {
 					dr = 0;
 				}
-				if (h.belongings.weapon instanceof Fencer.Bullet ||
-					h.belongings.weapon instanceof Vega.Bullet   ||
+				if (h.belongings.weapon instanceof Vega.Bullet   ||
 					h.belongings.weapon instanceof Karasawa.Bullet ||
 					h.belongings.weapon instanceof Kaleidoscope.Bullet ||
 					h.belongings.weapon instanceof Spark.Bullet ||
 					h.belongings.weapon instanceof Supernova.Bullet) {
 					dr = 0;
+				}
+				if (h.belongings.weapon instanceof Fencer.Bullet) {
+					dr *= 0.5f;
 				}
 				SatelliteCannon satelliteCannon = (SatelliteCannon) hero.belongings.getItem(SatelliteCannon.class);
 				if (satelliteCannon != null &&

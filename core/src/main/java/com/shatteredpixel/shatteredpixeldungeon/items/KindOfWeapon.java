@@ -230,6 +230,10 @@ abstract public class KindOfWeapon extends EquipableItem {
 		return max(buffedLvl());
 	}
 
+	public int STRReq() {
+		return STRReq();
+	}
+
 	abstract public int min(int lvl);
 	abstract public int max(int lvl);
 

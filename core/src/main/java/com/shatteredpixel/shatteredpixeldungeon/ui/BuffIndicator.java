@@ -121,7 +121,7 @@ public class BuffIndicator extends Component {
 	public static final int DUEL_DANCE  = 70;
 	public static final int DUEL_BRAWL  = 71;
 	public static final int DUEL_XBOW   = 72;
-	public static final int DUEL_MODE   = 73;
+	public static final int DUEL_TWILIGHT= 73;
 	public static final int DUEL_PISTOL = 74;
 	public static final int DUEL_SNIPER = 75;
 	public static final int DUEL_AUTO	= 76;
@@ -132,6 +132,7 @@ public class BuffIndicator extends Component {
 	public static final int CHALLENGE   = 81;
 	public static final int BOUNTY		= 82;
 	public static final int CARROLL_COMBO= 83;
+	public static final int DISINTEGRATING= 84;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;

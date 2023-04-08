@@ -137,10 +137,19 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfLivingEarth;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SatelliteCannon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ApachePistol;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Blunderbust;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Gungnir;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Harmonica;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Madness;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Reiterpallasch;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Revolver;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ShortCarbine;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Supernova;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Tat;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Trench;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Vega;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Defender;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Flail;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
@@ -296,6 +305,232 @@ public class Hero extends Char {
 		}
 
 		return STR + strBonus;
+	}
+
+	public void gainedSTRFirearm() {
+		if (hero != null && hero.heroClass == HeroClass.CARROLL) {
+			if ( hero.buff(Revolver.APShot.class) == null &&
+					(!(hero.belongings.weapon instanceof Reiterpallasch) || !(hero.belongings.weapon instanceof ApachePistol) || !(hero.belongings.weapon instanceof Gungnir))) {
+				if (hero.belongings.weapon != null && hero.belongings.secondWep == null) {
+					if (hero.belongings.weapon.firearmPistol && hero.belongings.weapon.STRReq() <= hero.STR()) {
+						Buff.affect(hero, Revolver.APShot.class);
+					}
+				} else if (hero.belongings.weapon == null && hero.belongings.secondWep != null) {
+					if (hero.belongings.weapon.firearmPistol && hero.belongings.weapon.STRReq() <= hero.STR()) {
+						Buff.affect(hero, Revolver.APShot.class);
+					}
+				} else if (hero.belongings.weapon != null && hero.belongings.secondWep != null) {
+					if ((hero.belongings.weapon.firearmPistol && hero.belongings.weapon.STRReq() <= hero.STR()) ||
+							(hero.belongings.weapon.firearmPistol && hero.belongings.secondWep.STRReq() <= hero.STR())) {
+						Buff.affect(hero, Revolver.APShot.class);
+					}
+				}
+			} else if ( hero.buff(Tat.PrecisionShot.class) == null) {
+				if (hero.belongings.weapon != null && hero.belongings.secondWep == null) {
+					if (hero.belongings.weapon.firearmPrecision && hero.belongings.weapon.STRReq() <= hero.STR()) {
+						Buff.affect(hero, Tat.PrecisionShot.class);
+					}
+				} else if (hero.belongings.weapon == null && hero.belongings.secondWep != null) {
+					if (hero.belongings.weapon.firearmPrecision && hero.belongings.weapon.STRReq() <= hero.STR()) {
+						Buff.affect(hero, Tat.PrecisionShot.class);
+					}
+				} else if (hero.belongings.weapon != null && hero.belongings.secondWep != null) {
+					if ((hero.belongings.weapon.firearmPrecision && hero.belongings.weapon.STRReq() <= hero.STR()) ||
+							(hero.belongings.weapon.firearmPrecision && hero.belongings.secondWep.STRReq() <= hero.STR())) {
+						Buff.affect(hero, Tat.PrecisionShot.class);
+					}
+				}
+			} else if ( hero.buff(ShortCarbine.InfiniteShot.class) == null) {
+				if (hero.belongings.weapon != null && hero.belongings.secondWep == null) {
+					if (hero.belongings.weapon.firearmAuto && hero.belongings.weapon.STRReq() <= hero.STR()) {
+						Buff.affect(hero, ShortCarbine.InfiniteShot.class);
+					}
+				} else if (hero.belongings.weapon == null && hero.belongings.secondWep != null) {
+					if (hero.belongings.weapon.firearmAuto && hero.belongings.weapon.STRReq() <= hero.STR()) {
+						Buff.affect(hero, ShortCarbine.InfiniteShot.class);
+					}
+				} else if (hero.belongings.weapon != null && hero.belongings.secondWep != null) {
+					if ((hero.belongings.weapon.firearmAuto && hero.belongings.weapon.STRReq() <= hero.STR()) ||
+							(hero.belongings.weapon.firearmAuto && hero.belongings.secondWep.STRReq() <= hero.STR())) {
+						Buff.affect(hero, ShortCarbine.InfiniteShot.class);
+					}
+				}
+			} else if ( hero.buff(Blunderbust.SlugShot.class) == null) {
+				if (hero.belongings.weapon != null && hero.belongings.secondWep == null) {
+					if (hero.belongings.weapon.firearmShotgun && hero.belongings.weapon.STRReq() <= hero.STR()) {
+						Buff.affect(hero, Blunderbust.SlugShot.class);
+					}
+				} else if (hero.belongings.weapon == null && hero.belongings.secondWep != null) {
+					if (hero.belongings.weapon.firearmShotgun && hero.belongings.weapon.STRReq() <= hero.STR()) {
+						Buff.affect(hero, Blunderbust.SlugShot.class);
+					}
+				} else if (hero.belongings.weapon != null && hero.belongings.secondWep != null) {
+					if ((hero.belongings.weapon.firearmShotgun && hero.belongings.weapon.STRReq() <= hero.STR()) ||
+							(hero.belongings.weapon.firearmShotgun && hero.belongings.secondWep.STRReq() <= hero.STR())) {
+						Buff.affect(hero, Blunderbust.SlugShot.class);
+					}
+				}
+			} else if (hero.buff(Harmonica.GuidedShot.class) == null &&
+							(!(hero.belongings.weapon instanceof Reiterpallasch) || !(hero.belongings.weapon instanceof ApachePistol) || !(hero.belongings.weapon instanceof Gungnir))) {
+				if (hero.belongings.weapon != null && hero.belongings.secondWep == null) {
+					if (hero.belongings.weapon.firearmExplosive && hero.belongings.weapon.STRReq() <= hero.STR()) {
+						Buff.affect(hero, Harmonica.GuidedShot.class);
+					}
+				} else if (hero.belongings.weapon == null && hero.belongings.secondWep != null) {
+					if (hero.belongings.weapon.firearmExplosive && hero.belongings.weapon.STRReq() <= hero.STR()) {
+						Buff.affect(hero, Harmonica.GuidedShot.class);
+					}
+				} else if (hero.belongings.weapon != null && hero.belongings.secondWep != null) {
+					if ((hero.belongings.weapon.firearmExplosive && hero.belongings.weapon.STRReq() <= hero.STR()) ||
+							(hero.belongings.weapon.firearmExplosive && hero.belongings.secondWep.STRReq() <= hero.STR())) {
+						Buff.affect(hero, Harmonica.GuidedShot.class);
+					}
+				}
+			} else if ( hero.buff(Vega.BreakerShot.class) == null) {
+				if (hero.belongings.weapon != null && hero.belongings.secondWep == null) {
+					if (hero.belongings.weapon.firearmEnergy && hero.belongings.weapon.STRReq() <= hero.STR()) {
+						Buff.affect(hero, Vega.BreakerShot.class);
+					}
+				} else if (hero.belongings.weapon == null && hero.belongings.secondWep != null) {
+					if (hero.belongings.weapon.firearmEnergy && hero.belongings.weapon.STRReq() <= hero.STR()) {
+						Buff.affect(hero, Vega.BreakerShot.class);
+					}
+				} else if (hero.belongings.weapon != null && hero.belongings.secondWep != null) {
+					if ((hero.belongings.weapon.firearmEnergy && hero.belongings.weapon.STRReq() <= hero.STR()) ||
+							(hero.belongings.weapon.firearmEnergy && hero.belongings.secondWep.STRReq() <= hero.STR())) {
+						Buff.affect(hero, Vega.BreakerShot.class);
+					}
+				}
+			} else if ( hero.buff(Madness.OverCharge.class) == null) {
+				if (hero.belongings.weapon != null && hero.belongings.secondWep == null) {
+					if (hero.belongings.weapon.firearmEtc && hero.belongings.weapon.STRReq() <= hero.STR()) {
+						Buff.affect(hero, Madness.OverCharge.class);
+					}
+				} else if (hero.belongings.weapon == null && hero.belongings.secondWep != null) {
+					if (hero.belongings.weapon.firearmEtc && hero.belongings.weapon.STRReq() <= hero.STR()) {
+						Buff.affect(hero, Madness.OverCharge.class);
+					}
+				} else if (hero.belongings.weapon != null && hero.belongings.secondWep != null) {
+					if ((hero.belongings.weapon.firearmEtc && hero.belongings.weapon.STRReq() <= hero.STR()) ||
+							(hero.belongings.weapon.firearmEtc && hero.belongings.secondWep.STRReq() <= hero.STR())) {
+						Buff.affect(hero, Madness.OverCharge.class);
+					}
+				}
+			}
+		}
+	}
+
+	public void lostSTRFirearm() {
+		if (hero != null && hero.heroClass == HeroClass.CARROLL) {
+			if (hero.buff(Revolver.APShot.class) != null &&
+					!(belongings.weapon instanceof Reiterpallasch || belongings.weapon instanceof ApachePistol || belongings.weapon instanceof Gungnir)) {
+				if (belongings.weapon != null && belongings.secondWep == null) {
+					if (belongings.weapon.firearmPistol && belongings.weapon.STRReq() > hero.STR()) {
+						hero.buff(Revolver.APShot.class).detach();
+					}
+				} else if (belongings.weapon == null && belongings.secondWep != null) {
+					if (belongings.weapon.firearmPistol && belongings.weapon.STRReq() > hero.STR()) {
+						hero.buff(Revolver.APShot.class).detach();
+					}
+				} else if (belongings.weapon != null && belongings.secondWep != null) {
+					if ((belongings.weapon.firearmPistol && belongings.weapon.STRReq() > hero.STR()) ||
+							(belongings.weapon.firearmPistol && belongings.secondWep.STRReq() > hero.STR())) {
+						hero.buff(Revolver.APShot.class).detach();
+					}
+				}
+			} else if (hero.buff(Tat.PrecisionShot.class) != null) {
+				if (belongings.weapon != null && belongings.secondWep == null) {
+					if (belongings.weapon.firearmPrecision && belongings.weapon.STRReq() > hero.STR()) {
+						hero.buff(Tat.PrecisionShot.class).detach();
+					}
+				} else if (belongings.weapon == null && belongings.secondWep != null) {
+					if (belongings.weapon.firearmPrecision && belongings.weapon.STRReq() > hero.STR()) {
+						hero.buff(Tat.PrecisionShot.class).detach();
+					}
+				} else if (belongings.weapon != null && belongings.secondWep != null) {
+					if ((belongings.weapon.firearmPrecision && belongings.weapon.STRReq() > hero.STR()) ||
+							(belongings.weapon.firearmPrecision && belongings.secondWep.STRReq() > hero.STR())) {
+						hero.buff(Tat.PrecisionShot.class).detach();
+					}
+				}
+			} else if (hero.buff(ShortCarbine.InfiniteShot.class) != null) {
+				if (belongings.weapon != null && belongings.secondWep == null) {
+					if (belongings.weapon.firearmAuto && belongings.weapon.STRReq() > hero.STR()) {
+						hero.buff(ShortCarbine.InfiniteShot.class).detach();
+					}
+				} else if (belongings.weapon == null && belongings.secondWep != null) {
+					if (belongings.weapon.firearmAuto && belongings.weapon.STRReq() > hero.STR()) {
+						hero.buff(ShortCarbine.InfiniteShot.class).detach();
+					}
+				} else if (belongings.weapon != null && belongings.secondWep != null) {
+					if ((belongings.weapon.firearmAuto && belongings.weapon.STRReq() > hero.STR()) ||
+							(belongings.weapon.firearmAuto && belongings.secondWep.STRReq() > hero.STR())) {
+						hero.buff(ShortCarbine.InfiniteShot.class).detach();
+					}
+				}
+			} else if (hero.buff(Blunderbust.SlugShot.class) != null) {
+				if (belongings.weapon != null && belongings.secondWep == null) {
+					if (belongings.weapon.firearmShotgun && belongings.weapon.STRReq() > hero.STR()) {
+						hero.buff(Blunderbust.SlugShot.class).detach();
+					}
+				} else if (belongings.weapon == null && belongings.secondWep != null) {
+					if (belongings.weapon.firearmShotgun && belongings.weapon.STRReq() > hero.STR()) {
+						hero.buff(Blunderbust.SlugShot.class).detach();
+					}
+				} else if (belongings.weapon != null && belongings.secondWep != null) {
+					if ((belongings.weapon.firearmShotgun && belongings.weapon.STRReq() > hero.STR()) ||
+							(belongings.weapon.firearmShotgun && belongings.secondWep.STRReq() > hero.STR())) {
+						hero.buff(Blunderbust.SlugShot.class).detach();
+					}
+				}
+			} else if (hero.buff(Harmonica.GuidedShot.class) != null &&
+					(!(belongings.weapon instanceof Reiterpallasch) || !(belongings.weapon instanceof ApachePistol) || !(belongings.weapon instanceof Gungnir))) {
+				if (belongings.weapon != null && belongings.secondWep == null) {
+					if (belongings.weapon.firearmExplosive && belongings.weapon.STRReq() > hero.STR()) {
+						hero.buff(Harmonica.GuidedShot.class).detach();
+					}
+				} else if (belongings.weapon == null && belongings.secondWep != null) {
+					if (belongings.weapon.firearmExplosive && belongings.weapon.STRReq() > hero.STR()) {
+						hero.buff(Harmonica.GuidedShot.class).detach();
+					}
+				} else if (belongings.weapon != null && belongings.secondWep != null) {
+					if ((belongings.weapon.firearmExplosive && belongings.weapon.STRReq() > hero.STR()) ||
+							(belongings.weapon.firearmExplosive && belongings.secondWep.STRReq() > hero.STR())) {
+						hero.buff(Harmonica.GuidedShot.class).detach();
+					}
+				}
+			} else if (hero.buff(Vega.BreakerShot.class) != null) {
+				if (belongings.weapon != null && belongings.secondWep == null) {
+					if (belongings.weapon.firearmEnergy && belongings.weapon.STRReq() > hero.STR()) {
+						hero.buff(Vega.BreakerShot.class).detach();
+					}
+				} else if (belongings.weapon == null && belongings.secondWep != null) {
+					if (belongings.weapon.firearmEnergy && belongings.weapon.STRReq() > hero.STR()) {
+						hero.buff(Vega.BreakerShot.class).detach();
+					}
+				} else if (belongings.weapon != null && belongings.secondWep != null) {
+					if ((belongings.weapon.firearmEnergy && belongings.weapon.STRReq() > hero.STR()) ||
+							(belongings.weapon.firearmEnergy && belongings.secondWep.STRReq() > hero.STR())) {
+						hero.buff(Vega.BreakerShot.class).detach();
+					}
+				}
+			} else if (hero.buff(Madness.OverCharge.class) != null) {
+				if (belongings.weapon != null && belongings.secondWep == null) {
+					if (belongings.weapon.firearmEtc && belongings.weapon.STRReq() > hero.STR()) {
+						hero.buff(Madness.OverCharge.class).detach();
+					}
+				} else if (belongings.weapon == null && belongings.secondWep != null) {
+					if (belongings.weapon.firearmEtc && belongings.weapon.STRReq() > hero.STR()) {
+						hero.buff(Madness.OverCharge.class).detach();
+					}
+				} else if (belongings.weapon != null && belongings.secondWep != null) {
+					if ((belongings.weapon.firearmEtc && belongings.weapon.STRReq() > hero.STR()) ||
+							(belongings.weapon.firearmEtc && belongings.secondWep.STRReq() > hero.STR())) {
+						hero.buff(Madness.OverCharge.class).detach();
+					}
+				}
+			}
+		}
 	}
 
 	private static final String CLASS       = "class";

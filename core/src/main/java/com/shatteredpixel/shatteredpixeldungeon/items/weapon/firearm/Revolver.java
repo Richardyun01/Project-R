@@ -71,7 +71,7 @@ public class Revolver extends FirearmWeapon{
     public static void shootAbility(Hero hero, FirearmWeapon wep) {
         wep.beforeAbilityUsed(hero);
         if (hero.buff(Revolver.APShot.class) != null) {
-            hero.buff(Revolver.APShot.class).onUse = !hero.buff(Revolver.APShot.class).onUse;
+            hero.buff(Revolver.APShot.class).onUse = !hero.buff(APShot.class).onUse;
         }
         Sample.INSTANCE.play( Assets.Sounds.UNLOCK );
         hero.sprite.operate(hero.pos);

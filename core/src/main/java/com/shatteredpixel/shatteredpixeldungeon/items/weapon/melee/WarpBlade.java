@@ -22,11 +22,21 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Disintegrating;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.ui.AttackIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Callback;
 
 public class WarpBlade extends MeleeWeapon {
 
@@ -50,6 +60,56 @@ public class WarpBlade extends MeleeWeapon {
         Splash.at( defender.sprite.center(), 0xFFB2D6FF, 5);
 
         return damage;
+    }
+
+    @Override
+    public float abilityChargeUse(Hero hero) {
+        return 2*super.abilityChargeUse(hero);
+    }
+
+    @Override
+    public String targetingPrompt() {
+        return Messages.get(this, "prompt");
+    }
+
+    @Override
+    protected void carrollAbility(Hero hero, Integer target) {
+        warpCutAbility(hero, target, this);
+    }
+
+    public static void warpCutAbility(Hero hero, Integer target, MeleeWeapon wep){
+        if (target == null) {
+            return;
+        }
+
+        Char enemy = Actor.findChar(target);
+        if (enemy == null || enemy == hero || hero.isCharmedBy(enemy) || !Dungeon.level.heroFOV[target]) {
+            GLog.w(Messages.get(wep, "ability_no_target"));
+            return;
+        }
+
+        hero.belongings.abilityWeapon = wep;
+        if (!hero.canAttack(enemy)){
+            GLog.w(Messages.get(wep, "ability_bad_position"));
+            hero.belongings.abilityWeapon = null;
+            return;
+        }
+        hero.belongings.abilityWeapon = null;
+
+        hero.sprite.attack(enemy.pos, new Callback() {
+            @Override
+            public void call() {
+                wep.beforeAbilityUsed(hero);
+                AttackIndicator.target(enemy);
+                if (hero.attack(enemy)) {
+                    Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
+                    Buff.affect(enemy, Disintegrating.class).set(enemy.HP*0.25f);
+                }
+                Invisibility.dispel();
+                hero.next();
+                wep.afterAbilityUsed(hero);
+            }
+        });
     }
 
 }

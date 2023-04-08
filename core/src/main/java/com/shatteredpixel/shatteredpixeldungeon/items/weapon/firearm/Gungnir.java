@@ -233,7 +233,7 @@ public class Gungnir extends FirearmWeapon{
 
         @Override
         public int icon() {
-            return BuffIndicator.DUEL_EVASIVE;
+            return BuffIndicator.DUEL_TWILIGHT;
         }
 
         @Override
@@ -243,7 +243,7 @@ public class Gungnir extends FirearmWeapon{
 
         @Override
         public void fx(boolean on) {
-            if (on) target.sprite.aura( 0xFFFF00 );
+            if (on) target.sprite.aura( 0xFFFFFF00 );
             else target.sprite.clearAura();
         }
 

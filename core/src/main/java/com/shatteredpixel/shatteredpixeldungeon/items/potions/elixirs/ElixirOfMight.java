@@ -48,6 +48,7 @@ public class ElixirOfMight extends Elixir {
 		identify();
 		
 		hero.STR++;
+		hero.gainedSTRFirearm();
 		
 		Buff.affect(hero, HTBoost.class).reset();
 		HTBoost boost = Buff.affect(hero, HTBoost.class);
