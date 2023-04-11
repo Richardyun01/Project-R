@@ -475,7 +475,7 @@ public class FirearmWeapon extends MeleeWeapon {
                     Buff.affect(ch, Madness.OverCharge.class);
                 default:
                     break;
-        }
+            }
         }
         if (ch instanceof Hero && ((Hero) ch).buff(Revolver.APShot.class) != null) {
             if (((Hero) ch).belongings.weapon == null && ((Hero) ch).belongings.secondWep == null) {
@@ -988,6 +988,17 @@ public class FirearmWeapon extends MeleeWeapon {
         @Override
         public int proc(Char attacker, Char defender, int damage) {
             SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
+            if (damage >= defender.HP && hero.buff(Charger.class).charges >= 1) {
+                if (hero.buff(Revolver.APShot.class) != null ||
+                    hero.buff(Tat.PrecisionShot.class) != null ||
+                    hero.buff(ShortCarbine.InfiniteShot.class) != null ||
+                    hero.buff(Blunderbust.SlugShot.class) != null ||
+                    hero.buff(Harmonica.GuidedShot.class) != null ||
+                    hero.buff(Vega.BreakerShot.class) != null ||
+                    hero.buff(Madness.OverCharge.class) != null) {
+                    FirearmWeapon.this.onAbilityKill(hero);
+                }
+            }
             if (FirearmWeapon.this.enchantment == null
                     && Random.Int(3) < hero.pointsInTalent(Talent.SHARED_ENCHANTMENT)
                     && hero.buff(MagicImmune.class) == null
@@ -1092,7 +1103,7 @@ public class FirearmWeapon extends MeleeWeapon {
                                 hero.buff(MeleeWeapon.Charger.class) != null &&
                                 hero.buff(Madness.OverCharge.class).onUse &&
                                 hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
-                            hero.buff(MeleeWeapon.Charger.class).charges -= 5;
+
                         } else {
                             round--;
                         }
@@ -1236,7 +1247,7 @@ public class FirearmWeapon extends MeleeWeapon {
                                     hero.buff(MeleeWeapon.Charger.class) != null &&
                                     hero.buff(ShortCarbine.InfiniteShot.class).onUse &&
                                     hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
-                            hero.buff(MeleeWeapon.Charger.class).charges--;
+
                         } else {
                             round--;
                         }
@@ -1303,8 +1314,7 @@ public class FirearmWeapon extends MeleeWeapon {
                     hero.buff(MeleeWeapon.Charger.class) != null &&
                     hero.buff(Vega.BreakerShot.class).onUse &&
                     hero.buff(MeleeWeapon.Charger.class).charges >= 1) {
-                hero.buff(MeleeWeapon.Charger.class).charges--;
-                Buff.affect(findChar, Vulnerable.class, 3f);
+                Buff.affect(findChar, Vulnerable.class, 5f);
             }
 
             switch (type) {
@@ -1396,6 +1406,56 @@ public class FirearmWeapon extends MeleeWeapon {
                     reload();
                 } else {
                     knockBullet().cast(curUser, target);
+                    if (hero.buff(Revolver.APShot.class) != null &&
+                            hero.buff(FirearmWeapon.Charger.class) != null &&
+                            hero.buff(Revolver.APShot.class).onUse &&
+                            hero.buff(FirearmWeapon.Charger.class).charges >= 1) {
+                        beforeAbilityUsed(curUser);
+                        hero.buff(FirearmWeapon.Charger.class).charges--;
+                        afterAbilityUsed(curUser);
+                    } else if (hero.buff(Tat.PrecisionShot.class) != null &&
+                            hero.buff(FirearmWeapon.Charger.class) != null &&
+                            hero.buff(Tat.PrecisionShot.class).onUse &&
+                            hero.buff(FirearmWeapon.Charger.class).charges >= 1) {
+                        beforeAbilityUsed(curUser);
+                        hero.buff(FirearmWeapon.Charger.class).charges-=2;
+                        afterAbilityUsed(curUser);
+                    } else if (hero.buff(ShortCarbine.InfiniteShot.class) != null &&
+                            hero.buff(FirearmWeapon.Charger.class) != null &&
+                            hero.buff(ShortCarbine.InfiniteShot.class).onUse &&
+                            hero.buff(FirearmWeapon.Charger.class).charges >= 1) {
+                        beforeAbilityUsed(curUser);
+                        hero.buff(FirearmWeapon.Charger.class).charges-=2;
+                        afterAbilityUsed(curUser);
+                    } else if (hero.buff(Blunderbust.SlugShot.class) != null &&
+                            hero.buff(FirearmWeapon.Charger.class) != null &&
+                            hero.buff(Blunderbust.SlugShot.class).onUse &&
+                            hero.buff(FirearmWeapon.Charger.class).charges >= 1) {
+                        beforeAbilityUsed(curUser);
+                        hero.buff(FirearmWeapon.Charger.class).charges-=2;
+                        afterAbilityUsed(curUser);
+                    } else if (hero.buff(Harmonica.GuidedShot.class) != null &&
+                            hero.buff(FirearmWeapon.Charger.class) != null &&
+                            hero.buff(Harmonica.GuidedShot.class).onUse &&
+                            hero.buff(FirearmWeapon.Charger.class).charges >= 1) {
+                        beforeAbilityUsed(curUser);
+                        hero.buff(FirearmWeapon.Charger.class).charges-=2;
+                        afterAbilityUsed(curUser);
+                    } else if (hero.buff(Vega.BreakerShot.class) != null &&
+                            hero.buff(FirearmWeapon.Charger.class) != null &&
+                            hero.buff(Vega.BreakerShot.class).onUse &&
+                            hero.buff(FirearmWeapon.Charger.class).charges >= 1) {
+                        beforeAbilityUsed(curUser);
+                        hero.buff(FirearmWeapon.Charger.class).charges--;
+                        afterAbilityUsed(curUser);
+                    } else if (hero.buff(Madness.OverCharge.class) != null &&
+                            hero.buff(FirearmWeapon.Charger.class) != null &&
+                            hero.buff(Madness.OverCharge.class).onUse &&
+                            hero.buff(FirearmWeapon.Charger.class).charges >= 1) {
+                        beforeAbilityUsed(curUser);
+                        hero.buff(FirearmWeapon.Charger.class).charges-=5;
+                        afterAbilityUsed(curUser);
+                    }
                 }
             }
         }

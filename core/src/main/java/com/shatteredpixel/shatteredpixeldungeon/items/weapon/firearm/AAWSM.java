@@ -14,7 +14,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class AAWSM extends FirearmWeapon{
@@ -53,10 +52,9 @@ public class AAWSM extends FirearmWeapon{
             return 1.5f;
         } else if (owner instanceof Hero &&
                 owner.buff(Harmonica.GuidedShot.class) != null &&
-                owner.buff(MeleeWeapon.Charger.class) != null &&
+                owner.buff(FirearmWeapon.Charger.class) != null &&
                 owner.buff(Harmonica.GuidedShot.class).onUse &&
-                owner.buff(MeleeWeapon.Charger.class).charges >= 1) {
-            owner.buff(MeleeWeapon.Charger.class).charges--;
+                owner.buff(FirearmWeapon.Charger.class).charges >= 1) {
             return INFINITE_ACCURACY;
         } else {
             return 1f;

@@ -56,7 +56,6 @@ public class Hydra extends FirearmWeapon{
                 owner.buff(MeleeWeapon.Charger.class) != null &&
                 owner.buff(Harmonica.GuidedShot.class).onUse &&
                 owner.buff(MeleeWeapon.Charger.class).charges >= 1) {
-            owner.buff(MeleeWeapon.Charger.class).charges--;
             return INFINITE_ACCURACY;
         } else {
             return 1f;

@@ -25,7 +25,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class SuperShotgun extends FirearmWeapon{
@@ -53,10 +52,9 @@ public class SuperShotgun extends FirearmWeapon{
     public float accuracyFactorBullet(Char owner, Char target) {
         if (owner instanceof Hero &&
                 owner.buff(Blunderbust.SlugShot.class) != null &&
-                owner.buff(MeleeWeapon.Charger.class) != null &&
+                owner.buff(FirearmWeapon.Charger.class) != null &&
                 owner.buff(Blunderbust.SlugShot.class).onUse &&
-                owner.buff(MeleeWeapon.Charger.class).charges >= 1) {
-            owner.buff(MeleeWeapon.Charger.class).charges--;
+                owner.buff(FirearmWeapon.Charger.class).charges >= 1) {
             return 1f;
         } else {
             return Dungeon.level.adjacent(owner.pos, target.pos) ? 1.5f : 0f;

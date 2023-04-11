@@ -70,7 +70,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Blunderbust;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Harmonica;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Madness;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Revolver;
@@ -806,11 +805,13 @@ public abstract class Mob extends Char {
 					hero.buff(Harmonica.GuidedShot.class) != null ||
 					hero.buff(Vega.BreakerShot.class) != null ||
 					hero.buff(Madness.OverCharge.class) != null) {
+					/*
 					Buff.affect(hero, FirearmWeapon.Charger.class).killCount++;
 					if (FirearmWeapon.Charger.killCount == 3) {
 						Buff.affect(hero, FirearmWeapon.Charger.class).charges++;
 						FirearmWeapon.Charger.killCount = 0;
 					}
+					*/
 				}
 			}
 		}

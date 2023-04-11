@@ -34,7 +34,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Aria extends FirearmWeapon{
@@ -88,10 +87,9 @@ public class Aria extends FirearmWeapon{
     public float accuracyFactorBullet(Char owner, Char target) {
         if (owner instanceof Hero &&
                 owner.buff(Tat.PrecisionShot.class) != null &&
-                owner.buff(MeleeWeapon.Charger.class) != null &&
+                owner.buff(FirearmWeapon.Charger.class) != null &&
                 owner.buff(Tat.PrecisionShot.class).onUse &&
-                owner.buff(MeleeWeapon.Charger.class).charges >= 1) {
-            owner.buff(MeleeWeapon.Charger.class).charges--;
+                owner.buff(FirearmWeapon.Charger.class).charges >= 1) {
             return INFINITE_ACCURACY;
         } else {
             return Dungeon.level.adjacent(owner.pos, target.pos) ? 0f : 2f;

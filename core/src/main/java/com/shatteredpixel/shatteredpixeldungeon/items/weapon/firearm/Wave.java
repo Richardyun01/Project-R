@@ -56,7 +56,6 @@ public class Wave extends FirearmWeapon{
                 owner.buff(MeleeWeapon.Charger.class) != null &&
                 owner.buff(Blunderbust.SlugShot.class).onUse &&
                 owner.buff(MeleeWeapon.Charger.class).charges >= 1) {
-            owner.buff(MeleeWeapon.Charger.class).charges--;
             return 1f;
         } else {
             return Dungeon.level.adjacent(owner.pos, target.pos) ? 1.5f : 0f;

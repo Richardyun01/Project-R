@@ -88,7 +88,7 @@ public class ShortCarbine extends FirearmWeapon {
 
     public static class InfiniteShot extends Buff {
 
-        public static float HIT_CHARGE_USE = 2f;
+        public static float HIT_CHARGE_USE = 1f;
 
         public boolean onUse = true;
 

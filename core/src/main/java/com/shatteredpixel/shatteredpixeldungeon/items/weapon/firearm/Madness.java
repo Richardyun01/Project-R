@@ -102,7 +102,7 @@ public class Madness extends FirearmWeapon {
 
     public static class OverCharge extends Buff {
 
-        public static float HIT_CHARGE_USE = 5f;
+        public static float HIT_CHARGE_USE = 1f;
 
         public boolean onUse = true;
 

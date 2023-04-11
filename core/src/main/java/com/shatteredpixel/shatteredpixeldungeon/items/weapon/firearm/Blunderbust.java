@@ -61,7 +61,6 @@ public class Blunderbust extends FirearmWeapon{
                 owner.buff(MeleeWeapon.Charger.class) != null &&
                 owner.buff(SlugShot.class).onUse &&
                 owner.buff(MeleeWeapon.Charger.class).charges >= 1) {
-            owner.buff(MeleeWeapon.Charger.class).charges--;
             return 1f;
         } else {
             return Dungeon.level.adjacent(owner.pos, target.pos) ? 1.5f : 0f;
@@ -85,7 +84,7 @@ public class Blunderbust extends FirearmWeapon{
 
     public static class SlugShot extends Buff {
 
-        public static float HIT_CHARGE_USE = 3f;
+        public static float HIT_CHARGE_USE = 1f;
 
         public boolean onUse = true;
 

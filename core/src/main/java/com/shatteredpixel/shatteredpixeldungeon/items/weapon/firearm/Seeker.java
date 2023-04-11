@@ -58,7 +58,6 @@ public class Seeker extends FirearmWeapon {
                 owner.buff(MeleeWeapon.Charger.class) != null &&
                 owner.buff(Tat.PrecisionShot.class).onUse &&
                 owner.buff(MeleeWeapon.Charger.class).charges >= 1) {
-            owner.buff(MeleeWeapon.Charger.class).charges--;
             return INFINITE_ACCURACY;
         } else {
             return Dungeon.level.adjacent(owner.pos, target.pos) ? 0f : 2f;

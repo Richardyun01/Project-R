@@ -105,7 +105,7 @@ public class Vega extends FirearmWeapon{
 
     public static class BreakerShot extends Buff {
 
-        public static float HIT_CHARGE_USE = 2f;
+        public static float HIT_CHARGE_USE = 1f;
 
         public boolean onUse = true;
 

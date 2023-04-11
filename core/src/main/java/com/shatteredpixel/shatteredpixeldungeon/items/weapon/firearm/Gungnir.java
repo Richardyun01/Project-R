@@ -6,6 +6,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.CorrosiveGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
@@ -204,7 +205,8 @@ public class Gungnir extends FirearmWeapon{
 
     @Override
     public float abilityChargeUse(Hero hero) {
-        return ((Buff.affect(hero, Charger.class).charges + Buff.affect(hero, Charger.class).partialCharge))*super.abilityChargeUse(hero);
+        int total_charge = (int)((Buff.affect(hero, Charger.class).charges + Buff.affect(hero, Charger.class).partialCharge));
+        return total_charge*super.abilityChargeUse(hero);
     }
 
     @Override
@@ -257,6 +259,7 @@ public class Gungnir extends FirearmWeapon{
             immunities.add(Ooze.class);
 
             immunities.add( ToxicGas.class );
+            immunities.add( CorrosiveGas.class );
             immunities.add( Electricity.class );
 
             immunities.addAll( AntiMagic.RESISTS );
