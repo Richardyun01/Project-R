@@ -34,7 +34,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bat;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bee;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Crab;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Scorpio;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.SpeedHound;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Spinner;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.SpinnerSlow;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Swarm;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
@@ -204,7 +206,9 @@ public class Pickaxe extends MeleeWeapon {
 						|| enemy instanceof Swarm
 						|| enemy instanceof Bee
 						|| enemy instanceof Crab
+						|| enemy instanceof SpeedHound
 						|| enemy instanceof Spinner
+						|| enemy instanceof SpinnerSlow
 						|| enemy instanceof Scorpio) {
 					damageMulti = 2f;
 				}

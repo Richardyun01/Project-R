@@ -218,16 +218,30 @@ public class Bestiary {
 					cl = Albino.class;
 				} else if (cl == Slime.class) {
 					cl = CausticSlime.class;
+				} else if (cl == Crab.class) {
+					cl = SpeedHound.class;
+				} else if (cl == Skeleton.class) {
+					cl = LightJunker.class;
+				} else if (cl == DM100.class) {
+					cl = DM101.class;
 				} else if (cl == Thief.class) {
 					cl = Bandit.class;
+				} else if (cl == Guard.class) {
+					cl = NoGuard.class;
 				} else if (cl == Necromancer.class){
 					cl = SpectralNecromancer.class;
+				} else if (cl == Bat.class) {
+					cl = BatFat.class;
 				} else if (cl == Brute.class) {
 					cl = ArmoredBrute.class;
 				} else if (cl == DM200.class) {
 					cl = DM201.class;
+				} else if (cl == Spinner.class) {
+					cl = Spinner.class;
 				} else if (cl == Monk.class) {
 					cl = Senior.class;
+				} else if (cl == Warlock.class) {
+					cl = WarlockHigh.class;
 				} else if (cl == Scorpio.class) {
 					cl = Acidic.class;
 				}

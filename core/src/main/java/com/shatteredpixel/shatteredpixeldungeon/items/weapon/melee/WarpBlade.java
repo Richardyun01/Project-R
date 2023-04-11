@@ -27,7 +27,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Disintegrating;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
@@ -56,7 +55,7 @@ public class WarpBlade extends MeleeWeapon {
 
     public int proc( Char defender, int damage ) {
 
-        Buff.affect( defender, Doom.class );
+        Buff.affect(defender, Disintegrating.class).set(damage*0.33f);
         Splash.at( defender.sprite.center(), 0xFFB2D6FF, 5);
 
         return damage;

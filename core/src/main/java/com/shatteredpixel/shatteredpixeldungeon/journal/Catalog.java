@@ -37,6 +37,7 @@ public enum Catalog {
 	WEAPONS,
 	ARMOR,
 	WANDS,
+	//EXTENSIONS,
 	RINGS,
 	ARTIFACTS,
 	POTIONS,
@@ -107,6 +108,12 @@ public enum Catalog {
 			RINGS.seen.put( ring, false);
 		}
 
+		/*
+		for (Class ring : Generator.Category.EXTENSION.classes){
+			EXTENSIONS.seen.put( extension, false);
+		}
+		* */
+
 		for (Class artifact : Generator.Category.ARTIFACT.classes){
 			ARTIFACTS.seen.put( artifact, false);
 		}
@@ -126,6 +133,7 @@ public enum Catalog {
 		catalogBadges.put(WEAPONS, Badges.Badge.ALL_WEAPONS_IDENTIFIED);
 		catalogBadges.put(ARMOR, Badges.Badge.ALL_ARMOR_IDENTIFIED);
 		catalogBadges.put(WANDS, Badges.Badge.ALL_WANDS_IDENTIFIED);
+		//catalogBadges.put(EXTENSIONS, Badges.Badge.ALL_EXTENSIONS_IDENTIFIED);
 		catalogBadges.put(RINGS, Badges.Badge.ALL_RINGS_IDENTIFIED);
 		catalogBadges.put(ARTIFACTS, Badges.Badge.ALL_ARTIFACTS_IDENTIFIED);
 		catalogBadges.put(POTIONS, Badges.Badge.ALL_POTIONS_IDENTIFIED);
