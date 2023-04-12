@@ -845,6 +845,10 @@ public class Hero extends Char {
 			evasion = belongings.armor().evasionFactor(this, evasion);
 		}
 
+		if (hero.hasTalent(Talent.EMERGENCY_AVOIDANCE)) {
+			evasion *= 1 + 0.1f * hero.pointsInTalent(Talent.EMERGENCY_AVOIDANCE);
+		}
+
 		if (buff(Talent.RestoredAgilityTracker.class) != null){
 			if (pointsInTalent(Talent.RESTORED_AGILITY) == 1){
 				evasion *= 4f;

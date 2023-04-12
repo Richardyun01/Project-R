@@ -231,7 +231,7 @@ public class Gungnir extends FirearmWeapon{
             type = buffType.POSITIVE;
         }
 
-        public static final float DURATION	= 3*((Buff.affect(hero, Charger.class).charges + Buff.affect(hero, Charger.class).partialCharge));
+        public static final float DURATION = 30;
 
         @Override
         public int icon() {

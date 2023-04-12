@@ -70,6 +70,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfAggression;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Blunderbust;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Harmonica;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Madness;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Revolver;
@@ -798,20 +799,19 @@ public abstract class Mob extends Char {
 
 			if (Dungeon.hero.heroClass == HeroClass.CARROLL
 					&& Dungeon.hero.belongings.attackingWeapon().bullet) {
-				if (hero.buff(Revolver.APShot.class) != null ||
+				if ((hero.buff(Revolver.APShot.class) != null ||
 					hero.buff(Tat.PrecisionShot.class) != null ||
 					hero.buff(ShortCarbine.InfiniteShot.class) != null ||
 					hero.buff(Blunderbust.SlugShot.class) != null ||
 					hero.buff(Harmonica.GuidedShot.class) != null ||
 					hero.buff(Vega.BreakerShot.class) != null ||
-					hero.buff(Madness.OverCharge.class) != null) {
-					/*
+					hero.buff(Madness.OverCharge.class) != null) &&
+					FirearmWeapon.Charger.killCount < 3) {
 					Buff.affect(hero, FirearmWeapon.Charger.class).killCount++;
-					if (FirearmWeapon.Charger.killCount == 3) {
+					if (FirearmWeapon.Charger.killCount >= 3 && hero.buff(FirearmWeapon.Charger.class).charges < 10) {
 						Buff.affect(hero, FirearmWeapon.Charger.class).charges++;
 						FirearmWeapon.Charger.killCount = 0;
 					}
-					*/
 				}
 			}
 		}

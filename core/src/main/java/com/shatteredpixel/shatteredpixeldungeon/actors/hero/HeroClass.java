@@ -111,6 +111,9 @@ public enum HeroClass {
 	NOISE( HeroSubClass.TRIGGERHAPPY, HeroSubClass.DEMOLITIONIST, HeroSubClass.BUNKER),
 	LANCE( HeroSubClass.PHALANX, HeroSubClass.TERCIO, HeroSubClass.VLAD ),
 	CARROLL( HeroSubClass.CHALLENGER, HeroSubClass.BOUNTYHUNTER, HeroSubClass.CAPTAIN );
+	//MAGNUS( HeroSubClass.COMMAND, HeroSubClass.BREACHER, HeroSubClass.DRAGON ),
+	//ARTILIA( HeroSubClass.PERETORIA, HeroSubClass.VALKYRIE, HeroSubClass.WINTERSTORM ),
+	//VANGUARD( HeroSubClass.LIBRARIAN, HeroSubClass.DEVASTATOR, HeroSubClass.IMMORTAL );
 
 	private HeroSubClass[] subClasses;
 

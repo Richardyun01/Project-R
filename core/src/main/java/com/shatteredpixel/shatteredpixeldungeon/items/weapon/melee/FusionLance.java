@@ -98,12 +98,12 @@ public class FusionLance extends MeleeWeapon {
                 wep.beforeAbilityUsed(hero);
                 AttackIndicator.target(enemy);
                 if (hero.attack(enemy, dmgMulti, 0, Char.INFINITE_ACCURACY)){
-                    for (int n : PathFinder.NEIGHBOURS9) {
+                    for (int n : PathFinder.NEIGHBOURS8) {
                         int c = enemy.pos + n;
                         if (c >= 0 && c < Dungeon.level.length()) {
                             Char ch = Actor.findChar(c);
                             if (ch != null && ch != hero) {
-                                int aoeHit = Math.round(dmgMulti);
+                                int aoeHit = wep.max() * (int)dmgMulti;
                                 ch.damage(aoeHit, target);
                                 ch.sprite.flash();
                             }
