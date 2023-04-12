@@ -27,6 +27,8 @@ Project-R supports only Korean language yet.
 - New Data Chip (Ring in SPD)
     - Reload Support Chip
 ---
+- 7 New rare enemies
+---
 - 4 New Subclasses for Original Classes
 - 5th 1 tier talent for each class
 - 6th 2 tier talent for each class
