@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
@@ -35,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
@@ -168,7 +171,14 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
 		}
 
 		public String desc(int count){
-			return Messages.get(this, name()+"_desc");
+			switch (this){
+				default:
+					return Messages.get(this, name()+"_desc");
+				case DISSECT:
+					return Messages.get(this, name()+"_desc", 100+15*Dungeon.hero.pointsInTalent(Talent.PRECISE_DISSECTION), 20+20*Dungeon.hero.pointsInTalent(Talent.PRECISE_DISSECTION));
+				case CRACKDOWN:
+					return Messages.get(this, name()+"_desc", 100+10*Dungeon.hero.pointsInTalent(Talent.EXPLOSION));
+			}
 		}
 
 	}
@@ -192,6 +202,28 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
 	}
 
 	public void useMove(ComboMove move){
+		if (Dungeon.hero.subClass == HeroSubClass.PHALANX) {
+			if (Random.Int(6) == 0) {
+				Buff.affect( hero, Bless.class, 3f);
+			} else if (Random.Int(6) == 1) {
+				Buff.affect( hero, Adrenaline.class, 3f);
+			} else if (Random.Int(6) == 2) {
+				int barrAmt = 1;
+				barrAmt = Math.min( barrAmt, hero.HT - hero.HP );
+				if (barrAmt > 0 && hero.isAlive()) {
+					Buff.affect(hero, Barrier.class).setShield((int) (2));
+					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( barrAmt ) );
+				}
+			} else if (Random.Int(6) == 3) {
+				Buff.affect( hero, Haste.class, 2);
+			} else if (Random.Int(6) == 4) {
+				Buff.affect( hero, ArtifactRecharge.class).prolong(3);
+			} else if (Random.Int(6) == 5) {
+				Buff.affect( hero, Invisibility.class, 3);
+			} else if (Random.Int(6) == 6) {
+				Buff.affect( hero, MagicImmune.class, 3);
+			}
+		}
 		moveBeingUsed = move;
 		GameScene.selectCell(listener);
 	}

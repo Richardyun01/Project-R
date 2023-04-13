@@ -26,7 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 
 public class LancePredationTracker extends FlavourBuff {
 
-    public static final float DURATION	= 10f;
+    public static final float DURATION	= 15f;
 
     {
         type = buffType.POSITIVE;

@@ -171,7 +171,12 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
         }
 
         public String desc(int count){
-            return Messages.get(this, name()+"_desc");
+            switch (this){
+                default:
+                    return Messages.get(this, name()+"_desc");
+                case TRACK:
+                    return Messages.get(this, name()+"_desc", 15+3*Dungeon.hero.pointsInTalent(Talent.HUNGER_AND_THIRST), 70-4*Dungeon.hero.pointsInTalent(Talent.HUNGER_AND_THIRST));
+            }
         }
 
     }
@@ -208,7 +213,7 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
                 Mob affected1 = null;
                 for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
                     if (mob.alignment != Char.Alignment.ALLY && Dungeon.level.heroFOV[mob.pos]) {
-                        Buff.affect(mob, LancePredationTracker.class, LancePredationTracker.DURATION+2*Dungeon.hero.pointsInTalent(Talent.HUNGER_AND_THIRST));
+                        Buff.affect(mob, LancePredationTracker.class, LancePredationTracker.DURATION+3*Dungeon.hero.pointsInTalent(Talent.HUNGER_AND_THIRST));
                         if (mob.buff(LancePredationTracker.class) != null){
                             affected1 = mob;
                         }
@@ -286,7 +291,7 @@ public class LanceCombo3 extends Buff implements ActionIndicator.Action {
                 Buff.affect(hero, Stamina.class, 15);
                 float healFactor;
                 if (hero.hasTalent(Talent.FITTEST_SURVIVAL)) {
-                    healFactor = Dungeon.hero.HP * 0.3f;
+                    healFactor = Dungeon.hero.HP * 0.4f;
                 } else {
                     healFactor = Dungeon.hero.HP * 0.2f;
                 }

@@ -167,6 +167,10 @@ public class LanceCombo2 extends Buff implements ActionIndicator.Action {
             switch (this) {
                 default:
                     return Messages.get(this, name()+"_desc");
+                case FAST_DRAW:
+                    return Messages.get(this, name()+"_desc", 4+Dungeon.hero.pointsInTalent(Talent.FASTER_HAND));
+                case MAD_CHARGE:
+                    return Messages.get(this, name()+"_desc", 200+10*Dungeon.hero.pointsInTalent(Talent.RUTHLESS_CHARGE));
             }
         }
 
@@ -246,8 +250,8 @@ public class LanceCombo2 extends Buff implements ActionIndicator.Action {
                         trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size() - 1), Ballistica.PROJECTILE);
                         int dist = 4;
                         WandOfBlastWave.throwChar(enemy, trajectory, dist, true, false, hero.getClass());
-                        Buff.affect(enemy, NoEnergy.class).set(2, 2);
-                        Buff.affect(hero, InfiniteBullet.class, 3+hero.pointsInTalent(Talent.FASTER_HAND));
+                        Buff.affect(enemy, NoEnergy.class).set(3, 3);
+                        Buff.affect(hero, InfiniteBullet.class, 4+hero.pointsInTalent(Talent.FASTER_HAND));
                     } else {
                         GLog.n(Messages.get(this, "cannot_use"));
                     }

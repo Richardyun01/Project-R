@@ -33,7 +33,10 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Amok;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BountyTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CarrollCombo;
@@ -44,6 +47,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LancePredationTracker;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
@@ -785,6 +790,30 @@ public abstract class Mob extends Char {
 					&& Dungeon.hero.hasTalent(Talent.LETHAL_MOMENTUM)
 					&& Random.Float() < 0.34f + 0.33f* Dungeon.hero.pointsInTalent(Talent.LETHAL_MOMENTUM)){
 				Buff.affect(Dungeon.hero, Talent.LethalMomentumTracker.class, 1f);
+			}
+			if (cause == hero
+					&& hero.subClass != HeroSubClass.VLAD
+					&& Dungeon.hero.buff(LancePredationTracker.class) == null) {
+				if (Random.Int(6) == 0) {
+					Buff.affect( hero, Bless.class, 3f);
+				} else if (Random.Int(6) == 1) {
+					Buff.affect( hero, Adrenaline.class, 3f);
+				} else if (Random.Int(6) == 2) {
+					int barrAmt = 1;
+					barrAmt = Math.min( barrAmt, hero.HT - hero.HP );
+					if (barrAmt > 0 && hero.isAlive()) {
+						Buff.affect(hero, Barrier.class).setShield((int) (2));
+						hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( barrAmt ) );
+					}
+				} else if (Random.Int(6) == 3) {
+					Buff.affect( hero, Haste.class, 2);
+				} else if (Random.Int(6) == 4) {
+					Buff.affect( hero, ArtifactRecharge.class).prolong(3);
+				} else if (Random.Int(6) == 5) {
+					Buff.affect( hero, Invisibility.class, 3);
+				} else if (Random.Int(6) == 6) {
+					Buff.affect( hero, MagicImmune.class, 3);
+				}
 			}
 			if (Dungeon.hero.heroClass != HeroClass.CARROLL
 					&& Dungeon.hero.hasTalent(Talent.LETHAL_HASTE)
