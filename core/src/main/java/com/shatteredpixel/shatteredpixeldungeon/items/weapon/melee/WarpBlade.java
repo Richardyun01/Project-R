@@ -44,21 +44,23 @@ public class WarpBlade extends MeleeWeapon {
         hitSound = Assets.Sounds.HIT_SLASH;
         hitSoundPitch = 1f;
 
+        ACC = 1.5f;
+
         tier = 6;
     }
 
     @Override
     public int max(int lvl) {
-        return  4*(tier) +    //base
+        return  5*(tier) +    //base
                 lvl*(tier-1);   //level scaling
     }
 
-    public int proc( Char defender, int damage ) {
+    public int proc(Char attacker, Char defender, int damage ) {
 
-        Buff.affect(defender, Disintegrating.class).set(damage*0.33f);
+        Buff.affect( defender, Disintegrating.class ).set(max()/10);
         Splash.at( defender.sprite.center(), 0xFFB2D6FF, 5);
 
-        return damage;
+        return super.proc( attacker, defender, damage );
     }
 
     @Override
@@ -100,7 +102,7 @@ public class WarpBlade extends MeleeWeapon {
             public void call() {
                 wep.beforeAbilityUsed(hero);
                 AttackIndicator.target(enemy);
-                if (hero.attack(enemy)) {
+                if (hero.attack(enemy, 1.3f, 0, Char.INFINITE_ACCURACY)) {
                     Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
                     Buff.affect(enemy, Disintegrating.class).set(enemy.HP*0.25f);
                 }

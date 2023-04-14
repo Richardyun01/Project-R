@@ -988,7 +988,7 @@ public class FirearmWeapon extends MeleeWeapon {
         @Override
         public int proc(Char attacker, Char defender, int damage) {
             SpiritBow bow = hero.belongings.getItem(SpiritBow.class);
-            if (damage >= defender.HP && hero.buff(Charger.class).charges >= 1) {
+            if (hero.heroClass == HeroClass.CARROLL && damage >= defender.HP && hero.buff(Charger.class).charges >= 1) {
                 if (hero.buff(Revolver.APShot.class) != null ||
                     hero.buff(Tat.PrecisionShot.class) != null ||
                     hero.buff(ShortCarbine.InfiniteShot.class) != null ||

@@ -48,7 +48,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LancePredationTracker;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
@@ -791,28 +790,25 @@ public abstract class Mob extends Char {
 					&& Random.Float() < 0.34f + 0.33f* Dungeon.hero.pointsInTalent(Talent.LETHAL_MOMENTUM)){
 				Buff.affect(Dungeon.hero, Talent.LethalMomentumTracker.class, 1f);
 			}
-			if (cause == hero
-					&& hero.subClass != HeroSubClass.VLAD
-					&& Dungeon.hero.buff(LancePredationTracker.class) == null) {
+			if (hero.subClass != HeroSubClass.VLAD
+					&& this.buff(LancePredationTracker.class) != null) {
 				if (Random.Int(6) == 0) {
-					Buff.affect( hero, Bless.class, 3f);
+					Buff.affect( hero, Bless.class, 4f);
 				} else if (Random.Int(6) == 1) {
-					Buff.affect( hero, Adrenaline.class, 3f);
+					Buff.affect( hero, Adrenaline.class, 4f);
 				} else if (Random.Int(6) == 2) {
 					int barrAmt = 1;
 					barrAmt = Math.min( barrAmt, hero.HT - hero.HP );
 					if (barrAmt > 0 && hero.isAlive()) {
-						Buff.affect(hero, Barrier.class).setShield((int) (2));
+						Buff.affect(hero, Barrier.class).setShield((int) (10));
 						hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( barrAmt ) );
 					}
 				} else if (Random.Int(6) == 3) {
-					Buff.affect( hero, Haste.class, 2);
+					Buff.affect( hero, Haste.class, 4);
 				} else if (Random.Int(6) == 4) {
-					Buff.affect( hero, ArtifactRecharge.class).prolong(3);
+					Buff.affect( hero, ArtifactRecharge.class).prolong(4);
 				} else if (Random.Int(6) == 5) {
-					Buff.affect( hero, Invisibility.class, 3);
-				} else if (Random.Int(6) == 6) {
-					Buff.affect( hero, MagicImmune.class, 3);
+					Buff.affect( hero, Invisibility.class, 4);
 				}
 			}
 			if (Dungeon.hero.heroClass != HeroClass.CARROLL
@@ -837,7 +833,7 @@ public abstract class Mob extends Char {
 					hero.buff(Madness.OverCharge.class) != null) &&
 					FirearmWeapon.Charger.killCount < 3) {
 					Buff.affect(hero, FirearmWeapon.Charger.class).killCount++;
-					if (FirearmWeapon.Charger.killCount >= 3 && hero.buff(FirearmWeapon.Charger.class).charges < 10) {
+					if (FirearmWeapon.Charger.killCount >= 3 && hero.buff(FirearmWeapon.Charger.class).charges < Buff.affect(hero, MeleeWeapon.Charger.class).chargeCap()) {
 						Buff.affect(hero, FirearmWeapon.Charger.class).charges++;
 						FirearmWeapon.Charger.killCount = 0;
 					}

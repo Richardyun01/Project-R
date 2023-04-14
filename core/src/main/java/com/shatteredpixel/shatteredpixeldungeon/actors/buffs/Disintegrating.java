@@ -80,7 +80,7 @@ public class Disintegrating extends Buff {
     public boolean act() {
         if (target.isAlive()) {
             if (Dungeon.scalingDepth() > 5) {
-                target.damage(1 + Dungeon.scalingDepth() / 5, this);
+                target.damage(1 + Dungeon.scalingDepth() / 3 * 2, this);
             } else if (Random.Int(2) == 0) {
                 target.damage(1, this);
             }
