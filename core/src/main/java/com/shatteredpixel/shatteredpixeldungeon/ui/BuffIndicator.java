@@ -133,6 +133,7 @@ public class BuffIndicator extends Component {
 	public static final int BOUNTY		= 82;
 	public static final int CARROLL_COMBO= 83;
 	public static final int DISINTEGRATING= 84;
+	public static final int WINTERSTORM	= 84;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;

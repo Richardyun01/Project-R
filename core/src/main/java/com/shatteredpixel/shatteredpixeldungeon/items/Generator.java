@@ -175,6 +175,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greataxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatshield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandAxe;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Krystallos;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Longsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lunge;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Mace;
@@ -212,6 +213,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingCl
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingHammer;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpear;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Tomahawk;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Trident;
@@ -412,10 +414,10 @@ public class Generator {
 					Gloves.class,
 					//CommonBlade.class,
 					RuinSpear.class,
-					//Krystallos.class,
+					Krystallos.class,
 					//PsionicBlade.class,
 			};
-			WEP_T1.probs = new float[]{ 1, 0, 1, 1, 1 }; //, 1, 1, 0
+			WEP_T1.probs = new float[]{ 1, 0, 1, 1, 1, 1 }; //, 1, 1, 0
 			
 			WEP_T2.classes = new Class<?>[]{
 					Shortsword.class,
@@ -558,9 +560,10 @@ public class Generator {
 			
 			MIS_T1.classes = new Class<?>[]{
 					ThrowingStone.class,
-					ThrowingKnife.class
+					ThrowingKnife.class,
+					ThrowingSpike.class
 			};
-			MIS_T1.probs = new float[]{ 6, 5 };
+			MIS_T1.probs = new float[]{ 6, 5, 5 };
 			
 			MIS_T2.classes = new Class<?>[]{
 					FishingSpear.class,

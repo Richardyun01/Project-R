@@ -29,9 +29,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PrismaticGuard;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
@@ -146,7 +146,11 @@ public class PrismaticImage extends NPC {
 	@Override
 	public int damageRoll() {
 		if (hero != null) {
-			return Random.NormalIntRange( 2 + hero.lvl/4, 4 + hero.lvl/2 );
+			if (hero.heroClass == HeroClass.ARTILIA) {
+				return Random.NormalIntRange( 2 + hero.lvl/3, 4 + hero.lvl );
+			} else {
+				return Random.NormalIntRange(2 + hero.lvl / 4, 4 + hero.lvl / 2);
+			}
 		} else {
 			return Random.NormalIntRange( 2, 4 );
 		}
@@ -166,9 +170,14 @@ public class PrismaticImage extends NPC {
 		if (hero != null) {
 			int baseEvasion = 4 + hero.lvl;
 			int heroEvasion = hero.defenseSkill(enemy);
-			
-			//if the hero has more/less evasion, 50% of it is applied
-			return super.defenseSkill(enemy) * (baseEvasion + heroEvasion) / 2;
+
+			if (hero.heroClass == HeroClass.ARTILIA) {
+				//if the hero has more/less evasion, 75% of it is applied
+				return super.defenseSkill(enemy) * (baseEvasion + heroEvasion) *3/4;
+			} else {
+				//if the hero has more/less evasion, 50% of it is applied
+				return super.defenseSkill(enemy) * (baseEvasion + heroEvasion) / 2;
+			}
 		} else {
 			return 0;
 		}

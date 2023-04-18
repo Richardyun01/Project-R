@@ -222,6 +222,18 @@ public enum Talent {
 	//Feint T4
 	FEIGNED_RETREAT(347, 4), EXPOSE_WEAKNESS(348, 4), COUNTER_ABILITY(349, 4),
 
+	//Artilia T1
+	LUXURIOUS_MEAL(384), EXPERIENCE_STACK(385), DISTURBANCE_DEFENCE(386), COMMAND_SYSTEM(387),
+	//Artilia T2
+	_MEAL(388), TRAMPLE(392), DIGNIFIED_STEP(393),
+	//Artilia T3
+	//Peretoria T3
+	HIGH_LEGION(396, 3), ELITE_GUARD(397, 3), ADVANCED_TROOPER(398, 3),
+	//Valkyrie T3
+	//Winterstorm T3
+	FROST_ARMOR(403, 3),
+	// T4
+
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
 	//Ratmogrify T4
@@ -456,6 +468,8 @@ public enum Talent {
 					return 318;
 				case CARROLL:
 					return 350;
+				case ARTILIA:
+					return 382;
 			}
 		} else {
 			return icon;
@@ -897,6 +911,9 @@ public enum Talent {
 			case CARROLL:
 				Collections.addAll(tierTalents, STRENGTHENING_MEAL, ADVENTURERS_INTUITION, PATIENT_STRIKE, SPEEDY_MOVEMENT, REPAIRMENT);
 				break;
+			case ARTILIA:
+				Collections.addAll(tierTalents, LUXURIOUS_MEAL, EXPERIENCE_STACK, DISTURBANCE_DEFENCE, COMMAND_SYSTEM, REPAIRMENT);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -929,6 +946,9 @@ public enum Talent {
 			case CARROLL:
 				Collections.addAll(tierTalents, FOCUSED_MEAL, RESTORED_AGILITY, WEAPON_RECHARGING, LETHAL_HASTE, SWIFT_EQUIP, EMERGENCY_AVOIDANCE);
 				break;
+			case ARTILIA:
+				Collections.addAll(tierTalents);
+				break;
 		}
 		for (Talent talent : tierTalents){
 			if (replacements.containsKey(talent)){
@@ -960,6 +980,9 @@ public enum Talent {
 				break;
 			case CARROLL:
 				Collections.addAll(tierTalents, LIGHTWEIGHT_CHARGE, DEADLY_FOLLOWUP);
+				break;
+			case ARTILIA:
+				Collections.addAll(tierTalents);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -1051,6 +1074,15 @@ public enum Talent {
 				break;
 			case CAPTAIN:
 				Collections.addAll(tierTalents, ENERGY_TRANSMISSION, ADVANCED_SYSTEM, ENHANCED_SHIP);
+				break;
+			case PERETORIA:
+				Collections.addAll(tierTalents);
+				break;
+			case VALKYRIE:
+				Collections.addAll(tierTalents);
+				break;
+			case WINTERSTORM:
+				Collections.addAll(tierTalents);
 				break;
 		}
 		for (Talent talent : tierTalents){

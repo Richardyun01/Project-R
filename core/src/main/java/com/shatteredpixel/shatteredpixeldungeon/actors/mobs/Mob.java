@@ -59,6 +59,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.Feint;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.DirectableAlly;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Peretoria;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Surprise;
@@ -66,6 +67,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Wound;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ShadowParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.PrincessMirror;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
@@ -855,11 +857,13 @@ public abstract class Mob extends Char {
 			float healFactor = Dungeon.hero.HP * (0.04f + 0.02f * hero.pointsInTalent(Talent.OVERCOMING_WEAKNESS)) + hero.pointsInTalent(Talent.SOUL_ABSORB);
 			healFactor = Math.min( healFactor, hero.HT - hero.HP );
 			Dungeon.hero.HP += (int)healFactor;
+			Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Integer.toString( (int)healFactor ));
 		} else if (cause == hero && hero.heroClass != HeroClass.LANCE &&
 				   hero.hasTalent(Talent.OVERCOMING_WEAKNESS) && Random.Int(100) < hero.pointsInTalent(Talent.OVERCOMING_WEAKNESS)) {
 			float healFactor = Dungeon.hero.HP * 0.05f + hero.pointsInTalent(Talent.SOUL_ABSORB);
 			healFactor = Math.min( healFactor, hero.HT - hero.HP );
 			Dungeon.hero.HP += (int)healFactor;
+			Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Integer.toString( (int)healFactor ));
 		}
 
 		if (cause == hero &&
@@ -867,6 +871,10 @@ public abstract class Mob extends Char {
 				hero.hasTalent(Talent.END_GAME) &&
 				this.buff(BountyTracker.Bounty.class) != null) {
 			Buff.affect( hero, MeleeWeapon.Charger.class ).gainCharge((hero.pointsInTalent(Talent.END_GAME)+1));
+		}
+
+		if (this instanceof Peretoria && (hero.hasTalent(Talent.HIGH_LEGION) && hero.pointsInTalent(Talent.HIGH_LEGION) >= 1)) {
+			Buff.detach(hero, PrincessMirror.PrincessMirrorCooldown.class);
 		}
 
 		super.die( cause );

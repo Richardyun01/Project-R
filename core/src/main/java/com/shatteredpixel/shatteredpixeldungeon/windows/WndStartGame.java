@@ -329,7 +329,22 @@ public class WndStartGame extends Window {
 							break;
 						case NOISE:
 							heroItem.icon(new ItemSprite(ItemSpriteSheet.NOT_MACHINE_GUN, null));
-							heroLoadout.icon(new ItemSprite(ItemSpriteSheet.NOT_MACHINE_GUN, null));
+							heroLoadout.icon(new ItemSprite(ItemSpriteSheet.SPEED_LOADER, null));
+							heroMisc.icon(Icons.get(Icons.STAIRS));
+							break;
+						case LANCE:
+							heroItem.icon(new ItemSprite(ItemSpriteSheet.RUINSPEAR, null));
+							heroLoadout.icon(new ItemSprite(ItemSpriteSheet.LANCE_INFO_1, null));
+							heroMisc.icon(Icons.get(Icons.STAIRS));
+							break;
+						case CARROLL:
+							heroItem.icon(new ItemSprite(ItemSpriteSheet.APACHE_PISTOL, null));
+							heroLoadout.icon(new ItemSprite(ItemSpriteSheet.WAR_HAMMER, null));
+							heroMisc.icon(Icons.get(Icons.STAIRS));
+							break;
+						case ARTILIA:
+							heroItem.icon(new ItemSprite(ItemSpriteSheet.KRYSTALLOS, null));
+							heroLoadout.icon(new ItemSprite(ItemSpriteSheet.PRINCESS_MIRROR, null));
 							heroMisc.icon(Icons.get(Icons.STAIRS));
 							break;
 					}

@@ -29,9 +29,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
@@ -108,7 +108,11 @@ public class MirrorImage extends NPC {
 		} else {
 			damage = hero.damageRoll(); //handles ring of force
 		}
-		return (damage+1)/2; //half hero damage, rounded up
+		if (hero.heroClass == HeroClass.ARTILIA) {
+			return (damage+1)*3/4; //75% hero damage, rounded up
+		} else {
+			return (damage+1)/2; //half hero damage, rounded up
+		}
 	}
 	
 	@Override
@@ -123,7 +127,11 @@ public class MirrorImage extends NPC {
 			int heroEvasion = hero.defenseSkill(enemy);
 			
 			//if the hero has more/less evasion, 50% of it is applied
-			return super.defenseSkill(enemy) * (baseEvasion + heroEvasion) / 2;
+			if (hero.heroClass == HeroClass.ARTILIA) {
+				return super.defenseSkill(enemy) * (baseEvasion + heroEvasion) * 3 / 4;
+			} else {
+				return super.defenseSkill(enemy) * (baseEvasion + heroEvasion) / 2;
+			}
 		} else {
 			return 0;
 		}
@@ -142,7 +150,11 @@ public class MirrorImage extends NPC {
 	@Override
 	public int drRoll() {
 		if (hero != null && hero.belongings.weapon() != null){
-			return Random.NormalIntRange(0, hero.belongings.weapon().defenseFactor(this)/2);
+			if (hero.heroClass == HeroClass.ARTILIA) {
+				return Random.NormalIntRange(0, hero.belongings.weapon().defenseFactor(this)*3/4);
+			} else {
+				return Random.NormalIntRange(0, hero.belongings.weapon().defenseFactor(this)/2);
+			}
 		} else {
 			return 0;
 		}

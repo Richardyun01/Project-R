@@ -341,6 +341,11 @@ public class Dungeon {
 				case 26:
 					level = new LastLevel();
 					break;
+					/*
+				case 27:
+					level = new MidnightLevel();
+					break;
+					 */
 				default:
 					level = new DeadEndLevel();
 					Statistics.deepestFloor--;

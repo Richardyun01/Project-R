@@ -12,6 +12,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Stamina;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -71,6 +72,7 @@ public class OpIntensify extends Artifact {
                     }
                 }
                 Invisibility.dispel(hero);
+                curUser.sprite.centerEmitter().start( Speck.factory( Speck.UP ), 0.3f, 3 );
                 this.charge = 0;
                 updateQuickslot();
                 if (level() < this.levelCap) {

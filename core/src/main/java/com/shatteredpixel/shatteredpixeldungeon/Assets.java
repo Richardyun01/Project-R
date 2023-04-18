@@ -230,6 +230,7 @@ public class Assets {
 		public static final String NOISE	= "splashes/huntress.jpg";
 		public static final String LANCE	= "splashes/huntress.jpg";
 		public static final String CARROLL	= "splashes/huntress.jpg";
+		public static final String ARTILIA	= "splashes/huntress.jpg";
 	}
 
 	public static class Sprites {
@@ -243,6 +244,7 @@ public class Assets {
 		public static final String NOISE	= "sprites/noise.png";
 		public static final String LANCE  	= "sprites/lance.png";
 		public static final String CARROLL  = "sprites/carroll.png";
+		public static final String ARTILIA  = "sprites/carroll.png";
 		public static final String AVATARS  = "sprites/avatars.png";
 		public static final String PET      = "sprites/pet.png";
 		public static final String AMULET   = "sprites/amulet.png";

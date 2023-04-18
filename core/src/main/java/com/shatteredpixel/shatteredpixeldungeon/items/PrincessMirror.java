@@ -1,17 +1,26 @@
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WinterStorm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Peretoria;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.PathFinder;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
@@ -44,12 +53,26 @@ public class PrincessMirror extends Item {
         if (hero.buff(PrincessMirrorCooldown.class) != null) {
             GLog.w(Messages.get(this, "cooldown"));
         } else {
-            new ScrollOfMirrorImage();
-            ScrollOfMirrorImage.spawnImages(curUser, 1);
-            curUser.sprite.operate(curUser.pos);
+            if (hero.subClass == HeroSubClass.PERETORIA) {
+                spawnGuard(curUser, 1);
+                if (hero.hasTalent(Talent.HIGH_LEGION) && hero.pointsInTalent(Talent.HIGH_LEGION) >= 2) {
+                    spawnGuard(curUser, 1);
+                }
+                curUser.sprite.operate(curUser.pos);
+                Buff.affect(curUser, PrincessMirrorCooldown.class, 50);
+            } else if (hero.subClass == HeroSubClass.VALKYRIE) {
+                Buff.affect(curUser, PrincessMirrorCooldown.class, PrincessMirrorCooldown.DURATION);
+            } else if (hero.subClass == HeroSubClass.WINTERSTORM) {
+                Buff.affect(curUser, WinterStorm.class, WinterStorm.DURATION);
+                Buff.affect(curUser, PrincessMirrorCooldown.class, 150);
+            } else {
+                new ScrollOfMirrorImage();
+                ScrollOfMirrorImage.spawnImages(curUser, 1);
+                curUser.sprite.operate(curUser.pos);
+                Buff.affect(curUser, PrincessMirrorCooldown.class, PrincessMirrorCooldown.DURATION);
+            }
             Sample.INSTANCE.play(Assets.Sounds.TELEPORT);
             curUser.spendAndNext(Actor.TICK);
-            Buff.affect(curUser, PrincessMirrorCooldown.class, PrincessMirrorCooldown.DURATION);
         }
 
     }
@@ -67,6 +90,34 @@ public class PrincessMirror extends Item {
     @Override
     public int value() {
         return -1;
+    }
+
+    public static int spawnGuard( Hero hero, int nImages ){
+
+        ArrayList<Integer> respawnPoints = new ArrayList<>();
+
+        for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
+            int p = hero.pos + PathFinder.NEIGHBOURS8[i];
+            if (Actor.findChar( p ) == null && Dungeon.level.passable[p]) {
+                respawnPoints.add( p );
+            }
+        }
+
+        int spawned = 0;
+        while (nImages > 0 && respawnPoints.size() > 0) {
+            int index = Random.index( respawnPoints );
+
+            Peretoria mob = new Peretoria();
+            mob.duplicate( hero );
+            GameScene.add( mob );
+            ScrollOfTeleportation.appear( mob, respawnPoints.get( index ) );
+
+            respawnPoints.remove( index );
+            nImages--;
+            spawned++;
+        }
+
+        return spawned;
     }
 
     public static class PrincessMirrorCooldown extends FlavourBuff {

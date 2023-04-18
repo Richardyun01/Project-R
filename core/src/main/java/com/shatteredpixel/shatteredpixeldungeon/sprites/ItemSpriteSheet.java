@@ -523,6 +523,7 @@ public class ItemSpriteSheet {
 	public static final int ARMOR_NOISE  	= ARMOR+9;
 	public static final int ARMOR_LANCE 	= ARMOR+10;
 	public static final int ARMOR_CARROLL 	= ARMOR+11;
+	public static final int ARMOR_ARTILIA 	= ARMOR+12;
 	static{
 		assignItemRect(ARMOR_CLOTH,     15, 12);
 		assignItemRect(ARMOR_LEATHER,   12, 12);
@@ -536,6 +537,7 @@ public class ItemSpriteSheet {
 		assignItemRect(ARMOR_NOISE,  	16, 16);
 		assignItemRect(ARMOR_LANCE,  	14, 14);
 		assignItemRect(ARMOR_CARROLL,  	16, 14);
+		assignItemRect(ARMOR_ARTILIA,  	16, 14);
 	}
 
 	                                                                                    //16 free slots

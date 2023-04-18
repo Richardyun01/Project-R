@@ -531,6 +531,9 @@ public class DriedRose extends Artifact {
 		public boolean isAuto = false;
 		public boolean isPrecision = false;
 		public boolean isEnergy = false;
+		public boolean isShotgun = false;
+		public boolean isExplosive = false;
+		public boolean isEtc = false;
 
 		private DriedRose rose = null;
 		
@@ -570,7 +573,7 @@ public class DriedRose extends Artifact {
 
 			if (rose.weapon instanceof FirearmWeapon) {
 				isFirearm = true;
-				isPistol = isPrecision = isAuto = isEnergy = false;
+				isPistol = isPrecision = isAuto = isEnergy = isShotgun = isExplosive = isEtc = false;
 				switch (((FirearmWeapon) rose.weapon).type) {
 					case FirearmPistol:
 						isPistol = true;
@@ -581,9 +584,19 @@ public class DriedRose extends Artifact {
 					case FirearmAuto:
 						isAuto = true;
 						break;
+					case FirearmShotgun:
+						isShotgun = true;
+						break;
 					case FirearmEnergy1:
 					case FirearmEnergy2:
 						isEnergy = true;
+						break;
+					case FirearmExplosive:
+						isExplosive = true;
+						break;
+					case FirearmEtc1:
+					case FirearmEtc2:
+						isEtc = true;
 						break;
 					default:
 						break;
@@ -620,9 +633,10 @@ public class DriedRose extends Artifact {
 			int acc = Dungeon.hero.lvl + 9;
 
 			if (isFirearm && !Dungeon.level.adjacent(enemy.pos, rose.ghost.pos)) {
-				if (isPistol) acc *= 1;
-				if (isAuto || isEnergy) acc *= 0.7f;
-				if (isPrecision) acc *= 2;
+				if (isPistol || isExplosive || isEtc) acc *= 1;
+				if (isAuto) acc *= 0.7f;
+				if (isPrecision || isEnergy) acc *= 2;
+				if (isShotgun) acc *= 0;
 			}
 			
 			if (rose != null && rose.weapon != null){
@@ -670,9 +684,9 @@ public class DriedRose extends Artifact {
 			} else {
 				dmg += Random.NormalIntRange(0, 5);
 			}
-			if (isPistol || isEnergy) dmg *= 0.5f+0.1f*rose.weapon.tier;
-			if (isAuto) dmg *= 0.25f+0.05f*rose.weapon.tier;
-			if (isPrecision) dmg *= 1f+0.2f*rose.weapon.tier;
+			if (isPistol || isEnergy) dmg *= 0.9f+0.15f*rose.weapon.tier;
+			if (isAuto || isShotgun) dmg *= 0.75f+0.12f*rose.weapon.tier;
+			if (isPrecision || isExplosive || isEtc) dmg *= 1f+0.2f*rose.weapon.tier;
 			
 			return dmg;
 		}

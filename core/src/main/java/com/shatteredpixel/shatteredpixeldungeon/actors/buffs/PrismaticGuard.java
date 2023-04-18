@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.PrismaticImage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
@@ -102,7 +103,11 @@ public class PrismaticGuard extends Buff {
 	}
 	
 	public static int maxHP( Hero hero ){
-		return 10 + (int)Math.floor(hero.lvl * 2.5f); //half of hero's HP
+		if (hero.heroClass == HeroClass.ARTILIA) {
+			return 10 + (int) Math.floor(hero.lvl * 4f); //80% of hero's HP
+		} else {
+			return 10 + (int) Math.floor(hero.lvl * 2.5f); //half of hero's HP
+		}
 	}
 	
 	@Override

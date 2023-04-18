@@ -49,6 +49,8 @@ public class ApachePistol extends FirearmWeapon{
         tier = 1;
         type = FirearmType.FirearmPistol;
         max_round = 3;// + 1 * Dungeon.hero.pointsInTalent(Talent.DEATH_MACHINE);
+
+        bones = false;
     }
 
     public static boolean change = false;

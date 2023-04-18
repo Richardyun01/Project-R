@@ -80,6 +80,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WinterStorm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -518,6 +519,10 @@ public abstract class Char extends Actor {
 				dmg *= 2;
 			}
 
+			if (hero.buff(WinterStorm.class) != null && !(hero.belongings.weapon.bullet)) {
+				dmg *= 1.5;
+			}
+
 			for (ChampionEnemy buff : buffs(ChampionEnemy.class)){
 				dmg *= buff.meleeDamageFactor();
 			}
@@ -742,6 +747,7 @@ public abstract class Char extends Actor {
 		if ( buff( Dread.class ) != null) speed *= 2f;
 		if ( buff( Murakumo.RushStance.class ) != null) speed *= 1.5f;
 		if ( buff( AfterImageBuff.class ) != null && hero.hasTalent(Talent.IMAGE_WALKING)) speed *= 1f + 0.15f*hero.pointsInTalent(Talent.IMAGE_WALKING);
+		if ( buff( WinterStorm.class ) != null  && (Dungeon.level.map[this.pos] == Terrain.DOOR || Dungeon.level.map[this.pos] == Terrain.OPEN_DOOR )) speed *= 0.5f;
 		return speed;
 	}
 

@@ -58,6 +58,9 @@ public class HeroIcon extends Image {
 	public static final int CHALLENGER		= 37;
 	public static final int BOUNTY_HUNTER	= 38;
 	public static final int CAPTAIN			= 39;
+	public static final int PERETORIA		= 40;
+	public static final int VALKYRIE		= 41;
+	public static final int WINTERSTORM		= 42;
 
 	//abilities
 	public static final int HEROIC_LEAP     = 8;

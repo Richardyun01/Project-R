@@ -50,6 +50,7 @@ public enum Icons {
 	NOISE,
 	LANCE,
 	CARROLL,
+	ARTILIA,
 
 	//grey icons, mainly used for buttons, spacing for 16x16
 	EXIT,
@@ -424,6 +425,8 @@ public enum Icons {
 			return get( LANCE );
 		case CARROLL:
 			return get( CARROLL );
+		case ARTILIA:
+			return get( ARTILIA );
 		default:
 			return null;
 		}

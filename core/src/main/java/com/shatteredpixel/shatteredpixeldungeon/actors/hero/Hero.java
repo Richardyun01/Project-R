@@ -73,6 +73,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Supercharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tacsight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WinterStorm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.Challenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.ElementalStrike;
@@ -775,6 +776,10 @@ public class Hero extends Char {
 			if (wep instanceof FirearmWeapon.Bullet && Random.Int(5) < hero.pointsInTalent(Talent.WILD_HUNT)) {
 				accuracy *= INFINITE_ACCURACY;
 			}
+		}
+
+		if (this.buff(WinterStorm.class) != null && wep instanceof FirearmWeapon.Bullet) {
+			accuracy *= 1.25f;
 		}
 
 		if (this.subClass == HeroSubClass.CAPTAIN) {
@@ -1759,6 +1764,10 @@ public class Hero extends Char {
 
 		if (buff(Gungnir.TwilightStance.class) != null){
 			dmg -= 999999;
+		}
+
+		if (buff(WinterStorm.class) != null){
+			dmg -= 10;
 		}
 
 		int preHP = HP + shielding();

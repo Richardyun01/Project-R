@@ -50,14 +50,17 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.He
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.PrincessMirror;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.OpIntensify;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.IceBox;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfFrost;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfInvisibility;
@@ -73,9 +76,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfHaste;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfMight;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfReload;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfSharpshooting;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfWealth;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfLullaby;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
@@ -85,14 +90,11 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ApachePistol;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Blunderbust;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.NotMachineGun;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Revolver;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ShortCarbine;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.SuperShotgun;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Krystallos;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RuinSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
@@ -110,9 +112,9 @@ public enum HeroClass {
 	HUNTRESS( HeroSubClass.SNIPER, HeroSubClass.WARDEN, HeroSubClass.POLARIS ),
 	NOISE( HeroSubClass.TRIGGERHAPPY, HeroSubClass.DEMOLITIONIST, HeroSubClass.BUNKER),
 	LANCE( HeroSubClass.PHALANX, HeroSubClass.TERCIO, HeroSubClass.VLAD ),
-	CARROLL( HeroSubClass.CHALLENGER, HeroSubClass.BOUNTYHUNTER, HeroSubClass.CAPTAIN );
+	CARROLL( HeroSubClass.CHALLENGER, HeroSubClass.BOUNTYHUNTER, HeroSubClass.CAPTAIN ),
 	//MAGNUS( HeroSubClass.COMMAND, HeroSubClass.BREACHER, HeroSubClass.DRAGON ),
-	//ARTILIA( HeroSubClass.PERETORIA, HeroSubClass.VALKYRIE, HeroSubClass.WINTERSTORM ),
+	ARTILIA( HeroSubClass.PERETORIA, HeroSubClass.VALKYRIE, HeroSubClass.WINTERSTORM );
 	//VANGUARD( HeroSubClass.LIBRARIAN, HeroSubClass.DEVASTATOR, HeroSubClass.IMMORTAL );
 
 	private HeroSubClass[] subClasses;
@@ -177,16 +179,7 @@ public enum HeroClass {
 		plate.upgrade(8).collect();
 		 **/
 //erase this finish
-		new ShortCarbine().collect();
-		new Blunderbust().collect();
-		new Revolver().collect();
-		new SuperShotgun().collect();
-		PotionOfExperience enchan = new PotionOfExperience();
-		enchan.quantity(100).collect();
-		ScrollOfIdentify enchan2 = new ScrollOfIdentify();
-		enchan2.quantity(100).collect();
-		RingOfMight plate = new RingOfMight();
-		plate.upgrade(10).collect();
+		new OpIntensify().collect();
 
 		switch (this) {
 			case WARRIOR:
@@ -216,6 +209,12 @@ public enum HeroClass {
 			case CARROLL:
 				initCarroll( hero );
 				break;
+
+				/*
+			case ARTILIA:
+				initArtilia( hero );
+				break;
+				*/
 		}
 
 		for (int s = 0; s < QuickSlot.SIZE; s++){
@@ -243,6 +242,8 @@ public enum HeroClass {
 				return Badges.Badge.MASTERY_LANCE;
 			case CARROLL:
 				return Badges.Badge.MASTERY_CARROLL;
+			case ARTILIA:
+				return Badges.Badge.MASTERY_ARTILIA;
 		}
 		return null;
 	}
@@ -349,6 +350,20 @@ public enum HeroClass {
 		new RingOfAccuracy().identify();
 	}
 
+	private static void initArtilia( Hero hero ) {
+
+		(hero.belongings.weapon = new Krystallos()).identify();
+
+		PrincessMirror mirror = new PrincessMirror();
+		mirror.identify().collect();
+
+		Dungeon.quickslot.setSlot(0, mirror);
+
+		new PotionOfFrost().identify();
+		new ScrollOfMirrorImage().identify();
+		new RingOfWealth().identify();
+	}
+
 	public String title() {
 		return Messages.get(HeroClass.class, name());
 	}
@@ -381,6 +396,8 @@ public enum HeroClass {
 				return new ArmorAbility[]{new Starburst(), new AfterImage(), new BloodWine()};
 			case CARROLL:
 				return new ArmorAbility[]{new Challenge(), new ElementalStrike(), new Feint()};
+			case ARTILIA:
+				return new ArmorAbility[]{};
 		}
 	}
 
@@ -400,6 +417,8 @@ public enum HeroClass {
 				return Assets.Sprites.LANCE;
 			case CARROLL:
 				return Assets.Sprites.CARROLL;
+			case ARTILIA:
+				return Assets.Sprites.ARTILIA;
 		}
 	}
 
@@ -419,6 +438,8 @@ public enum HeroClass {
 				return Assets.Splashes.LANCE;
 			case CARROLL:
 				return Assets.Splashes.CARROLL;
+			case ARTILIA:
+				return Assets.Splashes.ARTILIA;
 		}
 	}
 	
@@ -441,6 +462,8 @@ public enum HeroClass {
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_LANCE);
 			case CARROLL:
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_CARROLL);
+			case ARTILIA:
+				return Badges.isUnlocked(Badges.Badge.UNLOCK_ARTILIA);
 		}
 	}
 	

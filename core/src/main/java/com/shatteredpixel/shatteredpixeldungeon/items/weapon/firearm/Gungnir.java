@@ -6,10 +6,8 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.CorrosiveGas;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
-import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BlobImmunity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
@@ -258,9 +256,7 @@ public class Gungnir extends FirearmWeapon{
             immunities.add(Corrosion.class);
             immunities.add(Ooze.class);
 
-            immunities.add( ToxicGas.class );
-            immunities.add( CorrosiveGas.class );
-            immunities.add( Electricity.class );
+            immunities.addAll(new BlobImmunity().immunities());
 
             immunities.addAll( AntiMagic.RESISTS );
         }

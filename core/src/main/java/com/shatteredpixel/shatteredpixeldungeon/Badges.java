@@ -57,6 +57,7 @@ public class Badges {
 		MASTERY_NOISE,
 		MASTERY_LANCE,
 		MASTERY_CARROLL,
+		MASTERY_ARTILIA,
 		FOUND_RATMOGRIFY,
 
 		//bronze
@@ -66,6 +67,7 @@ public class Badges {
 		UNLOCK_NOISE				( 21 ),
 		UNLOCK_LANCE				( 22 ),
 		UNLOCK_CARROLL 				( 23 ),
+		UNLOCK_ARTILIA 				( 24 ),
 		MONSTERS_SLAIN_1            ( 4 ),
 		MONSTERS_SLAIN_2            ( 5 ),
 		GOLD_COLLECTED_1            ( 6 ),
@@ -114,6 +116,7 @@ public class Badges {
 		BOSS_SLAIN_1_NOISE,
 		BOSS_SLAIN_1_LANCE,
 		BOSS_SLAIN_1_CARROLL,
+		BOSS_SLAIN_1_ARTILIA,
 		BOSS_SLAIN_1_ALL_CLASSES    ( 54, true ),
 		GAMES_PLAYED_2              ( 55, true ),
 		HIGH_SCORE_2                ( 56 ),
@@ -162,6 +165,7 @@ public class Badges {
 		VICTORY_NOISE,
 		VICTORY_LANCE,
 		VICTORY_CARROLL,
+		VICTORY_ARTILIA,
 		VICTORY_ALL_CLASSES         ( 103, true ),
 		DEATH_FROM_ALL              ( 104, true ),
 		BOSS_SLAIN_3_GLADIATOR,
@@ -185,6 +189,9 @@ public class Badges {
 		BOSS_SLAIN_3_CHALLENGER,
 		BOSS_SLAIN_3_BOUNTYHUNTER,
 		BOSS_SLAIN_3_CAPTAIN,
+		BOSS_SLAIN_3_PERETORIA,
+		BOSS_SLAIN_3_VALKYRIE,
+		BOSS_SLAIN_3_WINTERSTORM,
 		BOSS_SLAIN_3_ALL_SUBCLASSES ( 105, true ),
 		BOSS_CHALLENGE_3            ( 106 ),
 		BOSS_CHALLENGE_4            ( 107 ),
@@ -728,6 +735,7 @@ public class Badges {
 		firstBossClassBadges.put(HeroClass.NOISE, Badge.BOSS_SLAIN_1_NOISE);
 		firstBossClassBadges.put(HeroClass.LANCE, Badge.BOSS_SLAIN_1_LANCE);
 		firstBossClassBadges.put(HeroClass.CARROLL, Badge.BOSS_SLAIN_1_CARROLL);
+		firstBossClassBadges.put(HeroClass.ARTILIA, Badge.BOSS_SLAIN_1_ARTILIA);
 	}
 
 	private static LinkedHashMap<HeroClass, Badge> victoryClassBadges = new LinkedHashMap<>();
@@ -739,6 +747,7 @@ public class Badges {
 		victoryClassBadges.put(HeroClass.NOISE, Badge.VICTORY_NOISE);
 		victoryClassBadges.put(HeroClass.LANCE, Badge.VICTORY_LANCE);
 		victoryClassBadges.put(HeroClass.CARROLL, Badge.VICTORY_CARROLL);
+		victoryClassBadges.put(HeroClass.ARTILIA, Badge.VICTORY_ARTILIA);
 	}
 
 	private static LinkedHashMap<HeroSubClass, Badge> thirdBossSubclassBadges = new LinkedHashMap<>();
@@ -753,6 +762,7 @@ public class Badges {
 		thirdBossSubclassBadges.put(HeroSubClass.FREERUNNER, Badge.BOSS_SLAIN_3_FREERUNNER);
 		thirdBossSubclassBadges.put(HeroSubClass.HITMAN, Badge.BOSS_SLAIN_3_HITMAN);
 		thirdBossSubclassBadges.put(HeroSubClass.SNIPER, Badge.BOSS_SLAIN_3_SNIPER);
+		thirdBossSubclassBadges.put(HeroSubClass.WARDEN, Badge.BOSS_SLAIN_3_WARDEN);
 		thirdBossSubclassBadges.put(HeroSubClass.POLARIS, Badge.BOSS_SLAIN_3_POLARIS);
 		thirdBossSubclassBadges.put(HeroSubClass.TRIGGERHAPPY, Badge.BOSS_SLAIN_3_TRIGGERHAPPY);
 		thirdBossSubclassBadges.put(HeroSubClass.DEMOLITIONIST, Badge.BOSS_SLAIN_3_DEMOLITIONIST);
@@ -761,8 +771,11 @@ public class Badges {
 		thirdBossSubclassBadges.put(HeroSubClass.TERCIO, Badge.BOSS_SLAIN_3_TERCIO);
 		thirdBossSubclassBadges.put(HeroSubClass.VLAD, Badge.BOSS_SLAIN_3_VLAD);
 		thirdBossSubclassBadges.put(HeroSubClass.CHALLENGER, Badge.BOSS_SLAIN_3_CHALLENGER);
-		thirdBossSubclassBadges.put(HeroSubClass.CHALLENGER, Badge.BOSS_SLAIN_3_BOUNTYHUNTER);
+		thirdBossSubclassBadges.put(HeroSubClass.BOUNTYHUNTER, Badge.BOSS_SLAIN_3_BOUNTYHUNTER);
 		thirdBossSubclassBadges.put(HeroSubClass.CAPTAIN, Badge.BOSS_SLAIN_3_CAPTAIN);
+		thirdBossSubclassBadges.put(HeroSubClass.PERETORIA, Badge.BOSS_SLAIN_3_PERETORIA);
+		thirdBossSubclassBadges.put(HeroSubClass.VALKYRIE, Badge.BOSS_SLAIN_3_VALKYRIE);
+		thirdBossSubclassBadges.put(HeroSubClass.WINTERSTORM, Badge.BOSS_SLAIN_3_WINTERSTORM);
 	}
 	
 	public static void validateBossSlain() {
@@ -881,6 +894,9 @@ public class Badges {
 		case CARROLL:
 			badge = Badge.MASTERY_CARROLL;
 			break;
+		case ARTILIA:
+			badge = Badge.MASTERY_ARTILIA;
+			break;
 		}
 		
 		unlock(badge);
@@ -934,6 +950,13 @@ public class Badges {
 					((MeleeWeapon) Dungeon.hero.belongings.weapon).STRReq(0) <= Dungeon.hero.STR()){
 				displayBadge(Badge.UNLOCK_CARROLL);
 			}
+		}
+	}
+
+
+	public static void validateArtiliaUnlock(){
+		if ((Statistics.goldCollected >= 5000) && !isUnlocked(Badge.UNLOCK_ARTILIA)){
+			displayBadge( Badge.UNLOCK_ARTILIA );
 		}
 	}
 	
