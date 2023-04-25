@@ -30,17 +30,19 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
 import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Image;
+import com.watabou.noosa.Visual;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 
@@ -50,6 +52,8 @@ public class BountyTracker extends Buff implements ActionIndicator.Action {
         actPriority = BUFF_PRIO - 1;
         announced = false;
     }
+
+    private float cooldown = 50;
 
     @Override
     public boolean act() {
@@ -69,10 +73,22 @@ public class BountyTracker extends Buff implements ActionIndicator.Action {
     }
 
     @Override
-    public Image actionIcon() {
-        Image icon;
-        icon = new ItemSprite(new Item(){ {image = ItemSpriteSheet.BOUNTY; }});
-        return icon;
+    public int actionIcon() {
+        return HeroIcon.USE_BOUNTYMARK;
+    }
+
+    @Override
+    public Visual secondaryVisual() {
+        BitmapText txt = new BitmapText(PixelScene.pixelFont);
+        txt.text( Float.toString(cooldown-TICK) );
+        txt.hardlight(CharSprite.POSITIVE);
+        txt.measure();
+        return txt;
+    }
+
+    @Override
+    public int indicatorColor() {
+        return 0x660000;
     }
 
     @Override

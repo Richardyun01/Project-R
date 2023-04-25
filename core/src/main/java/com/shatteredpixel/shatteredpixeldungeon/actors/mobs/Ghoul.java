@@ -286,6 +286,12 @@ public class Ghoul extends Mob {
 			return true;
 		}
 
+		public void updateVisibility(){
+			if (ghoul != null && ghoul.sprite != null){
+				ghoul.sprite.visible = Dungeon.level.heroFOV[ghoul.pos];
+			}
+		}
+
 		public void set(int turns, Ghoul ghoul){
 			this.ghoul = ghoul;
 			turnsToRevive = turns;

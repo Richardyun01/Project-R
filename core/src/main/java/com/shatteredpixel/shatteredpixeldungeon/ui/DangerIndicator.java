@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,61 +33,61 @@ import com.watabou.noosa.Camera;
 import com.watabou.noosa.Image;
 
 public class DangerIndicator extends Tag {
-	
-	public static final int COLOR	= 0xFF4C4C;
-	
+
+	public static final int COLOR	= 0xC03838;
+
 	private BitmapText number;
 	private Image icon;
-	
+
 	private int enemyIndex = 0;
-	
+
 	private int lastNumber = -1;
 
 	public static int HEIGHT = 16;
-	
+
 	public DangerIndicator() {
-		super( 0xFF4C4C );
-		
+		super( COLOR );
+
 		setSize( SIZE, HEIGHT );
 
 		visible = false;
 	}
-	
+
 	@Override
 	public GameAction keyAction() {
 		return SPDAction.CYCLE;
 	}
-	
+
 	@Override
 	protected void createChildren() {
 		super.createChildren();
-		
+
 		number = new BitmapText( PixelScene.pixelFont);
 		add( number );
-		
+
 		icon = Icons.SKULL.get();
 		add( icon );
 	}
-	
+
 	@Override
 	protected void layout() {
 		super.layout();
-		
+
 		icon.x = right() - 10;
 		icon.y = y + (height - icon.height) / 2;
-		
+
 		placeNumber();
 	}
-	
+
 	private void placeNumber() {
 		number.x = right() - 11 - number.width();
 		number.y = y + (height - number.baseLine()) / 2f;
 		PixelScene.align(number);
 	}
-	
+
 	@Override
 	public void update() {
-		
+
 		if (Dungeon.hero.isAlive()) {
 			int v =  Dungeon.hero.visibleEnemies();
 			if (v != lastNumber) {
@@ -103,10 +103,10 @@ public class DangerIndicator extends Tag {
 		} else {
 			visible = false;
 		}
-		
+
 		super.update();
 	}
-	
+
 	@Override
 	protected void onClick() {
 		if (Dungeon.hero.visibleEnemies() > 0) {

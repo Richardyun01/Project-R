@@ -65,6 +65,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse2;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
@@ -855,7 +856,9 @@ public enum Talent {
 
 		if (hero.hasTalent(DEADLY_FOLLOWUP)) {
 			if (hero.belongings.attackingWeapon() instanceof MissileWeapon) {
-				Buff.prolong(enemy, DeadlyFollowupTracker.class, 5f);
+				if (!(hero.belongings.attackingWeapon() instanceof SpiritBow.SpiritArrow)) {
+					Buff.prolong(enemy, DeadlyFollowupTracker.class, 5f);
+				}
 			} else if (enemy.buff(DeadlyFollowupTracker.class) != null){
 				dmg = Math.round(dmg * (1.0f + .08f*hero.pointsInTalent(DEADLY_FOLLOWUP)));
 				if (!(enemy instanceof Mob) || !((Mob) enemy).surprisedBy(hero)){

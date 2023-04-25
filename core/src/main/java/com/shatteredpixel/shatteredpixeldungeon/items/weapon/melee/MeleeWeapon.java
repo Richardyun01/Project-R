@@ -40,11 +40,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeap
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ActionIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Image;
+import com.watabou.noosa.Visual;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
@@ -145,7 +147,7 @@ public class MeleeWeapon extends Weapon {
 	@Override
 	public boolean doEquip(Hero hero) {
 		if (super.doEquip(hero)){
-			ActionIndicator.updateIcon();
+			ActionIndicator.refresh();
 			return true;
 		}
 		return false;
@@ -154,7 +156,7 @@ public class MeleeWeapon extends Weapon {
 	@Override
 	public boolean equipSecondary(Hero hero) {
 		if (super.equipSecondary(hero)){
-			ActionIndicator.updateIcon();
+			ActionIndicator.refresh();
 			return true;
 		}
 		return false;
@@ -163,7 +165,7 @@ public class MeleeWeapon extends Weapon {
 	@Override
 	public boolean doUnequip(Hero hero, boolean collect, boolean single) {
 		if (super.doUnequip(hero, collect, single)){
-			ActionIndicator.updateIcon();
+			ActionIndicator.refresh();
 			return true;
 		}
 		return false;
@@ -547,12 +549,38 @@ public class MeleeWeapon extends Weapon {
 		}
 
 		@Override
-		public Image actionIcon() {
+		public int actionIcon() {
+			return HeroIcon.WEAPON_SWAP;
+		}
+
+		@Override
+		public Visual primaryVisual() {
+			Image ico;
 			if (Dungeon.hero.belongings.weapon == null){
-				return new ItemSprite(ItemSpriteSheet.WEAPON_HOLDER);
+				ico = new HeroIcon(this);
 			} else {
-				return new ItemSprite(Dungeon.hero.belongings.weapon);
+				ico = new ItemSprite(Dungeon.hero.belongings.weapon);
 			}
+			ico.width += 4; //shift slightly to the left to separate from smaller icon
+			return ico;
+		}
+
+		@Override
+		public Visual secondaryVisual() {
+			Image ico;
+			if (Dungeon.hero.belongings.secondWep == null){
+				ico = new HeroIcon(this);
+			} else {
+				ico = new ItemSprite(Dungeon.hero.belongings.secondWep);
+			}
+			ico.scale.set(PixelScene.align(0.51f));
+			ico.brightness(0.6f);
+			return ico;
+		}
+
+		@Override
+		public int indicatorColor() {
+			return 0x5500BB;
 		}
 
 		@Override

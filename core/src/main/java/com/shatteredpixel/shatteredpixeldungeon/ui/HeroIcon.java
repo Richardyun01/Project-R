@@ -86,6 +86,21 @@ public class HeroIcon extends Image {
 	public static final int FEINT			= 42;
 	public static final int RATMOGRIFY      = 20;
 
+	//action indicator visuals
+	public static final int BERSERK         = 64;
+	public static final int COMBO           = 65;
+	public static final int PREPARATION     = 66;
+	public static final int MOMENTUM        = 67;
+	public static final int SNIPERS_MARK    = 68;
+	public static final int WEAPON_SWAP     = 69;
+	public static final int MONK_ABILITIES  = 70;
+	public static final int USE_BUNKER      = 71;
+	public static final int USE_PHALANX     = 72;
+	public static final int USE_TERCIO      = 73;
+	public static final int USE_VLAD        = 74;
+	public static final int USE_BOUNTYMARK  = 75;
+	public static final int USE_SHIP        = 76;
+
 
 	public HeroIcon(HeroSubClass subCls){
 		super( Assets.Interfaces.HERO_ICONS );
@@ -101,6 +116,14 @@ public class HeroIcon extends Image {
 			film = new TextureFilm(texture, SIZE, SIZE);
 		}
 		frame(film.get(abil.icon()));
+	}
+
+	public HeroIcon(ActionIndicator.Action action){
+		super( Assets.Interfaces.HERO_ICONS );
+		if (film == null){
+			film = new TextureFilm(texture, SIZE, SIZE);
+		}
+		frame(film.get(action.actionIcon()));
 	}
 
 }

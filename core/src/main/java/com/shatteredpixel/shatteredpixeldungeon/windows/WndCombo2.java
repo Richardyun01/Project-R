@@ -62,7 +62,6 @@ public class WndCombo2 extends Window {
         }
 
         for (LanceCombo.ComboMove move : LanceCombo.ComboMove.values()) {
-            Image ic = new Image(icon);
 
             RedButton moveBtn = new RedButton(move.desc(combo.getComboCount()), 6){
                 @Override
@@ -72,8 +71,6 @@ public class WndCombo2 extends Window {
                     combo.useMove(move);
                 }
             };
-            ic.tint(move.tintColor);
-            moveBtn.icon(ic);
             moveBtn.leftJustify = true;
             moveBtn.multiline = true;
             moveBtn.setSize(width, moveBtn.reqHeight());

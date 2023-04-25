@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.scenes;
 
+import com.badlogic.gdx.Input;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
@@ -33,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.glwrap.Blending;
 import com.watabou.input.ControllerHandler;
+import com.watabou.input.KeyEvent;
 import com.watabou.input.PointerEvent;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.BitmapText.Font;
@@ -46,9 +48,11 @@ import com.watabou.noosa.Visual;
 import com.watabou.noosa.ui.Component;
 import com.watabou.noosa.ui.Cursor;
 import com.watabou.utils.Callback;
+import com.watabou.utils.DeviceCompat;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Reflection;
+import com.watabou.utils.Signal;
 
 import java.util.ArrayList;
 
@@ -81,6 +85,8 @@ public class PixelScene extends Scene {
 	public static BitmapText.Font pixelFont;
 
 	protected boolean inGameScene = false;
+
+	private Signal.Listener<KeyEvent> fullscreenListener;
 
 	@Override
 	public void create() {
@@ -133,10 +139,10 @@ public class PixelScene extends Scene {
 
 		// 3x5 (6)
 		pixelFont = Font.colorMarked(
-			TextureCache.get( Assets.Fonts.PIXELFONT), 0x00000000, BitmapText.Font.LATIN_FULL );
+				TextureCache.get( Assets.Fonts.PIXELFONT), 0x00000000, BitmapText.Font.LATIN_FULL );
 		pixelFont.baseLine = 6;
 		pixelFont.tracking = -1;
-		
+
 		//set up the texture size which rendered text will use for any new glyphs.
 		int renderedTextPageSize;
 		if (defaultZoom <= 3){
@@ -147,9 +153,9 @@ public class PixelScene extends Scene {
 			renderedTextPageSize = 1024;
 		}
 		//asian languages have many more unique characters, so increase texture size to anticipate that
-		if (Messages.lang() == Languages.KOREAN) {
-				//Messages.lang() == Languages.CHINESE ||
-				//Messages.lang() == Languages.JAPANESE){
+		if (Messages.lang() == Languages.KOREAN
+				/*Messages.lang() == Languages.CHINESE ||
+				  Messages.lang() == Languages.JAPANESE*/){
 			renderedTextPageSize *= 2;
 		}
 		Game.platform.setupFontGenerators(renderedTextPageSize, SPDSettings.systemFont());
@@ -162,6 +168,34 @@ public class PixelScene extends Scene {
 
 	@Override
 	public void update() {
+		//we create this here so that it is last in the scene
+		if (DeviceCompat.isDesktop() && fullscreenListener == null){
+			KeyEvent.addKeyListener(fullscreenListener = new Signal.Listener<KeyEvent>() {
+
+				private boolean alt;
+				private boolean enter;
+
+				@Override
+				public boolean onSignal(KeyEvent keyEvent) {
+
+					//we don't use keybindings for these as we want the user to be able to
+					// bind these keys to other actions when pressed individually
+					if (keyEvent.code == Input.Keys.ALT_RIGHT){
+						alt = keyEvent.pressed;
+					} else if (keyEvent.code == Input.Keys.ENTER){
+						enter = keyEvent.pressed;
+					}
+
+					if (alt && enter){
+						SPDSettings.fullscreen(!SPDSettings.fullscreen());
+						return true;
+					}
+
+					return false;
+				}
+			});
+		}
+
 		super.update();
 		//20% deadzone
 		if (!Cursor.isCursorCaptured()) {
@@ -204,7 +238,9 @@ public class PixelScene extends Scene {
 				}
 
 				cameraShift.invScale(Camera.main.zoom);
-				if (cameraShift.length() > 0 && Camera.main.scrollable){
+				cameraShift.x *= Camera.main.edgeScroll.x;
+				cameraShift.y *= Camera.main.edgeScroll.y;
+				if (cameraShift.length() > 0){
 					Camera.main.shift(cameraShift);
 				}
 				ControllerHandler.updateControllerPointer(virtualCursorPos, true);
@@ -236,7 +272,7 @@ public class PixelScene extends Scene {
 	//FIXME this system currently only works for a subset of windows
 	private static ArrayList<Class<?extends Window>> savedWindows = new ArrayList<>();
 	private static Class<?extends PixelScene> savedClass = null;
-	
+
 	public synchronized void saveWindows(){
 		if (members == null) return;
 
@@ -248,7 +284,7 @@ public class PixelScene extends Scene {
 			}
 		}
 	}
-	
+
 	public synchronized void restoreWindows(){
 		if (getClass().equals(savedClass)){
 			for (Class<?extends Window> w : savedWindows){
@@ -266,6 +302,9 @@ public class PixelScene extends Scene {
 	public void destroy() {
 		super.destroy();
 		PointerEvent.clearListeners();
+		if (fullscreenListener != null){
+			KeyEvent.removeKeyListener(fullscreenListener);
+		}
 		if (cursor != null){
 			cursor.destroy();
 		}
@@ -316,11 +355,11 @@ public class PixelScene extends Scene {
 			fadeIn( 0xFF000000, false );
 		}
 	}
-	
+
 	protected void fadeIn( int color, boolean light ) {
 		add( new Fader( color, light ) );
 	}
-	
+
 	public static void showBadge( Badges.Badge badge ) {
 		Game.runOnRenderThread(new Callback() {
 			@Override
@@ -345,24 +384,24 @@ public class PixelScene extends Scene {
 			}
 		});
 	}
-	
+
 	protected static class Fader extends ColorBlock {
-		
+
 		private static float FADE_TIME = 1f;
-		
+
 		private boolean light;
-		
+
 		private float time;
 
 		private static Fader INSTANCE;
-		
+
 		public Fader( int color, boolean light ) {
 			super( uiCamera.width, uiCamera.height, color );
-			
+
 			this.light = light;
-			
+
 			camera = uiCamera;
-			
+
 			alpha( 1f );
 			time = FADE_TIME;
 
@@ -371,12 +410,12 @@ public class PixelScene extends Scene {
 			}
 			INSTANCE = this;
 		}
-		
+
 		@Override
 		public void update() {
-			
+
 			super.update();
-			
+
 			if ((time -= Game.elapsed) <= 0) {
 				alpha( 0f );
 				parent.remove( this );
@@ -388,7 +427,7 @@ public class PixelScene extends Scene {
 				alpha( time / FADE_TIME );
 			}
 		}
-		
+
 		@Override
 		public void draw() {
 			if (light) {
@@ -400,29 +439,29 @@ public class PixelScene extends Scene {
 			}
 		}
 	}
-	
+
 	private static class PixelCamera extends Camera {
-		
+
 		public PixelCamera( float zoom ) {
 			super(
-				(int)(Game.width - Math.ceil( Game.width / zoom ) * zoom) / 2,
-				(int)(Game.height - Math.ceil( Game.height / zoom ) * zoom) / 2,
-				(int)Math.ceil( Game.width / zoom ),
-				(int)Math.ceil( Game.height / zoom ), zoom );
+					(int)(Game.width - Math.ceil( Game.width / zoom ) * zoom) / 2,
+					(int)(Game.height - Math.ceil( Game.height / zoom ) * zoom) / 2,
+					(int)Math.ceil( Game.width / zoom ),
+					(int)Math.ceil( Game.height / zoom ), zoom );
 			fullScreen = true;
 		}
-		
+
 		@Override
 		protected void updateMatrix() {
 			float sx = align( this, scroll.x + shakeX );
 			float sy = align( this, scroll.y + shakeY );
-			
+
 			matrix[0] = +zoom * invW2;
 			matrix[5] = -zoom * invH2;
-			
+
 			matrix[12] = -1 + x * invW2 - sx * matrix[0];
 			matrix[13] = +1 - y * invH2 - sy * matrix[5];
-			
+
 		}
 	}
 }
