@@ -19,6 +19,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.PathFinder;
 
 public class BloodWine extends ArmorAbility {
 
@@ -43,7 +44,11 @@ public class BloodWine extends ArmorAbility {
                     affected = mob;
                 }
                 if (hero.hasTalent(Talent.TOXIC_WINE)) {
-                    GameScene.add( Blob.seed( mob.pos, 1*hero.pointsInTalent(Talent.TOXIC_WINE), CorrosiveGas.class ) );
+                    for (int i : PathFinder.NEIGHBOURS8){
+                        if (!Dungeon.level.solid[mob.pos+i]){
+                            GameScene.add( Blob.seed( mob.pos+i, 2*hero.pointsInTalent(Talent.TOXIC_WINE), CorrosiveGas.class ).setStrength( 2 + Dungeon.scalingDepth()/5));
+                        }
+                    }
                 }
                 if (hero.hasTalent(Talent.ALCOHOLIC_FRENZY)) {
                     Buff.affect(mob, Cripple.class, 10+3*(hero.pointsInTalent(Talent.ALCOHOLIC_FRENZY)-1));

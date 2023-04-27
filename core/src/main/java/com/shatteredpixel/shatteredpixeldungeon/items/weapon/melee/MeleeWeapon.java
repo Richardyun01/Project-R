@@ -120,7 +120,7 @@ public class MeleeWeapon extends Weapon {
 				usesTargeting = false;
 			} else {
 
-				if (targetingPrompt() == null){
+				if (targetingPrompt() == null) {
 					carrollAbility(hero, hero.pos);
 					updateQuickslot();
 				} else {

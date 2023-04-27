@@ -3,16 +3,23 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WinterStorm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Peretoria;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfSirensSong;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
@@ -61,7 +68,8 @@ public class PrincessMirror extends Item {
                 curUser.sprite.operate(curUser.pos);
                 Buff.affect(curUser, PrincessMirrorCooldown.class, 50);
             } else if (hero.subClass == HeroSubClass.VALKYRIE) {
-                Buff.affect(curUser, PrincessMirrorCooldown.class, PrincessMirrorCooldown.DURATION);
+                GameScene.selectCell(targeter);
+                Buff.affect(curUser, PrincessMirrorCooldown.class, 5);
             } else if (hero.subClass == HeroSubClass.WINTERSTORM) {
                 Buff.affect(curUser, WinterStorm.class, WinterStorm.DURATION);
                 Buff.affect(curUser, PrincessMirrorCooldown.class, 150);
@@ -74,7 +82,6 @@ public class PrincessMirror extends Item {
             Sample.INSTANCE.play(Assets.Sounds.TELEPORT);
             curUser.spendAndNext(Actor.TICK);
         }
-
     }
 
     @Override
@@ -90,6 +97,23 @@ public class PrincessMirror extends Item {
     @Override
     public int value() {
         return -1;
+    }
+
+    @Override
+    public String desc() {
+        String desc = super.desc();
+
+        desc += "\n\n";
+        if (Dungeon.hero.subClass == HeroSubClass.PERETORIA)
+            desc += Messages.get(this, "desc_2");
+        else if (Dungeon.hero.subClass == HeroSubClass.VALKYRIE)
+            desc += Messages.get(this, "desc_3");
+        else if (Dungeon.hero.subClass == HeroSubClass.WINTERSTORM)
+            desc += Messages.get(this, "desc_4");
+        else
+            desc += Messages.get(this, "desc_1");
+
+        return desc;
     }
 
     public static int spawnGuard( Hero hero, int nImages ){
@@ -119,6 +143,49 @@ public class PrincessMirror extends Item {
 
         return spawned;
     }
+
+    private CellSelector.Listener targeter = new CellSelector.Listener() {
+
+        @Override
+        public void onSelect(Integer cell) {
+            if (cell == null) {
+                return;
+            }
+
+            Mob target = null;
+            if (cell != null) {
+                Char ch = Actor.findChar(cell);
+                if (ch != null && ch.alignment != Char.Alignment.ALLY && ch instanceof Mob) {
+                    target = (Mob) ch;
+                }
+            }
+
+            if (target == null) {
+                GLog.w(Messages.get(ScrollOfSirensSong.class, "cancel"));
+                return;
+            } else {
+                curUser.sprite.centerEmitter().start(Speck.factory(Speck.HEART), 0.2f, 5);
+                Sample.INSTANCE.play(Assets.Sounds.CHARMS);
+                Sample.INSTANCE.playDelayed(Assets.Sounds.LULLABY, 0.1f);
+
+                if (target != null) {
+                    if (!target.isImmune(ScrollOfSirensSong.Enthralled.class) && target.buff(Charm.class) != null) {
+                        AllyBuff.affectAndLoot(target, curUser, ScrollOfSirensSong.Enthralled.class);
+                    } else {
+                        Buff.affect(target, Charm.class, Charm.DURATION).object = curUser.id();
+                    }
+                    target.sprite.centerEmitter().burst(Speck.factory(Speck.HEART), 10);
+                } else {
+                    GLog.w(Messages.get(ScrollOfSirensSong.class, "no_target"));
+                }
+            }
+        }
+
+        @Override
+        public String prompt() {
+            return Messages.get(ScrollOfSirensSong.class, "prompt");
+        }
+    };
 
     public static class PrincessMirrorCooldown extends FlavourBuff {
 

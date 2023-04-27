@@ -79,9 +79,11 @@ public class WndHeroInfo extends WndTabbed {
 			case CARROLL:
 				tabIcon = new ItemSprite(ItemSpriteSheet.APACHE_PISTOL, null);
 				break;
+				/*
 			case ARTILIA:
-				tabIcon = new ItemSprite(ItemSpriteSheet.APACHE_PISTOL, null);
+				tabIcon = new ItemSprite(ItemSpriteSheet.PRINCESS_MIRROR, null);
 				break;
+				*/
 		}
 
 		int finalHeight = MIN_HEIGHT;

@@ -168,7 +168,7 @@ public abstract class Scroll extends Item {
 				GLog.w( Messages.get(this, "blinded") );
 			} else if (hero.buff(UnstableSpellbook.bookRecharge.class) != null
 					&& hero.buff(UnstableSpellbook.bookRecharge.class).isCursed()
-					&& !(this instanceof ScrollOfRemoveCurse || this instanceof ScrollOfAntiMagic)){
+					&& !(this instanceof ScrollOfRemoveCurse || this instanceof ScrollOfRemoveCurse2 || this instanceof ScrollOfAntiMagic)){
 				GLog.n( Messages.get(this, "cursed") );
 			} else {
 				curUser = hero;

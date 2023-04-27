@@ -32,8 +32,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Degrade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
+import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.TippedDart;
@@ -45,6 +50,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.MissileSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundlable;
@@ -118,6 +124,15 @@ public class Item implements Bundlable {
 			hero.hasTalent(Talent.ADVENTURERS_INTUITION) &&
 			hero.pointsInTalent(Talent.ADVENTURERS_INTUITION) >= 2) {
 			this.cursedKnown = true;
+		}
+		if (hero.hasTalent(Talent.EXPERIENCE_STACK) &&
+			!isIdentified() &&
+			Dungeon.hero.buff(Talent.identifyIdentify.class) != null &&
+			((Talent.identifyIdentify) Dungeon.hero.buff(Talent.identifyIdentify.class)).count() > ((float) (4 - hero.pointsInTalent(Talent.EXPERIENCE_STACK))) &&
+			((this instanceof MeleeWeapon) || (this instanceof FirearmWeapon) || (this instanceof Wand) || (this instanceof Ring) || (this instanceof Armor))) {
+			identify();
+			GLog.i(Messages.get(Hero.class, "identify", new Object[0]), new Object[0]);
+			Buff.detach(Dungeon.hero, Talent.identifyIdentify.class);
 		}
 		return doPickUp( hero, hero.pos );
 	}
@@ -437,6 +452,23 @@ public class Item implements Bundlable {
 		if (byHero && Dungeon.hero != null && Dungeon.hero.isAlive()){
 			Catalog.setSeen(getClass());
 			if (!isIdentified()) Talent.onItemIdentified(Dungeon.hero, this);
+			if (Dungeon.hero.hasTalent(Talent.EXPERIENCE_STACK) &&
+					((this instanceof MeleeWeapon) ||
+					(this instanceof FirearmWeapon) ||
+					(this instanceof Wand) ||
+					(this instanceof Ring) ||
+					(this instanceof Armor))) {
+				if (Dungeon.hero.buff(Talent.identifyIdentify.class) == null) {
+					Buff.affect(Dungeon.hero, Talent.identifyIdentify.class);
+				} else if (Dungeon.hero.buff(Talent.identifyIdentify.class) != null) {
+					((Talent.identifyIdentify) Buff.affect(Dungeon.hero, Talent.identifyIdentify.class)).countUp(1);
+				}
+				Talent.identifyIdentify identify = (Talent.identifyIdentify) Buff.affect(Dungeon.hero, Talent.identifyIdentify.class);
+				identify.countUp(1.0f);
+				if (identify.count() > ((float) (4 - Dungeon.hero.pointsInTalent(Talent.EXPERIENCE_STACK)))) {
+					GLog.i(Messages.get((Object) this, "smart", new Object[0]), new Object[0]);
+				}
+			}
 		}
 
 		levelKnown = true;

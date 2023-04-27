@@ -549,6 +549,14 @@ public abstract class Char extends Actor {
 			if ( buff(Weakness.class) != null ){
 				dmg *= 0.67f;
 			}
+
+			if (this != hero && alignment == Alignment.ALLY) {
+				if (hero.hasTalent(Talent.COMMAND_SYSTEM)) {
+					if (Dungeon.level.distance(hero.pos, this.pos) <= 1+2*hero.pointsInTalent(Talent.COMMAND_SYSTEM)) {
+						dmg = (int)(dmg * 1.1f);
+					}
+				}
+			}
 			
 			int effectiveDamage = enemy.defenseProc( this, Math.round(dmg) );
 			effectiveDamage = Math.max( effectiveDamage - dr, 0 );
@@ -681,6 +689,13 @@ public abstract class Char extends Actor {
 			defender.buff(LancePredationTracker.class) != null) acuRoll *= INFINITE_ACCURACY;
 		for (ChampionEnemy buff : attacker.buffs(ChampionEnemy.class)){
 			acuRoll *= buff.evasionAndAccuracyFactor();
+		}
+		if (attacker != hero && attacker.alignment == Alignment.ALLY) {
+			if (hero.hasTalent(Talent.COMMAND_SYSTEM)) {
+				if (Dungeon.level.distance(hero.pos, attacker.pos) <= 1+2*hero.pointsInTalent(Talent.COMMAND_SYSTEM)) {
+					acuRoll = acuRoll * 1.1f;
+				}
+			}
 		}
 		acuRoll *= AscensionChallenge.statModifier(attacker);
 

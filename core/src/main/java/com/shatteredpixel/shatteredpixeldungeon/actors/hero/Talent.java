@@ -38,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CounterBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
@@ -57,9 +58,14 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.PrincessMirror;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.FrozenCarpaccio;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
@@ -226,13 +232,15 @@ public enum Talent {
 	//Artilia T1
 	LUXURIOUS_MEAL(384), EXPERIENCE_STACK(385), DISTURBANCE_DEFENCE(386), COMMAND_SYSTEM(387),
 	//Artilia T2
-	_MEAL(388), TRAMPLE(392), DIGNIFIED_STEP(393),
+	FROZEN_MEAL(388), ENGIMATIC_PRISM(389), MAGIC_MIRROR(390), HIGH_DIGNITY(391), TRAMPLE(392), DIGNIFIED_STEP(393),
 	//Artilia T3
+	artiliat3_1(394, 3), artiliat3_2(394, 3),
 	//Peretoria T3
 	HIGH_LEGION(396, 3), ELITE_GUARD(397, 3), ADVANCED_TROOPER(398, 3),
 	//Valkyrie T3
+	valkyrie_1(399, 3), valkyrie_2(400, 3), valkyrie_3(401, 3),
 	//Winterstorm T3
-	FROST_ARMOR(403, 3),
+	FROST_ARMOR(402, 3), winterstorm_2(403, 3), winterstorm_3(404, 3),
 	// T4
 
 	//universal T4
@@ -432,6 +440,7 @@ public enum Talent {
 		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / (2500*(1-0.1f*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP)))); }
 	};
+	public static class identifyIdentify extends CounterBuff {}
 
 	int icon;
 	int maxPoints;
@@ -649,6 +658,20 @@ public enum Talent {
 				Buff.affect( hero, PhysicalEmpower.class).set(Math.round(hero.lvl / (4f - hero.pointsInTalent(FOCUSED_MEAL))), 1);
 			}
 		}
+		if (hero.hasTalent(LUXURIOUS_MEAL)){
+			if (foodSource instanceof FrozenCarpaccio || foodSource instanceof Pasty || foodSource instanceof MeatPie) {
+				//10 bonus shield
+				Buff.affect( hero, Barrier.class).setShield(10);
+				if (hero.pointsInTalent(LUXURIOUS_MEAL) >= 2) {
+					PotionOfHealing.cure(hero);
+					PotionOfHealing.cure(hero);
+				}
+			}
+		}
+		if (hero.hasTalent(FROZEN_MEAL)){
+			//3 bonus physical damage for next 2/3 attacks
+			Buff.affect( hero, FrostImbue.class, 1+hero.pointsInTalent(Talent.FROZEN_MEAL));
+		}
 	}
 
 	public static class WarriorFoodImmunity extends FlavourBuff{
@@ -756,6 +779,16 @@ public enum Talent {
 					ScrollOfRecharging.charge(Dungeon.hero);
 					SpellSprite.show(hero, SpellSprite.CHARGE, 0, 1, 1);
 				}
+			} else {
+				Buff.affect(hero, ArtifactRecharge.class).set( 2 + 4*hero.pointsInTalent(MYSTICAL_UPGRADE) ).ignoreHornOfPlenty = false;
+				ScrollOfRecharging.charge(Dungeon.hero);
+				SpellSprite.show(hero, SpellSprite.CHARGE, 0, 1, 1);
+			}
+		}
+		if (hero.hasTalent(ENGIMATIC_PRISM)){
+			if (hero.heroClass == HeroClass.ARTILIA) {
+				//TODO
+				Buff.detach(hero, PrincessMirror.PrincessMirrorCooldown.class);
 			} else {
 				Buff.affect(hero, ArtifactRecharge.class).set( 2 + 4*hero.pointsInTalent(MYSTICAL_UPGRADE) ).ignoreHornOfPlenty = false;
 				ScrollOfRecharging.charge(Dungeon.hero);
@@ -950,7 +983,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, FOCUSED_MEAL, RESTORED_AGILITY, WEAPON_RECHARGING, LETHAL_HASTE, SWIFT_EQUIP, EMERGENCY_AVOIDANCE);
 				break;
 			case ARTILIA:
-				Collections.addAll(tierTalents);
+				Collections.addAll(tierTalents, FROZEN_MEAL, ENGIMATIC_PRISM, MAGIC_MIRROR, HIGH_DIGNITY, TRAMPLE, DIGNIFIED_STEP);
 				break;
 		}
 		for (Talent talent : tierTalents){

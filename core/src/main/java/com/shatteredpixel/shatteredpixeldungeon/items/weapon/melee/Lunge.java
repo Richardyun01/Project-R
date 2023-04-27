@@ -48,7 +48,7 @@ public class Lunge extends MeleeWeapon {
 
     {
 
-        defaultAction = "ZAP";
+        defaultAction = AC_ZAP;
         usesTargeting = true;
 
         image = ItemSpriteSheet.LUNGE;
@@ -59,7 +59,7 @@ public class Lunge extends MeleeWeapon {
     }
 
     public static final String AC_ZAP = "ZAP";
-    private static final String CHARGE = "arts";
+    private static final String CHARGE = "energy";
     protected static CellSelector.Listener zapper = new CellSelector.Listener() {
         public void onSelect(Integer num) {
             if (num != null && (Lunge.curItem instanceof Lunge)) {
@@ -90,8 +90,8 @@ public class Lunge extends MeleeWeapon {
             return Messages.get(Lunge.class, "prompt", new Object[0]);
         }
     };
-    private int arts = 3;
-    private int artschargeCap = 3;
+    private int energy = 3;
+    private int energychargeCap = 3;
     protected int collisionProperties = 6;
 
     public int max(int i) {
@@ -111,7 +111,7 @@ public class Lunge extends MeleeWeapon {
 
     public void execute(Hero hero, String str) {
         super.execute(hero, str);
-        if (str.equals("ZAP") && this.arts > 0) {
+        if (str.equals("ZAP") && this.energy > 0) {
             if (!this.cursed) {
                 this.cursedKnown = true;
                 GameScene.selectCell(zapper);
@@ -119,7 +119,7 @@ public class Lunge extends MeleeWeapon {
             }
             ((Burning) Buff.affect(Dungeon.hero, Burning.class)).reignite(Dungeon.hero, 4.0f);
             this.cursedKnown = true;
-            this.arts--;
+            this.energy--;
         }
     }
 
@@ -127,34 +127,34 @@ public class Lunge extends MeleeWeapon {
         return Messages.get((Object) this, "stats_desc", Integer.valueOf(buffedLvl() + 2), Integer.valueOf((buffedLvl() * 2) + 11));
     }
 
-    public void SPCharge(int i) {
-        if (Random.Int(17) < 2) {
-            int i2 = this.arts + i;
-            this.arts = i2;
-            int i3 = this.artschargeCap;
-            if (i3 < i2) {
-                this.arts = i3;
+    public void SPCharge(int charge) {
+        if (Random.Int(16) < 2) {
+            int chargeTemp2 = this.energy + charge;
+            this.energy = chargeTemp2;
+            int chargeTemp3 = this.energychargeCap;
+            if (chargeTemp3 < chargeTemp2) {
+                this.energy = chargeTemp3;
             }
             updateQuickslot();
         }
     }
 
     public String status() {
-        return this.arts + "/" + this.artschargeCap;
+        return this.energy + "/" + this.energychargeCap;
     }
 
     public void storeInBundle(Bundle bundle) {
         super.storeInBundle(bundle);
-        bundle.put(CHARGE, this.arts);
+        bundle.put(CHARGE, this.energy);
     }
 
     public void restoreFromBundle(Bundle bundle) {
         super.restoreFromBundle(bundle);
-        int i = this.artschargeCap;
+        int i = this.energychargeCap;
         if (i > 0) {
-            this.arts = Math.min(i, bundle.getInt(CHARGE));
+            this.energy = Math.min(i, bundle.getInt(CHARGE));
         } else {
-            this.arts = bundle.getInt(CHARGE);
+            this.energy = bundle.getInt(CHARGE);
         }
     }
 
@@ -167,7 +167,7 @@ public class Lunge extends MeleeWeapon {
         if (hero.buff(MagicImmune.class) != null) {
             GLog.w(Messages.get((Object) this, "no_magic", new Object[0]), new Object[0]);
             return false;
-        } else if (this.arts >= 1) {
+        } else if (this.energy >= 1) {
             return true;
         } else {
             GLog.w(Messages.get((Object) this, "fizzles", new Object[0]), new Object[0]);
@@ -185,7 +185,7 @@ public class Lunge extends MeleeWeapon {
         } else {
             Dungeon.level.pressCell(ballistica.collisionPos.intValue());
         }
-        this.arts--;
+        this.energy--;
         updateQuickslot();
         curUser.spendAndNext(1.0f);
     }

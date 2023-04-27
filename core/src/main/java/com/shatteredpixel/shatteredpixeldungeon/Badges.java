@@ -735,7 +735,7 @@ public class Badges {
 		firstBossClassBadges.put(HeroClass.NOISE, Badge.BOSS_SLAIN_1_NOISE);
 		firstBossClassBadges.put(HeroClass.LANCE, Badge.BOSS_SLAIN_1_LANCE);
 		firstBossClassBadges.put(HeroClass.CARROLL, Badge.BOSS_SLAIN_1_CARROLL);
-		firstBossClassBadges.put(HeroClass.ARTILIA, Badge.BOSS_SLAIN_1_ARTILIA);
+		//firstBossClassBadges.put(HeroClass.ARTILIA, Badge.BOSS_SLAIN_1_ARTILIA);
 	}
 
 	private static LinkedHashMap<HeroClass, Badge> victoryClassBadges = new LinkedHashMap<>();
