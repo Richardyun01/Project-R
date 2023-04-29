@@ -435,6 +435,10 @@ public abstract class Char extends Actor {
 				Buff.affect(Dungeon.hero, Bunker.class).gainStack();
 			}
 
+			if (this instanceof Hero && hero.hasTalent(Talent.TRAMPLE) && hero.buff(Talent.TrampleCoolDown.class) == null) {
+				Buff.affect(enemy, Paralysis.class, 1+hero.pointsInTalent(Talent.TRAMPLE));
+			}
+
 			Dungeon.hero.busy();
 
 			//we use a float here briefly so that we don't have to constantly round while

@@ -53,7 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.builders.LoopBuilder;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret.SecretRoom;
-import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret.SecretShopRoom;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.DM301Room;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.MagicalFireRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.PitRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special.ShopRoom;
@@ -129,8 +129,9 @@ public abstract class RegularLevel extends Level {
 		
 		if (Dungeon.shopOnLevel()) {
 			initRooms.add(new ShopRoom());
-		} else if (Random.Int(80) == 0) {
-			initRooms.add(new SecretShopRoom());
+		}
+		if (Dungeon.depth == 14) {
+			initRooms.add(new DM301Room());
 		}
 
 		//force max special rooms and add one more for large levels

@@ -50,13 +50,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.He
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.PrincessMirror;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
-import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.EtherealChains;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.IceBox;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
@@ -88,6 +88,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ApachePistol;
@@ -96,7 +97,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.NotMachineG
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Dagger;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Krystallos;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lunge;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RuinSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
@@ -181,12 +181,10 @@ public enum HeroClass {
 		plate.upgrade(8).collect();
 		 **/
 //erase this finish
-		new KingsCrown().collect();
-		new TengusMask().collect();
-		PotionOfExperience enchan = new PotionOfExperience();
-		enchan.quantity(100).collect();
-		Lunge enchan2 = new Lunge();
-		enchan2.upgrade(4).collect();
+		PlateArmor plate = new PlateArmor();
+		plate.upgrade(100).collect();
+		new EtherealChains().collect();
+		new WandOfBlastWave().collect();
 
 		switch (this) {
 			case WARRIOR:
@@ -217,11 +215,9 @@ public enum HeroClass {
 				initCarroll( hero );
 				break;
 
-				/*
 			case ARTILIA:
 				initArtilia( hero );
 				break;
-				*/
 		}
 
 		for (int s = 0; s < QuickSlot.SIZE; s++){

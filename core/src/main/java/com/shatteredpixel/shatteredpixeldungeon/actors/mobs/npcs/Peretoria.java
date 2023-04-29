@@ -92,10 +92,12 @@ public class Peretoria extends NPC {
         heroID = bundle.getInt( HEROID );
     }
 
+    /*
     public void duplicate( Hero hero ) {
         this.hero = hero;
         heroID = this.hero.id();
     }
+    */
 
     @Override
     public int damageRoll() {

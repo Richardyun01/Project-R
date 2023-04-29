@@ -222,9 +222,9 @@ public class WndHeroInfo extends WndTabbed {
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
 				case ARTILIA:
-					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.KRYSTALLOS),
-							new ItemSprite(ItemSpriteSheet.WAR_HAMMER),
-							new ItemSprite(ItemSpriteSheet.THROWING_SPIKE),
+					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.PRINCESS_MIRROR),
+							new ItemSprite(ItemSpriteSheet.ARTILIA_INFO_1),
+							new ItemSprite(ItemSpriteSheet.KRYSTALLOS),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
 			}

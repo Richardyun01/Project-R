@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.MagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -109,17 +110,77 @@ public class Lunge extends MeleeWeapon {
         return actions;
     }
 
-    public void execute(Hero hero, String str) {
-        super.execute(hero, str);
-        if (str.equals("ZAP") && this.energy > 0) {
-            if (!this.cursed) {
+    @Override
+    public String defaultAction() {
+        return AC_ZAP;
+    }
+
+    @Override
+    public void execute(Hero hero, String action) {
+        super.execute(hero, action);
+
+        if (action.equals(AC_ZAP)) {
+            if (this.energy > 0) {
+                if (!this.cursed) {
+                    this.cursedKnown = true;
+                    GameScene.selectCell(zapper);
+                    return;
+                }
+                ((Burning) Buff.affect(Dungeon.hero, Burning.class)).reignite(Dungeon.hero, 4.0f);
                 this.cursedKnown = true;
-                GameScene.selectCell(zapper);
-                return;
+                this.energy--;
+            } else {
+                GLog.w(Messages.get(this, "fizzles"));
             }
-            ((Burning) Buff.affect(Dungeon.hero, Burning.class)).reignite(Dungeon.hero, 4.0f);
-            this.cursedKnown = true;
-            this.energy--;
+        }
+        if (action.equals(AC_ABILITY)) {
+            if (!isEquipped(hero)) {
+                if (hero.hasTalent(Talent.SWIFT_EQUIP)){
+                    if (hero.buff(Talent.SwiftEquipCooldown.class) == null
+                            || hero.buff(Talent.SwiftEquipCooldown.class).hasSecondUse()){
+                        execute(hero, AC_EQUIP);
+                    } else {
+                        GLog.w(Messages.get(MeleeWeapon.class, "ability_need_equip"));
+                        usesTargeting = false;
+                    }
+                } else {
+                    GLog.w(Messages.get(MeleeWeapon.class, "ability_need_equip"));
+                    usesTargeting = false;
+                }
+            } else if (STRReq() > hero.STR()){
+                GLog.w(Messages.get(MeleeWeapon.class, "ability_low_str"));
+                usesTargeting = false;
+            } else if (hero.belongings.weapon == this &&
+                    (Buff.affect(hero, Charger.class).charges + Buff.affect(hero, Charger.class).partialCharge) < abilityChargeUse(hero)) {
+                GLog.w(Messages.get(MeleeWeapon.class, "ability_no_charge"));
+                usesTargeting = false;
+            } else if (hero.belongings.secondWep == this &&
+                    (Buff.affect(hero, Charger.class).secondCharges + Buff.affect(hero, Charger.class).secondPartialCharge) < abilityChargeUse(hero)) {
+                GLog.w(Messages.get(MeleeWeapon.class, "ability_no_charge"));
+                usesTargeting = false;
+            } else {
+
+                if (targetingPrompt() == null) {
+                    carrollAbility(hero, hero.pos);
+                    updateQuickslot();
+                } else {
+                    usesTargeting = useTargeting();
+                    GameScene.selectCell(new CellSelector.Listener() {
+                        @Override
+                        public void onSelect(Integer cell) {
+                            if (cell != null) {
+                                carrollAbility(hero, cell);
+                                updateQuickslot();
+                            }
+                        }
+
+                        @Override
+                        public String prompt() {
+                            return targetingPrompt();
+                        }
+                    });
+                }
+            }
         }
     }
 

@@ -184,6 +184,9 @@ public enum Icons {
 			case CARROLL:
 				icon.frame( icon.texture.uvRectBySize( 112, 16, 13, 14 ) );
 				break;
+			case ARTILIA:
+				icon.frame( icon.texture.uvRectBySize( 128, 16, 12, 14 ) );
+				break;
 
 			case EXIT:
 				icon.frame( icon.texture.uvRectBySize( 0, 32, 15, 11 ) );

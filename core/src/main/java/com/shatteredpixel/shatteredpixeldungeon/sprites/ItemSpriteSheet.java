@@ -201,6 +201,7 @@ public class ItemSpriteSheet {
 	public static final int LANCE_INFO_1		= SPECIAL_ITEMS+7;
 	public static final int LANCE_INFO_2		= SPECIAL_ITEMS+8;
 	public static final int BOUNTY				= SPECIAL_ITEMS+9;
+	public static final int ARTILIA_INFO_1		= SPECIAL_ITEMS+10;
 
 	static{
 		assignItemRect(SPEED_LOADER,          	15, 15);
@@ -213,6 +214,7 @@ public class ItemSpriteSheet {
 		assignItemRect(LANCE_INFO_1,        	14, 14);
 		assignItemRect(LANCE_INFO_2,        	10, 15);
 		assignItemRect(BOUNTY,			       	16, 16);
+		assignItemRect(ARTILIA_INFO_1,        	10, 14);
 	}
 	
 	                                                                                    //16 free slots
@@ -226,7 +228,6 @@ public class ItemSpriteSheet {
 	public static final int DAGGER          = WEP_TIER1+4;
 	public static final int MAGES_STAFF     = WEP_TIER1+5;
 	public static final int KRYSTALLOS      = WEP_TIER1+6;
-	public static final int PSIONIC_BLADE   = WEP_TIER1+7;
 	static{
 		assignItemRect(WORN_SHORTSWORD, 13, 14);
 		assignItemRect(COMMONBLADE, 	14, 14);
@@ -235,7 +236,6 @@ public class ItemSpriteSheet {
 		assignItemRect(DAGGER,          15, 15);
 		assignItemRect(MAGES_STAFF,     16, 16);
 		assignItemRect(KRYSTALLOS,      16, 16);
-		assignItemRect(PSIONIC_BLADE,   15, 15);
 	}
 
 	private static final int WEP_TIER2      =                               xy(9, 7);   //8 slots

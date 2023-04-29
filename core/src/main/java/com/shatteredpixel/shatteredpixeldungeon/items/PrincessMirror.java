@@ -8,6 +8,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WinterStorm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -66,17 +67,25 @@ public class PrincessMirror extends Item {
                     spawnGuard(curUser, 1);
                 }
                 curUser.sprite.operate(curUser.pos);
+                if (hero.hasTalent(Talent.MAGIC_MIRROR) && hero.buff(Talent.MagicMirrorCoolDown.class) != null) {
+                    Buff.affect(curUser, MagicalSight.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                }
                 Buff.affect(curUser, PrincessMirrorCooldown.class, 50);
             } else if (hero.subClass == HeroSubClass.VALKYRIE) {
                 GameScene.selectCell(targeter);
-                Buff.affect(curUser, PrincessMirrorCooldown.class, 5);
             } else if (hero.subClass == HeroSubClass.WINTERSTORM) {
                 Buff.affect(curUser, WinterStorm.class, WinterStorm.DURATION);
+                if (hero.hasTalent(Talent.MAGIC_MIRROR) && hero.buff(Talent.MagicMirrorCoolDown.class) != null) {
+                    Buff.affect(curUser, MagicalSight.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                }
                 Buff.affect(curUser, PrincessMirrorCooldown.class, 150);
             } else {
                 new ScrollOfMirrorImage();
                 ScrollOfMirrorImage.spawnImages(curUser, 1);
                 curUser.sprite.operate(curUser.pos);
+                if (hero.hasTalent(Talent.MAGIC_MIRROR) && hero.buff(Talent.MagicMirrorCoolDown.class) != null) {
+                    Buff.affect(curUser, MagicalSight.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                }
                 Buff.affect(curUser, PrincessMirrorCooldown.class, PrincessMirrorCooldown.DURATION);
             }
             Sample.INSTANCE.play(Assets.Sounds.TELEPORT);
@@ -132,7 +141,7 @@ public class PrincessMirror extends Item {
             int index = Random.index( respawnPoints );
 
             Peretoria mob = new Peretoria();
-            mob.duplicate( hero );
+            //mob.duplicate( hero );
             GameScene.add( mob );
             ScrollOfTeleportation.appear( mob, respawnPoints.get( index ) );
 
@@ -175,6 +184,10 @@ public class PrincessMirror extends Item {
                         Buff.affect(target, Charm.class, Charm.DURATION).object = curUser.id();
                     }
                     target.sprite.centerEmitter().burst(Speck.factory(Speck.HEART), 10);
+                    if (Dungeon.hero.hasTalent(Talent.MAGIC_MIRROR) && Dungeon.hero.buff(Talent.MagicMirrorCoolDown.class) != null) {
+                        Buff.affect(curUser, MagicalSight.class, 1+Dungeon.hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                    }
+                    Buff.affect(curUser, PrincessMirrorCooldown.class, 20);
                 } else {
                     GLog.w(Messages.get(ScrollOfSirensSong.class, "no_target"));
                 }

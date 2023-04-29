@@ -49,10 +49,13 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bunker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CarrollCombo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CloseQuarters;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
@@ -1706,8 +1709,12 @@ public class Hero extends Char {
 			damage = rockArmor.absorb(damage);
 		}
 
-		if (hero.hasTalent(Talent.DISTURBANCE_DEFENCE) && Random.Int(20) == 0) {
+		if (hero.hasTalent(Talent.DISTURBANCE_DEFENCE) && Random.Int(10) == 0) {
 			ScrollOfMirrorImage.spawnImages(Dungeon.hero, hero.pointsInTalent(Talent.DISTURBANCE_DEFENCE));
+		}
+
+		if (hero.hasTalent(Talent.HIGH_DIGNITY) && Random.Int(20) < pointsInTalent(Talent.HIGH_DIGNITY)) {
+			Buff.affect( enemy, Charm.class, Charm.DURATION ).object = hero.id();
 		}
 		
 		return super.defenseProc( enemy, damage );
@@ -1973,6 +1980,10 @@ public class Hero extends Char {
 
 			if (hero.subClass == HeroSubClass.BOUNTYHUNTER && hero.buff(BountyTracker.class) == null) {
 				Buff.affect(this, BountyTracker.class).indicate();
+			}
+
+			if (hero.hasTalent(Talent.DIGNIFIED_STEP) && Random.Int(200) < 1+pointsInTalent(Talent.DIGNIFIED_STEP)) {
+				delay = 0;
 			}
 			
 			sprite.move(pos, step);
@@ -2454,6 +2465,18 @@ public class Hero extends Char {
 			}
 			BuffIndicator.refreshHero();
 			Item.updateQuickslot();
+		}
+
+		if (hit && hero.hasTalent(Talent.JACK_FROST) && Random.Int(50) < hero.pointsInTalent(Talent.JACK_FROST)) {
+			if (!enemy.properties().contains(Property.BOSS) && !enemy.properties().contains(Property.MINIBOSS)) {
+				new FlavourBuff(){
+					{actPriority = VFX_PRIO;}
+					public boolean act() {
+						Buff.affect( enemy, Frost.class, 20f);
+						return super.act();
+					}
+				}.attachTo(enemy);
+			}
 		}
 
 		curAction = null;

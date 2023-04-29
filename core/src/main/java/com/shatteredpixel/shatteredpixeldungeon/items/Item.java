@@ -465,8 +465,8 @@ public class Item implements Bundlable {
 				}
 				Talent.identifyIdentify identify = (Talent.identifyIdentify) Buff.affect(Dungeon.hero, Talent.identifyIdentify.class);
 				identify.countUp(1.0f);
-				if (identify.count() > ((float) (4 - Dungeon.hero.pointsInTalent(Talent.EXPERIENCE_STACK)))) {
-					GLog.i(Messages.get((Object) this, "smart", new Object[0]), new Object[0]);
+				if (identify.count() > ((float) (3 - Dungeon.hero.pointsInTalent(Talent.EXPERIENCE_STACK)))) {
+					GLog.i(Messages.get(Hero.class, "smart", new Object[0]), new Object[0]);
 				}
 			}
 		}

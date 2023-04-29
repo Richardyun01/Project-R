@@ -43,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PhysicalEmpower;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.RevealedArea;
@@ -58,18 +59,16 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.PrincessMirror;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
-import com.shatteredpixel.shatteredpixeldungeon.items.food.FrozenCarpaccio;
-import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
-import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.Ring;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRemoveCurse2;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfEnchantment;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
@@ -82,6 +81,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
@@ -232,9 +232,9 @@ public enum Talent {
 	//Artilia T1
 	LUXURIOUS_MEAL(384), EXPERIENCE_STACK(385), DISTURBANCE_DEFENCE(386), COMMAND_SYSTEM(387),
 	//Artilia T2
-	FROZEN_MEAL(388), ENGIMATIC_PRISM(389), MAGIC_MIRROR(390), HIGH_DIGNITY(391), TRAMPLE(392), DIGNIFIED_STEP(393),
+	FROZEN_MEAL(388), ENIGMATIC_UPGRADE(389), MAGIC_MIRROR(390), HIGH_DIGNITY(391), TRAMPLE(392), DIGNIFIED_STEP(393),
 	//Artilia T3
-	artiliat3_1(394, 3), artiliat3_2(394, 3),
+	JACK_FROST(394, 3), artiliat3_2(394, 3),
 	//Peretoria T3
 	HIGH_LEGION(396, 3), ELITE_GUARD(397, 3), ADVANCED_TROOPER(398, 3),
 	//Valkyrie T3
@@ -439,6 +439,16 @@ public enum Talent {
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / (2500*(1-0.1f*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP)))); }
+	};
+	public static class MagicMirrorCoolDown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 20-5*Dungeon.hero.pointsInTalent(MAGIC_MIRROR)); }
+	};
+	public static class TrampleCoolDown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 40-10*Dungeon.hero.pointsInTalent(Talent.TRAMPLE)); }
 	};
 	public static class identifyIdentify extends CounterBuff {}
 
@@ -659,13 +669,10 @@ public enum Talent {
 			}
 		}
 		if (hero.hasTalent(LUXURIOUS_MEAL)){
-			if (foodSource instanceof FrozenCarpaccio || foodSource instanceof Pasty || foodSource instanceof MeatPie) {
-				//10 bonus shield
-				Buff.affect( hero, Barrier.class).setShield(10);
-				if (hero.pointsInTalent(LUXURIOUS_MEAL) >= 2) {
-					PotionOfHealing.cure(hero);
-					PotionOfHealing.cure(hero);
-				}
+			//10 bonus shield
+			Buff.affect( hero, Barrier.class).setShield(10);
+			if (hero.pointsInTalent(LUXURIOUS_MEAL) >= 2) {
+				PotionOfHealing.cure(hero);
 			}
 		}
 		if (hero.hasTalent(FROZEN_MEAL)){
@@ -758,6 +765,7 @@ public enum Talent {
 		}
 	}
 
+	private static int upgradeUsed = 0;
 	public static void onUpgradeScrollUsed( Hero hero ){
 		if (hero.hasTalent(ENERGIZING_UPGRADE)){
 			if (hero.heroClass == HeroClass.MAGE) {
@@ -785,14 +793,26 @@ public enum Talent {
 				SpellSprite.show(hero, SpellSprite.CHARGE, 0, 1, 1);
 			}
 		}
-		if (hero.hasTalent(ENGIMATIC_PRISM)){
-			if (hero.heroClass == HeroClass.ARTILIA) {
-				//TODO
-				Buff.detach(hero, PrincessMirror.PrincessMirrorCooldown.class);
-			} else {
-				Buff.affect(hero, ArtifactRecharge.class).set( 2 + 4*hero.pointsInTalent(MYSTICAL_UPGRADE) ).ignoreHornOfPlenty = false;
-				ScrollOfRecharging.charge(Dungeon.hero);
-				SpellSprite.show(hero, SpellSprite.CHARGE, 0, 1, 1);
+		if (hero.pointsInTalent(ENIGMATIC_UPGRADE) == 2) {
+			upgradeUsed ++;
+		}
+		if (hero.hasTalent(ENIGMATIC_UPGRADE)) {
+			ScrollOfUpgrade upScroll = new ScrollOfUpgrade();
+			StoneOfEnchantment enchantment = new StoneOfEnchantment();
+			if (hero.pointsInTalent(Talent.ENIGMATIC_UPGRADE) >= 1 && Random.Int(5) == 0) {
+				if (enchantment.doPickUp( Dungeon.hero )) {
+					GLog.i( Messages.get(Dungeon.hero, "get_item", enchantment.name() ));
+				} else {
+					Dungeon.level.drop( enchantment, Dungeon.hero.pos ).sprite.drop();
+				}
+			}
+			if (hero.pointsInTalent(ENIGMATIC_UPGRADE) == 2 && (Random.Int(10) == 0 || upgradeUsed == 10)) {
+				if (upScroll.doPickUp( Dungeon.hero )) {
+					GLog.i( Messages.get(Dungeon.hero, "get_item", upScroll.name() ));
+				} else {
+					Dungeon.level.drop( upScroll, Dungeon.hero.pos ).sprite.drop();
+				}
+				upgradeUsed = 0;
 			}
 		}
 	}
@@ -800,6 +820,9 @@ public enum Talent {
 	public static void onArtifactUsed( Hero hero ){
 		if (hero.hasTalent(ENHANCED_RINGS)){
 			Buff.prolong(hero, EnhancedRings.class, 3f*hero.pointsInTalent(ENHANCED_RINGS));
+		}
+		if (Dungeon.hero.hasTalent(Talent.MAGIC_MIRROR) && hero.heroClass != HeroClass.ARTILIA) {
+			Buff.affect(hero, MagicalSight.class, Dungeon.hero.pointsInTalent(Talent.MAGIC_MIRROR));
 		}
 	}
 
@@ -983,7 +1006,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, FOCUSED_MEAL, RESTORED_AGILITY, WEAPON_RECHARGING, LETHAL_HASTE, SWIFT_EQUIP, EMERGENCY_AVOIDANCE);
 				break;
 			case ARTILIA:
-				Collections.addAll(tierTalents, FROZEN_MEAL, ENGIMATIC_PRISM, MAGIC_MIRROR, HIGH_DIGNITY, TRAMPLE, DIGNIFIED_STEP);
+				Collections.addAll(tierTalents, FROZEN_MEAL, ENIGMATIC_UPGRADE, MAGIC_MIRROR, HIGH_DIGNITY, TRAMPLE, DIGNIFIED_STEP);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -1018,7 +1041,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, LIGHTWEIGHT_CHARGE, DEADLY_FOLLOWUP);
 				break;
 			case ARTILIA:
-				Collections.addAll(tierTalents);
+				Collections.addAll(tierTalents, JACK_FROST);
 				break;
 		}
 		for (Talent talent : tierTalents){
