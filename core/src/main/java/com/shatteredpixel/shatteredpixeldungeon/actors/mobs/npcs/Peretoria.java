@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.MirrorSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.StatueSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
@@ -41,10 +42,7 @@ import com.watabou.utils.Random;
 public class Peretoria extends NPC {
 
     {
-        spriteClass = MirrorSprite.class;
-
-        HP = HT = 75 + 15*Dungeon.hero.pointsInTalent(Talent.ELITE_GUARD);
-        defenseSkill = 15;
+        spriteClass = StatueSprite.class;
 
         alignment = Alignment.ALLY;
         intelligentAlly = true;
@@ -52,6 +50,16 @@ public class Peretoria extends NPC {
 
         //before other mobs
         actPriority = MOB_PRIO + 1;
+    }
+
+    public Peretoria() {
+        HP = HT = 75 + 10*Dungeon.hero.pointsInTalent(Talent.ELITE_GUARD);
+        defenseSkill = 15;
+        if (hero.hasTalent(Talent.ADVANCED_TROOPER) && hero.pointsInTalent(Talent.ADVANCED_TROOPER) >= 1) {
+            baseSpeed = 1.5f;
+        } else {
+            baseSpeed = 1f;
+        }
     }
 
     private Hero hero;

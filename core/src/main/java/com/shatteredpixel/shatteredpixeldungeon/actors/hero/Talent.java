@@ -234,7 +234,7 @@ public enum Talent {
 	//Artilia T2
 	FROZEN_MEAL(388), ENIGMATIC_UPGRADE(389), MAGIC_MIRROR(390), HIGH_DIGNITY(391), TRAMPLE(392), DIGNIFIED_STEP(393),
 	//Artilia T3
-	JACK_FROST(394, 3), artiliat3_2(394, 3),
+	JACK_FROST(394, 3), CHARISMA(394, 3),
 	//Peretoria T3
 	HIGH_LEGION(396, 3), ELITE_GUARD(397, 3), ADVANCED_TROOPER(398, 3),
 	//Valkyrie T3
@@ -1041,7 +1041,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, LIGHTWEIGHT_CHARGE, DEADLY_FOLLOWUP);
 				break;
 			case ARTILIA:
-				Collections.addAll(tierTalents, JACK_FROST);
+				Collections.addAll(tierTalents, JACK_FROST, CHARISMA);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -1135,7 +1135,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, ENERGY_TRANSMISSION, ADVANCED_SYSTEM, ENHANCED_SHIP);
 				break;
 			case PERETORIA:
-				Collections.addAll(tierTalents);
+				Collections.addAll(tierTalents, HIGH_LEGION, ELITE_GUARD, ADVANCED_TROOPER);
 				break;
 			case VALKYRIE:
 				Collections.addAll(tierTalents);

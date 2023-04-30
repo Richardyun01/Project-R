@@ -70,6 +70,7 @@ public class Notes {
 		GARDEN,
 		STATUE,
 		SACRIFICIAL_FIRE,
+		EVOLUTION_FIRE,
 		SHOP,
 		
 		GHOST,

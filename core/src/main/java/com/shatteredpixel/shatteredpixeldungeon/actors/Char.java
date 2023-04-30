@@ -439,6 +439,10 @@ public abstract class Char extends Actor {
 				Buff.affect(enemy, Paralysis.class, 1+hero.pointsInTalent(Talent.TRAMPLE));
 			}
 
+			if (this.alignment == Alignment.ALLY && !(this instanceof Hero) && hero.hasTalent(Talent.CHARISMA)) {
+				dr *= Math.pow(1.1f, hero.pointsInTalent(Talent.CHARISMA));
+			}
+
 			Dungeon.hero.busy();
 
 			//we use a float here briefly so that we don't have to constantly round while
@@ -560,6 +564,10 @@ public abstract class Char extends Actor {
 						dmg = (int)(dmg * 1.1f);
 					}
 				}
+			}
+
+			if (this.alignment == Alignment.ALLY && !(this instanceof Hero) && hero.hasTalent(Talent.CHARISMA)) {
+				dmg *= Math.pow(1.07f, hero.pointsInTalent(Talent.CHARISMA));
 			}
 			
 			int effectiveDamage = enemy.defenseProc( this, Math.round(dmg) );

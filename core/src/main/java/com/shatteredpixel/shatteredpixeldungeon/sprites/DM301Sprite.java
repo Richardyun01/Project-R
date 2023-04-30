@@ -30,22 +30,16 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.TextureFilm;
 import com.watabou.noosa.audio.Sample;
-import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Callback;
 
 public class DM301Sprite extends MobSprite {
-
-    private Animation charge;
-    private Animation slam;
-
-    private Emitter superchargeSparks;
 
     public DM301Sprite() {
         super();
 
         texture( Assets.Sprites.DM300 );
 
-        TextureFilm frames = new TextureFilm( texture, 21, 18 );
+        TextureFilm frames = new TextureFilm( texture, 25, 22 );
 
         idle = new Animation( 10, true );
         idle.frames( frames, 20, 21 );

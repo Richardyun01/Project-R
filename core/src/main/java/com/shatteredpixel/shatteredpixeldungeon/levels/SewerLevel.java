@@ -27,12 +27,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Ghost;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Ripple;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.SewerPainter;
+import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.AlarmTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ChillingTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ConfusionTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.FlockTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GatewayTrap;
-import com.shatteredpixel.shatteredpixeldungeon.levels.traps.GeyserTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.OozeTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.ShockingTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.SummoningTrap;
@@ -51,6 +51,8 @@ import com.watabou.utils.ColorMath;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 
+import java.util.ArrayList;
+
 public class SewerLevel extends RegularLevel {
 
 	{
@@ -63,6 +65,11 @@ public class SewerLevel extends RegularLevel {
 				new String[]{Assets.Music.SEWERS_1, Assets.Music.SEWERS_2, Assets.Music.SEWERS_2},
 				new float[]{1, 1, 0.5f},
 				false);
+	}
+
+	@Override
+	protected ArrayList<Room> initRooms() {
+		return rooms;
 	}
 	
 	@Override

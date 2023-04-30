@@ -4,6 +4,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
@@ -63,7 +64,7 @@ public class PrincessMirror extends Item {
         } else {
             if (hero.subClass == HeroSubClass.PERETORIA) {
                 spawnGuard(curUser, 1);
-                if (hero.hasTalent(Talent.HIGH_LEGION) && hero.pointsInTalent(Talent.HIGH_LEGION) >= 2) {
+                if (hero.hasTalent(Talent.HIGH_LEGION) && hero.pointsInTalent(Talent.HIGH_LEGION) >= 3) {
                     spawnGuard(curUser, 1);
                 }
                 curUser.sprite.operate(curUser.pos);
@@ -148,6 +149,8 @@ public class PrincessMirror extends Item {
             respawnPoints.remove( index );
             nImages--;
             spawned++;
+            if (hero.hasTalent(Talent.HIGH_LEGION) && hero.pointsInTalent(Talent.HIGH_LEGION) >= 2)
+                Buff.affect(mob, Adrenaline.class, 3f);
         }
 
         return spawned;

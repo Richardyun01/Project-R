@@ -130,9 +130,15 @@ public abstract class RegularLevel extends Level {
 		if (Dungeon.shopOnLevel()) {
 			initRooms.add(new ShopRoom());
 		}
+		/*
+		if (Dungeon.depth == 1) {
+			initRooms.add(new SecretEvolutionRoom());
+		}
+		*/
 		if (Dungeon.depth == 14) {
 			initRooms.add(new DM301Room());
 		}
+
 
 		//force max special rooms and add one more for large levels
 		int specials = specialRooms(feeling == Feeling.LARGE);

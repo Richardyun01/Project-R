@@ -21,21 +21,23 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
-import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.DM200Sprite;
-import com.watabou.utils.Bundle;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BlobImmunity;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBleeding;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
+import com.shatteredpixel.shatteredpixeldungeon.items.PulsingCore;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.AntiMagic;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.DM301Sprite;
 import com.watabou.utils.Random;
 
 public class DM301 extends Mob {
 
     {
-        spriteClass = DM200Sprite.class;
+        spriteClass = DM301Sprite.class;
 
         HP = HT = 999;
         defenseSkill = 12;
@@ -44,16 +46,12 @@ public class DM301 extends Mob {
         EXP = 25;
         maxLvl = 25;
 
-        loot = Random.oneOf(Generator.Category.WEAPON, Generator.Category.ARMOR);
+        loot = PulsingCore.class;
         lootChance = 1f; //initially, see lootChance()
 
         properties.add(Property.INORGANIC);
         properties.add(Property.MINIBOSS);
 
-        alignment = Alignment.NEUTRAL;
-        state = PASSIVE;
-
-        //HUNTING = new Hunting();
     }
 
     @Override
@@ -71,88 +69,16 @@ public class DM301 extends Mob {
         return Random.NormalIntRange(100, 200);
     }
 
-    @Override
-    public float lootChance(){
-        //each drop makes future drops 1/2 as likely
-        // so loot chance looks like: 1/8, 1/16, 1/32, 1/64, etc.
-        return super.lootChance() * (float)Math.pow(1/2f, Dungeon.LimitedDrops.DM200_EQUIP.count);
-    }
+    {
+        immunities.add(Frost.class);
+        immunities.add(Burning.class);
+        immunities.add(Poison.class);
+        immunities.add(Corrosion.class);
+        immunities.add(Ooze.class);
+        immunities.add(LanceBleeding.class);
+        immunities.addAll(new BlobImmunity().immunities());
 
-    public Item createLoot() {
-        Dungeon.LimitedDrops.DM200_EQUIP.count++;
-        //uses probability tables for dwarf city
-        if (loot == Generator.Category.WEAPON) {
-            return Generator.randomWeapon(5);
-        } else {
-            return Generator.randomArmor(5);
-        }
-    }
-
-
-    @Override
-    public void storeInBundle(Bundle bundle) {
-        super.storeInBundle(bundle);
-    }
-
-    @Override
-    public void restoreFromBundle(Bundle bundle) {
-        super.restoreFromBundle(bundle);
-        if (state != PASSIVE && alignment == Alignment.NEUTRAL){
-            alignment = Alignment.ENEMY;
-        }
-    }
-
-    @Override
-    public void add(Buff buff) {
-        super.add(buff);
-        if (buff.type == Buff.buffType.NEGATIVE && alignment == Alignment.NEUTRAL){
-            alignment = Alignment.ENEMY;
-        }
-    }
-
-    @Override
-    protected boolean act() {
-        if (alignment == Alignment.NEUTRAL && state != PASSIVE){
-            alignment = Alignment.ENEMY;
-        }
-        return super.act();
-    }
-
-    @Override
-    public boolean interact(Char c) {
-        if (alignment != Alignment.NEUTRAL || c != Dungeon.hero){
-            return super.interact(c);
-        }
-
-        Dungeon.hero.busy();
-        Dungeon.hero.sprite.operate(pos);
-        if (Dungeon.hero.invisible <= 0
-                && Dungeon.hero.buff(Swiftthistle.TimeBubble.class) == null
-                && Dungeon.hero.buff(TimekeepersHourglass.timeFreeze.class) == null){
-            return doAttack(Dungeon.hero);
-        } else {
-            sprite.idle();
-            alignment = Alignment.ENEMY;
-            Dungeon.hero.spendAndNext(1f);
-            return true;
-        }
-    }
-
-    @Override
-    public void onAttackComplete() {
-        super.onAttackComplete();
-        if (alignment == Alignment.NEUTRAL){
-            alignment = Alignment.ENEMY;
-            Dungeon.hero.spendAndNext(1f);
-        }
-    }
-
-    @Override
-    public void damage(int dmg, Object src) {
-        if (state == PASSIVE){
-            alignment = Alignment.ENEMY;
-        }
-        super.damage(dmg, src);
+        immunities.addAll( AntiMagic.RESISTS );
     }
 
 }
