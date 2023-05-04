@@ -70,6 +70,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.traps.FrostTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.PitfallTrap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.WornDartTrap;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
@@ -110,7 +111,7 @@ public abstract class RegularLevel extends Level {
 	
 	protected ArrayList<Room> initRooms() {
 		ArrayList<Room> initRooms = new ArrayList<>();
-		initRooms.add ( roomEntrance = new EntranceRoom());
+		initRooms.add( roomEntrance = new EntranceRoom());
 		initRooms.add( roomExit = new ExitRoom());
 
 		//force max standard rooms and multiple by 1.5x for large levels
@@ -158,7 +159,7 @@ public abstract class RegularLevel extends Level {
 		for (int i = 0; i < secrets; i++) {
 			initRooms.add(SecretRoom.createRoom());
 		}
-		
+		if (initRooms == null) GLog.w("null error");
 		return initRooms;
 	}
 	

@@ -22,7 +22,6 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.CorrosiveGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
@@ -32,10 +31,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.MirrorSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.StatueSprite;
-import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
@@ -55,7 +51,7 @@ public class Peretoria extends NPC {
     public Peretoria() {
         HP = HT = 75 + 10*Dungeon.hero.pointsInTalent(Talent.ELITE_GUARD);
         defenseSkill = 15;
-        if (hero.hasTalent(Talent.ADVANCED_TROOPER) && hero.pointsInTalent(Talent.ADVANCED_TROOPER) >= 1) {
+        if (Dungeon.hero.hasTalent(Talent.ADVANCED_TROOPER) && Dungeon.hero.pointsInTalent(Talent.ADVANCED_TROOPER) >= 1) {
             baseSpeed = 1.5f;
         } else {
             baseSpeed = 1f;
@@ -63,59 +59,56 @@ public class Peretoria extends NPC {
     }
 
     private Hero hero;
-    private int heroID;
-    public int armTier;
+
+    private int turnCounter = 0;
 
     @Override
     protected boolean act() {
-
-        if ( hero == null ){
-            hero = (Hero)Actor.findById(heroID);
-            if ( hero == null ){
-                die(null);
-                sprite.killAndErase();
-                return true;
-            }
+        turnCounter++;
+        if (turnCounter >= 50) {
+            die(null);
+            return true;
         }
-
-        if (hero.tier() != armTier){
-            armTier = hero.tier();
-            ((MirrorSprite)sprite).updateArmor( armTier );
-        }
-
         return super.act();
     }
 
-    private static final String HEROID	= "hero_id";
+    private static final String TURN_COUNTER = "turn_counter";
 
     @Override
     public void storeInBundle( Bundle bundle ) {
         super.storeInBundle( bundle );
-        bundle.put( HEROID, heroID );
+        bundle.put(TURN_COUNTER, turnCounter);
     }
 
     @Override
     public void restoreFromBundle( Bundle bundle ) {
         super.restoreFromBundle( bundle );
-        heroID = bundle.getInt( HEROID );
+        turnCounter = bundle.getInt(TURN_COUNTER);
     }
 
-    /*
-    public void duplicate( Hero hero ) {
-        this.hero = hero;
-        heroID = this.hero.id();
+    @Override
+    public String description() {
+        String desc = super.description();
+        desc += "\n\n" + Messages.get(this, "turns_left", 50-turnCounter);
+        return desc;
     }
-    */
 
     @Override
     public int damageRoll() {
-        int damage = Random.NormalIntRange( 12+3*hero.pointsInTalent(Talent.ELITE_GUARD), 35+7*hero.pointsInTalent(Talent.ELITE_GUARD) );;
+        int damage;
+
+        if (Dungeon.hero.hasTalent(Talent.ELITE_GUARD)) {
+            damage = Random.NormalIntRange( 12+3*Dungeon.hero.pointsInTalent(Talent.ELITE_GUARD), 35+7*Dungeon.hero.pointsInTalent(Talent.ELITE_GUARD) );
+        } else {
+            damage = Random.NormalIntRange( 12, 35 );
+        }
+
         return (damage+1);
     }
 
     @Override
     public int attackSkill( Char target ) {
-        return hero.attackSkill(target);
+        return 35;
     }
 
     @Override
@@ -131,22 +124,16 @@ public class Peretoria extends NPC {
     }
 
     @Override
-    public float attackDelay() {
-        return hero.attackDelay(); //handles ring of furor
-    }
-
-    @Override
     protected boolean canAttack(Char enemy) {
-        if (hero.hasTalent(Talent.ADVANCED_TROOPER) && hero.pointsInTalent(Talent.ADVANCED_TROOPER) >= 3) {
+        if (Dungeon.hero.hasTalent(Talent.ADVANCED_TROOPER) && Dungeon.hero.pointsInTalent(Talent.ADVANCED_TROOPER) >= 3) {
             return true;
-        } else {
-            return super.canAttack(enemy);
         }
+        return super.canAttack(enemy);
     }
 
     @Override
     public int drRoll() {
-        return Random.NormalIntRange(0, hero.belongings.weapon().defenseFactor(this));
+        return Random.NormalIntRange(10, 20);
     }
 
     @Override
@@ -156,35 +143,35 @@ public class Peretoria extends NPC {
         if (enemy instanceof Mob) {
             ((Mob)enemy).aggro( this );
         }
-        if (hero.belongings.weapon() != null){
-            damage = hero.belongings.weapon().proc( this, enemy, damage );
-            if (!enemy.isAlive() && enemy == Dungeon.hero){
-                Dungeon.fail(getClass());
-                GLog.n( Messages.capitalize(Messages.get(Char.class, "kill", name())) );
-            }
-            return damage;
-        } else {
-            return damage;
-        }
+
+        return damage;
     }
 
+    /*
+    private float buildToDamage = 0f;
     @Override
-    public CharSprite sprite() {
-        CharSprite s = super.sprite();
+    public boolean act() {
+        buildToDamage += target.HT/200f;
 
-        hero = (Hero)Actor.findById(heroID);
-        if (hero != null) {
-            armTier = hero.tier();
-        }
-        ((MirrorSprite)s).updateArmor( armTier );
-        return s;
+        int damage = (int)buildToDamage;
+        buildToDamage -= damage;
+
+        if (damage > 0)
+            target.damage(damage, this);
+
+        spend(TICK);
+
+        return true;
     }
+    */
 
     {
-        if (hero.hasTalent(Talent.ADVANCED_TROOPER) && hero.pointsInTalent(Talent.ADVANCED_TROOPER) >= 1) {
+        if (Dungeon.hero.hasTalent(Talent.ADVANCED_TROOPER) && Dungeon.hero.pointsInTalent(Talent.ADVANCED_TROOPER) >= 2) {
             immunities.add( ToxicGas.class );
             immunities.add( CorrosiveGas.class );
             immunities.add( Burning.class );
+            immunities.add( AllyBuff.class );
+        } else {
             immunities.add( AllyBuff.class );
         }
     }

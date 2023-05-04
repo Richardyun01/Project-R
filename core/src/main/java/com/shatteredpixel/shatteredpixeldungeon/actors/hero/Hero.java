@@ -1780,6 +1780,9 @@ public class Hero extends Char {
 
 		if (buff(WinterStorm.class) != null){
 			dmg -= 10;
+			if (hero.hasTalent(Talent.FROST_ARMOR)) {
+				dmg -= 5*hero.pointsInTalent(Talent.FROST_ARMOR);
+			}
 		}
 
 		int preHP = HP + shielding();

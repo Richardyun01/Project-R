@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.QuickSlot;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.artilia.OffenceOrder;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.Challenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.ElementalStrike;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.Feint;
@@ -52,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.PrincessMirror;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
+import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
@@ -86,6 +88,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMetamorphosis;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ApachePistol;
@@ -178,6 +181,11 @@ public enum HeroClass {
 		plate.upgrade(8).collect();
 		 **/
 //erase this finish
+		new TengusMask().collect();
+		PotionOfExperience enchan = new PotionOfExperience();
+		enchan.quantity(100).collect();
+		ScrollOfMetamorphosis enchan2 = new ScrollOfMetamorphosis();
+		enchan2.quantity(100).collect();
 
 		switch (this) {
 			case WARRIOR:
@@ -393,7 +401,7 @@ public enum HeroClass {
 			case CARROLL:
 				return new ArmorAbility[]{new Challenge(), new ElementalStrike(), new Feint()};
 			case ARTILIA:
-				return new ArmorAbility[]{};
+				return new ArmorAbility[]{new OffenceOrder()};
 		}
 	}
 

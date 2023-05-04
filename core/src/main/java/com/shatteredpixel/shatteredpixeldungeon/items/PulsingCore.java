@@ -20,7 +20,7 @@ public class PulsingCore extends Item{
 
     @Override
     public int value() {
-        return 30 * quantity;
+        return 300 * quantity;
     }
 
 }

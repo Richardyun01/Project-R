@@ -234,14 +234,17 @@ public enum Talent {
 	//Artilia T2
 	FROZEN_MEAL(388), ENIGMATIC_UPGRADE(389), MAGIC_MIRROR(390), HIGH_DIGNITY(391), TRAMPLE(392), DIGNIFIED_STEP(393),
 	//Artilia T3
-	JACK_FROST(394, 3), CHARISMA(394, 3),
+	JACK_FROST(394, 3), CHARISMA(395, 3),
 	//Peretoria T3
 	HIGH_LEGION(396, 3), ELITE_GUARD(397, 3), ADVANCED_TROOPER(398, 3),
 	//Valkyrie T3
-	valkyrie_1(399, 3), valkyrie_2(400, 3), valkyrie_3(401, 3),
+	valkyrie_1(399, 3), valkyrie_2(400, 3), MIND_BREAKER(401, 3),
 	//Winterstorm T3
-	FROST_ARMOR(402, 3), winterstorm_2(403, 3), winterstorm_3(404, 3),
-	// T4
+	FROST_ARMOR(402, 3), AMPLIFIED_GENERATOR(403, 3), IMPULSE_STRIKE(404, 3),
+	//Command Order T4
+	COMMISSAR(405, 4), SIMULTANEOUS_ATTACK(406, 4), SITUATION_REPORT(407, 4),
+	//Stunner T4
+	//Frost Wind T4
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
@@ -1141,7 +1144,7 @@ public enum Talent {
 				Collections.addAll(tierTalents);
 				break;
 			case WINTERSTORM:
-				Collections.addAll(tierTalents);
+				Collections.addAll(tierTalents, FROST_ARMOR, AMPLIFIED_GENERATOR, IMPULSE_STRIKE);
 				break;
 		}
 		for (Talent talent : tierTalents){

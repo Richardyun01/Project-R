@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BlobImmunity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
@@ -56,7 +57,7 @@ public class DM301 extends Mob {
 
     @Override
     public int damageRoll() {
-        return Random.NormalIntRange( 30, 55 );
+        return Random.NormalIntRange( 100, 150 );
     }
 
     @Override
@@ -67,6 +68,22 @@ public class DM301 extends Mob {
     @Override
     public int drRoll() {
         return Random.NormalIntRange(100, 200);
+    }
+
+    @Override
+    public void die( Object cause ) {
+
+        /*
+        if (Dungeon.isChallenged(Challenges.STRONGER_BOSSES) && Statistics.spawnersAlive == 4){
+            Badges.validateBossChallengeCompleted();
+        } else {
+            Statistics.qualifiedForBossChallengeBadge = false;
+        }
+        */
+        Statistics.enemiesSlain += 2000;
+
+        super.die( cause );
+
     }
 
     {

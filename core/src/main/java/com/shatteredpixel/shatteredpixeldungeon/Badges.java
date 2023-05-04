@@ -149,6 +149,7 @@ public class Badges {
 		BOSS_CHALLENGE_2            ( 84 ),
 		GAMES_PLAYED_3              ( 85, true ),
 		HIGH_SCORE_3                ( 86 ),
+		//DM301_KILL					( 87 ),
 
 		//platinum
 		ITEM_LEVEL_5                ( 96 ),

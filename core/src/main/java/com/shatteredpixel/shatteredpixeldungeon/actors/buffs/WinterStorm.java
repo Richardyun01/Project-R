@@ -21,6 +21,8 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 
 public class WinterStorm extends FlavourBuff {
@@ -43,9 +45,19 @@ public class WinterStorm extends FlavourBuff {
     }
 
     @Override
+    public String desc() {
+        return Messages.get(this, "desc", dispTurns());
+    }
+
+    @Override
     public void fx(boolean on) {
-        if (on) target.sprite.aura( 0xFFE4E4E4 );
-        else target.sprite.clearAura();
+        if (on) {
+            target.sprite.aura(0xFFE4E4E4);
+            target.sprite.add(CharSprite.State.CHILLED);
+        } else {
+            target.sprite.remove(CharSprite.State.CHILLED);
+            target.sprite.clearAura();
+        }
     }
 
     {

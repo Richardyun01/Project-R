@@ -42,6 +42,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CarrollCombo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CommandBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
@@ -606,6 +608,7 @@ public abstract class Mob extends Char {
 	public float attackDelay() {
 		float delay = 1f;
 		if ( buff(Adrenaline.class) != null) delay /= 1.5f;
+		if ( buff(CommandBuff.class) != null && hero.hasTalent(Talent.SIMULTANEOUS_ATTACK)) delay /= (1f+0.2f*hero.pointsInTalent(Talent.SIMULTANEOUS_ATTACK));
 		return delay;
 	}
 	
@@ -875,6 +878,10 @@ public abstract class Mob extends Char {
 
 		if (this instanceof Peretoria && (hero.hasTalent(Talent.HIGH_LEGION) && hero.pointsInTalent(Talent.HIGH_LEGION) >= 1)) {
 			Buff.detach(hero, PrincessMirror.PrincessMirrorCooldown.class);
+		}
+
+		if (alignment == Alignment.ALLY && this.buff(CommandBuff.class) != null) {
+			Buff.affect(enemy, Chill.class, 5f);
 		}
 
 		super.die( cause );

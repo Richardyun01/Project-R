@@ -69,7 +69,8 @@ public class SewerLevel extends RegularLevel {
 
 	@Override
 	protected ArrayList<Room> initRooms() {
-		return rooms;
+		//if (rooms == null) GLog.w("rooms null error");
+		return super.initRooms();
 	}
 	
 	@Override

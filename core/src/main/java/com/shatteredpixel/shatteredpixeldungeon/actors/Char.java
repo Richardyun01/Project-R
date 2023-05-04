@@ -45,6 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CommandBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
@@ -437,6 +438,7 @@ public abstract class Char extends Actor {
 
 			if (this instanceof Hero && hero.hasTalent(Talent.TRAMPLE) && hero.buff(Talent.TrampleCoolDown.class) == null) {
 				Buff.affect(enemy, Paralysis.class, 1+hero.pointsInTalent(Talent.TRAMPLE));
+				Buff.affect(hero, Talent.TrampleCoolDown.class, 40-10*hero.pointsInTalent(Talent.TRAMPLE));
 			}
 
 			if (this.alignment == Alignment.ALLY && !(this instanceof Hero) && hero.hasTalent(Talent.CHARISMA)) {
@@ -529,6 +531,11 @@ public abstract class Char extends Actor {
 
 			if (hero.buff(WinterStorm.class) != null && !(hero.belongings.weapon.bullet)) {
 				dmg *= 1.5;
+				if (hero.hasTalent(Talent.IMPULSE_STRIKE) && hero.pointsInTalent(Talent.IMPULSE_STRIKE) >= 3) {
+					if (Random.Int(20) == 0) {
+						dmg = enemy.HT;
+					}
+				}
 			}
 
 			for (ChampionEnemy buff : buffs(ChampionEnemy.class)){
@@ -705,8 +712,16 @@ public abstract class Char extends Actor {
 		if (attacker != hero && attacker.alignment == Alignment.ALLY) {
 			if (hero.hasTalent(Talent.COMMAND_SYSTEM)) {
 				if (Dungeon.level.distance(hero.pos, attacker.pos) <= 1+2*hero.pointsInTalent(Talent.COMMAND_SYSTEM)) {
-					acuRoll = acuRoll * 1.1f;
+					acuRoll *= 1.1f;
 				}
+			}
+		}
+		if (attacker == hero &&
+			attacker.buff(WinterStorm.class) != null &&
+			hero.hasTalent(Talent.IMPULSE_STRIKE) &&
+			hero.pointsInTalent(Talent.IMPULSE_STRIKE) >= 1) {
+			if (Random.Int(3) < 1) {
+				acuRoll *= INFINITE_ACCURACY;
 			}
 		}
 		acuRoll *= AscensionChallenge.statModifier(attacker);
@@ -766,15 +781,20 @@ public abstract class Char extends Actor {
 	
 	public float speed() {
 		float speed = baseSpeed;
-		if ( buff( Cripple.class ) != null ) speed /= 2f;
-		if ( buff( Stamina.class ) != null) speed *= 1.5f;
-		if ( buff( Adrenaline.class ) != null) speed *= 2f;
-		if ( buff( StimpackAdrenaline.class ) != null) speed *= 2f;
-		if ( buff( Haste.class ) != null) speed *= 3f;
-		if ( buff( Dread.class ) != null) speed *= 2f;
-		if ( buff( Murakumo.RushStance.class ) != null) speed *= 1.5f;
-		if ( buff( AfterImageBuff.class ) != null && hero.hasTalent(Talent.IMAGE_WALKING)) speed *= 1f + 0.15f*hero.pointsInTalent(Talent.IMAGE_WALKING);
-		if ( buff( WinterStorm.class ) != null  && (Dungeon.level.map[this.pos] == Terrain.DOOR || Dungeon.level.map[this.pos] == Terrain.OPEN_DOOR )) speed *= 0.5f;
+		if (buff(Cripple.class) != null) speed /= 2f;
+		if (buff(Stamina.class) != null) speed *= 1.5f;
+		if (buff(Adrenaline.class) != null) speed *= 2f;
+		if (buff(StimpackAdrenaline.class) != null) speed *= 2f;
+		if (buff(Haste.class) != null) speed *= 3f;
+		if (buff(Dread.class) != null) speed *= 2f;
+		if (buff(Murakumo.RushStance.class) != null) speed *= 1.5f;
+		if (buff(AfterImageBuff.class) != null && hero.hasTalent(Talent.IMAGE_WALKING))
+			speed *= 1f + 0.15f * hero.pointsInTalent(Talent.IMAGE_WALKING);
+		if (buff(WinterStorm.class) != null) {
+			if ((Dungeon.level.map[this.pos] == Terrain.DOOR || Dungeon.level.map[this.pos] == Terrain.OPEN_DOOR))
+				speed *= 0.5f;
+		}
+		if (buff(CommandBuff.class) != null) speed *= 1.25f;
 		return speed;
 	}
 
@@ -862,6 +882,9 @@ public abstract class Char extends Actor {
 		}
 		if (alignment != Alignment.ALLY && this.buff(DeathMark.DeathMarkTracker.class) != null){
 			dmg *= 1.25f;
+		}
+		if (alignment == Alignment.ALLY && this.buff(CommandBuff.class) != null){
+			dmg *= 1.33f;
 		}
 		
 		Class<?> srcClass = src.getClass();

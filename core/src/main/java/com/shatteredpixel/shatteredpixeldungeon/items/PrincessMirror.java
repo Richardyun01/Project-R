@@ -9,7 +9,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AllyBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSight;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WinterStorm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
@@ -69,23 +69,29 @@ public class PrincessMirror extends Item {
                 }
                 curUser.sprite.operate(curUser.pos);
                 if (hero.hasTalent(Talent.MAGIC_MIRROR) && hero.buff(Talent.MagicMirrorCoolDown.class) != null) {
-                    Buff.affect(curUser, MagicalSight.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                    Buff.affect(curUser, MindVision.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                    Buff.affect(curUser, Talent.MagicMirrorCoolDown.class, 40-10*hero.pointsInTalent(Talent.MAGIC_MIRROR));
                 }
                 Buff.affect(curUser, PrincessMirrorCooldown.class, 50);
             } else if (hero.subClass == HeroSubClass.VALKYRIE) {
                 GameScene.selectCell(targeter);
             } else if (hero.subClass == HeroSubClass.WINTERSTORM) {
-                Buff.affect(curUser, WinterStorm.class, WinterStorm.DURATION);
+                Buff.affect(curUser, WinterStorm.class, WinterStorm.DURATION + 4*Dungeon.hero.pointsInTalent(Talent.AMPLIFIED_GENERATOR));
                 if (hero.hasTalent(Talent.MAGIC_MIRROR) && hero.buff(Talent.MagicMirrorCoolDown.class) != null) {
-                    Buff.affect(curUser, MagicalSight.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                    Buff.affect(curUser, MindVision.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                    Buff.affect(curUser, Talent.MagicMirrorCoolDown.class, 40-10*hero.pointsInTalent(Talent.MAGIC_MIRROR));
                 }
-                Buff.affect(curUser, PrincessMirrorCooldown.class, 150);
+                if (hero.hasTalent(Talent.IMPULSE_STRIKE) && hero.pointsInTalent(Talent.IMPULSE_STRIKE) >= 2) {
+                    Buff.affect(curUser, Adrenaline.class, 5f);
+                }
+                Buff.affect(curUser, PrincessMirrorCooldown.class, 120-5*Dungeon.hero.pointsInTalent(Talent.AMPLIFIED_GENERATOR));
             } else {
                 new ScrollOfMirrorImage();
                 ScrollOfMirrorImage.spawnImages(curUser, 1);
                 curUser.sprite.operate(curUser.pos);
                 if (hero.hasTalent(Talent.MAGIC_MIRROR) && hero.buff(Talent.MagicMirrorCoolDown.class) != null) {
-                    Buff.affect(curUser, MagicalSight.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                    Buff.affect(curUser, MindVision.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                    Buff.affect(curUser, Talent.MagicMirrorCoolDown.class, 40-10*hero.pointsInTalent(Talent.MAGIC_MIRROR));
                 }
                 Buff.affect(curUser, PrincessMirrorCooldown.class, PrincessMirrorCooldown.DURATION);
             }
@@ -142,7 +148,6 @@ public class PrincessMirror extends Item {
             int index = Random.index( respawnPoints );
 
             Peretoria mob = new Peretoria();
-            //mob.duplicate( hero );
             GameScene.add( mob );
             ScrollOfTeleportation.appear( mob, respawnPoints.get( index ) );
 
@@ -183,12 +188,14 @@ public class PrincessMirror extends Item {
                 if (target != null) {
                     if (!target.isImmune(ScrollOfSirensSong.Enthralled.class) && target.buff(Charm.class) != null) {
                         AllyBuff.affectAndLoot(target, curUser, ScrollOfSirensSong.Enthralled.class);
+                    //} else if (target.isImmune(ScrollOfSirensSong.Enthralled.class) && Dungeon.hero.hasTalent() && Dungeon.hero.pointsInTalent()) {
                     } else {
                         Buff.affect(target, Charm.class, Charm.DURATION).object = curUser.id();
                     }
                     target.sprite.centerEmitter().burst(Speck.factory(Speck.HEART), 10);
                     if (Dungeon.hero.hasTalent(Talent.MAGIC_MIRROR) && Dungeon.hero.buff(Talent.MagicMirrorCoolDown.class) != null) {
-                        Buff.affect(curUser, MagicalSight.class, 1+Dungeon.hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                        Buff.affect(curUser, MindVision.class, 1+Dungeon.hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                        Buff.affect(curUser, Talent.MagicMirrorCoolDown.class, 40-10*Dungeon.hero.pointsInTalent(Talent.MAGIC_MIRROR));
                     }
                     Buff.affect(curUser, PrincessMirrorCooldown.class, 20);
                 } else {
