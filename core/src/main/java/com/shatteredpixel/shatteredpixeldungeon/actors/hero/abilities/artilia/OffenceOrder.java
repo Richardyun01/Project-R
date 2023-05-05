@@ -12,6 +12,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.watabou.noosa.audio.Sample;
@@ -25,6 +26,7 @@ public class OffenceOrder extends ArmorAbility {
     @Override
     protected void activate(ClassArmor armor, Hero hero, Integer target) {
         hero.sprite.operate(hero.pos);
+        hero.sprite.centerEmitter().start( Speck.factory( Speck.ORDER ), 0.3f, 3 );
         Sample.INSTANCE.play(Assets.Sounds.LIGHTNING);
 
         int countMob = 0;

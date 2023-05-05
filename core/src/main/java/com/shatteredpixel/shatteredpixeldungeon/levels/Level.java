@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.MistScreen;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.SmokeScreen;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Web;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.WellWater;
@@ -1191,6 +1192,17 @@ public abstract class Level implements Bundlable {
 				System.arraycopy(Dungeon.level.losBlocking, 0, modifiableBlocking, 0, modifiableBlocking.length);
 				blocking = modifiableBlocking;
 				Blob s = Dungeon.level.blobs.get(SmokeScreen.class);
+				for (int i = 0; i < blocking.length; i++){
+					if (!blocking[i] && s.cur[i] > 0){
+						blocking[i] = true;
+					}
+				}
+			} else if (c.alignment != Char.Alignment.ALLY
+					&& Dungeon.level.blobs.containsKey(MistScreen.class)
+					&& Dungeon.level.blobs.get(MistScreen.class).volume > 0) {
+				System.arraycopy(Dungeon.level.losBlocking, 0, modifiableBlocking, 0, modifiableBlocking.length);
+				blocking = modifiableBlocking;
+				Blob s = Dungeon.level.blobs.get(MistScreen.class);
 				for (int i = 0; i < blocking.length; i++){
 					if (!blocking[i] && s.cur[i] > 0){
 						blocking[i] = true;

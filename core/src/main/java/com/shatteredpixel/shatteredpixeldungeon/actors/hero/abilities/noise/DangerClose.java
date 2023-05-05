@@ -75,11 +75,9 @@ public class DangerClose extends ArmorAbility {
         switch (hero.pointsInTalent(Talent.HEAT_ROUND)) {
             case 1:
             case 2:
-                neigh = PathFinder.NEIGHBOURS9;
-                break;
             case 3:
             case 4:
-                neigh = PathFinder.NEIGHBOURS5;
+                neigh = PathFinder.NEIGHBOURS9;
                 break;
             default:
                 neigh = PathFinder.NEIGHBOURS25;

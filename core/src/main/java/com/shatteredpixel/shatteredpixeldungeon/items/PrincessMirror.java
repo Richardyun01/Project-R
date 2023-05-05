@@ -84,7 +84,7 @@ public class PrincessMirror extends Item {
                 if (hero.hasTalent(Talent.IMPULSE_STRIKE) && hero.pointsInTalent(Talent.IMPULSE_STRIKE) >= 2) {
                     Buff.affect(curUser, Adrenaline.class, 5f);
                 }
-                Buff.affect(curUser, PrincessMirrorCooldown.class, 120-5*Dungeon.hero.pointsInTalent(Talent.AMPLIFIED_GENERATOR));
+                Buff.affect(curUser, PrincessMirrorCooldown.class, 100-5*Dungeon.hero.pointsInTalent(Talent.AMPLIFIED_GENERATOR));
             } else {
                 new ScrollOfMirrorImage();
                 ScrollOfMirrorImage.spawnImages(curUser, 1);

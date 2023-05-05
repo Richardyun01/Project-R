@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Freezing;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Inferno;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.MistScreen;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Regrowth;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.SmokeScreen;
@@ -65,6 +66,7 @@ public class BlobImmunity extends FlavourBuff {
 		immunities.add( Electricity.class );
 		immunities.add( Fire.class );
 		immunities.add( MagicalFireRoom.EternalFire.class );
+		immunities.add( MistScreen.class );
 		immunities.add( Freezing.class );
 		immunities.add( Inferno.class );
 		immunities.add( ParalyticGas.class );

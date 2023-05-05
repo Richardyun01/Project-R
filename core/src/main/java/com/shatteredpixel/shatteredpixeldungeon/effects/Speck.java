@@ -48,6 +48,7 @@ public class Speck extends Image {
 	public static final int BUBBLE      = 12;
 	public static final int STEAM       = 13;
 	public static final int COIN        = 14;
+	public static final int ORDER       = 15;
 	
 	public static final int DISCOVER    = 101;
 	public static final int EVOKE       = 102;
@@ -68,6 +69,7 @@ public class Speck extends Image {
 	public static final int STORM       = 117;
 	public static final int INFERNO     = 118;
 	public static final int BLIZZARD    = 119;
+	public static final int MIST	    = 120;
 	
 	private static final int SIZE = 7;
 	
@@ -134,6 +136,7 @@ public class Speck extends Image {
 		case DUST:
 		case SMOKE:
 		case BLIZZARD:
+		case MIST:
 		case INFERNO:
 			frame( film.get( STEAM ) );
 			break;
@@ -227,6 +230,7 @@ public class Speck extends Image {
 		case CALM:
 			color(0, 1, 1);
 		case SCREAM:
+		case ORDER:
 			lifespan = 0.9f;
 			break;
 			
@@ -376,6 +380,13 @@ public class Speck extends Image {
 			acc.y = 256;
 			lifespan = -speed.y / acc.y * 2;
 			break;
+
+		case MIST:
+			hardlight( 0x99ffff );
+			angularSpeed = 50;
+			angle = Random.Float( 360 );
+			lifespan = Random.Float( 1f, 1.5f );
+			break;
 		}
 		
 		left = lifespan;
@@ -433,6 +444,7 @@ public class Speck extends Image {
 				
 			case CALM:
 			case SCREAM:
+			case ORDER:
 				am = (float)Math.sqrt( (p < 0.5f ? p : 1 - p) * 2f );
 				scale.set( p * 7 );
 				break;
@@ -476,6 +488,7 @@ public class Speck extends Image {
 			case STORM:
 			case BLIZZARD:
 			case INFERNO:
+			case MIST:
 			case DUST:
 				am = (float)Math.sqrt( (p < 0.5f ? p : 1 - p) * 0.5f );
 				scale.set( 1 + p );

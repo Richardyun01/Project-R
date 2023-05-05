@@ -46,7 +46,7 @@ public class BloodWine extends ArmorAbility {
                 if (hero.hasTalent(Talent.TOXIC_WINE)) {
                     for (int i : PathFinder.NEIGHBOURS8){
                         if (!Dungeon.level.solid[mob.pos+i]){
-                            GameScene.add( Blob.seed( mob.pos+i, 2*hero.pointsInTalent(Talent.TOXIC_WINE), CorrosiveGas.class ).setStrength( 2 + Dungeon.scalingDepth()/5));
+                            GameScene.add( Blob.seed( mob.pos+i, 5*hero.pointsInTalent(Talent.TOXIC_WINE), CorrosiveGas.class ).setStrength( 2 + Dungeon.scalingDepth()/5));
                         }
                     }
                 }

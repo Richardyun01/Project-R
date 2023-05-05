@@ -177,8 +177,9 @@ public class PathFinder {
 		
 		int head = 0;
 		int tail = 0;
-		
+
 		// Add to queue
+		if (PathFinder.size <= to) to = PathFinder.size-1;
 		queue[tail++] = to;
 		distance[to] = 0;
 		

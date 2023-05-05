@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.QuickSlot;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.artilia.FrostWind;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.artilia.OffenceOrder;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.Challenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.ElementalStrike;
@@ -51,6 +52,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.He
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.PrincessMirror;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
@@ -69,6 +71,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlam
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.brews.BlizzardBrew;
+import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfIcyTouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
@@ -88,7 +92,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.exotic.ScrollOfMetamorphosis;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ApachePistol;
@@ -184,8 +187,13 @@ public enum HeroClass {
 		new TengusMask().collect();
 		PotionOfExperience enchan = new PotionOfExperience();
 		enchan.quantity(100).collect();
-		ScrollOfMetamorphosis enchan2 = new ScrollOfMetamorphosis();
-		enchan2.quantity(100).collect();
+		ScrollOfMirrorImage enchan3 = new ScrollOfMirrorImage();
+		enchan3.quantity(100).collect();
+		BlizzardBrew enchan4 = new BlizzardBrew();
+		enchan4.quantity(100).collect();
+		ElixirOfIcyTouch enchan5 = new ElixirOfIcyTouch();
+		enchan5.quantity(100).collect();
+		new KingsCrown().collect();
 
 		switch (this) {
 			case WARRIOR:
@@ -401,7 +409,7 @@ public enum HeroClass {
 			case CARROLL:
 				return new ArmorAbility[]{new Challenge(), new ElementalStrike(), new Feint()};
 			case ARTILIA:
-				return new ArmorAbility[]{new OffenceOrder()};
+				return new ArmorAbility[]{new OffenceOrder(), new FrostWind()};
 		}
 	}
 

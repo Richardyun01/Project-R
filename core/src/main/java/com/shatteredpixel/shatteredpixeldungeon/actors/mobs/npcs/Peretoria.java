@@ -147,24 +147,6 @@ public class Peretoria extends NPC {
         return damage;
     }
 
-    /*
-    private float buildToDamage = 0f;
-    @Override
-    public boolean act() {
-        buildToDamage += target.HT/200f;
-
-        int damage = (int)buildToDamage;
-        buildToDamage -= damage;
-
-        if (damage > 0)
-            target.damage(damage, this);
-
-        spend(TICK);
-
-        return true;
-    }
-    */
-
     {
         if (Dungeon.hero.hasTalent(Talent.ADVANCED_TROOPER) && Dungeon.hero.pointsInTalent(Talent.ADVANCED_TROOPER) >= 2) {
             immunities.add( ToxicGas.class );

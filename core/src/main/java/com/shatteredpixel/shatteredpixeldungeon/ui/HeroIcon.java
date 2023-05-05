@@ -84,7 +84,8 @@ public class HeroIcon extends Image {
 	public static final int CHALLENGE		= 40;
 	public static final int ELEMENTAL_STRIKE= 41;
 	public static final int FEINT			= 42;
-	public static final int COMMAND_ORDER 	= 43;
+	public static final int COMMAND_ORDER 	= 46;
+	public static final int FROST_WIND	 	= 47;
 	public static final int RATMOGRIFY      = 20;
 
 	//action indicator visuals

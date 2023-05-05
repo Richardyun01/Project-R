@@ -243,8 +243,10 @@ public enum Talent {
 	FROST_ARMOR(402, 3), AMPLIFIED_GENERATOR(403, 3), IMPULSE_STRIKE(404, 3),
 	//Command Order T4
 	COMMISSAR(405, 4), SIMULTANEOUS_ATTACK(406, 4), SITUATION_REPORT(407, 4),
-	//Stunner T4
 	//Frost Wind T4
+	FREEZING_MIST(408, 4), GLACIAL_STORM(409, 4), CRYSTAL_TORMENT(410, 4),
+	//Stunner T4
+
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
