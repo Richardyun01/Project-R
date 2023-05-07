@@ -238,14 +238,15 @@ public enum Talent {
 	//Peretoria T3
 	HIGH_LEGION(396, 3), ELITE_GUARD(397, 3), ADVANCED_TROOPER(398, 3),
 	//Valkyrie T3
-	valkyrie_1(399, 3), valkyrie_2(400, 3), MIND_BREAKER(401, 3),
+	SPIRIT_CONVERSION(399, 3), SOUL_DOMINATION(400, 3), MIND_BREAKER(401, 3),
 	//Winterstorm T3
 	FROST_ARMOR(402, 3), AMPLIFIED_GENERATOR(403, 3), IMPULSE_STRIKE(404, 3),
 	//Command Order T4
 	COMMISSAR(405, 4), SIMULTANEOUS_ATTACK(406, 4), SITUATION_REPORT(407, 4),
 	//Frost Wind T4
 	FREEZING_MIST(408, 4), GLACIAL_STORM(409, 4), CRYSTAL_TORMENT(410, 4),
-	//Stunner T4
+	//Deep Strike T4
+	DROP_IMPACT(411, 4), BATTLE_FRENZY(412, 4), PERSONNEL_PROTECTION(413, 4),
 
 
 	//universal T4
@@ -456,6 +457,7 @@ public enum Talent {
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / 40-10*Dungeon.hero.pointsInTalent(Talent.TRAMPLE)); }
 	};
 	public static class identifyIdentify extends CounterBuff {}
+	public static class FrostWindTracker extends FlavourBuff{};
 
 	int icon;
 	int maxPoints;
@@ -1143,7 +1145,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, HIGH_LEGION, ELITE_GUARD, ADVANCED_TROOPER);
 				break;
 			case VALKYRIE:
-				Collections.addAll(tierTalents);
+				Collections.addAll(tierTalents, SPIRIT_CONVERSION, SOUL_DOMINATION, MIND_BREAKER);
 				break;
 			case WINTERSTORM:
 				Collections.addAll(tierTalents, FROST_ARMOR, AMPLIFIED_GENERATOR, IMPULSE_STRIKE);

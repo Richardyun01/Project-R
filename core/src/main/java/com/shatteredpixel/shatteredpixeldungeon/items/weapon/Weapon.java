@@ -447,6 +447,10 @@ abstract public class Weapon extends KindOfWeapon {
 					&& ((Hero)attacker).pointsInTalent(Talent.STRIKING_WAVE) == 4){
 				multi += 0.2f;
 			}
+			if (attacker.buff(Talent.FrostWindTracker.class) != null
+					&& ((Hero)attacker).pointsInTalent(Talent.CRYSTAL_TORMENT) == 4){
+				multi += 0.1f;
+			}
 
 			return multi;
 		}

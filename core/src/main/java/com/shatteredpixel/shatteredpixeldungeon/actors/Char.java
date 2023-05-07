@@ -445,6 +445,10 @@ public abstract class Char extends Actor {
 				dr *= Math.pow(1.1f, hero.pointsInTalent(Talent.CHARISMA));
 			}
 
+			if (this instanceof Hero && hero.hasTalent(Talent.SOUL_DOMINATION) && Random.Int(10) < hero.pointsInTalent(Talent.SOUL_DOMINATION)){
+				Buff.affect(enemy, Charm.class, Charm.DURATION).object = hero.id();
+			}
+
 			Dungeon.hero.busy();
 
 			//we use a float here briefly so that we don't have to constantly round while

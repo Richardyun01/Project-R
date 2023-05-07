@@ -80,6 +80,9 @@ public class FrostWind extends ArmorAbility {
                 public void call() {
                     Fire fire = (Fire)Dungeon.level.blobs.get( Fire.class );
                     int mobCount = 0;
+                    if (hero.hasTalent(Talent.CRYSTAL_TORMENT)){
+                        Buff.affect(hero, Talent.FrostWindTracker.class, 0f);
+                    }
                     for (int cell : aoe.cells) {
                         if (fire != null) {
                             fire.clear(cell);

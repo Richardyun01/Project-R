@@ -1663,6 +1663,13 @@ public class Hero extends Char {
 			buff(Talent.SpiritBladesTracker.class).detach();
 		}
 
+		if (buff(Talent.FrostWindTracker.class) != null
+				&& Random.Int(20) < 5*pointsInTalent(Talent.CRYSTAL_TORMENT)){
+			Weapon weapon = belongings.getItem(Weapon.class);
+			if (weapon != null) damage = weapon.proc( this, enemy, damage );
+			buff(Talent.FrostWindTracker.class).detach();
+		}
+
 		damage = Talent.onAttackProc( this, enemy, damage );
 		
 		switch (subClass) {
