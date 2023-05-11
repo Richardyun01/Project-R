@@ -427,7 +427,7 @@ public class ItemSpriteSheet {
 		assignItemRect(REITERPALLASCH 			,16, 16);
 	}
 
-	private static final int PSIONIC_WEAPONS    =                               xy(1, 37);
+	private static final int PSIONIC_WEAPONS    =                               xy(1, 37);	//16 free slots
 	public static final int PSIONIC_BLADE1 		= PSIONIC_WEAPONS+0;
 	public static final int PSIONIC_BLADE2 		= PSIONIC_WEAPONS+1;
 	public static final int PSIONIC_BLADE3 		= PSIONIC_WEAPONS+2;
@@ -442,7 +442,22 @@ public class ItemSpriteSheet {
 		assignItemRect(WARP_BLADE				,16, 16);
 		assignItemRect(GUNGNIR					,16, 16);
 	}
-	                                                                                    //8 free slots
+
+	private static final int WEAPONARMS    		=                               xy(1, 38);	//16 free slots
+	public static final int VENDETTA	 		= WEAPONARMS+0;
+	public static final int STRIDENT	 		= WEAPONARMS+1;
+	public static final int HELLBLASTER 		= WEAPONARMS+2;
+	public static final int RAIDEN	 			= WEAPONARMS+3;
+	public static final int STINGER 			= WEAPONARMS+4;
+	public static final int SLASH	 			= WEAPONARMS+5;
+	static{
+		assignItemRect(VENDETTA 				,14, 14);
+		assignItemRect(STRIDENT 				,15, 15);
+		assignItemRect(HELLBLASTER	 			,16, 16);
+		assignItemRect(RAIDEN					,16, 16);
+		assignItemRect(STINGER					,16, 16);
+		assignItemRect(SLASH					,16, 16);
+	}
 
 	private static final int MISSILE_WEP    =                               xy(1, 10);  //16 slots. 3 per tier + boomerang
 	public static final int SPIRIT_BOW      = MISSILE_WEP+0;

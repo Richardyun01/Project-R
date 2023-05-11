@@ -244,7 +244,7 @@ public class Assets {
 		public static final String NOISE	= "sprites/noise.png";
 		public static final String LANCE  	= "sprites/lance.png";
 		public static final String CARROLL  = "sprites/carroll.png";
-		public static final String ARTILIA  = "sprites/carroll.png";
+		public static final String ARTILIA  = "sprites/artilia.png";
 		public static final String AVATARS  = "sprites/avatars.png";
 		public static final String PET      = "sprites/pet.png";
 		public static final String AMULET   = "sprites/amulet.png";
@@ -254,7 +254,6 @@ public class Assets {
 		public static final String SPINNER  = "sprites/spinner.png";
 		public static final String SPINNERS = "sprites/spinnerslow.png";
 		public static final String DM300    = "sprites/dm300.png";
-		public static final String DM301m    = "sprites/dm300.png";
 		public static final String WRAITH   = "sprites/wraith.png";
 		public static final String UNDEAD   = "sprites/undead.png";
 		public static final String KING     = "sprites/king.png";
@@ -313,5 +312,6 @@ public class Assets {
 		public static final String SPIRIT_HAWK= "sprites/spirit_hawk.png";
 		public static final String RED_SENTRY= "sprites/red_sentry.png";
 		public static final String SENTRY_GUN= "sprites/sentry_gun.png";
+		public static final String PERETORIA = "sprites/peretoria.png";
 	}
 }

@@ -139,6 +139,10 @@ public abstract class Wand extends Item {
 			GLog.w( Messages.get(this, "no_magic") );
 			return false;
 		}
+		if (Dungeon.hero.belongings.weapon.weaponarm){
+			GLog.w( Messages.get(this, "cant_use") );
+			return false;
+		}
 
 		if ( curCharges >= (cursed ? 1 : chargesPerCast())){
 			return true;

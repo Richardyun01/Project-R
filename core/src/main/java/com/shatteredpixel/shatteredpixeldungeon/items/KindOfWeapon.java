@@ -59,6 +59,7 @@ abstract public class KindOfWeapon extends EquipableItem {
 	public boolean firearmEnergy = false;
 	public boolean firearmEtc = false;
 	public boolean bullet = false;
+	public boolean weaponarm = false;
 
 	@Override
 	public void execute(Hero hero, String action) {

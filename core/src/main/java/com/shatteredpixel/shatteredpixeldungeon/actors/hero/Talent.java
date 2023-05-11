@@ -496,7 +496,7 @@ public enum Talent {
 				case CARROLL:
 					return 350;
 				case ARTILIA:
-					return 382;
+					return 414;
 			}
 		} else {
 			return icon;

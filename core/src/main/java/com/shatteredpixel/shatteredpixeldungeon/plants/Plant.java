@@ -40,6 +40,7 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
@@ -141,16 +142,30 @@ public abstract class Plant implements Bundlable {
 		public ArrayList<String> actions( Hero hero ) {
 			ArrayList<String> actions = super.actions( hero );
 			actions.add( AC_PLANT );
+			if (Dungeon.hero.belongings.weapon.weaponarm) {
+				actions.remove( AC_PLANT );
+				actions.remove( AC_THROW );
+			}
 			return actions;
 		}
-		
+
+		@Override
+		public void doThrow(Hero hero) {
+			if (Dungeon.hero.belongings.weapon.weaponarm) {
+				GLog.w(Messages.get(this, "cant_use"));
+				return;
+			} else {
+				super.doThrow(hero);
+			}
+		}
+
 		@Override
 		protected void onThrow( int cell ) {
 			if (Dungeon.level.map[cell] == Terrain.ALCHEMY
 					|| Dungeon.level.pit[cell]
 					|| Dungeon.level.traps.get(cell) != null
 					|| Dungeon.isChallenged(Challenges.NO_HERBALISM)) {
-				super.onThrow( cell );
+				super.onThrow(cell);
 			} else {
 				Dungeon.level.plant( this, cell );
 				if (Dungeon.hero.subClass == HeroSubClass.WARDEN) {

@@ -22,55 +22,29 @@
 /*
 package com.shatteredpixel.shatteredpixeldungeon.items.extension;
 
-import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
-import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
+import com.shatteredpixel.shatteredpixeldungeon.items.EquipableItem;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.ItemStatusHandler;
-import com.shatteredpixel.shatteredpixeldungeon.items.KindofMisc;
-import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.Random;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-
-public class Extension extends KindofMisc {
+public class Extension extends EquipableItem {
 
     protected Buff buff;
-
-    private String gem;
-
-    //rings cannot be 'used' like other equipment, so they ID purely based on exp
-    private float levelsToID = 1;
 
     public Extension() {
         super();
         reset();
     }
 
-    //anonymous Extensions are always IDed, do not affect ID status,
-    //and their sprite is replaced by a placeholder if they are not known,
-    //useful for items that appear in UIs, or which are only spawned for their effects
-    protected boolean anonymous = false;
-    public void anonymize(){
-        if (!isKnown()) image = ItemSpriteSheet.EXTENSION_HOLDER;
-        anonymous = true;
-    }
-
     public void reset() {
         super.reset();
-        levelsToID = 1;
     }
 
     public void activate( Char ch ) {
@@ -100,44 +74,23 @@ public class Extension extends KindofMisc {
         }
     }
 
-    public boolean isKnown() {
-        return anonymous;
-    }
-
-    public void setKnown() {
-        if (!anonymous) {
-            if (Dungeon.hero.isAlive()) {
-                Catalog.setSeen(getClass());
-            }
-        }
-    }
-
     @Override
-    public String name() {
-        return isKnown() ? super.name() : Messages.get(Extension.class, gem);
+    public boolean isUpgradable() {
+        return false;
     }
 
     @Override
     public String info(){
+        if (cursed && cursedKnown && !isEquipped( Dungeon.hero )) {
+            return desc() + "\n\n" + Messages.get(Extension.class, "curse_known");
 
-        String desc = isKnown() ? super.desc() : Messages.get(this, "unknown_desc");
+        } else if (!isIdentified() && cursedKnown && !isEquipped( Dungeon.hero)) {
+            return desc()+ "\n\n" + Messages.get(Extension.class, "not_cursed");
 
-        if (cursed && isEquipped( Dungeon.hero )) {
-            desc += "\n\n" + Messages.get(Extension.class, "cursed_worn");
-
-        } else if (cursed && cursedKnown) {
-            desc += "\n\n" + Messages.get(Extension.class, "curse_known");
-
-        } else if (!isIdentified() && cursedKnown){
-            desc += "\n\n" + Messages.get(Extension.class, "not_cursed");
+        } else {
+            return desc();
 
         }
-
-        if (isKnown()) {
-            desc += "\n\n" + statsInfo();
-        }
-
-        return desc;
     }
 
     protected String statsInfo(){
@@ -145,61 +98,15 @@ public class Extension extends KindofMisc {
     }
 
     @Override
-    public Item upgrade() {
-        super.upgrade();
-
-        if (Random.Int(3) == 0) {
-            cursed = false;
-        }
-
-        return this;
-    }
-
-    @Override
     public boolean isIdentified() {
-        return super.isIdentified() && isKnown();
+        return super.isIdentified();
     }
 
     @Override
     public Item identify( boolean byHero ) {
-        setKnown();
-        levelsToID = 0;
         return super.identify(byHero);
     }
 
-    @Override
-    public Item random() {
-        //+0: 66.67% (2/3)
-        //+1: 26.67% (4/15)
-        //+2: 6.67%  (1/15)
-        int n = 0;
-        if (Random.Int(3) == 0) {
-            n++;
-            if (Random.Int(5) == 0){
-                n++;
-            }
-        }
-        level(n);
-
-        //30% chance to be cursed
-        if (Random.Float() < 0.3f) {
-            cursed = true;
-        }
-
-        return this;
-    }
-
-    public static HashSet<Class<? extends Extension>> getKnown() {
-        return handler.known();
-    }
-
-    public static HashSet<Class<? extends Extension>> getUnknown() {
-        return handler.unknown();
-    }
-
-    public static boolean allKnown() {
-        return handler.known().size() == Generator.Category.Extension.classes.length;
-    }
 
     @Override
     public int value() {
@@ -224,43 +131,52 @@ public class Extension extends KindofMisc {
         return null;
     }
 
-    private static final String LEVELS_TO_ID    = "levels_to_ID";
 
     @Override
     public void storeInBundle( Bundle bundle ) {
         super.storeInBundle( bundle );
-        bundle.put( LEVELS_TO_ID, levelsToID );
     }
 
     @Override
     public void restoreFromBundle( Bundle bundle ) {
         super.restoreFromBundle( bundle );
-        levelsToID = bundle.getFloat( LEVELS_TO_ID );
     }
 
-    public void onHeroGainExp( float levelPercent, Hero hero ){
-        if (isIdentified() || !isEquipped(hero)) return;
-        levelPercent *= Talent.itemIDSpeedFactor(hero, this);
-        //becomes IDed after 1 level
-        levelsToID -= levelPercent;
-        if (levelsToID <= 0){
-            identify();
-            GLog.p( Messages.get(Extension.class, "identify", title()) );
-            Badges.validateItemLevelAquired( this );
+    @Override
+    public boolean doEquip( Hero hero ) {
+
+        detach(hero.belongings.backpack);
+
+        if (hero.belongings.extension == null || hero.belongings.extension.doUnequip( hero, true, false )) {
+
+            hero.belongings.extension = this;
+
+            cursedKnown = true;
+            if (cursed) {
+                equipCursed( hero );
+                GLog.n( Messages.get(Extension.class, "equip_cursed") );
+            }
+
+            activate(hero);
+            Talent.onItemEquipped(hero, this);
+            hero.spendAndNext( time2equip( hero ) );
+            return true;
+
+        } else {
+
+            collect( hero.belongings.backpack );
+            return false;
+
         }
     }
 
     @Override
     public int buffedLvl() {
         int lvl = super.buffedLvl();
-        if (Dungeon.hero.buff(EnhancedExtensions.class) != null){
-            lvl++;
-        }
         return lvl;
     }
 
     public static int getBonus(Char target, Class<?extends ExtensionBuff> type){
-        if (target.buff(MagicImmune.class) != null) return 0;
         int bonus = 0;
         for (ExtensionBuff buff : target.buffs(type)) {
             bonus += buff.level();

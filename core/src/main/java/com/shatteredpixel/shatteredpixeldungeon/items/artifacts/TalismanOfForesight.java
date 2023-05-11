@@ -72,7 +72,8 @@ public class TalismanOfForesight extends Artifact {
 		ArrayList<String> actions = super.actions( hero );
 		if (isEquipped( hero )
 				&& !cursed
-				&& hero.buff(MagicImmune.class) == null) {
+				&& hero.buff(MagicImmune.class) == null
+				&& !(Dungeon.hero.belongings.weapon.weaponarm)) {
 			actions.add(AC_SCRY);
 		}
 		return actions;

@@ -80,6 +80,7 @@ public class Belongings implements Iterable<Item> {
 	public Artifact artifact = null;
 	public KindofMisc misc = null;
 	public Ring ring = null;
+	//public Extension extension = null;
 
 	//used when thrown weapons temporary become the current weapon
 	public KindOfWeapon thrownWeapon = null;
@@ -156,6 +157,17 @@ public class Belongings implements Iterable<Item> {
 			return null;
 		}
 	}
+
+	/*
+	public Extension extension(){
+		boolean lostInvent = owner != null && owner.buff(LostInventory.class) != null;
+		if (!lostInvent || (extension != null && extension.keptThoughLostInvent)){
+			return extension;
+		} else {
+			return null;
+		}
+	}
+	*/
 
 	// ***
 	

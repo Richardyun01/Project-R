@@ -118,6 +118,7 @@ public class DriedRose extends Artifact {
 				&& charge == chargeCap
 				&& !cursed
 				&& hero.buff(MagicImmune.class) == null
+				&& !(Dungeon.hero.belongings.weapon.weaponarm)
 				&& ghostID == 0) {
 			actions.add(AC_SUMMON);
 		}

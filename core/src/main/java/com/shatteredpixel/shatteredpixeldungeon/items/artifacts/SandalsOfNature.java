@@ -139,7 +139,7 @@ public class SandalsOfNature extends Artifact {
 	public void execute( Hero hero, String action ) {
 		super.execute(hero, action);
 
-		if (hero.buff(MagicImmune.class) != null) return;
+		if (hero.buff(MagicImmune.class) != null || Dungeon.hero.belongings.weapon.weaponarm) return;
 
 		if (action.equals(AC_FEED)){
 

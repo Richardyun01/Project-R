@@ -22,9 +22,12 @@
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Shopkeeper;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 
 import java.util.ArrayList;
@@ -57,9 +60,14 @@ public class MerchantsBeacon extends Item {
 		super.execute(hero, action);
 
 		if (action.equals(AC_USE)) {
-			detach( hero.belongings.backpack );
-			Shopkeeper.sell();
-			Sample.INSTANCE.play( Assets.Sounds.BEACON );
+			if (Dungeon.hero.belongings.weapon.weaponarm) {
+				GLog.w(Messages.get(this, "cant_use"));
+				return;
+			} else {
+				detach(hero.belongings.backpack);
+				Shopkeeper.sell();
+				Sample.INSTANCE.play(Assets.Sounds.BEACON);
+			}
 		}
 
 	}

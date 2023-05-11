@@ -23,8 +23,11 @@ package com.shatteredpixel.shatteredpixeldungeon.items.stones;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 
 public abstract class Runestone extends Item {
 	
@@ -35,6 +38,16 @@ public abstract class Runestone extends Item {
 
 	//runestones press the cell they're thrown to by default, but a couple stones override this
 	protected boolean pressesCell = true;
+
+	@Override
+	public void doThrow(Hero hero) {
+		if (Dungeon.hero.belongings.weapon.weaponarm) {
+			GLog.w(Messages.get(this, "cant_use"));
+			return;
+		} else {
+			super.doThrow(hero);
+		}
+	}
 
 	@Override
 	protected void onThrow(int cell) {

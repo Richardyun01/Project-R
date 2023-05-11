@@ -31,14 +31,14 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.StatueSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.PeretoriaSprite;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
 public class Peretoria extends NPC {
 
     {
-        spriteClass = StatueSprite.class;
+        spriteClass = PeretoriaSprite.class;
 
         alignment = Alignment.ALLY;
         intelligentAlly = true;

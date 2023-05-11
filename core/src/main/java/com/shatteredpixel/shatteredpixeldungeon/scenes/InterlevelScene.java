@@ -431,6 +431,28 @@ public class InterlevelScene extends PixelScene {
 		curTransition = null;
 		Dungeon.switchLevel( level, destTransition.cell() );
 	}
+
+	/*
+	private void descend26() throws IOException {
+
+		if (Dungeon.hero == null) {
+			Mob.clearHeldAllies();
+			Dungeon.init();
+			GameLog.wipe();
+
+			Level level = Dungeon.newLevel();
+			Dungeon.switchLevel( level, -1 );
+		} else {
+			Mob.holdAllies( Dungeon.level );
+			Dungeon.saveAll();
+
+			Level level;
+			Dungeon.depth = 26;
+			Dungeon.switchLevel( level, 26);
+		}
+
+	}
+	*/
 	
 	private void returnTo() throws IOException {
 		

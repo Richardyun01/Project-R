@@ -53,7 +53,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.He
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.PrincessMirror;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
 import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
@@ -72,7 +71,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfLiquidFlam
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfMindVision;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfParalyticGas;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfStrength;
-import com.shatteredpixel.shatteredpixeldungeon.items.potions.elixirs.ElixirOfIcyTouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.Pickaxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfAccuracy;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
@@ -92,9 +90,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.items.spells.DragWave;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
-import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfTransfusion;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ApachePistol;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
@@ -108,6 +104,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortswor
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Hellblaster;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Stinger;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Vendetta;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.DeviceCompat;
 
@@ -186,15 +185,12 @@ public enum HeroClass {
 		plate.upgrade(8).collect();
 		 **/
 //erase this finish
+		new Vendetta().collect();
+		new Hellblaster().collect();
+		new Stinger().collect();
+		RingOfMight plate = new RingOfMight();
+		plate.upgrade(100).collect();
 		new TengusMask().collect();
-		PotionOfExperience enchan = new PotionOfExperience();
-		enchan.quantity(100).collect();
-		DragWave enchan4 = new DragWave();
-		enchan4.quantity(100).collect();
-		ElixirOfIcyTouch enchan5 = new ElixirOfIcyTouch();
-		enchan5.quantity(100).collect();
-		new KingsCrown().collect();
-		new WandOfTransfusion().collect();
 
 		switch (this) {
 			case WARRIOR:
