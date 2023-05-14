@@ -89,6 +89,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Unconsiousness;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -843,6 +844,9 @@ public abstract class Mob extends Char {
 						FirearmWeapon.Charger.killCount = 0;
 					}
 				}
+			}
+			if (cause == hero && hero.belongings.weapon instanceof Unconsiousness) {
+				Buff.affect(hero, Invisibility.class, Unconsiousness.levelOfWeapon);
 			}
 		}
 

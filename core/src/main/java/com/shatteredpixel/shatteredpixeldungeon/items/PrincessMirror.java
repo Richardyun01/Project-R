@@ -73,8 +73,8 @@ public class PrincessMirror extends Item {
                 }
                 curUser.sprite.operate(curUser.pos);
                 if (hero.hasTalent(Talent.MAGIC_MIRROR) && hero.buff(Talent.MagicMirrorCoolDown.class) != null) {
-                    Buff.affect(curUser, MindVision.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
-                    Buff.affect(curUser, Talent.MagicMirrorCoolDown.class, 40-10*hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                    Buff.affect(hero, MindVision.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                    Buff.affect(hero, Talent.MagicMirrorCoolDown.class, 40-10*hero.pointsInTalent(Talent.MAGIC_MIRROR));
                 }
                 Buff.affect(curUser, PrincessMirrorCooldown.class, 50);
                 curUser.spendAndNext(Actor.TICK);
@@ -85,11 +85,11 @@ public class PrincessMirror extends Item {
             } else if (hero.subClass == HeroSubClass.WINTERSTORM) {
                 Buff.affect(curUser, WinterStorm.class, WinterStorm.DURATION + 4*Dungeon.hero.pointsInTalent(Talent.AMPLIFIED_GENERATOR));
                 if (hero.hasTalent(Talent.MAGIC_MIRROR) && hero.buff(Talent.MagicMirrorCoolDown.class) != null) {
-                    Buff.affect(curUser, MindVision.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
-                    Buff.affect(curUser, Talent.MagicMirrorCoolDown.class, 40-10*hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                    Buff.affect(hero, MindVision.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                    Buff.affect(hero, Talent.MagicMirrorCoolDown.class, 40-10*hero.pointsInTalent(Talent.MAGIC_MIRROR));
                 }
                 if (hero.hasTalent(Talent.IMPULSE_STRIKE) && hero.pointsInTalent(Talent.IMPULSE_STRIKE) >= 2) {
-                    Buff.affect(curUser, Adrenaline.class, 5f);
+                    Buff.affect(hero, Adrenaline.class, 5f);
                 }
                 Buff.affect(curUser, PrincessMirrorCooldown.class, 100-5*Dungeon.hero.pointsInTalent(Talent.AMPLIFIED_GENERATOR));
             } else {
@@ -97,8 +97,8 @@ public class PrincessMirror extends Item {
                 ScrollOfMirrorImage.spawnImages(curUser, 1);
                 curUser.sprite.operate(curUser.pos);
                 if (hero.hasTalent(Talent.MAGIC_MIRROR) && hero.buff(Talent.MagicMirrorCoolDown.class) != null) {
-                    Buff.affect(curUser, MindVision.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
-                    Buff.affect(curUser, Talent.MagicMirrorCoolDown.class, 40-10*hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                    Buff.affect(hero, MindVision.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                    Buff.affect(hero, Talent.MagicMirrorCoolDown.class, 40-10*hero.pointsInTalent(Talent.MAGIC_MIRROR));
                 }
                 Buff.affect(curUser, PrincessMirrorCooldown.class, PrincessMirrorCooldown.DURATION);
                 curUser.spendAndNext(Actor.TICK);
@@ -192,8 +192,8 @@ public class PrincessMirror extends Item {
                         }
                         ch.sprite.centerEmitter().burst(Speck.factory(Speck.HEART), 10);
                         if (Dungeon.hero.hasTalent(Talent.MAGIC_MIRROR) && Dungeon.hero.buff(Talent.MagicMirrorCoolDown.class) != null) {
-                            Buff.affect(curUser, MindVision.class, 1 + Dungeon.hero.pointsInTalent(Talent.MAGIC_MIRROR));
-                            Buff.affect(curUser, Talent.MagicMirrorCoolDown.class, 40 - 10 * Dungeon.hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                            Buff.affect(Dungeon.hero, MindVision.class, 1 + Dungeon.hero.pointsInTalent(Talent.MAGIC_MIRROR));
+                            Buff.affect(Dungeon.hero, Talent.MagicMirrorCoolDown.class, 40 - 10 * Dungeon.hero.pointsInTalent(Talent.MAGIC_MIRROR));
                         }
                         Buff.affect(curUser, PrincessMirrorCooldown.class, 20 - 4 * Dungeon.hero.pointsInTalent(Talent.SPIRIT_CONVERSION));
                         curUser.spendAndNext(Actor.TICK);

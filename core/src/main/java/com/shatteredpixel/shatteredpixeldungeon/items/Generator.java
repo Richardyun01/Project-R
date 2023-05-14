@@ -23,6 +23,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.ArtiliaArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.CarrollArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.HuntressArmor;
@@ -217,6 +218,16 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSp
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Tomahawk;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Trident;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Draken;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Hellblaster;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Raiden;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Slash;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Stinger;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Strident;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Thunderstrike;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Unconsiousness;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Vendetta;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Vulkan;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Blindweed;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Earthroot;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Fadeleaf;
@@ -428,8 +439,9 @@ public class Generator {
 					Lunge.class,
 					SurrationSaw.class,
 					Rapier.class,
+					Vendetta.class
 			};
-			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4 };
+			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 3 };
 			
 			WEP_T3.classes = new Class<?>[]{
 					Sword.class,
@@ -440,8 +452,9 @@ public class Generator {
 					Whip.class,
 					RipperWeapon.class,
 					Scripture.class,
+					Unconsiousness.class
 			};
-			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4 };
+			WEP_T3.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 3 };
 			
 			WEP_T4.classes = new Class<?>[]{
 					Longsword.class,
@@ -451,9 +464,10 @@ public class Generator {
 					AssassinsBlade.class,
 					Crossbow.class,
 					Chainsaw.class,
-					ThunderSpear.class
+					ThunderSpear.class,
+					Slash.class
 			};
-			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4 };
+			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 3 };
 			
 			WEP_T5.classes = new Class<?>[]{
 					Greatsword.class,
@@ -466,9 +480,11 @@ public class Generator {
 					MoonlightBlade.class,
 					FusionLance.class,
 					Murakumo.class,
-					Reiterpallasch.class
+					Reiterpallasch.class,
+					Thunderstrike.class,
+					Draken.class
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4 };
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3 };
 
 			WEP_T6.classes = new Class<?>[]{
 					Defender.class,
@@ -495,9 +511,11 @@ public class Generator {
 					Dragoon.class,
 					EleGun.class,
 					ArmRifle.class,
-					Overflow.class
+					Overflow.class,
+					Strident.class,
+					Hellblaster.class
 			};
-			GUN_T3.probs = new float[]{ 2, 1, 1, 1 };
+			GUN_T3.probs = new float[]{ 2, 1, 1, 1, 1, 1 };
 
 			GUN_T4.classes = new Class<?>[]{
 					Flashback.class,
@@ -508,9 +526,10 @@ public class Generator {
 					Justice.class,
 					Vega.class,
 					Kaleidoscope.class,
-					FrostGun.class
+					FrostGun.class,
+					Vulkan.class
 			};
-			GUN_T4.probs = new float[]{ 2, 1, 1, 1, 1, 1, 1, 1, 1 };
+			GUN_T4.probs = new float[]{ 2, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
 			GUN_T5.classes = new Class<?>[]{
 					Hush.class,
@@ -522,9 +541,11 @@ public class Generator {
 					FireStorm.class,
 					Karasawa.class,
 					Spark.class,
-					Cleanser.class
+					Cleanser.class,
+					Stinger.class,
+					Raiden.class
 			};
-			GUN_T5.probs = new float[]{ 6, 4, 4, 4, 3, 3, 3, 3, 3, 3 };
+			GUN_T5.probs = new float[]{ 6, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3 };
 
 			GUN_T6.classes = new Class<?>[]{
 					Fencer.class,
@@ -551,8 +572,10 @@ public class Generator {
 					HuntressArmor.class,
 					NoiseArmor.class,
 					LanceArmor.class,
-					CarrollArmor.class,};
-			ARMOR.probs = new float[]{ 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 };
+					CarrollArmor.class,
+					ArtiliaArmor.class
+			};
+			ARMOR.probs = new float[]{ 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
 			
 			//see Generator.randomMissile
 			MISSILE.classes = new Class<?>[]{};

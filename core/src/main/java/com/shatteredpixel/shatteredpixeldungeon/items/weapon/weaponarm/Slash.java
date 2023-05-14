@@ -28,22 +28,23 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class TestWeaponArm extends MeleeWeapon {
+public class Slash extends MeleeWeapon {
 
     {
-        image = ItemSpriteSheet.GREATSWORD;
+        image = ItemSpriteSheet.SLASH;
         hitSound = Assets.Sounds.HIT_SLASH;
         hitSoundPitch = 1f;
 
         weaponarm = true;
+        RCH = 3;
 
-        tier=1;
+        tier=4;
     }
 
     @Override
     public int max(int lvl) {
-        return  5*(tier+4) +    //45 base, up from 30
-                lvl*(tier+1);   //scaling unchanged
+        return  5*(tier+1) +    //25 base, up from 15
+                lvl*(tier+3);
     }
 
     @Override
@@ -62,7 +63,7 @@ public class TestWeaponArm extends MeleeWeapon {
 
     @Override
     protected void carrollAbility(Hero hero, Integer target) {
-        Sword.cleaveAbility(hero, target, 1.20f, this);
+        Sword.cleaveAbility(hero, target, 1.05f, this);
     }
 
 }

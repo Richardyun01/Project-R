@@ -143,8 +143,8 @@ abstract public class MissileWeapon extends Weapon {
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );
 		actions.remove( AC_EQUIP );
-		if (Dungeon.hero.belongings.weapon.weaponarm) {
-			actions.remove( AC_THROW );
+		if (hero.belongings.weapon != null && Dungeon.hero.belongings.weapon.weaponarm) {
+			actions.remove(AC_THROW);
 		}
 		return actions;
 	}
@@ -209,13 +209,12 @@ abstract public class MissileWeapon extends Weapon {
 
 	@Override
 	public void doThrow(Hero hero) {
-		if (Dungeon.hero.belongings.weapon.weaponarm) {
+		if (hero.belongings.weapon != null && Dungeon.hero.belongings.weapon.weaponarm) {
 			GLog.w(Messages.get(this, "cant_use"));
 			return;
-		} else {
-			parent = null; //reset parent before throwing, just incase
-			super.doThrow(hero);
 		}
+		parent = null; //reset parent before throwing, just incase
+		super.doThrow(hero);
 	}
 
 	@Override

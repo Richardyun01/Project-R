@@ -60,14 +60,13 @@ public class MerchantsBeacon extends Item {
 		super.execute(hero, action);
 
 		if (action.equals(AC_USE)) {
-			if (Dungeon.hero.belongings.weapon.weaponarm) {
+			if (hero.belongings.weapon != null && Dungeon.hero.belongings.weapon.weaponarm) {
 				GLog.w(Messages.get(this, "cant_use"));
 				return;
-			} else {
-				detach(hero.belongings.backpack);
-				Shopkeeper.sell();
-				Sample.INSTANCE.play(Assets.Sounds.BEACON);
 			}
+			detach(hero.belongings.backpack);
+			Shopkeeper.sell();
+			Sample.INSTANCE.play(Assets.Sounds.BEACON);
 		}
 
 	}

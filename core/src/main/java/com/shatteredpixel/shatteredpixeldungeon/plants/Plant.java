@@ -142,21 +142,20 @@ public abstract class Plant implements Bundlable {
 		public ArrayList<String> actions( Hero hero ) {
 			ArrayList<String> actions = super.actions( hero );
 			actions.add( AC_PLANT );
-			if (Dungeon.hero.belongings.weapon.weaponarm) {
-				actions.remove( AC_PLANT );
-				actions.remove( AC_THROW );
+			if (hero.belongings.weapon != null && Dungeon.hero.belongings.weapon.weaponarm) {
+				actions.remove(AC_PLANT);
+				actions.remove(AC_THROW);
 			}
 			return actions;
 		}
 
 		@Override
 		public void doThrow(Hero hero) {
-			if (Dungeon.hero.belongings.weapon.weaponarm) {
-				GLog.w(Messages.get(this, "cant_use"));
+			if (hero.belongings.weapon != null && hero.belongings.weapon.weaponarm) {
+				GLog.w( Messages.get(this, "cant_use"));
 				return;
-			} else {
-				super.doThrow(hero);
 			}
+			super.doThrow(hero);
 		}
 
 		@Override

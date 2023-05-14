@@ -1,27 +1,24 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.artifacts;
 
+import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArcaneArmor;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barkskin;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireImbue;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Stamina;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
+import com.shatteredpixel.shatteredpixeldungeon.levels.traps.SummoningTrap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class OpIntensify extends Artifact {
+public class LamentConfiguration extends Artifact {
 
     {
         image = ItemSpriteSheet.ARTIFACT_PLUS;
@@ -64,20 +61,39 @@ public class OpIntensify extends Artifact {
             } else if (this.charge < 100) {
                 GLog.i(Messages.get((Object) this, "no_charge", new Object[0]), new Object[0]);
             } else {
-                Buff.affect(hero, Stamina.class, 10);
-                if (level() >= 3) {
-                    Buff.affect(hero, Foresight.class, 30f);
-                    if (level() >= 7) {
-                        Buff.affect(hero, FireImbue.class).set( 16 );
-                        Buff.affect(hero, Adrenaline.class, 15f);
-                        if (level() >= 10) {
-                            Buff.affect(hero, ArcaneArmor.class).set(5 + hero.lvl/2, 26);
-                            Buff.affect(hero, Barkskin.class).set(2 + hero.lvl/3, 26);
+                new SummoningTrap().set( Dungeon.hero.pos ).activate();
+                new SummoningTrap().set( Dungeon.hero.pos ).activate();
+                if (Random.Int(10) < this.level()) {
+                    Item reward = null;
+                    do {
+                        switch (Random.Int(3)) {
+                            case 0:
+                                reward = Generator.random(Generator.Category.WAND);
+                                break;
+                            case 2:
+                                reward = Generator.randomArmor();
+                                break;
+                            case 3:
+                                reward = Generator.randomWeapon();
+                                break;
                         }
-                    }
+                        float itemLevelRoll = Random.Float();
+                        int itemLevel;
+                        if (itemLevelRoll < 0.5f){
+                            itemLevel = 0;
+                        } else if (itemLevelRoll < 0.8f){
+                            itemLevel = 1;
+                        } else if (itemLevelRoll < 0.95f){
+                            itemLevel = 2;
+                        } else {
+                            itemLevel = 3;
+                        }
+                        reward.upgrade(itemLevel);
+                    } while (reward == null || Challenges.isItemBlocked(reward));
+                    Dungeon.level.drop(reward, Dungeon.hero.pos).sprite.drop();
                 }
                 Invisibility.dispel(hero);
-                curUser.sprite.centerEmitter().start( Speck.factory( Speck.UP ), 0.3f, 3 );
+                curUser.sprite.centerEmitter().start( Speck.factory( Speck.SCREAM ), 0.3f, 2 );
                 this.charge = 0;
                 updateQuickslot();
                 if (level() < this.levelCap) {
@@ -90,7 +106,7 @@ public class OpIntensify extends Artifact {
 
     public void charge(Hero hero, float f) {
         if (this.charge < this.chargeCap) {
-            this.charge += Math.round(f * 1.0f);
+            this.charge += Math.round(f * 1.5f);
             if (this.charge >= this.chargeCap) {
                 this.charge = this.chargeCap;
                 updateQuickslot();
@@ -107,10 +123,7 @@ public class OpIntensify extends Artifact {
             if (cursed)
                 desc += Messages.get(this, "desc_cursed");
             else
-                desc += Messages.get(this, "desc_equipped_1");
-            if (level() >= 3)  desc += Messages.get(this, "desc_equipped_2");
-            if (level() >= 7)  desc += Messages.get(this, "desc_equipped_3");
-            if (level() >= 10) desc += Messages.get(this, "desc_equipped_4");
+                desc += Messages.get(this, "desc_equipped");
         }
 
         return desc;
@@ -125,24 +138,26 @@ public class OpIntensify extends Artifact {
 
         public boolean act() {
             LockedFloor lockedFloor = (LockedFloor) this.target.buff(LockedFloor.class);
-            if (OpIntensify.this.activeBuff != null || ((lockedFloor != null && !lockedFloor.regenOn()) || (Dungeon.depth >= 26 && Dungeon.depth <= 30))) {
-                OpIntensify.this.partialCharge = 0.0f;
-            } else if (OpIntensify.this.charge < OpIntensify.this.chargeCap && !OpIntensify.this.cursed) {
-                OpIntensify.this.partialCharge += RingOfEnergy.artifactChargeMultiplier(this.target) * 0.13f;
-                if (OpIntensify.this.partialCharge > 1.0f && OpIntensify.this.charge < OpIntensify.this.chargeCap) {
-                    OpIntensify.this.partialCharge -= 1.0f;
-                    OpIntensify.this.charge++;
+            if (LamentConfiguration.this.activeBuff != null || ((lockedFloor != null && !lockedFloor.regenOn()) || (Dungeon.depth >= 26 && Dungeon.depth <= 30))) {
+                LamentConfiguration.this.partialCharge = 0.0f;
+            } else if (LamentConfiguration.this.charge < LamentConfiguration.this.chargeCap && !LamentConfiguration.this.cursed) {
+                LamentConfiguration.this.partialCharge += RingOfEnergy.artifactChargeMultiplier(this.target) * 0.13f;
+                if (LamentConfiguration.this.partialCharge > 1.0f && LamentConfiguration.this.charge < LamentConfiguration.this.chargeCap) {
+                    LamentConfiguration.this.partialCharge -= 1.0f;
+                    LamentConfiguration.this.charge++;
                     Item.updateQuickslot();
                 }
+            } else if (cursed && Random.Int(100) == 0){
+                new SummoningTrap().set( Dungeon.hero.pos ).activate();
             }
             spend(1.0f);
             return true;
         }
 
         public void charge(Hero hero, float f) {
-            OpIntensify.this.charge += Math.round(f * 1.0f);
-            OpIntensify opIntensify = OpIntensify.this;
-            opIntensify.charge = Math.min(opIntensify.charge, OpIntensify.this.chargeCap);
+            LamentConfiguration.this.charge += Math.round(f * 1.5f);
+            LamentConfiguration lamentConfiguration = LamentConfiguration.this;
+            lamentConfiguration.charge = Math.min(lamentConfiguration.charge, LamentConfiguration.this.chargeCap);
             Item.updateQuickslot();
         }
     }

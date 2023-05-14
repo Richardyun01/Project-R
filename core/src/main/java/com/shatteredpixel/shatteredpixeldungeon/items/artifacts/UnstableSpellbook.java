@@ -111,6 +111,10 @@ public class UnstableSpellbook extends Artifact {
 		super.execute( hero, action );
 
 		if (hero.buff(MagicImmune.class) != null) return;
+		if (hero.belongings.weapon != null && Dungeon.hero.belongings.weapon.weaponarm) {
+			GLog.w(Messages.get(this, "cant_use"));
+			return;
+		}
 
 		if (action.equals( AC_READ )) {
 

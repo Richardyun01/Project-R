@@ -233,7 +233,7 @@ public class Potion extends Item {
 			GameScene.show(new WndUseItem(null, this) );
 			
 		} else if (action.equals( AC_DRINK )) {
-			
+
 			if (isKnown() && mustThrowPots.contains(getClass())) {
 
 				GameScene.show(
@@ -251,8 +251,10 @@ public class Potion extends Item {
 				);
 			} else if (Dungeon.hero.buff(Gungnir.TwilightStance.class) != null) {
 				GLog.n(Messages.get(this, "cant"));
-			} else if (Dungeon.hero.belongings.weapon.weaponarm) {
+
+			} else if (hero.belongings.weapon != null && hero.belongings.weapon.weaponarm) {
 				GLog.w( Messages.get(this, "cant_use"));
+
 			} else {
 				drink( hero );
 			}

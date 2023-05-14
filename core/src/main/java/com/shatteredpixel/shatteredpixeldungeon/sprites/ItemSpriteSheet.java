@@ -446,17 +446,25 @@ public class ItemSpriteSheet {
 	private static final int WEAPONARMS    		=                               xy(1, 38);	//16 free slots
 	public static final int VENDETTA	 		= WEAPONARMS+0;
 	public static final int STRIDENT	 		= WEAPONARMS+1;
-	public static final int HELLBLASTER 		= WEAPONARMS+2;
-	public static final int RAIDEN	 			= WEAPONARMS+3;
-	public static final int STINGER 			= WEAPONARMS+4;
-	public static final int SLASH	 			= WEAPONARMS+5;
+	public static final int UNCONSIOUSNESS	 	= WEAPONARMS+2;
+	public static final int HELLBLASTER 		= WEAPONARMS+3;
+	public static final int RAIDEN	 			= WEAPONARMS+4;
+	public static final int VULKAN	 			= WEAPONARMS+5;
+	public static final int STINGER 			= WEAPONARMS+6;
+	public static final int THUNDERSTRIKE 		= WEAPONARMS+7;
+	public static final int SLASH	 			= WEAPONARMS+8;
+	public static final int DRAKEN				= WEAPONARMS+9;
 	static{
-		assignItemRect(VENDETTA 				,14, 14);
+		assignItemRect(VENDETTA 				,16, 16);
 		assignItemRect(STRIDENT 				,15, 15);
+		assignItemRect(UNCONSIOUSNESS 			,16, 16);
 		assignItemRect(HELLBLASTER	 			,16, 16);
 		assignItemRect(RAIDEN					,16, 16);
+		assignItemRect(VULKAN					,16, 16);
 		assignItemRect(STINGER					,16, 16);
+		assignItemRect(THUNDERSTRIKE			,16, 16);
 		assignItemRect(SLASH					,16, 16);
+		assignItemRect(DRAKEN					,16, 16);
 	}
 
 	private static final int MISSILE_WEP    =                               xy(1, 10);  //16 slots. 3 per tier + boomerang

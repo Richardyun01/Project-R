@@ -75,6 +75,11 @@ public class AlchemistsToolkit extends Artifact {
 		super.execute(hero, action);
 
 		if (hero.buff(MagicImmune.class) != null) return;
+		if (Dungeon.hero.belongings.weapon != null) {
+			if (Dungeon.hero.belongings.weapon.weaponarm) {
+				return;
+			}
+		}
 
 		if (action.equals(AC_BREW)){
 			if (!isEquipped(hero))              GLog.i( Messages.get(this, "need_to_equip") );

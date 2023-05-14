@@ -91,6 +91,11 @@ public class HornOfPlenty extends Artifact {
 		super.execute(hero, action);
 
 		if (hero.buff(MagicImmune.class) != null) return;
+		if (Dungeon.hero.belongings.weapon != null) {
+			if (Dungeon.hero.belongings.weapon.weaponarm) {
+				return;
+			}
+		}
 
 		if (action.equals(AC_EAT) || action.equals(AC_SNACK)){
 

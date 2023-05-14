@@ -100,10 +100,12 @@ public class Pickaxe extends MeleeWeapon {
 				GLog.w( Messages.get(this, "no_vein") );
 				return;
 			}
-			if (Dungeon.hero.belongings.weapon.weaponarm) {
-				GLog.w( Messages.get(this, "cant_use"));
+
+			if (hero.belongings.weapon != null && Dungeon.hero.belongings.weapon.weaponarm) {
+				GLog.w(Messages.get(this, "cant_use"));
 				return;
 			}
+
 
 			for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
 

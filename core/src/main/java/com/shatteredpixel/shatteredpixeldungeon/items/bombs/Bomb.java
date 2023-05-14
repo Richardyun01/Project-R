@@ -98,7 +98,7 @@ public class Bomb extends Item {
 	@Override
 	public void execute(Hero hero, String action) {
 
-		if (Dungeon.hero.belongings.weapon.weaponarm) {
+		if (hero.belongings.weapon != null && Dungeon.hero.belongings.weapon.weaponarm) {
 			GLog.w(Messages.get(this, "cant_use"));
 			return;
 		}

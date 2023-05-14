@@ -23,10 +23,10 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
-import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.ShopKeeperBoss;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.ElmoParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
@@ -78,6 +78,8 @@ public class Shopkeeper extends NPC {
 	
 	public void flee() {
 		destroy();
+		ShopKeeperBoss shopKeeperBoss = new ShopKeeperBoss();
+		shopKeeperBoss.pos = this.pos;
 
 		Notes.remove(Notes.Landmark.SHOP);
 
@@ -85,6 +87,7 @@ public class Shopkeeper extends NPC {
 			sprite.killAndErase();
 			CellEmitter.get(pos).burst(ElmoParticle.FACTORY, 6);
 		}
+		GameScene.add((Mob) shopKeeperBoss);
 	}
 	
 	@Override

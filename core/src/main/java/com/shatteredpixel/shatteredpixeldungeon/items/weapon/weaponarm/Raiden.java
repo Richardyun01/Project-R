@@ -18,25 +18,25 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.Harmonica;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Hellblaster extends FirearmWeapon {
+public class Raiden extends FirearmWeapon {
 
     {
         defaultAction = AC_SHOOT;
         usesTargeting = true;
 
-        image = ItemSpriteSheet.HELLBLASTER;
+        image = ItemSpriteSheet.RAIDEN;
         hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
-        tier = 3;
+        tier = 5;
         type = FirearmType.FirearmExplosive;
-        max_round = 2;
+        max_round = 6;
 
         firearm = true;
         firearmExplosive = true;
         weaponarm = true;
 
-        bullet_image = ItemSpriteSheet.ROCKET_1;
+        bullet_image = ItemSpriteSheet.ROCKET_3;
         bullet_sound = Assets.Sounds.PUFF;
     }
 
@@ -58,9 +58,9 @@ public class Hellblaster extends FirearmWeapon {
     @Override
     public void setReloadTime() {
         if (loader != null) {
-            reload_time = 3.5f * RingOfReload.reloadMultiplier(Dungeon.hero) * SpeedLoader.reloadMultiplier();
+            reload_time = 4f * RingOfReload.reloadMultiplier(Dungeon.hero) * SpeedLoader.reloadMultiplier();
         } else {
-            reload_time = 3.5f * RingOfReload.reloadMultiplier(Dungeon.hero);
+            reload_time = 4f * RingOfReload.reloadMultiplier(Dungeon.hero);
         }
     }
 
@@ -79,18 +79,18 @@ public class Hellblaster extends FirearmWeapon {
     @Override
     public int Bulletmin(int lvl) {
         if (Dungeon.hero.buff(BulletUp.class) != null) {
-            return (tier+3) + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+            return (tier) + lvl*2 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
         } else {
-            return (tier+3) + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            return (tier) + lvl*2 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
         }
     }
 
     @Override
     public int Bulletmax(int lvl) {
         if (Dungeon.hero.buff(BulletUp.class) != null) {
-            return (tier)*5 + lvl*5 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+            return (tier+3)*2 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
         } else {
-            return (tier)*5 + lvl*5 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            return (tier+3)*2 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
         }
     }
 
@@ -100,4 +100,3 @@ public class Hellblaster extends FirearmWeapon {
     }
 
 }
-

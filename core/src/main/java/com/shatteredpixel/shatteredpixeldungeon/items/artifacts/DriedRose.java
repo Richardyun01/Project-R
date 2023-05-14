@@ -140,6 +140,11 @@ public class DriedRose extends Artifact {
 		if (action.equals(AC_SUMMON)) {
 
 			if (hero.buff(MagicImmune.class) != null) return;
+			if (Dungeon.hero.belongings.weapon != null) {
+				if (Dungeon.hero.belongings.weapon.weaponarm) {
+					return;
+				}
+			}
 
 			if (!Ghost.Quest.completed())   GameScene.show(new WndUseItem(null, this));
 			else if (ghost != null)         GLog.i( Messages.get(this, "spawned") );

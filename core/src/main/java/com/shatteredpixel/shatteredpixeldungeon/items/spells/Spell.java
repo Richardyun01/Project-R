@@ -57,7 +57,7 @@ public abstract class Spell extends Item {
 			if (curUser.buff(MagicImmune.class) != null){
 				GLog.w( Messages.get(this, "no_magic") );
 				return;
-			} else if (Dungeon.hero.belongings.weapon.weaponarm) {
+			} else if (hero.belongings.weapon != null && Dungeon.hero.belongings.weapon.weaponarm) {
 				GLog.w(Messages.get(this, "cant_use"));
 				return;
 			}

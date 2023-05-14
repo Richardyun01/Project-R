@@ -22,38 +22,51 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Mace;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
-public class Vendetta extends MeleeWeapon {
+public class Thunderstrike extends MeleeWeapon {
 
     {
-        image = ItemSpriteSheet.VENDETTA;
+        image = ItemSpriteSheet.THUNDERSTRIKE;
         hitSound = Assets.Sounds.HIT_SLASH;
-        hitSoundPitch = 1f;
-        DLY = 0.8f;
+        hitSoundPitch = 0.8f;
 
         weaponarm = true;
 
-        tier=2;
+        tier=5;
     }
 
     @Override
     public int max(int lvl) {
-        return  5*(tier+2) +    //25 base, up from 15
-                lvl*(tier+2);
+        return  4*(tier-1)-2 +
+                lvl*(tier-1);
     }
 
     @Override
-    public float abilityChargeUse( Hero hero ) {
-        if (hero.buff(Sword.CleaveTracker.class) != null){
-            return 0;
+    public int proc(Char attacker, Char defender, int damage) {
+        int mobCount;
+        if (attacker instanceof Hero) {
+            mobCount = 1;
+            for (Mob mob : (Mob[]) Dungeon.level.mobs.toArray(new Mob[0])) {
+                if (Dungeon.level.adjacent(mob.pos, defender.pos) && mob.alignment != Char.Alignment.ALLY) {
+                    mob.damage(Dungeon.hero.damageRoll() - Math.max(defender.drRoll(), defender.drRoll()), this);
+                    mobCount++;
+                }
+            }
         } else {
-            return super.abilityChargeUse( hero );
+            mobCount = 1;
         }
+        if (mobCount == 1) {
+            damage *= 2;
+        }
+        return super.proc(attacker, defender, damage);
     }
 
     @Override
@@ -63,7 +76,7 @@ public class Vendetta extends MeleeWeapon {
 
     @Override
     protected void carrollAbility(Hero hero, Integer target) {
-        Sword.cleaveAbility(hero, target, 1.1f, this);
+        Mace.heavyBlowAbility(hero, target, 1.5f, this);
     }
 
 }

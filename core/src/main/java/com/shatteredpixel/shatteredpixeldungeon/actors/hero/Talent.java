@@ -589,7 +589,7 @@ public enum Talent {
 		}
 
 		if (talent == HUNTERS_INTUITION && hero.pointsInTalent(HUNTERS_INTUITION) == 2) {
-			if (hero.belongings.weapon() != null && hero.belongings.weapon() instanceof MeleeWeapon) {
+			if (hero.belongings.weapon() != null && !(hero.belongings.weapon() instanceof FirearmWeapon)) {
 				hero.belongings.weapon().identify();
 			}
 		}
@@ -709,7 +709,7 @@ public enum Talent {
 			factor *= 1f + hero.pointsInTalent(THIEFS_INTUITION);
 		}
 		// 5x/instant speed for lance(see onItemEquipped)
-		if (item instanceof MeleeWeapon) {
+		if (item instanceof MeleeWeapon && !(item instanceof FirearmWeapon)) {
 			factor *= 1f + 4*hero.pointsInTalent(HUNTERS_INTUITION);
 		}
 		// 3x/5x speed for carroll
@@ -847,7 +847,7 @@ public enum Talent {
 		if (hero.pointsInTalent(MANIAS_INTUITION) >= 1 && item instanceof FirearmWeapon) {
 			item.identify();
 		}
-		if (hero.pointsInTalent(HUNTERS_INTUITION) >= 1 && item instanceof MeleeWeapon) {
+		if (hero.pointsInTalent(HUNTERS_INTUITION) >= 1 && item instanceof MeleeWeapon && !(item instanceof FirearmWeapon)) {
 			item.identify();
 		}
 	}
@@ -859,7 +859,7 @@ public enum Talent {
 		if (hero.pointsInTalent(MANIAS_INTUITION) == 2 && item instanceof FirearmWeapon) {
 			item.identify();
 		}
-		if (hero.pointsInTalent(HUNTERS_INTUITION) == 2 && item instanceof MeleeWeapon) {
+		if (hero.pointsInTalent(HUNTERS_INTUITION) == 2 && item instanceof MeleeWeapon && !(item instanceof FirearmWeapon)) {
 			item.identify();
 		}
 	}

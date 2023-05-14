@@ -41,12 +41,11 @@ public abstract class Runestone extends Item {
 
 	@Override
 	public void doThrow(Hero hero) {
-		if (Dungeon.hero.belongings.weapon.weaponarm) {
+		if (hero.belongings.weapon != null && Dungeon.hero.belongings.weapon.weaponarm) {
 			GLog.w(Messages.get(this, "cant_use"));
 			return;
-		} else {
-			super.doThrow(hero);
 		}
+		super.doThrow(hero);
 	}
 
 	@Override

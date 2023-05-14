@@ -83,7 +83,12 @@ public class CloakOfShadows extends Artifact {
 
 		super.execute(hero, action);
 
-		if (hero.buff(MagicImmune.class) != null || Dungeon.hero.belongings.weapon.weaponarm) return;
+		if (hero.buff(MagicImmune.class) != null) return;
+		if (Dungeon.hero.belongings.weapon != null) {
+			if (Dungeon.hero.belongings.weapon.weaponarm) {
+				return;
+			}
+		}
 
 		if (action.equals( AC_STEALTH )) {
 
