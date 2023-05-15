@@ -21,6 +21,8 @@ Project-R supports only Korean language yet.
     - 4 new in Tier 2
     - 3 new in Tier 3/4
     - 6 new in Tier 5
+- New Weapon Type: Weapon Arm
+    - Powerful compared to other same-tier weapons, but cannot use other items
 - New Artifact
     - AESA Radar
     - Bio Plus
