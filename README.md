@@ -18,16 +18,18 @@ Project-R supports only Korean language yet.
     - Energy: Ignores Defense - Laser or Plasma
     - Etc: Flamethrowers or concept weapons
 - New Melee Weapons
-    - 3 new in Tier 2
-    - 2 new in Tier 3/4
-    - 4 new in Tier 5
+    - 4 new in Tier 2
+    - 3 new in Tier 3/4
+    - 6 new in Tier 5
 - New Artifact
     - AESA Radar
     - Bio Plus
+    - Lament Configuration
 - New Data Chip (Ring in SPD)
     - Reload Support Chip
 ---
 - 7 New rare enemies
+- 2 New Sub-Bosses
 ---
 - 4 New Subclasses for Original Classes
 - 5th 1 tier talent for each class
