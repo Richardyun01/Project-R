@@ -36,6 +36,7 @@ Project-R supports only Korean language yet.
     - Noise(Firearm based) with 3 New Subclasses and 3 New Armor Ability
     - Lance(Warrior derived) with 3 New Subclasses and 3 New Armor Ability
     - Carroll(Duelist based) with 3 New Subclasses and 3 New Armor Ability
+    - Artilia(Mirror Image based) with 3 New Subclasses and 3 New Armor Ability
 - Easy Mode for Beginners!
 
 
