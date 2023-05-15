@@ -29,7 +29,7 @@ Project-R supports only Korean language yet.
     - Reload Support Chip
 - New Item
     - Lesser Healing Drug
-    - 
+    - Magnetic Field Generator
 ---
 - 7 New rare enemies
 - 2 New Sub-Bosses
