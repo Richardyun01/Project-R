@@ -27,6 +27,9 @@ Project-R supports only Korean language yet.
     - Lament Configuration
 - New Data Chip (Ring in SPD)
     - Reload Support Chip
+- New Item
+    - Lesser Healing Drug
+    - 
 ---
 - 7 New rare enemies
 - 2 New Sub-Bosses
