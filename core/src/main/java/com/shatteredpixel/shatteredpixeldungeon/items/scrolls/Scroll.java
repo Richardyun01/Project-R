@@ -162,11 +162,11 @@ public abstract class Scroll extends Item {
 
 		if (action.equals( AC_READ )) {
 			
-			if (hero.buff(MagicImmune.class) != null){
+			if (hero.buff(MagicImmune.class) != null && !(this instanceof ScrollOfRemoveCurse2)){
 				GLog.w( Messages.get(this, "no_magic") );
-			} else if (hero.buff( Blindness.class ) != null) {
+			} else if (hero.buff( Blindness.class ) != null && !(this instanceof ScrollOfRemoveCurse2)) {
 				GLog.w(Messages.get(this, "blinded"));
-			} else if (hero.belongings.weapon != null && Dungeon.hero.belongings.weapon.weaponarm) {
+			} else if (hero.belongings.weapon != null && Dungeon.hero.belongings.weapon.weaponarm && !(this instanceof ScrollOfRemoveCurse2)) {
 				GLog.w(Messages.get(this, "cant_use"));
 			} else if (hero.buff(UnstableSpellbook.bookRecharge.class) != null
 					&& hero.buff(UnstableSpellbook.bookRecharge.class).isCursed()

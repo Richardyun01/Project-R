@@ -149,7 +149,7 @@ public class Badges {
 		BOSS_CHALLENGE_2            ( 84 ),
 		GAMES_PLAYED_3              ( 85, true ),
 		HIGH_SCORE_3                ( 86 ),
-		//DM301_KILL					( 87 ),
+		DM301_KILL					( 87 ),
 
 		//platinum
 		ITEM_LEVEL_5                ( 96 ),
@@ -199,6 +199,7 @@ public class Badges {
 		GAMES_PLAYED_4              ( 108, true ),
 		HIGH_SCORE_4                ( 109 ),
 		CHAMPION_1                  ( 110 ),
+		SHOPKEEPER_KILL				( 111 ),
 
 		//diamond
 		BOSS_CHALLENGE_5            ( 120 ),
@@ -1058,6 +1059,22 @@ public class Badges {
 		}
 
 		displayBadge( badge );
+	}
+
+	public static void validateDM301Kill() {
+		if (!local.contains( Badge.DM301_KILL )) {
+			Badge badge = Badge.DM301_KILL;
+			local.add( badge );
+			displayBadge( badge );
+		}
+	}
+
+	public static void validateShopkeeperKill() {
+		if (!local.contains( Badge.SHOPKEEPER_KILL )) {
+			Badge badge = Badge.SHOPKEEPER_KILL;
+			local.add( badge );
+			displayBadge( badge );
+		}
 	}
 	
 	//necessary in order to display the happy end badge in the surface scene

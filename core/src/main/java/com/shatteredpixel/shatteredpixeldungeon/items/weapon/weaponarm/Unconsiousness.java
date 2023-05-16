@@ -12,10 +12,11 @@ import com.watabou.utils.Random;
 public class Unconsiousness extends MeleeWeapon {
 
     {
-        image = ItemSpriteSheet.DIRK;
+        image = ItemSpriteSheet.UNCONSIOUSNESS;
         hitSound = Assets.Sounds.HIT_STAB;
         hitSoundPitch = 1f;
 
+        weaponarm = true;
         tier = 3;
     }
 
@@ -33,7 +34,7 @@ public class Unconsiousness extends MeleeWeapon {
             Hero hero = (Hero)owner;
             Char enemy = hero.enemy();
             if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
-                //deals 67% toward max to max on surprise, instead of min to max.
+                //deals 50% toward max to max on surprise, instead of min to max.
                 int diff = max() - min();
                 int damage = augment.damageFactor(Random.NormalIntRange(
                         min() + Math.round(diff*0.5f),
@@ -49,9 +50,9 @@ public class Unconsiousness extends MeleeWeapon {
     }
 
     @Override
-    public int proc(Char attacker, Char defender, int i) {
+    public int proc(Char attacker, Char defender, int damage) {
         levelOfWeapon = this.level();
-        return super.proc(attacker, defender, i);
+        return super.proc(attacker, defender, damage);
     }
 
     @Override

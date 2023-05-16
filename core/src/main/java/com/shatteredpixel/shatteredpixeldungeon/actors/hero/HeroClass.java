@@ -55,12 +55,12 @@ import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.PrincessMirror;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
+import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.IceBox;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
-import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfFrost;
@@ -90,7 +90,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportat
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTerror;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfBlast;
 import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfMagicMissile;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.ApachePistol;
@@ -102,13 +101,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Krystallos;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RuinSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Javelin;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Vendetta;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Draken;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Slash;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Thunderstrike;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Unconsiousness;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.plants.Sungrass;
 import com.watabou.utils.DeviceCompat;
 
 public enum HeroClass {
@@ -186,14 +186,14 @@ public enum HeroClass {
 		plate.upgrade(8).collect();
 		 **/
 //erase this finish
-		new Vendetta().collect();
-		new PotionOfExperience().collect();
-		new WandOfMagicMissile().collect();
-		new StoneOfBlast().collect();
-		new ScrollOfIdentify().collect();
-		new Bomb().collect();
-		new Sungrass.Seed().collect();
-		new Javelin().collect();
+		Unconsiousness plate = new Unconsiousness();
+		plate.upgrade(10).collect();
+		PotionOfExperience enchan = new PotionOfExperience();
+		enchan.quantity(100).collect();
+		new TengusMask().collect();
+		new Slash().collect();
+		new Draken().collect();
+		new Thunderstrike().collect();
 
 		switch (this) {
 			case WARRIOR:

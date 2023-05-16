@@ -209,7 +209,7 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
 	}
 
 	public void useMove(ComboMove move){
-		if (Dungeon.hero.subClass == HeroSubClass.PHALANX) {
+		if (Dungeon.hero.subClass == HeroSubClass.PHALANX && count == 0) {
 			if (Random.Int(6) == 0) {
 				Buff.affect( hero, Bless.class, 3f);
 			} else if (Random.Int(6) == 1) {
@@ -222,7 +222,7 @@ public class LanceCombo extends Buff implements ActionIndicator.Action {
 					hero.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( barrAmt ) );
 				}
 			} else if (Random.Int(6) == 3) {
-				Buff.affect( hero, Haste.class, 2);
+				Buff.affect( hero, Haste.class, 3);
 			} else if (Random.Int(6) == 4) {
 				Buff.affect( hero, ArtifactRecharge.class).prolong(3);
 			} else if (Random.Int(6) == 5) {

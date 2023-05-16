@@ -93,7 +93,7 @@ public class Draken extends MeleeWeapon {
         } else {
             str = Messages.get((Object) this, "desc_mode0", new Object[0]);
         }
-        return str + "\n\n" + desc();
+        return str + "\n\n" + super.desc();
     }
 
     @Override

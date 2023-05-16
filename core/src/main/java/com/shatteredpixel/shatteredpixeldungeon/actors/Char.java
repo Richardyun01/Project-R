@@ -51,12 +51,14 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireImbue;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Fury;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBleedingBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LancePredationTracker;
@@ -139,6 +141,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RipperWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarpBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Unconsiousness;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
@@ -540,6 +543,18 @@ public abstract class Char extends Actor {
 						dmg = enemy.HT;
 					}
 				}
+			}
+
+			if (!enemy.isAlive() && this instanceof Hero && hero.belongings.weapon() instanceof Unconsiousness) {
+				new FlavourBuff() {
+					{
+						this.actPriority = 100;
+					}
+					public boolean act() {
+						Buff.affect(Dungeon.hero, Invisibility.class, Unconsiousness.levelOfWeapon);
+						return super.act();
+					}
+				}.attachTo(this);
 			}
 
 			for (ChampionEnemy buff : buffs(ChampionEnemy.class)){

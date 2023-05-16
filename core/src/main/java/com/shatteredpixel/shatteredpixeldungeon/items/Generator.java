@@ -44,6 +44,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.EtherealChains;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.LamentConfiguration;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.OpIntensify;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
@@ -428,7 +429,7 @@ public class Generator {
 					Krystallos.class,
 					//PsionicBlade.class,
 			};
-			WEP_T1.probs = new float[]{ 1, 0, 1, 1, 1, 1 }; //, 1, 1, 0
+			WEP_T1.probs = new float[]{ 1, 0, 1, 1, 1, 1 }; //, 1, 0
 			
 			WEP_T2.classes = new Class<?>[]{
 					Shortsword.class,
@@ -652,9 +653,10 @@ public class Generator {
 					TimekeepersHourglass.class,
 					UnstableSpellbook.class,
 					AESARadar.class,
-					OpIntensify.class
+					OpIntensify.class,
+					LamentConfiguration.class
 			};
-			ARTIFACT.defaultProbs = new float[]{ 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+			ARTIFACT.defaultProbs = new float[]{ 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 			ARTIFACT.probs = ARTIFACT.defaultProbs.clone();
 		}
 	}

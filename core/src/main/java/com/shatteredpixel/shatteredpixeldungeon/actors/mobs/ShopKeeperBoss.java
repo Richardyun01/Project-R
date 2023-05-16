@@ -1,5 +1,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
@@ -52,6 +54,16 @@ public class ShopKeeperBoss extends Mob {
         Buff.affect(enemy, Vertigo.class, 2f);
 
         return damage;
+    }
+
+    @Override
+    public void die( Object cause ) {
+
+        Badges.validateShopkeeperKill();
+        Statistics.enemiesSlain += 3000;
+
+        super.die( cause );
+
     }
 
 }

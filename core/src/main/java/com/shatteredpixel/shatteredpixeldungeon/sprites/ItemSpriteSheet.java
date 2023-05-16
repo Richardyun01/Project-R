@@ -456,7 +456,7 @@ public class ItemSpriteSheet {
 	public static final int DRAKEN				= WEAPONARMS+9;
 	static{
 		assignItemRect(VENDETTA 				,16, 16);
-		assignItemRect(STRIDENT 				,15, 15);
+		assignItemRect(STRIDENT 				,16, 16);
 		assignItemRect(UNCONSIOUSNESS 			,16, 16);
 		assignItemRect(HELLBLASTER	 			,16, 16);
 		assignItemRect(RAIDEN					,16, 16);
@@ -629,6 +629,7 @@ public class ItemSpriteSheet {
 	public static final int ARTIFACT_ROSE3      = ARTIFACTS+22;
 	public static final int ARTIFACT_RADAR		= ARTIFACTS+23;
 	public static final int ARTIFACT_PLUS		= ARTIFACTS+24;
+	public static final int ARTIFACT_LAMENT		= ARTIFACTS+25;
 	static{
 		assignItemRect(ARTIFACT_CLOAK,      9,  15);
 		assignItemRect(ARTIFACT_ARMBAND,    16, 11);
@@ -655,6 +656,7 @@ public class ItemSpriteSheet {
 		assignItemRect(ARTIFACT_ROSE3,      13, 15);
 		assignItemRect(ARTIFACT_RADAR,      16, 16);
 		assignItemRect(ARTIFACT_PLUS,       16, 16);
+		assignItemRect(ARTIFACT_LAMENT,     16, 16);
 	}
 
 	                                                                                    //16 free slots

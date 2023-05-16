@@ -21,6 +21,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
+import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BlobImmunity;
@@ -73,13 +74,7 @@ public class DM301 extends Mob {
     @Override
     public void die( Object cause ) {
 
-        /*
-        if (Dungeon.isChallenged(Challenges.STRONGER_BOSSES) && Statistics.spawnersAlive == 4){
-            Badges.validateBossChallengeCompleted();
-        } else {
-            Statistics.qualifiedForBossChallengeBadge = false;
-        }
-        */
+        Badges.validateDM301Kill();
         Statistics.enemiesSlain += 2000;
 
         super.die( cause );

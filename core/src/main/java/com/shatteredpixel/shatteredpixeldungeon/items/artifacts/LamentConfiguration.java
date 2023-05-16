@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class LamentConfiguration extends Artifact {
 
     {
-        image = ItemSpriteSheet.ARTIFACT_PLUS;
+        image = ItemSpriteSheet.ARTIFACT_LAMENT;
 
         levelCap = 10;
         charge = 100;
