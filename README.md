@@ -18,16 +18,23 @@ Project-R supports only Korean language yet.
     - Energy: Ignores Defense - Laser or Plasma
     - Etc: Flamethrowers or concept weapons
 - New Melee Weapons
-    - 3 new in Tier 2
-    - 2 new in Tier 3/4
-    - 4 new in Tier 5
+    - 4 new in Tier 2
+    - 3 new in Tier 3/4
+    - 6 new in Tier 5
+- New Weapon Type: Weapon Arm
+    - Powerful compared to other same-tier weapons, but cannot use other items
 - New Artifact
     - AESA Radar
     - Bio Plus
+    - Lament Configuration
 - New Data Chip (Ring in SPD)
     - Reload Support Chip
+- New Item
+    - Lesser Healing Drug
+    - Magnetic Field Generator
 ---
 - 7 New rare enemies
+- 2 New Sub-Bosses
 ---
 - 4 New Subclasses for Original Classes
 - 5th 1 tier talent for each class
@@ -36,6 +43,7 @@ Project-R supports only Korean language yet.
     - Noise(Firearm based) with 3 New Subclasses and 3 New Armor Ability
     - Lance(Warrior derived) with 3 New Subclasses and 3 New Armor Ability
     - Carroll(Duelist based) with 3 New Subclasses and 3 New Armor Ability
+    - Artilia(Mirror Image based) with 3 New Subclasses and 3 New Armor Ability
 - Easy Mode for Beginners!
 
 
