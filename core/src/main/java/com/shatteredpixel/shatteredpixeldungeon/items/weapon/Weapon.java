@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CenobiteEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StarburstBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
@@ -450,6 +451,9 @@ abstract public class Weapon extends KindOfWeapon {
 			if (attacker.buff(Talent.FrostWindTracker.class) != null
 					&& ((Hero)attacker).pointsInTalent(Talent.CRYSTAL_TORMENT) == 4){
 				multi += 0.1f;
+			}
+			if (attacker.buff(CenobiteEnergy.CenobiteAbility.FlurryEmpowerTracker.class) != null){
+				multi *= 0.75f;
 			}
 
 			return multi;

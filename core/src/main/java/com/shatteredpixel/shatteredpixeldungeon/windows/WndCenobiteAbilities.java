@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,25 +21,24 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.windows;
 
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CaptainCombo;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CenobiteEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
-import com.watabou.noosa.Image;
 
-public class WndCombo5 extends Window {
+public class WndCenobiteAbilities extends Window {
 
     private static final int WIDTH_P = 120;
     private static final int WIDTH_L = 160;
 
     private static final int MARGIN  = 2;
 
-    public WndCombo5( CaptainCombo combo ){
+    public WndCenobiteAbilities( CenobiteEnergy energyBuff ){
         super();
 
         int width = PixelScene.landscape() ? WIDTH_L : WIDTH_P;
@@ -53,24 +52,26 @@ public class WndCombo5 extends Window {
 
         pos = title.bottom() + 3*MARGIN;
 
-        Image icon;
-        icon = new ItemSprite(new Item(){ {image = ItemSpriteSheet.TEMP_SHIP; }});
-
-        for (CaptainCombo.ComboMove move : CaptainCombo.ComboMove.values()) {
-
-            RedButton moveBtn = new RedButton(move.desc(combo.getComboCount()), 6){
+        for (CenobiteEnergy.CenobiteAbility abil : CenobiteEnergy.CenobiteAbility.abilities) {
+            String text = "_" + Messages.titleCase(abil.name()) + " " + Messages.get(this, "energycost", abil.energyCost()) + ":_ " + abil.desc();
+            RedButton moveBtn = new RedButton(text, 6){
                 @Override
                 protected void onClick() {
                     super.onClick();
                     hide();
-                    combo.useMove(move);
+                    if (abil.targetingPrompt() != null) {
+                        abilityBeingUsed = abil;
+                        GameScene.selectCell(listener);
+                    } else {
+                        abil.doAbility(Dungeon.hero, null);
+                    }
                 }
             };
             moveBtn.leftJustify = true;
             moveBtn.multiline = true;
             moveBtn.setSize(width, moveBtn.reqHeight());
             moveBtn.setRect(0, pos, width, moveBtn.reqHeight());
-            moveBtn.enable(combo.canUseMove(move));
+            moveBtn.enable(energyBuff.energy >= abil.energyCost());
             add(moveBtn);
             pos = moveBtn.bottom() + MARGIN;
         }
@@ -79,6 +80,19 @@ public class WndCombo5 extends Window {
 
     }
 
+    CenobiteEnergy.CenobiteAbility abilityBeingUsed;
+
+    private CellSelector.Listener listener = new CellSelector.Listener() {
+
+        @Override
+        public void onSelect(Integer cell) {
+            abilityBeingUsed.doAbility(Dungeon.hero, cell);
+        }
+
+        @Override
+        public String prompt() {
+            return abilityBeingUsed.targetingPrompt();
+        }
+    };
 
 }
-

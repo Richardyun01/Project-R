@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CenobiteEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Recharging;
@@ -225,6 +226,15 @@ public class MeleeWeapon extends Weapon {
 			} else {
 				//we triggered the talent, so remove the tracker
 				tracker.detach();
+			}
+		}
+		if (hero.hasTalent(Talent.COMBINED_ENERGY)){
+			Talent.CombinedEnergyAbilityTracker tracker = hero.buff(Talent.CombinedEnergyAbilityTracker.class);
+			if (tracker == null || tracker.energySpent == -1){
+				Buff.prolong(hero, Talent.CombinedEnergyAbilityTracker.class, hero.cooldown()).wepAbilUsed = true;
+			} else {
+				tracker.wepAbilUsed = true;
+				Buff.affect(hero, CenobiteEnergy.class).processCombinedEnergy(tracker);
 			}
 		}
 		if (hero.buff(Talent.CounterAbilityTacker.class) != null){

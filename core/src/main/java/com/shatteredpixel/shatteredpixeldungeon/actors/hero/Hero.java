@@ -48,7 +48,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BountyTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bunker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CarrollCombo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CaptainCombo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CenobiteEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CloseQuarters;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
@@ -787,7 +788,7 @@ public class Hero extends Char {
 		}
 
 		if (this.subClass == HeroSubClass.CAPTAIN) {
-			CarrollCombo combo = (CarrollCombo) buff(CarrollCombo.class);
+			CaptainCombo combo = (CaptainCombo) buff(CaptainCombo.class);
 			if (combo != null) {
 				accuracy *= 0.3f * combo.getComboCount();
 			}
@@ -894,6 +895,14 @@ public class Hero extends Char {
 			return Messages.get(RoundShield.GuardTracker.class, "guarded");
 		}
 
+		if (buff(CenobiteEnergy.CenobiteAbility.Focus.FocusBuff.class) != null){
+			buff(CenobiteEnergy.CenobiteAbility.Focus.FocusBuff.class).detach();
+			if (sprite != null && sprite.visible) {
+				Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 1, Random.Float(0.96f, 1.05f));
+			}
+			return Messages.get(Monk.class, "parried");
+		}
+
 		return super.defenseVerb();
 	}
 
@@ -923,7 +932,11 @@ public class Hero extends Char {
 		if (Dungeon.isChallenged(Challenges.EASY_MODE)) {
 			dr *= 1.25f;
 		}
-		
+
+		if (hasTalent(Talent.BIO_ARMOR)) {
+			dr += pointsInTalent(Talent.BIO_ARMOR);
+		}
+
 		return dr;
 	}
 	
@@ -1092,6 +1105,12 @@ public class Hero extends Char {
 		justMoved = false;
 		
 		super.spend(time);
+	}
+
+	@Override
+	public void spendConstant(float time) {
+		justMoved = false;
+		super.spendConstant(time);
 	}
 
 	public void spendAndNextConstant( float time ) {
@@ -1751,6 +1770,9 @@ public class Hero extends Char {
 			//the same also applies to challenge scroll damage reduction
 			if (buff(ScrollOfChallenge.ChallengeArena.class) != null){
 				dmg *= 0.67f;
+			}
+			if (buff(CenobiteEnergy.CenobiteAbility.Meditate.MeditateResistance.class) != null){
+				dmg *= 0.2f;
 			}
 		}
 

@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CenobiteEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
@@ -77,7 +78,15 @@ public class RingOfForce extends Ring {
 	}
 
 	public static int damageRoll( Hero hero ){
-		return Random.NormalIntRange(1, Math.max(hero.STR()-8, 1));
+		if (hero.buff(Force.class) != null
+				&& hero.buff(CenobiteEnergy.CenobiteAbility.UnarmedAbilityTracker.class) == null) {
+			int level = getBuffedBonus(hero, Force.class);
+			float tier = tier(hero.STR());
+			return Random.NormalIntRange(min(level, tier), max(level, tier));
+		} else {
+			//attack without any ring of force influence
+			return Random.NormalIntRange(1, Math.max(hero.STR()-8, 1));
+		}
 	}
 
 	//same as equivalent tier weapon
@@ -188,7 +197,7 @@ public class RingOfForce extends Ring {
 	}
 
 	public static boolean fightingUnarmed( Hero hero ){
-		if (hero.belongings.attackingWeapon() == null){
+		if (hero.belongings.attackingWeapon() == null || hero.buff(CenobiteEnergy.CenobiteAbility.UnarmedAbilityTracker.class) != null){
 			return true;
 		}
 		if (hero.belongings.thrownWeapon != null || hero.belongings.abilityWeapon != null){
@@ -212,6 +221,9 @@ public class RingOfForce extends Ring {
 		if (hero.belongings.attackingWeapon() == null){
 			return false;
 		}
+		if (hero.buff(CenobiteEnergy.CenobiteAbility.UnarmedAbilityTracker.class) != null){
+			return hero.buff(CenobiteEnergy.CenobiteAbility.FlurryEmpowerTracker.class) != null;
+		}
 		BrawlersStance stance = hero.buff(BrawlersStance.class);
 		if (stance != null && stance.hitsLeft() > 0){
 			return true;
@@ -220,7 +232,7 @@ public class RingOfForce extends Ring {
 	}
 
 	public static boolean unarmedGetsWeaponAugment(Hero hero ){
-		if (hero.belongings.attackingWeapon() == null){
+		if (hero.belongings.attackingWeapon() == null || hero.buff(CenobiteEnergy.CenobiteAbility.UnarmedAbilityTracker.class) != null){
 			return false;
 		}
 		BrawlersStance stance = hero.buff(BrawlersStance.class);

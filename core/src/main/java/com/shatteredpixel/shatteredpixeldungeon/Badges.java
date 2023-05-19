@@ -57,6 +57,7 @@ public class Badges {
 		MASTERY_NOISE,
 		MASTERY_LANCE,
 		MASTERY_CARROLL,
+		MASTERY_MAGNUS,
 		MASTERY_ARTILIA,
 		FOUND_RATMOGRIFY,
 
@@ -67,6 +68,7 @@ public class Badges {
 		UNLOCK_NOISE				( 21 ),
 		UNLOCK_LANCE				( 22 ),
 		UNLOCK_CARROLL 				( 23 ),
+		//UNLOCK_MAGNUS				( 24 ),
 		UNLOCK_ARTILIA 				( 24 ),
 		MONSTERS_SLAIN_1            ( 4 ),
 		MONSTERS_SLAIN_2            ( 5 ),
@@ -116,6 +118,7 @@ public class Badges {
 		BOSS_SLAIN_1_NOISE,
 		BOSS_SLAIN_1_LANCE,
 		BOSS_SLAIN_1_CARROLL,
+		BOSS_SLAIN_1_MAGNUS,
 		BOSS_SLAIN_1_ARTILIA,
 		BOSS_SLAIN_1_ALL_CLASSES    ( 54, true ),
 		GAMES_PLAYED_2              ( 55, true ),
@@ -189,7 +192,8 @@ public class Badges {
 		BOSS_SLAIN_3_VLAD,
 		BOSS_SLAIN_3_CHALLENGER,
 		BOSS_SLAIN_3_BOUNTYHUNTER,
-		BOSS_SLAIN_3_CAPTAIN,
+		//BOSS_SLAIN_3_CAPTAIN,
+		BOSS_SLAIN_3_CENOBITE,
 		BOSS_SLAIN_3_PERETORIA,
 		BOSS_SLAIN_3_VALKYRIE,
 		BOSS_SLAIN_3_WINTERSTORM,
@@ -737,7 +741,8 @@ public class Badges {
 		firstBossClassBadges.put(HeroClass.NOISE, Badge.BOSS_SLAIN_1_NOISE);
 		firstBossClassBadges.put(HeroClass.LANCE, Badge.BOSS_SLAIN_1_LANCE);
 		firstBossClassBadges.put(HeroClass.CARROLL, Badge.BOSS_SLAIN_1_CARROLL);
-		//firstBossClassBadges.put(HeroClass.ARTILIA, Badge.BOSS_SLAIN_1_ARTILIA);
+		//firstBossClassBadges.put(HeroClass.MAGNUS, Badge.BOSS_SLAIN_1_MAGNUS);
+		firstBossClassBadges.put(HeroClass.ARTILIA, Badge.BOSS_SLAIN_1_ARTILIA);
 	}
 
 	private static LinkedHashMap<HeroClass, Badge> victoryClassBadges = new LinkedHashMap<>();
@@ -749,6 +754,7 @@ public class Badges {
 		victoryClassBadges.put(HeroClass.NOISE, Badge.VICTORY_NOISE);
 		victoryClassBadges.put(HeroClass.LANCE, Badge.VICTORY_LANCE);
 		victoryClassBadges.put(HeroClass.CARROLL, Badge.VICTORY_CARROLL);
+		//victoryClassBadges.put(HeroClass.MAGNUS, Badge.VICTORY_MAGNUS);
 		victoryClassBadges.put(HeroClass.ARTILIA, Badge.VICTORY_ARTILIA);
 	}
 
@@ -774,7 +780,8 @@ public class Badges {
 		thirdBossSubclassBadges.put(HeroSubClass.VLAD, Badge.BOSS_SLAIN_3_VLAD);
 		thirdBossSubclassBadges.put(HeroSubClass.CHALLENGER, Badge.BOSS_SLAIN_3_CHALLENGER);
 		thirdBossSubclassBadges.put(HeroSubClass.BOUNTYHUNTER, Badge.BOSS_SLAIN_3_BOUNTYHUNTER);
-		thirdBossSubclassBadges.put(HeroSubClass.CAPTAIN, Badge.BOSS_SLAIN_3_CAPTAIN);
+		//thirdBossSubclassBadges.put(HeroSubClass.CAPTAIN, Badge.BOSS_SLAIN_3_CAPTAIN);
+		thirdBossSubclassBadges.put(HeroSubClass.CENOBITE, Badge.BOSS_SLAIN_3_CENOBITE);
 		thirdBossSubclassBadges.put(HeroSubClass.PERETORIA, Badge.BOSS_SLAIN_3_PERETORIA);
 		thirdBossSubclassBadges.put(HeroSubClass.VALKYRIE, Badge.BOSS_SLAIN_3_VALKYRIE);
 		thirdBossSubclassBadges.put(HeroSubClass.WINTERSTORM, Badge.BOSS_SLAIN_3_WINTERSTORM);

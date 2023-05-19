@@ -71,7 +71,7 @@ import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
-public class CarrollCombo extends Buff implements ActionIndicator.Action {
+public class CaptainCombo extends Buff implements ActionIndicator.Action {
 
     {
         type = buffType.POSITIVE;
@@ -279,7 +279,7 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
                             break;
                     }
                 }
-                Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(CarrollCombo.class, "add", new Object[0]), new Object[0]);
+                Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(CaptainCombo.class, "add", new Object[0]), new Object[0]);
                 Buff.affect(Dungeon.hero, Talent.SupplyICoolDown.class, 500-50*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
                 ((Hero) target).spendAndNext(Actor.TICK);
                 Dungeon.hero.busy();
@@ -291,7 +291,7 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
             if (Dungeon.hero.buff(Talent.ReconCoolDown.class) == null) {
                 Buff.affect(Dungeon.hero, Awareness.class, 2f);
                 Buff.affect(Dungeon.hero, MindVision.class, 2f);
-                Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(CarrollCombo.class, "rec", new Object[0]), new Object[0]);
+                Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(CaptainCombo.class, "rec", new Object[0]), new Object[0]);
                 Buff.affect(Dungeon.hero, Talent.ReconCoolDown.class, 1000 - 100 * Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
                 Dungeon.hero.sprite.operate(Dungeon.hero.pos);
                 Sample.INSTANCE.play(Assets.Sounds.READ);
@@ -339,7 +339,7 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
                             break;
                     }
                 }
-                Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(CarrollCombo.class, "add", new Object[0]), new Object[0]);
+                Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(CaptainCombo.class, "add", new Object[0]), new Object[0]);
                 Buff.affect(Dungeon.hero, Talent.SupplyIICoolDown.class, 1500-150*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP));
                 ((Hero) target).spendAndNext(Actor.TICK);
                 Dungeon.hero.busy();
@@ -449,7 +449,7 @@ public class CarrollCombo extends Buff implements ActionIndicator.Action {
             case ANNIHILATION:
             default:
                 detach();
-                ActionIndicator.clearAction(CarrollCombo.this);
+                ActionIndicator.clearAction(CaptainCombo.this);
                 hero.spendAndNext(hero.attackDelay());
                 break;
         }

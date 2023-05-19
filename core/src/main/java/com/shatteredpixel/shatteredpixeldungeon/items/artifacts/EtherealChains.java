@@ -70,7 +70,7 @@ public class EtherealChains extends Artifact {
 	@Override
 	public ArrayList<String> actions(Hero hero) {
 		ArrayList<String> actions = super.actions( hero );
-		if (isEquipped(hero) && charge > 0 && !cursed && hero.buff(MagicImmune.class) == null && !(Dungeon.hero.belongings.weapon.weaponarm)) {
+		if (isEquipped(hero) && charge > 0 && !cursed && hero.buff(MagicImmune.class) == null && !(hero.belongings.weapon != null && (Dungeon.hero.belongings.weapon.weaponarm))) {
 			actions.add(AC_CAST);
 		}
 		return actions;
@@ -86,10 +86,8 @@ public class EtherealChains extends Artifact {
 		super.execute(hero, action);
 
 		if (hero.buff(MagicImmune.class) != null) return;
-		if (Dungeon.hero.belongings.weapon != null) {
-			if (Dungeon.hero.belongings.weapon.weaponarm) {
-				return;
-			}
+		if (hero.belongings.weapon != null && (Dungeon.hero.belongings.weapon.weaponarm)) {
+			return;
 		}
 
 		if (action.equals(AC_CAST)){

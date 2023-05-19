@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors;
 
 import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.level;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
@@ -42,6 +43,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BulletHell;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bunker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CenobiteEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
@@ -51,14 +53,12 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireImbue;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Fury;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBleeding;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceBleedingBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LancePredationTracker;
@@ -141,7 +141,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RipperWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarpBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Unconsiousness;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Door;
@@ -420,6 +419,13 @@ public abstract class Char extends Actor {
 				if (((Hero) this).subClass == HeroSubClass.BOUNTYHUNTER && enemy.buff(BountyTracker.Bounty.class) != null) {
 					dmgMulti *= 1.15f;
 				}
+
+				if (h.buff(CenobiteEnergy.CenobiteAbility.UnarmedAbilityTracker.class) != null){
+					dr = 0;
+				} else if (h.subClass == HeroSubClass.CENOBITE) {
+					//3 turns with standard attack delay
+					Buff.prolong(h, CenobiteEnergy.CenobiteAbility.JustHitTracker.class, 4f);
+				}
 			}
 
 			if (this instanceof Hero
@@ -536,6 +542,10 @@ public abstract class Char extends Actor {
 				dmg *= 2;
 			}
 
+			if (enemy.buff(CenobiteEnergy.CenobiteAbility.Meditate.MeditateResistance.class) != null){
+				dmg *= 0.2f;
+			}
+
 			if (hero.buff(WinterStorm.class) != null && !(hero.belongings.weapon.bullet)) {
 				dmg *= 1.5;
 				if (hero.hasTalent(Talent.IMPULSE_STRIKE) && hero.pointsInTalent(Talent.IMPULSE_STRIKE) >= 3) {
@@ -545,16 +555,11 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			if (!enemy.isAlive() && this instanceof Hero && hero.belongings.weapon() instanceof Unconsiousness) {
-				new FlavourBuff() {
-					{
-						this.actPriority = 100;
-					}
-					public boolean act() {
-						Buff.affect(Dungeon.hero, Invisibility.class, Unconsiousness.levelOfWeapon);
-						return super.act();
-					}
-				}.attachTo(this);
+			if (this instanceof Hero && hero.hasTalent(Talent.INERITA) &&
+				level.adjacent(enemy.pos, hero. pos) &&
+				hero.belongings.armor != null &&
+				hero.belongings.attackingWeapon() instanceof MeleeWeapon) {
+				dmg += hero.belongings.armor.DRMax()*0.03f*hero.pointsInTalent(Talent.INERITA);
 			}
 
 			for (ChampionEnemy buff : buffs(ChampionEnemy.class)){
@@ -710,6 +715,9 @@ public abstract class Char extends Actor {
 		//invisible chars always hit (for the hero this is surprise attacking)
 		if (attacker.invisible > 0 && attacker.canSurpriseAttack()){
 			acuStat = INFINITE_ACCURACY;
+		}
+		if (defender.buff(CenobiteEnergy.CenobiteAbility.Focus.FocusBuff.class) != null && !magic){
+			defStat = INFINITE_EVASION;
 		}
 
 		//if accuracy or evasion are large enough, treat them as infinite.

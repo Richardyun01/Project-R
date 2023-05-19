@@ -42,6 +42,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Levitation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LostInventory;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicalSight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.PhysicalEmpower;
@@ -60,6 +61,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.LeafParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
@@ -73,6 +75,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.wands.Wand;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.firearm.FirearmWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Gloves;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -220,14 +223,23 @@ public enum Talent {
 	SECONDARY_CHARGE(332, 3), TWIN_UPGRADES(333, 3), COMBINED_LETHALITY(334, 3),
 	//Bounty Hunter T3
 	END_GAME(335, 3), CHASE_PANIC(336, 3), EXTRA_BOUNTY(337, 3),
-	//Captain T3
-	ENERGY_TRANSMISSION(338, 3), ADVANCED_SYSTEM(339, 3), ENHANCED_SHIP(340, 3),
+	//Cenobite T3
+	UNENCUMBERED_SPIRIT(338, 3), MONASTIC_VIGOR(339, 3), COMBINED_ENERGY(340, 3),
 	//Challenge T4
 	CLOSE_THE_GAP(341, 4), INVIGORATING_VICTORY(342, 4), ELIMINATION_MATCH(343, 4),
 	//Elemental Strike T4
 	ELEMENTAL_REACH(344, 4), STRIKING_FORCE(345, 4), DIRECTED_POWER(346, 4),
 	//Feint T4
 	FEIGNED_RETREAT(347, 4), EXPOSE_WEAKNESS(348, 4), COUNTER_ABILITY(349, 4),
+
+	//Magnus T1
+	LAZY_MEAL(352), HARDENED_INTUTION(353), INERITA(354), BIO_ARMOR(355),
+	//Magnus T2
+	//Magnus T3
+	//Captain T3
+	ENERGY_TRANSMISSION(367, 3), ADVANCED_SYSTEM(368, 3), ENHANCED_SHIP(369, 3),
+	//Dragon T3
+	OLD_MEMORY_I(370, 3), OLD_MEMORY_II(371, 3), OLD_MEMORY_III(372, 3),
 
 	//Artilia T1
 	LUXURIOUS_MEAL(384), EXPERIENCE_STACK(385), DISTURBANCE_DEFENCE(386), COMMAND_SYSTEM(387),
@@ -247,7 +259,6 @@ public enum Talent {
 	FREEZING_MIST(408, 4), GLACIAL_STORM(409, 4), CRYSTAL_TORMENT(410, 4),
 	//Deep Strike T4
 	DROP_IMPACT(411, 4), BATTLE_FRENZY(412, 4), PERSONNEL_PROTECTION(413, 4),
-
 
 	//universal T4
 	HEROIC_ENERGY(26, 4), //See icon() and title() for special logic for this one
@@ -420,6 +431,10 @@ public enum Talent {
 		public int icon() { return BuffIndicator.CORRUPT; }
 		public void tintIcon(Image icon) { icon.hardlight(0.6f, 0.15f, 0.6f); }
 	};
+	public static class CombinedEnergyAbilityTracker extends FlavourBuff{
+		public int energySpent = -1;
+		public boolean wepAbilUsed = false;
+	}
 	public static class CounterAbilityTacker extends FlavourBuff{};
 	public static class CasCoolDown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
@@ -594,8 +609,23 @@ public enum Talent {
 			}
 		}
 
+		if (talent == UNENCUMBERED_SPIRIT && hero.pointsInTalent(talent) == 3){
+			Item toGive = new ClothArmor().identify();
+			if (!toGive.collect()){
+				Dungeon.level.drop(toGive, hero.pos).sprite.drop();
+			}
+			toGive = new Gloves().identify();
+			if (!toGive.collect()){
+				Dungeon.level.drop(toGive, hero.pos).sprite.drop();
+			}
+		}
+
 		if (talent == MOON_WALKING && hero.pointsInTalent(MOON_WALKING) == 2) {
 			Buff.affect(hero, NoCripple.class);
+		}
+
+		if (talent == HARDENED_INTUTION && hero.pointsInTalent(HARDENED_INTUTION) == 2){
+			if (hero.belongings.armor() != null)  hero.belongings.armor.identify();
 		}
 
 	}
@@ -682,8 +712,12 @@ public enum Talent {
 				PotionOfHealing.cure(hero);
 			}
 		}
+		if (hero.hasTalent(LAZY_MEAL)){
+			//additional turns and 7/12 turns of leviation
+			hero.spend( hero.pointsInTalent(LAZY_MEAL) );
+			Buff.affect( hero, Levitation.class, 2+5*hero.pointsInTalent(Talent.LAZY_MEAL));
+		}
 		if (hero.hasTalent(FROZEN_MEAL)){
-			//3 bonus physical damage for next 2/3 attacks
 			Buff.affect( hero, FrostImbue.class, 1+hero.pointsInTalent(Talent.FROZEN_MEAL));
 		}
 	}
@@ -844,10 +878,13 @@ public enum Talent {
 				((Ring) item).setKnown();
 			}
 		}
-		if (hero.pointsInTalent(MANIAS_INTUITION) >= 1 && item instanceof FirearmWeapon) {
+		if (hero.hasTalent(MANIAS_INTUITION) && item instanceof FirearmWeapon) {
 			item.identify();
 		}
-		if (hero.pointsInTalent(HUNTERS_INTUITION) >= 1 && item instanceof MeleeWeapon && !(item instanceof FirearmWeapon)) {
+		if (hero.hasTalent(HUNTERS_INTUITION) && item instanceof MeleeWeapon && !(item instanceof FirearmWeapon)) {
+			item.identify();
+		}
+		if (hero.hasTalent(HARDENED_INTUTION) && (item instanceof Armor)) {
 			item.identify();
 		}
 	}
@@ -977,6 +1014,11 @@ public enum Talent {
 			case CARROLL:
 				Collections.addAll(tierTalents, STRENGTHENING_MEAL, ADVENTURERS_INTUITION, PATIENT_STRIKE, SPEEDY_MOVEMENT, REPAIRMENT);
 				break;
+				/*
+			case MAGNUS:
+				Collections.addAll(tierTalents, LAZY_MEAL, HARDENED_INTUTION, INERITA, BIO_ARMOR, REPAIRMENT);
+				break;
+				*/
 			case ARTILIA:
 				Collections.addAll(tierTalents, LUXURIOUS_MEAL, EXPERIENCE_STACK, DISTURBANCE_DEFENCE, COMMAND_SYSTEM, REPAIRMENT);
 				break;
@@ -1138,8 +1180,8 @@ public enum Talent {
 			case BOUNTYHUNTER:
 				Collections.addAll(tierTalents, END_GAME, CHASE_PANIC, EXTRA_BOUNTY);
 				break;
-			case CAPTAIN:
-				Collections.addAll(tierTalents, ENERGY_TRANSMISSION, ADVANCED_SYSTEM, ENHANCED_SHIP);
+			case CENOBITE:
+				Collections.addAll(tierTalents, UNENCUMBERED_SPIRIT, MONASTIC_VIGOR, COMBINED_ENERGY);
 				break;
 			case PERETORIA:
 				Collections.addAll(tierTalents, HIGH_LEGION, ELITE_GUARD, ADVANCED_TROOPER);
@@ -1149,6 +1191,9 @@ public enum Talent {
 				break;
 			case WINTERSTORM:
 				Collections.addAll(tierTalents, FROST_ARMOR, AMPLIFIED_GENERATOR, IMPULSE_STRIKE);
+				break;
+			case CAPTAIN:
+				Collections.addAll(tierTalents, ENERGY_TRANSMISSION, ADVANCED_SYSTEM, ENHANCED_SHIP);
 				break;
 		}
 		for (Talent talent : tierTalents){

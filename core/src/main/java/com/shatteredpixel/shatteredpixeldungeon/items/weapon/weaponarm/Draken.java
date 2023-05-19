@@ -103,9 +103,9 @@ public class Draken extends MeleeWeapon {
         }
         int i = switchMode;
         if (i == 2) {
-            return "OV";
+            return "AS";
         }
-        return i == 1 ? "SH" : "AR";
+        return i == 1 ? "MT" : "PR";
     }
 
     @Override

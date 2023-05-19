@@ -135,6 +135,7 @@ public class BuffIndicator extends Component {
 	public static final int DISINTEGRATING	= 84;
 	public static final int WINTERSTORM		= 85;
 	public static final int COMMAND			= 86;
+	public static final int CENOBITE_ENERGY	= 87;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;

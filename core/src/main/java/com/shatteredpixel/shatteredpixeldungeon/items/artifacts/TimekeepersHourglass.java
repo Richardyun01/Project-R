@@ -76,7 +76,7 @@ public class TimekeepersHourglass extends Artifact {
 		if (isEquipped( hero )
 				&& !cursed
 				&& hero.buff(MagicImmune.class) == null
-				&& !(Dungeon.hero.belongings.weapon.weaponarm)
+				&& !(hero.belongings.weapon != null && (Dungeon.hero.belongings.weapon.weaponarm))
 				&& (charge > 0 || activeBuff != null)) {
 			actions.add(AC_ACTIVATE);
 		}

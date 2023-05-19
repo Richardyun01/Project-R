@@ -39,13 +39,15 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Bless;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.BountyTracker;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CarrollCombo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CaptainCombo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CenobiteEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CommandBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
@@ -89,6 +91,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.Dart;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Unconsiousness;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.features.Chasm;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -773,6 +776,11 @@ public abstract class Mob extends Char {
 					Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(this, "exp", exp));
 				}
 				Dungeon.hero.earnExp(exp, getClass());
+
+
+				if (Dungeon.hero.subClass == HeroSubClass.CENOBITE){
+					Buff.affect(Dungeon.hero, CenobiteEnergy.class).gainEnergy(this);
+				}
 			}
 		}
 	}
@@ -824,7 +832,7 @@ public abstract class Mob extends Char {
 			}
 			if (cause == hero
 				&& hero.subClass == HeroSubClass.CAPTAIN) {
-				Buff.affect(Dungeon.hero, CarrollCombo.class).kill(enemy);
+				Buff.affect(Dungeon.hero, CaptainCombo.class).kill(enemy);
 			}
 
 			if (Dungeon.hero.heroClass == HeroClass.CARROLL
@@ -882,6 +890,18 @@ public abstract class Mob extends Char {
 
 		if (alignment == Alignment.ALLY && this.buff(CommandBuff.class) != null) {
 			Buff.affect(enemy, Chill.class, 5f);
+		}
+
+		if (cause == hero && hero.belongings.weapon() instanceof Unconsiousness) {
+			new FlavourBuff() {
+				{
+					this.actPriority = 100;
+				}
+				public boolean act() {
+					Buff.affect(hero, Invisibility.class, Unconsiousness.levelOfWeapon);
+					return super.act();
+				}
+			}.attachTo(hero);
 		}
 
 		super.die( cause );

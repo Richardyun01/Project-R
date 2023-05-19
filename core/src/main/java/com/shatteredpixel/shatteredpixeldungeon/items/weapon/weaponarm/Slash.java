@@ -27,24 +27,85 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Bundle;
+
+import java.util.ArrayList;
 
 public class Slash extends MeleeWeapon {
 
     {
+        defaultAction = AC_MODE;
         image = ItemSpriteSheet.SLASH;
         hitSound = Assets.Sounds.HIT_SLASH;
         hitSoundPitch = 1f;
 
         weaponarm = true;
-        RCH = 3;
+        RCH = 1;
+        DLY = 1;
 
         tier=4;
+    }
+
+    public static final String AC_MODE  	= "MODE";
+    public static final String REACH        = "REACH";
+    public static final String DELAY        = "DELAY";
+    public static final String CHANGE       = "CHANGE";
+    private boolean change = false;
+
+    @Override
+    public ArrayList<String> actions(Hero hero) {
+        ArrayList<String> actions = super.actions(hero);
+        if (isEquipped( hero )) {
+            actions.add("MODE");
+        }
+        return actions;
     }
 
     @Override
     public int max(int lvl) {
         return  5*(tier+1) +    //25 base, up from 15
                 lvl*(tier+3);
+    }
+
+    @Override
+    public void execute(Hero hero, String action) {
+        super.execute(hero, action);
+
+        if (action.equals(AC_MODE) && isEquipped(hero)) {
+            if (change) {
+                change = false;
+                this.DLY = 1.0f;
+                this.RCH = 1;
+            } else {
+                change = true;
+                this.DLY = 1.33f;
+                this.RCH = 3;
+            }
+            updateQuickslot();
+            curUser.spendAndNext(1.0f);
+        }
+    }
+
+    @Override
+    public String desc() {
+        if (change) return Messages.get(this, "desc_mode");
+        else return super.desc();
+    }
+
+    @Override
+    public void storeInBundle(Bundle bundle) {
+        super.storeInBundle(bundle);
+        bundle.put(CHANGE, change);
+        bundle.put(REACH, RCH);
+        bundle.put(DELAY, DLY);
+    }
+
+    @Override
+    public void restoreFromBundle(Bundle bundle) {
+        super.restoreFromBundle(bundle);
+        change = bundle.getBoolean(CHANGE);
+        RCH = bundle.getInt(REACH);
+        DLY = bundle.getFloat(DELAY);
     }
 
     @Override

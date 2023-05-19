@@ -57,10 +57,13 @@ public class HeroIcon extends Image {
 	public static final int VLAD			= 33;
 	public static final int CHALLENGER		= 37;
 	public static final int BOUNTY_HUNTER	= 38;
-	public static final int CAPTAIN			= 39;
+	public static final int CENOBITE		= 39;
 	public static final int PERETORIA		= 43;
 	public static final int VALKYRIE		= 44;
 	public static final int WINTERSTORM		= 45;
+	public static final int DEFENDER		= 50;
+	public static final int CAPTAIN			= 51;
+	public static final int DRAGON			= 52;
 
 	//abilities
 	public static final int HEROIC_LEAP     = 8;
@@ -96,7 +99,7 @@ public class HeroIcon extends Image {
 	public static final int MOMENTUM        = 67;
 	public static final int SNIPERS_MARK    = 68;
 	public static final int WEAPON_SWAP     = 69;
-	public static final int MONK_ABILITIES  = 70;
+	public static final int CENOBITE_ABILITY= 70;
 	public static final int USE_BUNKER      = 71;
 	public static final int USE_PHALANX     = 72;
 	public static final int USE_TERCIO      = 73;

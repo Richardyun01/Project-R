@@ -78,6 +78,7 @@ public class Shopkeeper extends NPC {
 	
 	public void flee() {
 		destroy();
+		this.yell(Messages.get(this, "thief"));
 		ShopKeeperBoss shopKeeperBoss = new ShopKeeperBoss();
 		shopKeeperBoss.pos = this.pos;
 

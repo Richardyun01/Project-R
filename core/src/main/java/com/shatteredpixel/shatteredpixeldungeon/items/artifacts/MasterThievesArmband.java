@@ -73,7 +73,7 @@ public class MasterThievesArmband extends Artifact {
 		if (isEquipped(hero)
 				&& charge > 0
 				&& hero.buff(MagicImmune.class) == null
-				&& !(Dungeon.hero.belongings.weapon.weaponarm)
+				&& !(hero.belongings.weapon != null && (Dungeon.hero.belongings.weapon.weaponarm))
 				&& !cursed) {
 			actions.add(AC_STEAL);
 		}
