@@ -35,6 +35,7 @@ public class Slash extends MeleeWeapon {
 
     {
         defaultAction = AC_MODE;
+
         image = ItemSpriteSheet.SLASH;
         hitSound = Assets.Sounds.HIT_SLASH;
         hitSoundPitch = 1f;
@@ -74,12 +75,12 @@ public class Slash extends MeleeWeapon {
         if (action.equals(AC_MODE) && isEquipped(hero)) {
             if (change) {
                 change = false;
-                this.DLY = 1.0f;
-                this.RCH = 1;
+                DLY = 1.0f;
+                RCH = 1;
             } else {
                 change = true;
-                this.DLY = 1.33f;
-                this.RCH = 3;
+                DLY = 1.5f;
+                RCH = 3;
             }
             updateQuickslot();
             curUser.spendAndNext(1.0f);
@@ -90,6 +91,17 @@ public class Slash extends MeleeWeapon {
     public String desc() {
         if (change) return Messages.get(this, "desc_mode");
         else return super.desc();
+    }
+
+    @Override
+    public String status() {
+        if (!isIdentified()) {
+            return null;
+        } else if (change) {
+            return "LN";
+        } else {
+            return "ST";
+        }
     }
 
     @Override

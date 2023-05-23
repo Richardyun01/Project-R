@@ -31,11 +31,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
-import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.Bundle;
 
 public class StoneOfAggression extends Runestone {
 	
@@ -49,7 +47,7 @@ public class StoneOfAggression extends Runestone {
 		Char ch = Actor.findChar( cell );
 		
 		if (ch != null) {
-			if (ch.alignment == Char.Alignment.ENEMY) {
+			if (ch.alignment == Char.Alignment.ENEMY || ch.alignment == Char.Alignment.ALLATTACK) {
 				Buff.prolong(ch, Aggression.class, Aggression.DURATION / 4f);
 			} else {
 				Buff.prolong(ch, Aggression.class, Aggression.DURATION);
@@ -82,7 +80,7 @@ public class StoneOfAggression extends Runestone {
 
 		@Override
 		public float iconFadePercent() {
-			if (target.alignment == Char.Alignment.ENEMY){
+			if (target.alignment == Char.Alignment.ENEMY || target.alignment == Char.Alignment.ALLATTACK){
 				return Math.max(0, (DURATION/4f - visualcooldown()) / (DURATION/4f));
 			} else {
 				return Math.max(0, (DURATION - visualcooldown()) / DURATION);
@@ -93,9 +91,9 @@ public class StoneOfAggression extends Runestone {
 		public void detach() {
 			//if our target is an enemy, reset the aggro of any enemies targeting it
 			if (target.isAlive()) {
-				if (target.alignment == Char.Alignment.ENEMY) {
+				if (target.alignment == Char.Alignment.ENEMY || target.alignment == Char.Alignment.ALLATTACK) {
 					for (Mob m : Dungeon.level.mobs) {
-						if (m.alignment == Char.Alignment.ENEMY && m.isTargeting(target)) {
+						if ((m.alignment == Char.Alignment.ENEMY || m.alignment == Char.Alignment.ALLATTACK) && m.isTargeting(target)) {
 							m.aggro(null);
 						}
 						if (target instanceof Mob && ((Mob) target).isTargeting(m)){

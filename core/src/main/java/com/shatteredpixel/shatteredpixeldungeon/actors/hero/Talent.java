@@ -40,6 +40,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EnhancedRings;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FrostImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ImmortalBarrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.InfiniteBullet;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Levitation;
@@ -235,7 +236,9 @@ public enum Talent {
 	//Magnus T1
 	LAZY_MEAL(352), HARDENED_INTUTION(353), INERITA(354), BIO_ARMOR(355),
 	//Magnus T2
+	IRON_MEAL(356), UNDYING_REGENRATION(357),
 	//Magnus T3
+	//Defender T3
 	//Captain T3
 	ENERGY_TRANSMISSION(367, 3), ADVANCED_SYSTEM(368, 3), ENHANCED_SHIP(369, 3),
 	//Dragon T3
@@ -804,6 +807,9 @@ public enum Talent {
 		if (hero.hasTalent(RESTORED_AGILITY)){
 			Buff.prolong(hero, RestoredAgilityTracker.class, hero.cooldown());
 		}
+		if (hero.hasTalent(UNDYING_REGENRATION)){
+			Buff.affect( hero, ImmortalBarrier.class).set(hero.pointsInTalent(UNDYING_REGENRATION), 2);
+		}
 	}
 
 	private static int upgradeUsed = 0;
@@ -1054,6 +1060,11 @@ public enum Talent {
 			case CARROLL:
 				Collections.addAll(tierTalents, FOCUSED_MEAL, RESTORED_AGILITY, WEAPON_RECHARGING, LETHAL_HASTE, SWIFT_EQUIP, EMERGENCY_AVOIDANCE);
 				break;
+				/*
+			case MAGNUS:
+				Collections.addAll(tierTalents, FROZEN_MEAL, IMMORTAL_REGENARATION);
+				break;
+				*/
 			case ARTILIA:
 				Collections.addAll(tierTalents, FROZEN_MEAL, ENIGMATIC_UPGRADE, MAGIC_MIRROR, HIGH_DIGNITY, TRAMPLE, DIGNIFIED_STEP);
 				break;
@@ -1089,6 +1100,11 @@ public enum Talent {
 			case CARROLL:
 				Collections.addAll(tierTalents, LIGHTWEIGHT_CHARGE, DEADLY_FOLLOWUP);
 				break;
+				/*
+			case MAGNUS:
+				Collections.addAll(tierTalents);
+				break;
+				*/
 			case ARTILIA:
 				Collections.addAll(tierTalents, JACK_FROST, CHARISMA);
 				break;
@@ -1183,6 +1199,15 @@ public enum Talent {
 			case CENOBITE:
 				Collections.addAll(tierTalents, UNENCUMBERED_SPIRIT, MONASTIC_VIGOR, COMBINED_ENERGY);
 				break;
+			case DEFENDER:
+				Collections.addAll(tierTalents);
+				break;
+			case CAPTAIN:
+				Collections.addAll(tierTalents, ENERGY_TRANSMISSION, ADVANCED_SYSTEM, ENHANCED_SHIP);
+				break;
+			case DRAGON:
+				Collections.addAll(tierTalents, OLD_MEMORY_I, OLD_MEMORY_II, OLD_MEMORY_III);
+				break;
 			case PERETORIA:
 				Collections.addAll(tierTalents, HIGH_LEGION, ELITE_GUARD, ADVANCED_TROOPER);
 				break;
@@ -1191,9 +1216,6 @@ public enum Talent {
 				break;
 			case WINTERSTORM:
 				Collections.addAll(tierTalents, FROST_ARMOR, AMPLIFIED_GENERATOR, IMPULSE_STRIKE);
-				break;
-			case CAPTAIN:
-				Collections.addAll(tierTalents, ENERGY_TRANSMISSION, ADVANCED_SYSTEM, ENHANCED_SHIP);
 				break;
 		}
 		for (Talent talent : tierTalents){

@@ -238,3 +238,9 @@ public class Extension extends EquipableItem {
     }
 }
 */
+/**TODO
+Camouflage Lv.1~3
+Stealth Lv.1~3
+Weaponarm Assist Lv.1~3
+Additional Ammunition Lv.1~3
+**/

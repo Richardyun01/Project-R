@@ -37,7 +37,7 @@ public class HunterKiller extends Mob {
         maxLvl = 28;
 
         //loot = Generator.Category.WEAPON;
-        lootChance = 1f; //by default, see lootChance()
+        //lootChance = 1f; //by default, see lootChance()
 
         properties.add(Property.INORGANIC);
 
@@ -62,20 +62,20 @@ public class HunterKiller extends Mob {
 
     @Override
     protected boolean act() {
-        int coolDown = this.CoolDown;
+        int coolDown = CoolDown;
         if (coolDown == 0) {
-            int skillPos = this.SkillPos;
+            int skillPos = SkillPos;
             if (skillPos == -1) {
-                if (this.state != this.HUNTING) {
+                if (state != HUNTING) {
                     return super.act();
                 }
-                this.SkillPos = Dungeon.hero.pos;
-                this.sprite.parent.addToBack(new TargetedCell(this.SkillPos, CharSprite.NEGATIVE));
-                this.sprite.zap(this.enemy.pos);
+                SkillPos = Dungeon.hero.pos;
+                sprite.parent.addToBack(new TargetedCell(SkillPos, CharSprite.NEGATIVE));
+                sprite.zap(enemy.pos);
                 Iterator<Mob> it = Dungeon.level.mobs.iterator();
                 while (it.hasNext()) {
                     Mob next = it.next();
-                    if (next.paralysed <= 0 && Dungeon.level.distance(this.pos, next.pos) <= 7 && next.state != next.HUNTING) {
+                    if (next.paralysed <= 0 && Dungeon.level.distance(pos, next.pos) <= 7 && next.state != next.HUNTING) {
                         next.beckon(Dungeon.hero.pos);
                     }
                 }
@@ -85,10 +85,10 @@ public class HunterKiller extends Mob {
             } else if (skillPos == Dungeon.hero.pos) {
                 Dungeon.hero.damage(damageRoll() - Dungeon.hero.drRoll(), this);
                 Dungeon.hero.sprite.burst(CharSprite.NEGATIVE, 10);
-                CellEmitter.center(this.SkillPos).burst(BlastParticle.FACTORY, 10);
+                CellEmitter.center(SkillPos).burst(BlastParticle.FACTORY, 10);
                 Camera.main.shake(5.0f, 0.5f);
-                this.CoolDown = 1;
-                this.SkillPos = -1;
+                CoolDown = 1;
+                SkillPos = -1;
                 spend(1.0f);
                 if (!Dungeon.hero.isAlive()) {
                     Dungeon.fail(getClass());
@@ -96,27 +96,27 @@ public class HunterKiller extends Mob {
                 }
                 return true;
             } else {
-                CellEmitter.center(this.SkillPos).burst(BlastParticle.FACTORY, 10);
+                CellEmitter.center(SkillPos).burst(BlastParticle.FACTORY, 10);
                 Camera.main.shake(5.0f, 0.5f);
-                this.CoolDown = 1;
-                this.SkillPos = -1;
+                CoolDown = 1;
+                SkillPos = -1;
             }
         } else {
-            this.CoolDown = coolDown - 1;
+            CoolDown = coolDown - 1;
         }
         return super.act();
     }
 
     public void storeInBundle(Bundle bundle) {
         super.storeInBundle(bundle);
-        bundle.put(COOLDOWN, this.CoolDown);
-        bundle.put(SKILLPOS, this.SkillPos);
+        bundle.put(COOLDOWN, CoolDown);
+        bundle.put(SKILLPOS, SkillPos);
     }
 
     public void restoreFromBundle(Bundle bundle) {
         super.restoreFromBundle(bundle);
-        this.CoolDown = bundle.getInt(COOLDOWN);
-        this.SkillPos = bundle.getInt(SKILLPOS);
+        CoolDown = bundle.getInt(COOLDOWN);
+        SkillPos = bundle.getInt(SKILLPOS);
     }
 
 }

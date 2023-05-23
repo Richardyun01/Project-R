@@ -50,6 +50,7 @@ public enum Icons {
 	NOISE,
 	LANCE,
 	CARROLL,
+	//MAGNUS,
 	ARTILIA,
 
 	//grey icons, mainly used for buttons, spacing for 16x16

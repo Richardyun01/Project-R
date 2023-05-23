@@ -59,6 +59,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.HoldFast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ImmortalBarrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceCombo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceCombo2;
@@ -715,7 +716,7 @@ public class Hero extends Char {
 	public boolean shoot( Char enemy, MissileWeapon wep ) {
 
 		this.enemy = enemy;
-		boolean wasEnemy = enemy.alignment == Alignment.ENEMY;
+		boolean wasEnemy = (enemy.alignment == Alignment.ENEMY || enemy.alignment == Alignment.ALLATTACK);
 
 		//temporarily set the hero's weapon to the missile weapon being used
 		//TODO improve this!
@@ -1814,6 +1815,16 @@ public class Hero extends Char {
 			}
 		}
 
+		ImmortalBarrier barrier = hero.buff(ImmortalBarrier.class);
+		if (barrier != null) {
+			dmg -= 99999;
+			barrier.left--;
+			if (barrier.left <= 0) {
+				barrier.detach();
+			}
+			Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 0.75f, 1f);
+		}
+
 		int preHP = HP + shielding();
 		super.damage( dmg, src );
 		int postHP = HP + shielding();
@@ -1851,7 +1862,7 @@ public class Hero extends Char {
 
 		Mob target = null;
 		for (Mob m : Dungeon.level.mobs.toArray(new Mob[0])) {
-			if (fieldOfView[ m.pos ] && m.alignment == Alignment.ENEMY) {
+			if (fieldOfView[ m.pos ] && (m.alignment == Alignment.ENEMY || m.alignment == Alignment.ALLATTACK)) {
 				visible.add(m);
 				if (!visibleEnemies.contains( m )) {
 					newMob = true;
@@ -2438,7 +2449,7 @@ public class Hero extends Char {
 	public void onAttackComplete() {
 		
 		AttackIndicator.target(enemy);
-		boolean wasEnemy = enemy.alignment == Alignment.ENEMY;
+		boolean wasEnemy = (enemy.alignment == Alignment.ENEMY || enemy.alignment == Alignment.ALLATTACK);
 
 		boolean hit = attack( enemy );
 		

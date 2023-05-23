@@ -27,24 +27,102 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.utils.Bundle;
+
+import java.util.ArrayList;
 
 public class Vendetta extends MeleeWeapon {
 
     {
+        defaultAction = AC_MODE;
+
         image = ItemSpriteSheet.VENDETTA;
         hitSound = Assets.Sounds.HIT_SLASH;
         hitSoundPitch = 1f;
-        DLY = 0.8f;
+        DLY = 0.66f;
 
         weaponarm = true;
 
         tier=2;
     }
 
+    public static final String AC_MODE  	= "MODE";
+    public static final String CHANGE       = "CHANGE";
+    public static final String DELAY        = "DELAY";
+    public static final String ARM          = "arm";
+
+    private boolean change = false;
+
+    @Override
+    public ArrayList<String> actions(Hero hero) {
+        ArrayList<String> actions = super.actions(hero);
+        if (isEquipped( hero )) {
+            actions.add("MODE");
+        }
+        return actions;
+    }
+
     @Override
     public int max(int lvl) {
-        return  5*(tier+2) +    //25 base, up from 15
-                lvl*(tier+2);
+        if (!change) {
+            return 5 * (tier + 2) +    //20 base, up from 15
+                    lvl * (tier + 2);
+        } else {
+            return  5*(tier)+2 +    //12 base, down from 15
+                    lvl*(tier+1);
+        }
+    }
+
+    @Override
+    public void execute(Hero hero, String action) {
+        super.execute(hero, action);
+
+        if (action.equals(AC_MODE) && isEquipped(hero)) {
+            if (change) {
+                change = false;
+                weaponarm = true;
+                DLY = 1f;
+            } else {
+                change = true;
+                weaponarm = false;
+                DLY = 0.66f;
+            }
+            updateQuickslot();
+            curUser.spendAndNext(1.0f);
+        }
+    }
+
+    @Override
+    public void storeInBundle(Bundle bundle) {
+        super.storeInBundle(bundle);
+        bundle.put(CHANGE, change);
+        bundle.put(ARM, weaponarm);
+        bundle.put(DELAY, DLY);
+    }
+
+    @Override
+    public void restoreFromBundle(Bundle bundle) {
+        super.restoreFromBundle(bundle);
+        change = bundle.getBoolean(CHANGE);
+        weaponarm = bundle.getBoolean(ARM);
+        DLY = bundle.getFloat(DELAY);
+    }
+
+    @Override
+    public String desc() {
+        if (change) return Messages.get(this, "desc_mode");
+        else return super.desc();
+    }
+
+    @Override
+    public String status() {
+        if (!isIdentified()) {
+            return null;
+        } else if (change) {
+            return "FD";
+        } else {
+            return "UF";
+        }
     }
 
     @Override

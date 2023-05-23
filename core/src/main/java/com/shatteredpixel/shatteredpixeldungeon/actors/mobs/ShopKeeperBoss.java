@@ -28,6 +28,7 @@ public class ShopKeeperBoss extends Mob {
         loot = new ScrollOfEnchantment();
         lootChance = 1f;
 
+        alignment = Alignment.ALLATTACK;
         properties.add(Property.MINIBOSS);
         this.immunities.add(Paralysis.class);
         this.immunities.add(Terror.class);

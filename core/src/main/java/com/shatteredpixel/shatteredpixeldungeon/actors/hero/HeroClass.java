@@ -106,6 +106,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortswor
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Vendetta;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.DeviceCompat;
 
@@ -185,6 +186,10 @@ public enum HeroClass {
 		plate.upgrade(8).collect();
 		 **/
 //erase this finish
+		Vendetta plate = new Vendetta();
+		plate.collect();
+		RingOfMight plate3 = new RingOfMight();
+		plate3.upgrade(3).collect();
 
 		switch (this) {
 			case WARRIOR:

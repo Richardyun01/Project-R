@@ -342,6 +342,13 @@ public class WndStartGame extends Window {
 							heroLoadout.icon(new ItemSprite(ItemSpriteSheet.WAR_HAMMER, null));
 							heroMisc.icon(Icons.get(Icons.STAIRS));
 							break;
+							/*
+						case MAGNUS:
+							heroItem.icon(new ItemSprite(ItemSpriteSheet.COMMONBLADE, null));
+							heroLoadout.icon(new ItemSprite(ItemSpriteSheet.PLATE_ARMOR, null));
+							heroMisc.icon(Icons.get(Icons.STAIRS));
+							break;
+							*/
 						case ARTILIA:
 							heroItem.icon(new ItemSprite(ItemSpriteSheet.KRYSTALLOS, null));
 							heroLoadout.icon(new ItemSprite(ItemSpriteSheet.PRINCESS_MIRROR, null));

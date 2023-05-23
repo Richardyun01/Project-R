@@ -88,9 +88,9 @@ public class Raiden extends FirearmWeapon {
     @Override
     public int Bulletmax(int lvl) {
         if (Dungeon.hero.buff(BulletUp.class) != null) {
-            return (tier+3)*2 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
+            return (tier+4)*2 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + 3 * hero.pointsInTalent(Talent.ONE_MORE_BITE);
         } else {
-            return (tier+3)*2 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
+            return (tier+4)*2 + lvl*4 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero);
         }
     }
 

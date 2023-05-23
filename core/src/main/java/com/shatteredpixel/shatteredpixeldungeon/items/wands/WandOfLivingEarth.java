@@ -135,7 +135,7 @@ public class WandOfLivingEarth extends DamageWand {
 					Dungeon.level.occupyCell(guardian);
 				}
 
-				if (ch.alignment == Char.Alignment.ENEMY || ch.buff(Amok.class) != null) {
+				if ((ch.alignment == Char.Alignment.ENEMY || ch.alignment == Char.Alignment.ALLATTACK) || ch.buff(Amok.class) != null) {
 					guardian.aggro(ch);
 				}
 
@@ -166,7 +166,7 @@ public class WandOfLivingEarth extends DamageWand {
 				} else {
 					guardian.sprite.centerEmitter().burst(MagicMissile.EarthParticle.ATTRACT, 8 + buffedLvl() / 2);
 					guardian.setInfo(curUser, buffedLvl(), armorToAdd);
-					if (ch.alignment == Char.Alignment.ENEMY || ch.buff(Amok.class) != null) {
+					if ((ch.alignment == Char.Alignment.ENEMY || ch.alignment == Char.Alignment.ALLATTACK) || ch.buff(Amok.class) != null) {
 						guardian.aggro(ch);
 					}
 				}

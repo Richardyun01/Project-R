@@ -35,7 +35,7 @@ public class Thunderstrike extends MeleeWeapon {
 
     {
         image = ItemSpriteSheet.THUNDERSTRIKE;
-        hitSound = Assets.Sounds.HIT_SLASH;
+        hitSound = Assets.Sounds.HIT_CRUSH;
         hitSoundPitch = 0.8f;
 
         weaponarm = true;

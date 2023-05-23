@@ -278,7 +278,7 @@ public abstract class Mob extends Char {
 		}
 		
 		//if we are an alert enemy, auto-hunt a target that is affected by aggression, even another enemy
-		if (alignment == Alignment.ENEMY && state != PASSIVE && state != SLEEPING) {
+		if ((alignment == Alignment.ENEMY || alignment == Alignment.ALLATTACK) && state != PASSIVE && state != SLEEPING) {
 			if (enemy != null && enemy.buff(StoneOfAggression.Aggression.class) != null){
 				state = HUNTING;
 				return enemy;
@@ -324,7 +324,7 @@ public abstract class Mob extends Char {
 			if ( buff(Amok.class) != null) {
 				//try to find an enemy mob to attack first.
 				for (Mob mob : Dungeon.level.mobs)
-					if (mob.alignment == Alignment.ENEMY && mob != this
+					if ((mob.alignment == Alignment.ENEMY || mob.alignment == Alignment.ALLATTACK) && mob != this
 							&& fieldOfView[mob.pos] && mob.invisible <= 0) {
 						enemies.add(mob);
 					}
@@ -349,7 +349,7 @@ public abstract class Mob extends Char {
 			} else if ( alignment == Alignment.ALLY ) {
 				//look for hostile mobs to attack
 				for (Mob mob : Dungeon.level.mobs)
-					if (mob.alignment == Alignment.ENEMY && fieldOfView[mob.pos]
+					if ((mob.alignment == Alignment.ENEMY || mob.alignment == Alignment.ALLATTACK) && fieldOfView[mob.pos]
 							&& mob.invisible <= 0 && !mob.isInvulnerable(getClass()))
 						//intelligent allies do not target mobs which are passive, wandering, or asleep
 						if (!intelligentAlly ||
@@ -361,7 +361,7 @@ public abstract class Mob extends Char {
 			} else if (alignment == Alignment.ENEMY) {
 				//look for ally mobs to attack
 				for (Mob mob : Dungeon.level.mobs)
-					if (mob.alignment == Alignment.ALLY && fieldOfView[mob.pos] && mob.invisible <= 0)
+					if ((mob.alignment == Alignment.ALLY || mob.alignment == Alignment.ALLATTACK) && fieldOfView[mob.pos] && mob.invisible <= 0)
 						enemies.add(mob);
 
 				//and look for the hero
@@ -369,7 +369,28 @@ public abstract class Mob extends Char {
 					enemies.add(Dungeon.hero);
 				}
 				
+
+			//if we are all attacker...
+			} else if (alignment == Alignment.ALLATTACK) {
+				//look for ally mobs to attack
+				for (Mob mob : Dungeon.level.mobs)
+					if (mob.alignment == Alignment.ALLY && fieldOfView[mob.pos] && mob.invisible <= 0 && mob != this) {
+						enemies.add(mob);
+					} else if ((mob.alignment == Alignment.ENEMY || mob.alignment == Alignment.ALLATTACK) && fieldOfView[mob.pos]
+							&& mob.invisible <= 0 && !mob.isInvulnerable(getClass()) && mob != this) {
+						if (!intelligentAlly ||
+								(mob.state != mob.SLEEPING && mob.state != mob.PASSIVE && mob.state != mob.WANDERING)) {
+							enemies.add(mob);
+						}
+					}
+
+				//and look for the hero
+				if (fieldOfView[Dungeon.hero.pos] && Dungeon.hero.invisible <= 0) {
+					enemies.add(Dungeon.hero);
+				}
+
 			}
+
 
 			//do not target anything that's charming us
 			Charm charm = buff( Charm.class );
@@ -763,7 +784,7 @@ public abstract class Mob extends Char {
 
 		if (Dungeon.hero.isAlive()) {
 			
-			if (alignment == Alignment.ENEMY) {
+			if (alignment == Alignment.ENEMY || alignment == Alignment.ALLATTACK) {
 				Statistics.enemiesSlain++;
 				Badges.validateMonstersSlain();
 				Badges.validateLanceUnlock();
@@ -795,7 +816,11 @@ public abstract class Mob extends Char {
 			EXP /= 2;
 		}
 
-		if (alignment == Alignment.ENEMY){
+		if (cause == enemy && enemy instanceof ShopKeeperBoss) {
+			EXP *= 0;
+		}
+
+		if (alignment == Alignment.ENEMY || alignment == Alignment.ALLATTACK){
 			rollToDropLoot();
 
 			if (cause == Dungeon.hero
@@ -1109,7 +1134,7 @@ public abstract class Mob extends Char {
 				target = Dungeon.level.randomDestination( Mob.this );
 			}
 
-			if (alignment == Alignment.ENEMY && Dungeon.isChallenged(Challenges.SWARM_INTELLIGENCE)) {
+			if ((alignment == Alignment.ENEMY || alignment == Alignment.ALLATTACK) && Dungeon.isChallenged(Challenges.SWARM_INTELLIGENCE)) {
 				for (Mob mob : Dungeon.level.mobs) {
 					if (mob.paralysed <= 0
 							&& Dungeon.level.distance(pos, mob.pos) <= 8
@@ -1147,7 +1172,7 @@ public abstract class Mob extends Char {
 			state = HUNTING;
 			target = enemy.pos;
 			
-			if (alignment == Alignment.ENEMY && Dungeon.isChallenged( Challenges.SWARM_INTELLIGENCE )) {
+			if ((alignment == Alignment.ENEMY || alignment == Alignment.ALLATTACK) && Dungeon.isChallenged( Challenges.SWARM_INTELLIGENCE )) {
 				for (Mob mob : Dungeon.level.mobs) {
 					if (mob.paralysed <= 0
 							&& Dungeon.level.distance(pos, mob.pos) <= 8
