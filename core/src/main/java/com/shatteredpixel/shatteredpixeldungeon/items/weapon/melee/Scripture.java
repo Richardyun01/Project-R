@@ -83,13 +83,13 @@ public class Scripture extends MeleeWeapon {
     }
 
     @Override
-    public float abilityChargeUse(Hero hero) {
-        return 2*super.abilityChargeUse(hero);
+    public float abilityChargeUse(Hero hero, Char target) {
+        return 2*super.abilityChargeUse(hero, target);
     }
 
     @Override
     protected void carrollAbility(Hero hero, Integer target) {
-        beforeAbilityUsed(hero);
+        beforeAbilityUsed(hero, null);
         Buff.prolong(hero, Bless.class, 10f);
         Buff.prolong(hero, Adrenaline.class, 10f);
         int barrAmt = 1;

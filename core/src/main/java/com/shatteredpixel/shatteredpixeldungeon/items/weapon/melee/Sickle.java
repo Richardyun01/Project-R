@@ -53,6 +53,10 @@ public class Sickle extends MeleeWeapon {
                 lvl*(tier+1);                   //scaling unchanged
     }
 
+    public float abilityChargeUse(Hero hero, Char target) {
+        return 2*super.abilityChargeUse(hero, target);
+    }
+
     @Override
     public String targetingPrompt() {
         return Messages.get(this, "prompt");
@@ -86,7 +90,7 @@ public class Sickle extends MeleeWeapon {
         hero.sprite.attack(enemy.pos, new Callback() {
             @Override
             public void call() {
-                wep.beforeAbilityUsed(hero);
+                wep.beforeAbilityUsed(hero, enemy);
                 AttackIndicator.target(enemy);
 
                 Buff.affect(enemy, HarvestBleedTracker.class, 0).bleedFactor = bleedFactor;
@@ -97,7 +101,7 @@ public class Sickle extends MeleeWeapon {
                 Invisibility.dispel();
                 hero.spendAndNext(hero.attackDelay());
                 if (!enemy.isAlive()){
-                    wep.onAbilityKill(hero);
+                    wep.onAbilityKill(hero, enemy);
                     Buff.prolong(hero, Sword.CleaveTracker.class, 5f);
                 } else {
                     if (hero.buff(Sword.CleaveTracker.class) != null) {

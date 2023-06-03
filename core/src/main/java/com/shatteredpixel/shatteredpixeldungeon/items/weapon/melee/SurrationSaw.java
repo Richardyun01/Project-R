@@ -60,8 +60,8 @@ public class SurrationSaw extends MeleeWeapon {
     }
 
     @Override
-    public float abilityChargeUse(Hero hero) {
-        return 2*super.abilityChargeUse(hero);
+    public float abilityChargeUse(Hero hero, Char target) {
+        return 2*super.abilityChargeUse(hero, target);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class SurrationSaw extends MeleeWeapon {
         hero.sprite.attack(enemy.pos, new Callback() {
             @Override
             public void call() {
-                wep.beforeAbilityUsed(hero);
+                wep.beforeAbilityUsed(hero, enemy);
                 AttackIndicator.target(enemy);
                 if (hero.attack(enemy, 1, 0, Char.INFINITE_ACCURACY)){
                     Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
@@ -105,7 +105,7 @@ public class SurrationSaw extends MeleeWeapon {
                 Invisibility.dispel();
                 hero.spendAndNext(hero.attackDelay());
                 if (!enemy.isAlive()){
-                    wep.onAbilityKill(hero);
+                    wep.onAbilityKill(hero, enemy);
                 } else {
                     Buff.affect(enemy, Bleeding.class).set(enemy.HP*bleedingAmt);
                 }

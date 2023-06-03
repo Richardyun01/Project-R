@@ -64,8 +64,8 @@ public class WarpBlade extends MeleeWeapon {
     }
 
     @Override
-    public float abilityChargeUse(Hero hero) {
-        return 2*super.abilityChargeUse(hero);
+    public float abilityChargeUse(Hero hero, Char target) {
+        return 2*super.abilityChargeUse(hero, target);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class WarpBlade extends MeleeWeapon {
         hero.sprite.attack(enemy.pos, new Callback() {
             @Override
             public void call() {
-                wep.beforeAbilityUsed(hero);
+                wep.beforeAbilityUsed(hero, enemy);
                 AttackIndicator.target(enemy);
                 if (hero.attack(enemy, 1.3f, 0, Char.INFINITE_ACCURACY)) {
                     Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);

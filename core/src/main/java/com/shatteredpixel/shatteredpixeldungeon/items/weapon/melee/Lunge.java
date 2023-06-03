@@ -151,11 +151,11 @@ public class Lunge extends MeleeWeapon {
                 GLog.w(Messages.get(MeleeWeapon.class, "ability_low_str"));
                 usesTargeting = false;
             } else if (hero.belongings.weapon == this &&
-                    (Buff.affect(hero, Charger.class).charges + Buff.affect(hero, Charger.class).partialCharge) < abilityChargeUse(hero)) {
+                    (Buff.affect(hero, Charger.class).charges + Buff.affect(hero, Charger.class).partialCharge) < abilityChargeUse(hero, null)) {
                 GLog.w(Messages.get(MeleeWeapon.class, "ability_no_charge"));
                 usesTargeting = false;
             } else if (hero.belongings.secondWep == this &&
-                    (Buff.affect(hero, Charger.class).secondCharges + Buff.affect(hero, Charger.class).secondPartialCharge) < abilityChargeUse(hero)) {
+                    (Buff.affect(hero, Charger.class).secondCharges + Buff.affect(hero, Charger.class).secondPartialCharge) < abilityChargeUse(hero, null)) {
                 GLog.w(Messages.get(MeleeWeapon.class, "ability_no_charge"));
                 usesTargeting = false;
             } else {

@@ -112,11 +112,11 @@ public class MeleeWeapon extends Weapon {
 				GLog.w(Messages.get(this, "ability_low_str"));
 				usesTargeting = false;
 			} else if (hero.belongings.weapon == this &&
-					(Buff.affect(hero, Charger.class).charges + Buff.affect(hero, Charger.class).partialCharge) < abilityChargeUse(hero)) {
+					(Buff.affect(hero, Charger.class).charges + Buff.affect(hero, Charger.class).partialCharge) < abilityChargeUse(hero, null)) {
 				GLog.w(Messages.get(this, "ability_no_charge"));
 				usesTargeting = false;
 			} else if (hero.belongings.secondWep == this &&
-					(Buff.affect(hero, Charger.class).secondCharges + Buff.affect(hero, Charger.class).secondPartialCharge) < abilityChargeUse(hero)) {
+					(Buff.affect(hero, Charger.class).secondCharges + Buff.affect(hero, Charger.class).secondPartialCharge) < abilityChargeUse(hero, null)) {
 				GLog.w(Messages.get(this, "ability_no_charge"));
 				usesTargeting = false;
 			} else {
@@ -190,18 +190,18 @@ public class MeleeWeapon extends Weapon {
 		//do nothing by default
 	}
 
-	protected void beforeAbilityUsed(Hero hero ){
+	protected void beforeAbilityUsed(Hero hero, Char target ){
 		hero.belongings.abilityWeapon = this;
 		Charger charger = Buff.affect(hero, Charger.class);
 
 		if (Dungeon.hero.belongings.weapon == this) {
-			charger.partialCharge -= abilityChargeUse(hero);
+			charger.partialCharge -= abilityChargeUse(hero, target);
 			while (charger.partialCharge < 0 && charger.charges > 0) {
 				charger.charges--;
 				charger.partialCharge++;
 			}
 		} else {
-			charger.secondPartialCharge -= abilityChargeUse(hero);
+			charger.secondPartialCharge -= abilityChargeUse(hero, target);
 			while (charger.secondPartialCharge < 0 && charger.secondCharges > 0) {
 				charger.secondCharges--;
 				charger.secondPartialCharge++;
@@ -242,24 +242,17 @@ public class MeleeWeapon extends Weapon {
 		}
 	}
 
-	public static void onAbilityKill( Hero hero ){
-		if (hero.hasTalent(Talent.LETHAL_HASTE)){
+	public static void onAbilityKill( Hero hero, Char killed ){
+		if (killed.alignment == Char.Alignment.ENEMY && hero.hasTalent(Talent.LETHAL_HASTE)){
 			//effectively 2/3 turns of haste
 			Buff.prolong(hero, Haste.class, 1.67f+hero.pointsInTalent(Talent.LETHAL_HASTE));
 		}
 	}
 
-	public float abilityChargeUse( Hero hero ){
+	public float abilityChargeUse(Hero hero, Char target){
 		float chargeUse = 1f;
-		/*
 		if (hero.buff(Talent.CounterAbilityTacker.class) != null){
 			chargeUse = Math.max(0, chargeUse-0.5f*hero.pointsInTalent(Talent.COUNTER_ABILITY));
-		}
-		*/
-		if (hero.hasTalent(Talent.LIGHTWEIGHT_CHARGE) && tier <= 3){
-			// T1/2/3 get 25/20/15% charge use reduction at +3
-			float chargeUseReduction = (0.30f-.05f*tier) * (hero.pointsInTalent(Talent.LIGHTWEIGHT_CHARGE)/3f);
-			chargeUse *= 1f - chargeUseReduction;
 		}
 		return chargeUse;
 	}

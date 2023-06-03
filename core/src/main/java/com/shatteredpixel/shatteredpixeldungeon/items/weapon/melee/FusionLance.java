@@ -59,8 +59,8 @@ public class FusionLance extends MeleeWeapon {
     }
 
     @Override
-    public float abilityChargeUse( Hero hero ) {
-        return super.abilityChargeUse( hero );
+    public float abilityChargeUse( Hero hero, Char target ) {
+        return super.abilityChargeUse( hero, target );
     }
 
     @Override
@@ -95,7 +95,7 @@ public class FusionLance extends MeleeWeapon {
         hero.sprite.attack(enemy.pos, new Callback() {
             @Override
             public void call() {
-                wep.beforeAbilityUsed(hero);
+                wep.beforeAbilityUsed(hero, enemy);
                 AttackIndicator.target(enemy);
                 if (hero.attack(enemy, dmgMulti, 0, Char.INFINITE_ACCURACY)){
                     for (int n : PathFinder.NEIGHBOURS8) {

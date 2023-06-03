@@ -331,7 +331,18 @@ public enum Talent {
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / 20); }
 	};
 	public static class SpiritBladesTracker extends FlavourBuff{};
-	public static class PatientStrikeTracker extends FlavourBuff{};
+	public static class PatientStrikeTracker extends FlavourBuff {
+		{ type = Buff.buffType.POSITIVE; }
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.5f, 0f, 1f); }
+		public String iconTextDisplay() { return ""; }
+		public float iconFadePercent() { return 0; }
+	};
+	public static class AggressiveBarrierCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 50); }
+	};
 	public static class ProphecyCoolDown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(1f, 2f, 0.25f); }
@@ -427,7 +438,41 @@ public enum Talent {
 			secondUse = bundle.getBoolean(SECOND_USE);
 		}
 	};
-	public static class DeadlyFollowupTracker extends FlavourBuff{};
+	public static class DeadlyFollowupTracker extends FlavourBuff{
+		public int object;
+		{ type = Buff.buffType.POSITIVE; }
+		public int icon() { return BuffIndicator.INVERT_MARK; }
+		public void tintIcon(Image icon) { icon.hardlight(0.5f, 0f, 1f); }
+		public float iconFadePercent() { return Math.max(0, 1f - (visualcooldown() / 5)); }
+		private static final String OBJECT    = "object";
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+			bundle.put(OBJECT, object);
+		}
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+			object = bundle.getInt(OBJECT);
+		}
+	}
+	public static class PreciseAssaultTracker extends FlavourBuff {
+		{
+			type = buffType.POSITIVE;
+		}
+
+		public int icon() {
+			return BuffIndicator.INVERT_MARK;
+		}
+
+		public void tintIcon(Image icon) {
+			icon.hardlight(1f, 1f, 0.0f);
+		}
+
+		public float iconFadePercent() {
+			return Math.max(0, 1f - (visualcooldown() / 5));
+		}
+	}
 	public static class CombinedLethalityAbilityTracker extends FlavourBuff{
 		public MeleeWeapon weapon;
 	};
@@ -435,6 +480,7 @@ public enum Talent {
 		{ type = buffType.POSITIVE; }
 		public int icon() { return BuffIndicator.CORRUPT; }
 		public void tintIcon(Image icon) { icon.hardlight(0.6f, 0.15f, 0.6f); }
+		public float iconFadePercent() { return Math.max(0, 1f - (visualcooldown() / 5)); }
 	};
 	public static class CombinedEnergyAbilityTracker extends FlavourBuff{
 		public int energySpent = -1;
@@ -934,15 +980,13 @@ public enum Talent {
 			Buff.affect(enemy, SuckerPunchTracker.class);
 		}
 
-		if (hero.hasTalent(Talent.FOLLOWUP_STRIKE)) {
-			if (hero.belongings.weapon() instanceof MissileWeapon) {
-				Buff.affect(enemy, FollowupStrikeTracker.class);
-			} else if (enemy.buff(FollowupStrikeTracker.class) != null){
+		if (hero.hasTalent(Talent.FOLLOWUP_STRIKE) && enemy.alignment == Char.Alignment.ENEMY) {
+			if (hero.belongings.attackingWeapon() instanceof MissileWeapon) {
+				Buff.prolong(hero, FollowupStrikeTracker.class, 5f).object = enemy.id();
+			} else if (hero.buff(FollowupStrikeTracker.class) != null
+					&& hero.buff(FollowupStrikeTracker.class).object == enemy.id()){
 				dmg += 1 + hero.pointsInTalent(FOLLOWUP_STRIKE);
-				if (!(enemy instanceof Mob) || !((Mob) enemy).surprisedBy(hero)){
-					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG, 0.75f, 1.2f);
-				}
-				enemy.buff(FollowupStrikeTracker.class).detach();
+				hero.buff(FollowupStrikeTracker.class).detach();
 			}
 		}
 
@@ -962,16 +1006,14 @@ public enum Talent {
 			}
 		}
 
-		if (hero.hasTalent(DEADLY_FOLLOWUP)) {
+		if (hero.hasTalent(DEADLY_FOLLOWUP) && enemy.alignment == Char.Alignment.ENEMY) {
 			if (hero.belongings.attackingWeapon() instanceof MissileWeapon) {
 				if (!(hero.belongings.attackingWeapon() instanceof SpiritBow.SpiritArrow)) {
-					Buff.prolong(enemy, DeadlyFollowupTracker.class, 5f);
+					Buff.prolong(hero, DeadlyFollowupTracker.class, 5f).object = enemy.id();
 				}
-			} else if (enemy.buff(DeadlyFollowupTracker.class) != null){
+			} else if (hero.buff(DeadlyFollowupTracker.class) != null
+					&& hero.buff(DeadlyFollowupTracker.class).object == enemy.id()){
 				dmg = Math.round(dmg * (1.0f + .08f*hero.pointsInTalent(DEADLY_FOLLOWUP)));
-				if (!(enemy instanceof Mob) || !((Mob) enemy).surprisedBy(hero)){
-					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG, 0.75f, 1.2f);
-				}
 			}
 		}
 
@@ -979,7 +1021,24 @@ public enum Talent {
 	}
 
 	public static class SuckerPunchTracker extends Buff{};
-	public static class FollowupStrikeTracker extends Buff{};
+	public static class FollowupStrikeTracker extends FlavourBuff{
+		public int object;
+		{ type = Buff.buffType.POSITIVE; }
+		public int icon() { return BuffIndicator.INVERT_MARK; }
+		public void tintIcon(Image icon) { icon.hardlight(0f, 0.75f, 1f); }
+		public float iconFadePercent() { return Math.max(0, 1f - (visualcooldown() / 5)); }
+		private static final String OBJECT    = "object";
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+			bundle.put(OBJECT, object);
+		}
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+			object = bundle.getInt(OBJECT);
+		}
+	};
 	public static class BulletTracker extends Buff{};
 
 	public static final int MAX_TALENT_TIERS = 4;

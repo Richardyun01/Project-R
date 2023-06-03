@@ -51,13 +51,13 @@ public class CommonBlade extends MeleeWeapon {
     }
 
     @Override
-    public float abilityChargeUse(Hero hero) {
-        return 2*super.abilityChargeUse(hero);
+    public float abilityChargeUse(Hero hero, Char target) {
+        return 2*super.abilityChargeUse(hero, target);
     }
 
     @Override
     protected void carrollAbility(Hero hero, Integer target) {
-        beforeAbilityUsed(hero);
+        beforeAbilityUsed(hero, null);
         Buff.prolong(hero, Quarterstaff.DefensiveStance.class, 7f); //4 turns as using the ability is instant
         hero.sprite.operate(hero.pos);
         hero.next();

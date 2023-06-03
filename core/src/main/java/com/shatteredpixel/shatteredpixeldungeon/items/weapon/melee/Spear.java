@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,7 +61,7 @@ public class Spear extends MeleeWeapon {
 
 	@Override
 	protected void carrollAbility(Hero hero, Integer target) {
-		Spear.spikeAbility(hero, target, 1.4f, this);
+		Spear.spikeAbility(hero, target, 1.45f, this);
 	}
 
 	public static void spikeAbility(Hero hero, Integer target, float dmgMulti, MeleeWeapon wep){
@@ -86,7 +86,7 @@ public class Spear extends MeleeWeapon {
 		hero.sprite.attack(enemy.pos, new Callback() {
 			@Override
 			public void call() {
-				wep.beforeAbilityUsed(hero);
+				wep.beforeAbilityUsed(hero, enemy);
 				AttackIndicator.target(enemy);
 				if (hero.attack(enemy, dmgMulti, 0, Char.INFINITE_ACCURACY)) {
 					if (enemy.isAlive()){
@@ -97,7 +97,7 @@ public class Spear extends MeleeWeapon {
 						//knock them back along that ballistica
 						WandOfBlastWave.throwChar(enemy, trajectory, 1, true, false, hero);
 					} else {
-						wep.onAbilityKill(hero);
+						wep.onAbilityKill(hero, enemy);
 					}
 					Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
 				}

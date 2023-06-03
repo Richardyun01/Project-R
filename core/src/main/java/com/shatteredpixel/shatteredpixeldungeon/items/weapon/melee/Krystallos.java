@@ -66,6 +66,6 @@ public class Krystallos extends MeleeWeapon {
 
     @Override
     protected void carrollAbility(Hero hero, Integer target) {
-        Mace.heavyBlowAbility(hero, target, 1.6f, this);
+        Mace.heavyBlowAbility(hero, target, 1.5f, this);
     }
 }

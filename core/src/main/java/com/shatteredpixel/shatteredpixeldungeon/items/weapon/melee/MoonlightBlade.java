@@ -114,14 +114,15 @@ public class MoonlightBlade extends MeleeWeapon {
     }
 
     @Override
-    public float abilityChargeUse(Hero hero) {
-        return super.abilityChargeUse(hero);
+    public float abilityChargeUse(Hero hero, Char target) {
+        return super.abilityChargeUse(hero, target);
     }
 
     @Override
     protected void carrollAbility(Hero hero, Integer target) {
 
         ArrayList<Char> targets = new ArrayList<>();
+        Char closest = null;
 
         hero.belongings.abilityWeapon = this;
         for (Char ch : Actor.chars()){
@@ -130,6 +131,9 @@ public class MoonlightBlade extends MeleeWeapon {
                     && Dungeon.level.heroFOV[ch.pos]
                     && hero.canAttack(ch)){
                 targets.add(ch);
+                if (closest == null || Dungeon.level.trueDistance(hero.pos, closest.pos) > Dungeon.level.trueDistance(hero.pos, ch.pos)){
+                    closest = ch;
+                }
             }
         }
         hero.belongings.abilityWeapon = null;
@@ -140,14 +144,15 @@ public class MoonlightBlade extends MeleeWeapon {
         }
 
         throwSound();
+        Char finalClosest = closest;
         hero.sprite.attack(hero.pos, new Callback() {
             @Override
             public void call() {
-                beforeAbilityUsed(hero);
+                beforeAbilityUsed(hero, finalClosest);
                 for (Char ch : targets) {
                     hero.attack(ch);
                     if (!ch.isAlive()){
-                        onAbilityKill(hero);
+                        onAbilityKill(hero, ch);
                     }
                 }
                 Invisibility.dispel();
