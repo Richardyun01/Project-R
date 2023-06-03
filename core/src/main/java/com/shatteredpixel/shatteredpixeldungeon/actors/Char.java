@@ -141,6 +141,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Murakumo;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RipperWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sickle;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SurrationSaw;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarpBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.darts.ShockingDart;
@@ -727,6 +728,10 @@ public abstract class Char extends Actor {
 		float acuStat = attacker.attackSkill( defender );
 		float defStat = defender.defenseSkill( attacker );
 
+		if (defender instanceof Hero && ((Hero) defender).damageInterrupt){
+			((Hero) defender).interrupt();
+		}
+
 		//invisible chars always hit (for the hero this is surprise attacking)
 		if (attacker.invisible > 0 && attacker.canSurpriseAttack()){
 			acuStat = INFINITE_ACCURACY;
@@ -945,6 +950,11 @@ public abstract class Char extends Actor {
 		}
 
 		if (buff(Sickle.HarvestBleedTracker.class) != null){
+			if (isImmune(Bleeding.class)){
+				sprite.showStatus(CharSprite.POSITIVE, Messages.titleCase(Messages.get(this, "immune")));
+				buff(Sickle.HarvestBleedTracker.class).detach();
+				return;
+			}
 			Bleeding b = buff(Bleeding.class);
 			if (b == null){
 				b = new Bleeding();
@@ -954,6 +964,23 @@ public abstract class Char extends Actor {
 			b.attachTo(this);
 			sprite.showStatus(CharSprite.WARNING, Messages.titleCase(b.name()) + " " + (int)b.level());
 			buff(Sickle.HarvestBleedTracker.class).detach();
+			return;
+		}
+		if (buff(SurrationSaw.SawingBleedTracker.class) != null){
+			if (isImmune(Bleeding.class)){
+				sprite.showStatus(CharSprite.POSITIVE, Messages.titleCase(Messages.get(this, "immune")));
+				buff(SurrationSaw.SawingBleedTracker.class).detach();
+				return;
+			}
+			Bleeding b = buff(Bleeding.class);
+			if (b == null){
+				b = new Bleeding();
+			}
+			b.announced = false;
+			b.set(dmg*buff(SurrationSaw.SawingBleedTracker.class).bleedFactor, SurrationSaw.SawingBleedTracker.class);
+			b.attachTo(this);
+			sprite.showStatus(CharSprite.WARNING, Messages.titleCase(b.name()) + " " + (int)b.level());
+			buff(SurrationSaw.SawingBleedTracker.class).detach();
 			return;
 		}
 		
@@ -983,8 +1010,9 @@ public abstract class Char extends Actor {
 			finalChance *= (float)Math.pow( ((HT - HP) / (float)HT), 2);
 
 			if (Random.Float() < finalChance) {
-				dmg += HP;
-				HP = 0;
+				int extraDmg = Math.round(HP*resist(Grim.class));
+				dmg += extraDmg;
+				HP -= extraDmg;
 
 				sprite.emitter().burst( ShadowParticle.UP, 5 );
 				if (!isAlive() && buff(Grim.GrimTracker.class).qualifiesForBadge){

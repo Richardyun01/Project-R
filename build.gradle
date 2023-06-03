@@ -14,8 +14,8 @@ allprojects {
         appName = 'Project R'
         appPackageName = 'com.shatteredpixel.projectr'
 
-        appVersionCode = 668
-        appVersionName = '0.0.7.3'
+        appVersionCode = 717
+        appVersionName = '0.0.8'
 
         appJavaCompatibility = JavaVersion.VERSION_1_8
 
