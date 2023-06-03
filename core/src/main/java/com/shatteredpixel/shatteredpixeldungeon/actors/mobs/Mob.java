@@ -448,18 +448,21 @@ public abstract class Mob extends Char {
 		} else
 			return enemy;
 	}
-	
+
 	@Override
-	public void add( Buff buff ) {
-		super.add( buff );
-		if (buff instanceof Amok || buff instanceof AllyBuff) {
-			state = HUNTING;
-		} else if (buff instanceof Terror || buff instanceof Dread) {
-			state = FLEEING;
-		} else if (buff instanceof Sleep) {
-			state = SLEEPING;
-			postpone( Sleep.SWS );
+	public boolean add( Buff buff ) {
+		if (super.add( buff )) {
+			if (buff instanceof Amok || buff instanceof AllyBuff) {
+				state = HUNTING;
+			} else if (buff instanceof Terror || buff instanceof Dread) {
+				state = FLEEING;
+			} else if (buff instanceof Sleep) {
+				state = SLEEPING;
+				postpone(Sleep.SWS);
+			}
+			return true;
 		}
+		return false;
 	}
 	
 	@Override

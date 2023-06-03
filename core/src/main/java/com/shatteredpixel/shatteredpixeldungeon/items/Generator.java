@@ -177,6 +177,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greataxe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatshield;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Greatsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.HandAxe;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Katana;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Krystallos;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Longsword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Lunge;
@@ -469,9 +470,10 @@ public class Generator {
 					Crossbow.class,
 					Chainsaw.class,
 					ThunderSpear.class,
+					Katana.class,
 					Slash.class
 			};
-			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 3 };
+			WEP_T4.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 4, 3 };
 			
 			WEP_T5.classes = new Class<?>[]{
 					Greatsword.class,

@@ -321,7 +321,7 @@ public class ItemSpriteSheet {
 		assignItemRect(MOONLIGHT,   16, 16);
 		assignItemRect(FUSION_LANCE,16, 16);
 		assignItemRect(MURAKUMO,	16, 16);
-		assignItemRect(WAR_SCYTHE,	16, 16);
+		assignItemRect(WAR_SCYTHE,	14, 15);
 	}
 
 	private static final int HANDGUNS     =                                 xy(1, 33);
@@ -437,6 +437,7 @@ public class ItemSpriteSheet {
 	public static final int WARP_BLADE 			= PSIONIC_WEAPONS+4;
 	public static final int GUNGNIR 			= PSIONIC_WEAPONS+5;
 	public static final int SICKLE				= PSIONIC_WEAPONS+6;
+	public static final int KATANA				= PSIONIC_WEAPONS+7;
 	static{
 		assignItemRect(PSIONIC_BLADE1 			,14, 14);
 		assignItemRect(PSIONIC_BLADE2 			,15, 15);
@@ -444,7 +445,8 @@ public class ItemSpriteSheet {
 		assignItemRect(DEFENDER					,16, 16);
 		assignItemRect(WARP_BLADE				,16, 16);
 		assignItemRect(GUNGNIR					,16, 16);
-		assignItemRect(SICKLE					,16, 16);
+		assignItemRect(SICKLE					,16, 15);
+		assignItemRect(KATANA					,16, 16);
 	}
 
 	private static final int WEAPONARMS    		=                               xy(1, 38);	//16 free slots
@@ -853,6 +855,7 @@ public class ItemSpriteSheet {
 	public static final int BLANDFRUIT  = FOOD+10;
 	public static final int BLAND_CHUNKS= FOOD+11;
 	public static final int BERRY =       FOOD+12;
+	public static final int PHANTOM_MEAT= FOOD+13;
 	static{
 		assignItemRect(MEAT,        15, 11);
 		assignItemRect(STEAK,       15, 11);
@@ -867,6 +870,7 @@ public class ItemSpriteSheet {
 		assignItemRect(BLANDFRUIT,  9,  12);
 		assignItemRect(BLAND_CHUNKS,14, 6);
 		assignItemRect(BERRY,       9,  11);
+		assignItemRect(PHANTOM_MEAT,15, 11);
 	}
 
 	private static final int QUEST  =                                       xy(1, 29);  //32 slots

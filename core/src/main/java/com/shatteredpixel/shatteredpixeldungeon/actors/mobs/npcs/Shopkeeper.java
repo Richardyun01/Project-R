@@ -3,7 +3,7 @@
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * Shattered Pixel Dungeon
- * Copyright (C) 2014-2022 Evan Debenham
+ * Copyright (C) 2014-2023 Evan Debenham
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,9 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
+import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.ShopKeeperBoss;
@@ -35,11 +37,20 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ShopkeeperSprite;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndTitledMessage;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndTradeItem;
 import com.watabou.noosa.Game;
+import com.watabou.noosa.Image;
+import com.watabou.utils.Bundlable;
+import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
+
+import java.util.ArrayList;
 
 public class Shopkeeper extends NPC {
 
@@ -48,34 +59,37 @@ public class Shopkeeper extends NPC {
 
 		properties.add(Property.IMMOVABLE);
 	}
-	
+
+	public static int MAX_BUYBACK_HISTORY = 3;
+	public ArrayList<Item> buybackItems = new ArrayList<>();
+
 	@Override
 	protected boolean act() {
 
-		if (Dungeon.level.heroFOV[pos]){
+		if (Dungeon.level.visited[pos]){
 			Notes.add(Notes.Landmark.SHOP);
 		}
 
-		/*if (Statistics.highestAscent < 20 && Dungeon.hero.buff(AscensionChallenge.class) != null){
-			flee();
-			return true;
-		}*/
-		
+
 		sprite.turnTo( pos, Dungeon.hero.pos );
 		spend( TICK );
 		return super.act();
 	}
-	
+
 	@Override
 	public void damage( int dmg, Object src ) {
 		flee();
 	}
-	
+
 	@Override
-	public void add( Buff buff ) {
-		flee();
+	public boolean add( Buff buff ) {
+		if (super.add(buff)) {
+			flee();
+			return true;
+		}
+		return false;
 	}
-	
+
 	public void flee() {
 		destroy();
 		this.yell(Messages.get(this, "thief"));
@@ -90,7 +104,7 @@ public class Shopkeeper extends NPC {
 		}
 		GameScene.add((Mob) shopKeeperBoss);
 	}
-	
+
 	@Override
 	public void destroy() {
 		super.destroy();
@@ -108,7 +122,7 @@ public class Shopkeeper extends NPC {
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean reset() {
 		return true;
@@ -118,7 +132,7 @@ public class Shopkeeper extends NPC {
 	public static int sellPrice(Item item){
 		return item.value() * 5 * (Dungeon.depth / 5 + 1);
 	}
-	
+
 	public static WndBag sell() {
 		return GameScene.selectItem( itemSelector );
 	}
@@ -159,9 +173,93 @@ public class Shopkeeper extends NPC {
 		Game.runOnRenderThread(new Callback() {
 			@Override
 			public void call() {
-				sell();
+				String[] options = new String[2+ buybackItems.size()];
+				int i = 0;
+				options[i++] = Messages.get(Shopkeeper.this, "sell");
+				options[i++] = Messages.get(Shopkeeper.this, "talk");
+				for (Item item : buybackItems){
+					options[i] = Messages.get(Heap.class, "for_sale", item.value(), Messages.titleCase(item.title()));
+					if (options[i].length() > 26) options[i] = options[i].substring(0, 23) + "...";
+					i++;
+				}
+				GameScene.show(new WndOptions(sprite(), Messages.titleCase(name()), description(), options){
+					@Override
+					protected void onSelect(int index) {
+						super.onSelect(index);
+						if (index == 0){
+							sell();
+						} else if (index == 1){
+							GameScene.show(new WndTitledMessage(sprite(), Messages.titleCase(name()), chatText()));
+						} else if (index > 1){
+							GLog.i(Messages.get(Shopkeeper.this, "buyback"));
+							Item returned = buybackItems.remove(index-2);
+							Dungeon.gold -= returned.value();
+							Statistics.goldCollected -= returned.value();
+							if (!returned.doPickUp(Dungeon.hero)){
+								Dungeon.level.drop(returned, Dungeon.hero.pos);
+							}
+						}
+					}
+
+					@Override
+					protected boolean enabled(int index) {
+						if (index > 1){
+							return Dungeon.gold >= buybackItems.get(index-2).value();
+						} else {
+							return super.enabled(index);
+						}
+					}
+
+					@Override
+					protected boolean hasIcon(int index) {
+						return index > 1;
+					}
+
+					@Override
+					protected Image getIcon(int index) {
+						if (index > 1){
+							return new ItemSprite(buybackItems.get(index-2));
+						}
+						return null;
+					}
+				});
 			}
 		});
 		return true;
+	}
+
+	public String chatText(){
+		if (Dungeon.hero.buff(AscensionChallenge.class) != null){
+			return Messages.get(this, "talk_ascent");
+		}
+		switch (Dungeon.depth){
+			case 6: default:
+				return Messages.get(this, "talk_prison_intro") + "\n\n" + Messages.get(this, "talk_prison_" + Dungeon.hero.heroClass.name());
+			case 11:
+				return Messages.get(this, "talk_caves");
+			case 16:
+				return Messages.get(this, "talk_city");
+			case 20:
+				return Messages.get(this, "talk_halls");
+		}
+	}
+
+	public static String BUYBACK_ITEMS = "buyback_items";
+
+	@Override
+	public void storeInBundle(Bundle bundle) {
+		super.storeInBundle(bundle);
+		bundle.put(BUYBACK_ITEMS, buybackItems);
+	}
+
+	@Override
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		buybackItems.clear();
+		if (bundle.contains(BUYBACK_ITEMS)){
+			for (Bundlable i : bundle.getCollection(BUYBACK_ITEMS)){
+				buybackItems.add((Item) i);
+			}
+		}
 	}
 }
