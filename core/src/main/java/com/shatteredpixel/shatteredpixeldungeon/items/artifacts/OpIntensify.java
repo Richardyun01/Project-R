@@ -136,8 +136,9 @@ public class OpIntensify extends Artifact {
                     OpIntensify.this.charge++;
                     Item.updateQuickslot();
                 }
-            } else if (cursed && Random.Int(100) == 0){
-                Buff.affect(Dungeon.hero, Bleeding.class).set(5);
+            } else if (cursed && Random.Int(100) == 0) {
+                GLog.n(Messages.get(this, "bleed"));
+                Buff.affect(Dungeon.hero, Bleeding.class).set(3);
             }
             spend(1.0f);
             return true;

@@ -86,7 +86,7 @@ public class Disintegrating extends Buff {
             }
 
             if (!target.isAlive() && target == Dungeon.hero) {
-                Dungeon.fail( getClass() );
+                Dungeon.fail( this );
                 GLog.n( Messages.get(this, "ondeath") );
             }
             spend( TICK );

@@ -28,6 +28,12 @@ public class Lumi extends Mob {
     }
 
     @Override
+    protected boolean act() {
+        if (Dungeon.level.distance(this.pos, Dungeon.hero.pos) <= 2) alerted = true;
+        return super.act();
+    }
+
+    @Override
     protected boolean canAttack( Char enemy ) {
         return false;
     }

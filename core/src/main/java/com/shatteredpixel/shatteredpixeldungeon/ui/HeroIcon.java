@@ -61,9 +61,12 @@ public class HeroIcon extends Image {
 	public static final int PERETORIA		= 43;
 	public static final int VALKYRIE		= 44;
 	public static final int WINTERSTORM		= 45;
-	public static final int DEFENDER		= 50;
-	public static final int CAPTAIN			= 51;
-	public static final int DRAGON			= 52;
+	public static final int DEFENDER		= 49;
+	public static final int CAPTAIN			= 50;
+	public static final int DRAGON			= 51;
+	public static final int LIBRARIAN		= 55;
+	public static final int DEVASTATOR		= 56;
+	public static final int IMMORTAL		= 57;
 
 	//abilities
 	public static final int HEROIC_LEAP     = 8;

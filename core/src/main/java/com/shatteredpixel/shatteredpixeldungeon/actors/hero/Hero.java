@@ -235,7 +235,7 @@ public class Hero extends Char {
 	private int defenseSkill = 5;
 
 	public boolean ready = false;
-	private boolean damageInterrupt = true;
+	public boolean damageInterrupt = true;
 	public HeroAction curAction = null;
 	public HeroAction lastAction = null;
 
@@ -896,8 +896,8 @@ public class Hero extends Char {
 			return Messages.get(RoundShield.GuardTracker.class, "guarded");
 		}
 
-		if (buff(CenobiteEnergy.CenobiteAbility.Focus.FocusBuff.class) != null){
-			buff(CenobiteEnergy.CenobiteAbility.Focus.FocusBuff.class).detach();
+		if (buff(CenobiteEnergy.CenobiteAbility.Focus.FocusActivation.class) != null){
+			buff(CenobiteEnergy.CenobiteAbility.Focus.FocusActivation.class).detach();
 			if (sprite != null && sprite.visible) {
 				Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 1, Random.Float(0.96f, 1.05f));
 			}
@@ -2492,7 +2492,7 @@ public class Hero extends Char {
 			//trim it to just be the part that goes past them
 			trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
 			//knock them back along that ballistica
-			WandOfBlastWave.throwChar(enemy, trajectory, 3, true, false, hero.getClass());
+			WandOfBlastWave.throwChar(enemy, trajectory, 3, true, false, hero);
 			if (hero.pointsInTalent(Talent.CANT_TOUCH_THIS) == 2) {
 				Buff.affect( enemy, NoEnergy.class ).set(2, 2);
 			}

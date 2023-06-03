@@ -358,31 +358,6 @@ public class SatelliteCannon extends Weapon {
                 Buff.prolong(defender, Slow.class, 2f);
             }
 
-/***********************************************
-            boolean z = false;
-            Ballistica ballistica = new Ballistica(attacker.pos, defender.pos, Ballistica.WONT_STOP);
-            int min = Math.min(5, ballistica.dist.intValue());
-            attacker.sprite.parent.add(new Beam.DeathRay(attacker.sprite.center(), DungeonTilemap.raisedTileCenterToWorld(ballistica.path.get(Math.min(ballistica.dist.intValue(), min)).intValue())));
-            ArrayList arrayList = new ArrayList();
-            Blob blob = Dungeon.level.blobs.get(Web.class);
-            for (Integer intValue : ballistica.subPath(1, min)) {
-                int intValue2 = intValue.intValue();
-                Char findChar = Actor.findChar(intValue2);
-                if (findChar != null) {
-                    arrayList.add(findChar);
-                }
-                if (Dungeon.level.flamable[intValue2]) {
-                    Dungeon.level.destroy(intValue2);
-                    GameScene.updateMap(intValue2);
-                    z = true;
-                }
-                CellEmitter.center(intValue2).burst(PurpleParticle.BURST, Random.IntRange(1, 2));
-            }
-            if (z) {
-                Dungeon.observe();
-            }
-***********************************************/
-
             return SatelliteCannon.this.proc(attacker, defender, damage);
         }
 

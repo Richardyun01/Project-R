@@ -246,7 +246,12 @@ public class Bestiary {
 					cl = Acidic.class;
 				}
 				rotation.set(i, cl);
+			}/* else if (Random.Int( 200 ) == 0) {
+				Class<? extends Mob> cl = rotation.get(i);
+				cl == Lumi.class;
+				rotation.set(i, cl);
 			}
+			*/
 		}
 	}
 }

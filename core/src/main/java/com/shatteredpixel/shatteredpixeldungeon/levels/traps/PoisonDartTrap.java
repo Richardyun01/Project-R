@@ -102,7 +102,7 @@ public class PoisonDartTrap extends Trap {
 											Statistics.bossScores[1] -= 100;
 										}
 										if (!finalTarget.isAlive()) {
-											Dungeon.fail(trap.getClass());
+											Dungeon.fail(PoisonDartTrap.this);
 										}
 									}
 									Buff.affect( finalTarget, Poison.class ).set( poisonAmount() );

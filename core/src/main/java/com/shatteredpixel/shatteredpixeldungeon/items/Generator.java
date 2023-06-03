@@ -195,11 +195,13 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sai;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scripture;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Shortsword;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sickle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Spear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.SurrationSaw;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sword;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.ThunderSpear;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarHammer;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarScythe;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WarpBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Whip;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortsword;
@@ -440,9 +442,10 @@ public class Generator {
 					Lunge.class,
 					SurrationSaw.class,
 					Rapier.class,
+					Sickle.class,
 					Vendetta.class
 			};
-			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 3 };
+			WEP_T2.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 4, 3 };
 			
 			WEP_T3.classes = new Class<?>[]{
 					Sword.class,
@@ -482,10 +485,11 @@ public class Generator {
 					FusionLance.class,
 					Murakumo.class,
 					Reiterpallasch.class,
+					WarScythe.class,
 					Thunderstrike.class,
 					Draken.class
 			};
-			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3 };
+			WEP_T5.probs = new float[]{ 6, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3 };
 
 			WEP_T6.classes = new Class<?>[]{
 					Defender.class,

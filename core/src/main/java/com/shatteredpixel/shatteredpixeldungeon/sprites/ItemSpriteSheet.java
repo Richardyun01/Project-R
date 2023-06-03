@@ -298,7 +298,7 @@ public class ItemSpriteSheet {
 		assignItemRect(THUNDERSPEAR,    15, 15);
 	}
 
-	private static final int WEP_TIER5      =                               xy(1, 9);   //8 slots
+	private static final int WEP_TIER5      =                               xy(1, 9);   //16 slots
 	public static final int GREATSWORD      = WEP_TIER5+0;
 	public static final int WAR_HAMMER      = WEP_TIER5+1;
 	public static final int GLAIVE          = WEP_TIER5+2;
@@ -309,6 +309,7 @@ public class ItemSpriteSheet {
 	public static final int MOONLIGHT       = WEP_TIER5+7;
 	public static final int FUSION_LANCE    = WEP_TIER5+8;
 	public static final int MURAKUMO    	= WEP_TIER5+9;
+	public static final int WAR_SCYTHE    	= WEP_TIER5+10;
 	static{
 		assignItemRect(GREATSWORD,  16, 16);
 		assignItemRect(WAR_HAMMER,  16, 16);
@@ -320,6 +321,7 @@ public class ItemSpriteSheet {
 		assignItemRect(MOONLIGHT,   16, 16);
 		assignItemRect(FUSION_LANCE,16, 16);
 		assignItemRect(MURAKUMO,	16, 16);
+		assignItemRect(WAR_SCYTHE,	16, 16);
 	}
 
 	private static final int HANDGUNS     =                                 xy(1, 33);
@@ -434,6 +436,7 @@ public class ItemSpriteSheet {
 	public static final int DEFENDER 			= PSIONIC_WEAPONS+3;
 	public static final int WARP_BLADE 			= PSIONIC_WEAPONS+4;
 	public static final int GUNGNIR 			= PSIONIC_WEAPONS+5;
+	public static final int SICKLE				= PSIONIC_WEAPONS+6;
 	static{
 		assignItemRect(PSIONIC_BLADE1 			,14, 14);
 		assignItemRect(PSIONIC_BLADE2 			,15, 15);
@@ -441,6 +444,7 @@ public class ItemSpriteSheet {
 		assignItemRect(DEFENDER					,16, 16);
 		assignItemRect(WARP_BLADE				,16, 16);
 		assignItemRect(GUNGNIR					,16, 16);
+		assignItemRect(SICKLE					,16, 16);
 	}
 
 	private static final int WEAPONARMS    		=                               xy(1, 38);	//16 free slots
@@ -876,6 +880,7 @@ public class ItemSpriteSheet {
 	public static final int BLOB    = QUEST+7;
 	public static final int SHARD   = QUEST+8;
 	public static final int CORE    = QUEST+9;
+	public static final int CHIP	= QUEST+10;
 	static{
 		assignItemRect(SKULL,   16, 11);
 		assignItemRect(DUST,    10, 13);
@@ -887,6 +892,7 @@ public class ItemSpriteSheet {
 		assignItemRect(BLOB,    10,  9);
 		assignItemRect(SHARD,    8, 10);
 		assignItemRect(CORE, 	16, 16);
+		assignItemRect(CHIP, 	8, 11);
 	}
 
 	private static final int BULLETS      	=                                       xy(1, 30);  //16 slots

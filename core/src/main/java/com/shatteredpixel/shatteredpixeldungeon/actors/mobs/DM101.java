@@ -114,7 +114,7 @@ public class DM101 extends Mob implements Callback {
 
                     if (!enemy.isAlive()) {
                         Badges.validateDeathFromEnemyMagic();
-                        Dungeon.fail( getClass() );
+                        Dungeon.fail( this );
                         GLog.n( Messages.get(DM100.class, "zap_kill") );
                     }
                 }

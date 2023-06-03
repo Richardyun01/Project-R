@@ -22,6 +22,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -75,8 +76,8 @@ public class ArmoredBrute extends Brute {
 				detach();
 				return true;
 			}
-			
-			absorbDamage( 1 );
+
+			absorbDamage( Math.round(AscensionChallenge.statModifier(target)) );
 			
 			if (shielding() <= 0){
 				target.die(null);

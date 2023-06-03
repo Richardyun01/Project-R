@@ -92,7 +92,7 @@ public class WarlockHigh extends Warlock {
 
             if (enemy == Dungeon.hero && !enemy.isAlive()) {
                 Badges.validateDeathFromEnemyMagic();
-                Dungeon.fail( getClass() );
+                Dungeon.fail( this );
                 GLog.n( Messages.get(this, "bolt_kill") );
             }
         } else {

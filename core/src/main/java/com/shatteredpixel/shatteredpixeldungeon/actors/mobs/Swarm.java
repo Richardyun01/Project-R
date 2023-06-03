@@ -99,11 +99,12 @@ public class Swarm extends Mob {
 			if (candidates.size() > 0) {
 				
 				Swarm clone = split();
-				clone.HP = (HP - damage) / 2;
+
 				clone.pos = Random.element( candidates );
 				clone.state = clone.HUNTING;
+				GameScene.add( clone, SPLIT_DELAY ); //we add before assigning HP due to ascension
 
-				GameScene.add( clone, SPLIT_DELAY );
+				clone.HP = (HP - damage) / 2;
 				Actor.addDelayed( new Pushing( clone, pos, clone.pos ), -1 );
 
 				Dungeon.level.occupyCell(clone);

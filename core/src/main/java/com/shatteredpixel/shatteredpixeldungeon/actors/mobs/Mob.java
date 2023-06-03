@@ -146,6 +146,17 @@ public abstract class Mob extends Char {
 	protected boolean alerted = false;
 
 	protected static final float TIME_TO_WAKE_UP = 1f;
+
+	protected boolean firstAdded = true;
+	protected void onAdd(){
+		if (firstAdded) {
+			//modify health for ascension challenge if applicable, only on first add
+			float percent = HP / (float) HT;
+			HT = Math.round(HT * AscensionChallenge.statModifier(this));
+			HP = Math.round(HT * percent);
+			firstAdded = false;
+		}
+	}
 	
 	private static final String STATE	= "state";
 	private static final String SEEN	= "seen";
@@ -177,6 +188,9 @@ public abstract class Mob extends Char {
 		if (enemy != null) {
 			bundle.put(ENEMY_ID, enemy.id() );
 		}
+
+		//no need to actually save this, must be false
+		firstAdded = false;
 	}
 	
 	@Override

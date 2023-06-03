@@ -26,9 +26,9 @@ import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
-import com.shatteredpixel.shatteredpixeldungeon.ui.CheckBox;
 import com.shatteredpixel.shatteredpixeldungeon.ui.IconButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
+import com.shatteredpixel.shatteredpixeldungeon.ui.CheckBox;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 
@@ -38,7 +38,7 @@ public class WndChallenges extends Window {
 
 	private static final int WIDTH		= 120;
 	private static final int TTL_HEIGHT = 16;
-	private static final int BTN_HEIGHT = 16;
+	private static final int BTN_HEIGHT = 12;
 	private static final int GAP        = 1;
 
 	private boolean editable;
@@ -73,7 +73,7 @@ public class WndChallenges extends Window {
 			if (i > 0) {
 				pos += GAP;
 			}
-			cb.setRect( 0, pos, WIDTH-16, BTN_HEIGHT );
+			cb.setRect( 0, pos, WIDTH-12, BTN_HEIGHT );
 
 			add( cb );
 			boxes.add( cb );
@@ -87,7 +87,7 @@ public class WndChallenges extends Window {
 					);
 				}
 			};
-			info.setRect(cb.right(), pos, 16, BTN_HEIGHT);
+			info.setRect(cb.right(), pos, 12, BTN_HEIGHT);
 			add(info);
 			
 			pos = cb.bottom();

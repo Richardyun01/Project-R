@@ -85,7 +85,7 @@ public class LightJunker extends Mob {
         }
 
         if (heroKilled) {
-            Dungeon.fail( getClass() );
+            Dungeon.fail( this );
             GLog.n( Messages.get(Skeleton.class, "explo_kill") );
         }
     }

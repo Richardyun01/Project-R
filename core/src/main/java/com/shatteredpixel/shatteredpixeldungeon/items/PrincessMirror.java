@@ -72,7 +72,7 @@ public class PrincessMirror extends Item {
                     spawnGuard(curUser, 1);
                 }
                 curUser.sprite.operate(curUser.pos);
-                if (hero.hasTalent(Talent.MAGIC_MIRROR) && hero.buff(Talent.MagicMirrorCoolDown.class) != null) {
+                if (hero.hasTalent(Talent.MAGIC_MIRROR) && hero.buff(Talent.MagicMirrorCoolDown.class) == null) {
                     Buff.affect(hero, MindVision.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
                     Buff.affect(hero, Talent.MagicMirrorCoolDown.class, 40-10*hero.pointsInTalent(Talent.MAGIC_MIRROR));
                 }
@@ -84,7 +84,7 @@ public class PrincessMirror extends Item {
                 GameScene.selectCell(targeter);
             } else if (hero.subClass == HeroSubClass.WINTERSTORM) {
                 Buff.affect(curUser, WinterStorm.class, WinterStorm.DURATION + 4*Dungeon.hero.pointsInTalent(Talent.AMPLIFIED_GENERATOR));
-                if (hero.hasTalent(Talent.MAGIC_MIRROR) && hero.buff(Talent.MagicMirrorCoolDown.class) != null) {
+                if (hero.hasTalent(Talent.MAGIC_MIRROR) && hero.buff(Talent.MagicMirrorCoolDown.class) == null) {
                     Buff.affect(hero, MindVision.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
                     Buff.affect(hero, Talent.MagicMirrorCoolDown.class, 40-10*hero.pointsInTalent(Talent.MAGIC_MIRROR));
                 }
@@ -96,7 +96,7 @@ public class PrincessMirror extends Item {
                 new ScrollOfMirrorImage();
                 ScrollOfMirrorImage.spawnImages(curUser, 1);
                 curUser.sprite.operate(curUser.pos);
-                if (hero.hasTalent(Talent.MAGIC_MIRROR) && hero.buff(Talent.MagicMirrorCoolDown.class) != null) {
+                if (hero.hasTalent(Talent.MAGIC_MIRROR) && hero.buff(Talent.MagicMirrorCoolDown.class) == null) {
                     Buff.affect(hero, MindVision.class, 1+hero.pointsInTalent(Talent.MAGIC_MIRROR));
                     Buff.affect(hero, Talent.MagicMirrorCoolDown.class, 40-10*hero.pointsInTalent(Talent.MAGIC_MIRROR));
                 }

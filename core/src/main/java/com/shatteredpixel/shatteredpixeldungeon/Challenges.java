@@ -36,9 +36,10 @@ public class Challenges {
 	public static final int NO_SCROLLS		    = 64;
 	public static final int CHAMPION_ENEMIES	= 128;
 	public static final int STRONGER_BOSSES 	= 256;
-	public static final int EASY_MODE			= 512;
+	public static final int EXCAVATION			= 512;
+	public static final int EASY_MODE			= 1024;
 
-	public static final int MAX_VALUE           = 1023;
+	public static final int MAX_VALUE           = 2047;
 
 	public static final String[] NAME_IDS = {
 			"champion_enemies",
@@ -50,11 +51,12 @@ public class Challenges {
 			"swarm_intelligence",
 			"darkness",
 			"no_scrolls",
+			"excavation",
 			"easy_mode"
 	};
 
 	public static final int[] MASKS = {
-			CHAMPION_ENEMIES, STRONGER_BOSSES, NO_FOOD, NO_ARMOR, NO_HEALING, NO_HERBALISM, SWARM_INTELLIGENCE, DARKNESS, NO_SCROLLS, EASY_MODE
+			CHAMPION_ENEMIES, STRONGER_BOSSES, NO_FOOD, NO_ARMOR, NO_HEALING, NO_HERBALISM, SWARM_INTELLIGENCE, DARKNESS, NO_SCROLLS, EXCAVATION, EASY_MODE
 	};
 
 	public static int activeChallenges(){

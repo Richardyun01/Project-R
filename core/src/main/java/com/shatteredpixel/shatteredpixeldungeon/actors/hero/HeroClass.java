@@ -106,7 +106,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.WornShortswor
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSpike;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingStone;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.weaponarm.Vendetta;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.DeviceCompat;
 
@@ -120,7 +119,7 @@ public enum HeroClass {
 	LANCE( HeroSubClass.PHALANX, HeroSubClass.TERCIO, HeroSubClass.VLAD ),
 	CARROLL( HeroSubClass.CHALLENGER, HeroSubClass.BOUNTYHUNTER, HeroSubClass.CENOBITE ),
 	//MAGNUS(  ),
-	//MAGNUS( HeroSubClass.CAPTAIN, HeroSubClass.BREACHER, HeroSubClass.DRAGON ),
+	//MAGNUS( HeroSubClass.DEFENDER, HeroSubClass.CAPTAIN, HeroSubClass.DRAGON ),
 	ARTILIA( HeroSubClass.PERETORIA, HeroSubClass.VALKYRIE, HeroSubClass.WINTERSTORM );
 	//VANGUARD( HeroSubClass.LIBRARIAN, HeroSubClass.DEVASTATOR, HeroSubClass.IMMORTAL );
 
@@ -160,6 +159,11 @@ public enum HeroClass {
 			new ScrollOfRemoveCurse().identify();
 			new ScrollOfTransmutation().identify();
 		}
+		if (Dungeon.isChallenged(Challenges.EXCAVATION)) {
+			RingOfWealth excavation = new RingOfWealth();
+			(hero.belongings.ring = excavation).identify();
+			hero.belongings.ring.activate( hero );
+		}
 //erase this start
 		/**
 		PotionOfStrength strpotion = new PotionOfStrength();
@@ -186,10 +190,6 @@ public enum HeroClass {
 		plate.upgrade(8).collect();
 		 **/
 //erase this finish
-		Vendetta plate = new Vendetta();
-		plate.collect();
-		RingOfMight plate3 = new RingOfMight();
-		plate3.upgrade(3).collect();
 
 		switch (this) {
 			case WARRIOR:
