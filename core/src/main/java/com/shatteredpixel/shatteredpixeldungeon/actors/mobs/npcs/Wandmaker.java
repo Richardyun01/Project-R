@@ -80,9 +80,10 @@ public class Wandmaker extends NPC {
 	@Override
 	public void damage( int dmg, Object src ) {
 	}
-	
+
 	@Override
-	public void add( Buff buff ) {
+	public boolean add( Buff buff ) {
+		return false;
 	}
 	
 	@Override

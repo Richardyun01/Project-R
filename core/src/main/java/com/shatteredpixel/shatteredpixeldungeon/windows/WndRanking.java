@@ -86,14 +86,11 @@ public class WndRanking extends WndTabbed {
 		try {
 			Badges.loadGlobal();
 			Rankings.INSTANCE.loadGameData( rec );
-			if (Dungeon.hero != null) {
-				createControls();
-			} else {
-				hide();
-			}
+			createControls();
 		} catch ( Exception e ) {
-			hide();
-			Game.scene().addToFront( new WndError( Messages.get(WndRanking.class, "error" )));
+			Game.reportException( new RuntimeException("Rankings Display Failed!",e));
+			Dungeon.hero = null;
+			createControls();
 		}
 	}
 	
@@ -403,7 +400,7 @@ public class WndRanking extends WndTabbed {
 				if (i > 0) {
 					pos += 1;
 				}
-				cb.setRect( 0, pos, WIDTH-12, 13 );
+				cb.setRect( 0, pos, WIDTH-12, 12 );
 
 				add( cb );
 

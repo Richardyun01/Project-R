@@ -219,7 +219,7 @@ public enum Talent {
 	//Carroll T2
 	FOCUSED_MEAL(324), RESTORED_AGILITY(325), WEAPON_RECHARGING(326), LETHAL_HASTE(327), SWIFT_EQUIP(328), EMERGENCY_AVOIDANCE(329),
 	//Carroll T3
-	LIGHTWEIGHT_CHARGE(330, 3), DEADLY_FOLLOWUP(331, 3),
+	PRECISE_ASSAULT(330, 3), DEADLY_FOLLOWUP(331, 3),
 	//Challenger T3
 	SECONDARY_CHARGE(332, 3), TWIN_UPGRADES(333, 3), COMBINED_LETHALITY(334, 3),
 	//Bounty Hunter T3
@@ -331,12 +331,33 @@ public enum Talent {
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / 20); }
 	};
 	public static class SpiritBladesTracker extends FlavourBuff{};
-	public static class PatientStrikeTracker extends FlavourBuff {
+	public static class PatientStrikeTracker extends Buff {
+		public int pos;
 		{ type = Buff.buffType.POSITIVE; }
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0.5f, 0f, 1f); }
 		public String iconTextDisplay() { return ""; }
 		public float iconFadePercent() { return 0; }
+		@Override
+		public boolean act() {
+			if (pos != target.pos) {
+				detach();
+			} else {
+				spend(TICK);
+			}
+			return true;
+		}
+		private static final String POS = "pos";
+		@Override
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+			bundle.put(POS, pos);
+		}
+		@Override
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+			pos = bundle.getInt(POS);
+		}
 	};
 	public static class AggressiveBarrierCooldown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
@@ -624,6 +645,10 @@ public enum Talent {
 		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 1){
 			if (hero.belongings.ring instanceof Ring) hero.belongings.ring.setKnown();
 			if (hero.belongings.misc instanceof Ring) ((Ring) hero.belongings.misc).setKnown();
+		}
+
+		if (talent == PROTECTIVE_SHADOWS && hero.invisible > 0){
+			Buff.affect(hero, Talent.ProtectiveShadowsTracker.class);
 		}
 
 		if (talent == LIGHT_CLOAK && hero.heroClass == HeroClass.ROGUE){
@@ -980,7 +1005,7 @@ public enum Talent {
 			Buff.affect(enemy, SuckerPunchTracker.class);
 		}
 
-		if (hero.hasTalent(Talent.FOLLOWUP_STRIKE) && enemy.alignment == Char.Alignment.ENEMY) {
+		if (hero.hasTalent(Talent.FOLLOWUP_STRIKE) && (enemy.alignment == Char.Alignment.ENEMY || enemy.alignment == Char.Alignment.ALLATTACK)) {
 			if (hero.belongings.attackingWeapon() instanceof MissileWeapon) {
 				Buff.prolong(hero, FollowupStrikeTracker.class, 5f).object = enemy.id();
 			} else if (hero.buff(FollowupStrikeTracker.class) != null
@@ -1006,7 +1031,7 @@ public enum Talent {
 			}
 		}
 
-		if (hero.hasTalent(DEADLY_FOLLOWUP) && enemy.alignment == Char.Alignment.ENEMY) {
+		if (hero.hasTalent(DEADLY_FOLLOWUP) && (enemy.alignment == Char.Alignment.ENEMY || enemy.alignment == Char.Alignment.ALLATTACK)) {
 			if (hero.belongings.attackingWeapon() instanceof MissileWeapon) {
 				if (!(hero.belongings.attackingWeapon() instanceof SpiritBow.SpiritArrow)) {
 					Buff.prolong(hero, DeadlyFollowupTracker.class, 5f).object = enemy.id();
@@ -1159,7 +1184,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, BURNING_BLOOD, HAIL_MARY);
 				break;
 			case CARROLL:
-				Collections.addAll(tierTalents, LIGHTWEIGHT_CHARGE, DEADLY_FOLLOWUP);
+				Collections.addAll(tierTalents, PRECISE_ASSAULT, DEADLY_FOLLOWUP);
 				break;
 				/*
 			case MAGNUS:

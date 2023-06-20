@@ -265,7 +265,7 @@ public class FirearmWeapon extends MeleeWeapon {
         return AC_SHOOT;
     }
 
-    @Override
+    //@Override
     public float abilityChargeUse( Hero hero ) { return 0; }
 
     protected void carrollAbility( Hero hero, Integer target ){
@@ -996,7 +996,7 @@ public class FirearmWeapon extends MeleeWeapon {
                     hero.buff(Harmonica.GuidedShot.class) != null ||
                     hero.buff(Vega.BreakerShot.class) != null ||
                     hero.buff(Madness.OverCharge.class) != null) {
-                    FirearmWeapon.this.onAbilityKill(hero);
+                    FirearmWeapon.this.onAbilityKill(hero, defender);
                 }
             }
             if (FirearmWeapon.this.enchantment == null

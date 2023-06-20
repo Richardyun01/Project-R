@@ -54,24 +54,28 @@ public class Journal {
 	
 	//package-private
 	static boolean saveNeeded = false;
-	
+
 	public static void saveGlobal(){
-		if (!saveNeeded){
+		saveGlobal(false);
+	}
+
+	public static void saveGlobal(boolean force){
+		if (!force && !saveNeeded){
 			return;
 		}
-		
+
 		Bundle bundle = new Bundle();
-		
+
 		Catalog.store(bundle);
 		Document.store(bundle);
-		
+
 		try {
 			FileUtils.bundleToFile( JOURNAL_FILE, bundle );
 			saveNeeded = false;
 		} catch (IOException e) {
 			ShatteredPixelDungeon.reportException(e);
 		}
-		
+
 	}
 
 }

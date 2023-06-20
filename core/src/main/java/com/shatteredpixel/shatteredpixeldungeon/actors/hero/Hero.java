@@ -741,7 +741,7 @@ public class Hero extends Char {
 		}
 
 		if (hit && heroClass == HeroClass.CARROLL && wasEnemy){
-			Buff.append( this, Sai.ComboStrikeTracker.class, Sai.ComboStrikeTracker.DURATION);
+			Buff.affect( this, Sai.ComboStrikeTracker.class).addHit();
 		}
 
 		return hit;
@@ -949,6 +949,7 @@ public class Hero extends Char {
 		if (!RingOfForce.fightingUnarmed(this)) {
 			dmg = wep.damageRoll( this );
 
+			/*
 			if (heroClass != HeroClass.CARROLL
 					&& hasTalent(Talent.LIGHTWEIGHT_CHARGE)
 					&& wep instanceof MeleeWeapon) {
@@ -958,6 +959,7 @@ public class Hero extends Char {
 					dmg = Math.round(dmg * (1f + 0.05f*pointsInTalent(Talent.LIGHTWEIGHT_CHARGE)));
 				}
 			}
+			*/
 
 			if (!(wep instanceof MissileWeapon)) dmg += RingOfForce.armedDamageBonus(this);
 		} else {
@@ -1649,6 +1651,9 @@ public class Hero extends Char {
 		if (hasTalent(Talent.HOLD_FAST)){
 			Buff.affect(this, HoldFast.class);
 		}
+		if (hasTalent(Talent.PATIENT_STRIKE)){
+			Buff.affect(Dungeon.hero, Talent.PatientStrikeTracker.class).pos = Dungeon.hero.pos;
+		}
 		if (!fullRest) {
 			if (sprite != null) {
 				sprite.showStatus(CharSprite.DEFAULT, Messages.get(this, "wait"));
@@ -2220,16 +2225,17 @@ public class Hero extends Char {
 	public boolean isStarving() {
 		return Buff.affect(this, Hunger.class).isStarving();
 	}
-	
+
 	@Override
-	public void add( Buff buff ) {
+	public boolean add( Buff buff ) {
 
-		if (buff(TimekeepersHourglass.timeStasis.class) != null)
-			return;
+		if (buff(TimekeepersHourglass.timeStasis.class) != null) {
+			return false;
+		}
 
-		super.add( buff );
+		boolean added = super.add( buff );
 
-		if (sprite != null && buffs().contains(buff)) {
+		if (sprite != null && added) {
 			String msg = buff.heroMessage();
 			if (msg != null){
 				GLog.w(msg);
@@ -2240,8 +2246,10 @@ public class Hero extends Char {
 			}
 
 		}
-		
+
 		BuffIndicator.refreshHero();
+
+		return added;
 	}
 	
 	@Override
@@ -2461,7 +2469,7 @@ public class Hero extends Char {
 		}
 
 		if (hit && heroClass == HeroClass.CARROLL && wasEnemy) {
-			Buff.append(this, Sai.ComboStrikeTracker.class, Sai.ComboStrikeTracker.DURATION);
+			Buff.affect( this, Sai.ComboStrikeTracker.class).addHit();
 		}
 
 		if (hit && hero.heroClass == HeroClass.LANCE && wasEnemy){

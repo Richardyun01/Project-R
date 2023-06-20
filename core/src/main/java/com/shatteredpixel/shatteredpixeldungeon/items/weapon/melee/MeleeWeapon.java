@@ -208,6 +208,11 @@ public class MeleeWeapon extends Weapon {
 			}
 		}
 
+		if (hero.buff(Talent.PreciseAssaultTracker.class) != null) {
+			hero.buff(Talent.PreciseAssaultTracker.class).detach();
+		}
+
+
 		if (hero.buff(Talent.CombinedLethalityAbilityTracker.class) != null
 				&& hero.buff(Talent.CombinedLethalityAbilityTracker.class).weapon != null
 				&& hero.buff(Talent.CombinedLethalityAbilityTracker.class).weapon != this){
@@ -236,6 +241,9 @@ public class MeleeWeapon extends Weapon {
 				tracker.wepAbilUsed = true;
 				Buff.affect(hero, CenobiteEnergy.class).processCombinedEnergy(tracker);
 			}
+		}
+		if (hero.hasTalent(Talent.PRECISE_ASSAULT)){
+			Buff.prolong(hero, Talent.PreciseAssaultTracker.class, hero.cooldown()+4f);
 		}
 		if (hero.buff(Talent.CounterAbilityTacker.class) != null){
 			hero.buff(Talent.CounterAbilityTacker.class).detach();
@@ -308,6 +316,28 @@ public class MeleeWeapon extends Weapon {
 			}
 		}
 		return super.buffedLvl();
+	}
+	@Override
+	public float accuracyFactor(Char owner, Char target) {
+		float ACC = super.accuracyFactor(owner, target);
+
+		if (owner instanceof Hero
+				&& ((Hero) owner).hasTalent(Talent.PRECISE_ASSAULT)
+				//does not trigger on ability attacks
+				&& ((Hero) owner).belongings.abilityWeapon != this) {
+			if (((Hero) owner).heroClass != HeroClass.CARROLL) {
+				//persistent +10%/20%/30% ACC for other heroes
+				ACC *= 1f + 0.1f * ((Hero) owner).pointsInTalent(Talent.PRECISE_ASSAULT);
+			} else if (this instanceof Flail && owner.buff(Flail.SpinAbilityTracker.class) != null){
+				//do nothing, this is not a regular attack so don't consume preciase assault
+			} else if (owner.buff(Talent.PreciseAssaultTracker.class) != null) {
+				// 2x/4x/8x ACC for duelist if she just used a weapon ability
+				ACC *= Math.pow(2, ((Hero) owner).pointsInTalent(Talent.PRECISE_ASSAULT));
+				owner.buff(Talent.PreciseAssaultTracker.class).detach();
+			}
+		}
+
+		return ACC;
 	}
 
 	@Override

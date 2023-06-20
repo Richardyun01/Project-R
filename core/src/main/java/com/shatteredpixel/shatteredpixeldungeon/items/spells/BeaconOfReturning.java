@@ -147,7 +147,9 @@ public class BeaconOfReturning extends Spell {
 				}
 			}
 
-			if (!ScrollOfTeleportation.teleportToLocation(hero, returnPos)){
+			if (ScrollOfTeleportation.teleportToLocation(hero, returnPos)){
+				hero.spendAndNext( 1f );
+			} else {
 				return;
 			}
 
@@ -169,7 +171,6 @@ public class BeaconOfReturning extends Spell {
 			InterlevelScene.returnPos = returnPos;
 			Game.switchScene( InterlevelScene.class );
 		}
-		hero.spendAndNext( 1f );
 		detach(hero.belongings.backpack);
 	}
 	

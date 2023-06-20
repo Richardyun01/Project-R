@@ -26,10 +26,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.SlimeSprite;
 import com.watabou.utils.Random;
-import com.watabou.utils.Reflection;
 
 public class Slime extends Mob {
 	
@@ -78,11 +77,15 @@ public class Slime extends Mob {
 	public Item createLoot() {
 		Dungeon.LimitedDrops.SLIME_WEP.count++;
 		Generator.Category c;
-		if (Random.Int(2) == 0)
+		if (Random.Int(2) == 0) {
 			c = Generator.Category.WEP_T2;
-		else
+			//MeleeWeapon w = (MeleeWeapon) Generator.randomUsingDefaults(Generator.Category.WEP_T2);
+		} else {
 			c = Generator.Category.GUN_T2;
-		MeleeWeapon w = (MeleeWeapon) Reflection.newInstance(c.classes[Random.chances(c.probs)]);
+			//FirearmWeapon w = (FirearmWeapon) Generator.randomUsingDefaults(Generator.Category.GUN_T2);
+		}
+		Weapon w = (Weapon) Generator.randomUsingDefaults(c);
+		//MeleeWeapon w = (MeleeWeapon) Reflection.newInstance(c.classes[Random.chances(c.probs)]);
 		w.random();
 		w.level(0);
 		return w;

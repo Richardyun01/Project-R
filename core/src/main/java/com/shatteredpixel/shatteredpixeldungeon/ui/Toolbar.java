@@ -260,7 +260,7 @@ public class Toolbar extends Component {
 							Buff.affect(Dungeon.hero, HoldFast.class).pos = Dungeon.hero.pos;
 						}
 						if (Dungeon.hero.hasTalent(Talent.PATIENT_STRIKE)){
-							Buff.prolong(Dungeon.hero, Talent.PatientStrikeTracker.class, Dungeon.hero.cooldown());
+							Buff.affect(Dungeon.hero, Talent.PatientStrikeTracker.class).pos = Dungeon.hero.pos;
 						}
 						Dungeon.hero.next();
 					} else {
@@ -372,6 +372,7 @@ public class Toolbar extends Component {
 			protected void layout() {
 				super.layout();
 				ind.fill(this);
+				bringToFront(ind);
 
 				arrow.x = left() + (width - arrow.width())/2;
 				arrow.y = bottom()-arrow.height-1;

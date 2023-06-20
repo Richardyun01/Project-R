@@ -449,7 +449,8 @@ public class WandOfRegrowth extends Wand {
 		}
 
 		@Override
-		public void add( Buff buff ) {
+		public boolean add( Buff buff ) {
+			return false;
 		}
 
 		@Override

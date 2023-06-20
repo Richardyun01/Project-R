@@ -112,7 +112,7 @@ public class WandOfLightning extends DamageWand {
 
 	private void arc( Char ch ) {
 
-		int dist = (Dungeon.level.water[ch.pos] && !ch.flying) ? 2 : 1;
+		int dist = (Dungeon.level.water[ch.pos]) ? 2 : 1;
 
 		ArrayList<Char> hitThisArc = new ArrayList<>();
 		PathFinder.buildDistanceMap( ch.pos, BArray.not( Dungeon.level.solid, null ), dist );

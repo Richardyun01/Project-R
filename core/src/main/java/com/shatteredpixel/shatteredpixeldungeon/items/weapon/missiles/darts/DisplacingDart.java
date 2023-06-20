@@ -27,14 +27,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
-import com.shatteredpixel.shatteredpixeldungeon.mechanics.ShadowCaster;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.watabou.utils.PathFinder;
-import com.watabou.utils.Random;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class DisplacingDart extends TippedDart {
 	
@@ -44,6 +41,11 @@ public class DisplacingDart extends TippedDart {
 	
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
+
+		//only display enemies when processing charge shot
+		if (processingChargedShot && attacker.alignment == defender.alignment) {
+			return super.proc(attacker, defender, damage);
+		}
 
 		//attempts to teleport the enemy to a position 8-10 cells away from the hero
 		//prioritizes the closest visible cell to the defender, or closest non-visible if no visible are present
@@ -92,7 +94,7 @@ public class DisplacingDart extends TippedDart {
 			if (chosenPos != -1){
 				ScrollOfTeleportation.appear( defender, chosenPos );
 				if (!Dungeon.level.heroFOV[chosenPos]){
-					Buff.affect(attacker, TalismanOfForesight.CharAwareness.class, 5f).charID = defender.id();
+					Buff.append(attacker, TalismanOfForesight.CharAwareness.class, 5f).charID = defender.id();
 				}
 				Dungeon.level.occupyCell(defender );
 			}

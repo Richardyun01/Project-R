@@ -6,6 +6,8 @@ public class PulsingCore extends Item{
 
     {
         image = ItemSpriteSheet.CORE;
+
+        bones = false;
     }
 
     @Override
