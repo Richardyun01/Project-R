@@ -105,6 +105,17 @@ public class Shopkeeper extends NPC {
 		GameScene.add((Mob) shopKeeperBoss);
 	}
 
+	public void fleeAscension() {
+		destroy();
+
+		Notes.remove(Notes.Landmark.SHOP);
+
+		if (sprite != null) {
+			sprite.killAndErase();
+			CellEmitter.get(pos).burst(ElmoParticle.FACTORY, 6);
+		}
+	}
+
 	@Override
 	public void destroy() {
 		super.destroy();
