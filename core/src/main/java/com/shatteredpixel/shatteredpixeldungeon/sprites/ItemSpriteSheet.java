@@ -193,7 +193,7 @@ public class ItemSpriteSheet {
 	private static final int SPECIAL_ITEMS      =                               xy(1, 6);   //16 slots
 	public static final int SPEED_LOADER     	= SPECIAL_ITEMS+0;
 	public static final int TEMP_SHIP     		= SPECIAL_ITEMS+1;
-	public static final int TAC_MAP     		= SPECIAL_ITEMS+2;
+	public static final int SHIELD	     		= SPECIAL_ITEMS+2;
 	public static final int BALE_EYE     		= SPECIAL_ITEMS+3;
 	public static final int PRINCESS_MIRROR     = SPECIAL_ITEMS+4;
 	public static final int PSIONIC_NODE     	= SPECIAL_ITEMS+5;
@@ -206,7 +206,7 @@ public class ItemSpriteSheet {
 	static{
 		assignItemRect(SPEED_LOADER,          	15, 15);
 		assignItemRect(TEMP_SHIP,        		16, 16);
-		assignItemRect(TAC_MAP,       			15, 13);
+		assignItemRect(SHIELD,       			14, 16);
 		assignItemRect(BALE_EYE,      			10, 16);
 		assignItemRect(PRINCESS_MIRROR,   		12, 14);
 		assignItemRect(PSIONIC_NODE,       		10, 16);

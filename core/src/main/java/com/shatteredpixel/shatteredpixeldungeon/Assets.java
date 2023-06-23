@@ -229,6 +229,7 @@ public class Assets {
 		public static final String HUNTRESS = "splashes/huntress.jpg";
 		public static final String NOISE	= "splashes/huntress.jpg";
 		public static final String LANCE	= "splashes/huntress.jpg";
+		public static final String MAGNUS	= "splashes/huntress.jpg";
 		public static final String CARROLL	= "splashes/huntress.jpg";
 		public static final String ARTILIA	= "splashes/huntress.jpg";
 	}
@@ -243,6 +244,7 @@ public class Assets {
 		public static final String HUNTRESS = "sprites/huntress.png";
 		public static final String NOISE	= "sprites/noise.png";
 		public static final String LANCE  	= "sprites/lance.png";
+		public static final String MAGNUS  	= "sprites/lance.png";
 		public static final String CARROLL  = "sprites/carroll.png";
 		public static final String ARTILIA  = "sprites/artilia.png";
 		public static final String AVATARS  = "sprites/avatars.png";

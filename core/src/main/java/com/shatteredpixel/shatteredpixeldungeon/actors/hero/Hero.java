@@ -99,6 +99,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap.Type;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.ReactiveShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.curses.LessHP;
@@ -934,8 +935,8 @@ public class Hero extends Char {
 			dr *= 1.25f;
 		}
 
-		if (hasTalent(Talent.BIO_ARMOR)) {
-			dr += pointsInTalent(Talent.BIO_ARMOR);
+		if (hasTalent(Talent.REACTIVE_ARMOR)) {
+			dr += Random.NormalIntRange(0, pointsInTalent(Talent.REACTIVE_ARMOR));
 		}
 
 		return dr;
@@ -1820,6 +1821,17 @@ public class Hero extends Char {
 			}
 		}
 
+		if (hero.hasTalent(Talent.ENDURE)) {
+			dmg *= (1f - 0.1f*hero.pointsInTalent(Talent.ENDURE));
+		}
+
+		ReactiveShield.ReactiveShieldBuff shield = hero.buff(ReactiveShield.ReactiveShieldBuff.class);
+		if (shield != null){
+			dmg -= 999999;
+			shield.detach();
+			Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 0.75f, 1f);
+		}
+
 		ImmortalBarrier barrier = hero.buff(ImmortalBarrier.class);
 		if (barrier != null) {
 			dmg -= 99999;
@@ -2127,8 +2139,11 @@ public class Hero extends Char {
 	}
 	
 	public void earnExp( int exp, Class source ) {
-		
-		this.exp += exp;
+
+		//xp granted by ascension challenge is only for on-exp gain effects
+		if (source != AscensionChallenge.class) {
+			this.exp += exp;
+		}
 		float percent = exp/(float)maxExp();
 
 		EtherealChains.chainsRecharge chains = buff(EtherealChains.chainsRecharge.class);

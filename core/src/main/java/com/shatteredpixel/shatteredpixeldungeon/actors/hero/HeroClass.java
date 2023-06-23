@@ -54,12 +54,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Sh
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.PrincessMirror;
+import com.shatteredpixel.shatteredpixeldungeon.items.ReactiveShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
-import com.shatteredpixel.shatteredpixeldungeon.items.TacMap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
-import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.IceBox;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
@@ -119,7 +118,7 @@ public enum HeroClass {
 	NOISE( HeroSubClass.TRIGGERHAPPY, HeroSubClass.DEMOLITIONIST, HeroSubClass.BUNKER),
 	LANCE( HeroSubClass.PHALANX, HeroSubClass.TERCIO, HeroSubClass.VLAD ),
 	CARROLL( HeroSubClass.CHALLENGER, HeroSubClass.BOUNTYHUNTER, HeroSubClass.CENOBITE ),
-	//MAGNUS(  ),
+	MAGNUS( HeroSubClass.DEFENDER ),
 	//MAGNUS( HeroSubClass.DEFENDER, HeroSubClass.CAPTAIN, HeroSubClass.DRAGON ),
 	ARTILIA( HeroSubClass.PERETORIA, HeroSubClass.VALKYRIE, HeroSubClass.WINTERSTORM );
 	//VANGUARD( HeroSubClass.LIBRARIAN, HeroSubClass.DEVASTATOR, HeroSubClass.IMMORTAL );
@@ -191,7 +190,6 @@ public enum HeroClass {
 		plate.upgrade(8).collect();
 		 **/
 //erase this finish
-		new DriedRose().collect();
 
 		switch (this) {
 			case WARRIOR:
@@ -221,11 +219,11 @@ public enum HeroClass {
 			case CARROLL:
 				initCarroll( hero );
 				break;
-			/*
+
 			case MAGNUS:
 				initMagnus( hero );
 				break;
-			*/
+
 			case ARTILIA:
 				initArtilia( hero );
 				break;
@@ -256,10 +254,8 @@ public enum HeroClass {
 				return Badges.Badge.MASTERY_LANCE;
 			case CARROLL:
 				return Badges.Badge.MASTERY_CARROLL;
-				/*
 			case MAGNUS:
 				return Badges.Badge.MASTERY_MAGNUS;
-				*/
 			case ARTILIA:
 				return Badges.Badge.MASTERY_ARTILIA;
 		}
@@ -372,10 +368,10 @@ public enum HeroClass {
 
 		(hero.belongings.weapon = new CommonBlade()).identify();
 
-		TacMap map = new TacMap();
-		map.identify().collect();
+		ReactiveShield shield = new ReactiveShield();
+		shield.identify().collect();
 
-		Dungeon.quickslot.setSlot(0, map);
+		Dungeon.quickslot.setSlot(0, shield);
 
 		new PotionOfExperience().identify();
 		new ScrollOfRemoveCurse().identify();
@@ -426,6 +422,8 @@ public enum HeroClass {
 				return new ArmorAbility[]{new Stimpack(), new SentryGun(), new DangerClose()};
 			case LANCE:
 				return new ArmorAbility[]{new Starburst(), new AfterImage(), new BloodWine()};
+			case MAGNUS:
+				return new ArmorAbility[]{};
 			case CARROLL:
 				return new ArmorAbility[]{new Challenge(), new ElementalStrike(), new Feint()};
 			case ARTILIA:
@@ -449,10 +447,8 @@ public enum HeroClass {
 				return Assets.Sprites.LANCE;
 			case CARROLL:
 				return Assets.Sprites.CARROLL;
-				/*
 			case MAGNUS:
 				return Assets.Sprites.MAGNUS;
-				*/
 			case ARTILIA:
 				return Assets.Sprites.ARTILIA;
 		}
@@ -474,10 +470,8 @@ public enum HeroClass {
 				return Assets.Splashes.LANCE;
 			case CARROLL:
 				return Assets.Splashes.CARROLL;
-				/*
 			case MAGNUS:
 				return Assets.Splashes.MAGNUS;
-				*/
 			case ARTILIA:
 				return Assets.Splashes.ARTILIA;
 		}
@@ -502,10 +496,8 @@ public enum HeroClass {
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_LANCE);
 			case CARROLL:
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_CARROLL);
-				/*
 			case MAGNUS:
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_MAGNUS);
-				*/
 			case ARTILIA:
 				return Badges.isUnlocked(Badges.Badge.UNLOCK_ARTILIA);
 		}

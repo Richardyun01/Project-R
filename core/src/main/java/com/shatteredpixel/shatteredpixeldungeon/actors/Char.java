@@ -92,6 +92,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.Ch
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.DeathMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Elemental;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Tengu;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.MirrorImage;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.PrismaticImage;
@@ -474,6 +475,15 @@ public abstract class Char extends Actor {
 				Buff.affect(enemy, Charm.class, Charm.DURATION).object = hero.id();
 			}
 
+			if (this instanceof Hero && hero.hasTalent(Talent.RADIUS_BLAST) && hero.buff(Talent.BlastCoolDown.class) == null) {
+				for (Mob mob : (Mob[]) Dungeon.level.mobs.toArray(new Mob[0])) {
+					if (Dungeon.level.adjacent(mob.pos, enemy.pos) && mob.alignment != Char.Alignment.ALLY) {
+						mob.damage(Dungeon.hero.damageRoll() - Math.max(enemy.drRoll(), enemy.drRoll()), this);
+					}
+				}
+				Buff.affect(hero, Talent.BlastCoolDown.class, 100-10*hero.pointsInTalent(Talent.RADIUS_BLAST));
+			}
+
 			Dungeon.hero.busy();
 
 			//we use a float here briefly so that we don't have to constantly round while
@@ -576,6 +586,11 @@ public abstract class Char extends Actor {
 				hero.belongings.armor != null &&
 				hero.belongings.attackingWeapon() instanceof MeleeWeapon) {
 				dmg += hero.belongings.armor.DRMax()*0.03f*hero.pointsInTalent(Talent.INERITA);
+			}
+
+			if (this instanceof Hero && hero.hasTalent(Talent.BREACHING_SEQUENCE) &&
+				(Dungeon.level.map[enemy.pos] == Terrain.DOOR || Dungeon.level.map[enemy.pos] == Terrain.OPEN_DOOR)) {
+				dmg *= (1 + 0.3*hero.pointsInTalent(Talent.BREACHING_SEQUENCE));
 			}
 
 			for (ChampionEnemy buff : buffs(ChampionEnemy.class)){

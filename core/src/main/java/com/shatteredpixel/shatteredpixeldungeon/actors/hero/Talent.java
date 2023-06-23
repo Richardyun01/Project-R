@@ -214,6 +214,19 @@ public enum Talent {
 	//Blood Wine T4
 	TOXIC_WINE(315, 4), ALCOHOLIC_FRENZY(316, 4), HANGOVER(317, 4),
 
+	//Magnus T1
+	LAZY_MEAL(352), HARDENED_INTUTION(353), INERITA(354), SHIELD_RECHARGE(355),
+	//Magnus T2
+	IRON_MEAL(356), UNDYING_REGENRATION(357), ENDURE(358), SCANNING(359), BREACHING_SEQUENCE(360), TARGETING_ARRAY(361),
+	//Magnus T3
+	REACTIVE_ARMOR(362, 3), RADIUS_BLAST(363, 3),
+	//Defender T3
+	DEFENCE_MATRIX(364, 3), SHOCKWAVE_ABSORB(365, 3), ARMED_SHIELD(366, 3),
+	//Captain T3
+	ENERGY_TRANSMISSION(367, 3), ADVANCED_SYSTEM(368, 3), ENHANCED_SHIP(369, 3),
+	//Dragon T3
+	OLD_MEMORY_I(370, 3), OLD_MEMORY_II(371, 3), OLD_MEMORY_III(372, 3),
+
 	//Carroll T1
 	STRENGTHENING_MEAL(320), ADVENTURERS_INTUITION(321), PATIENT_STRIKE(322), SPEEDY_MOVEMENT(323),
 	//Carroll T2
@@ -232,19 +245,6 @@ public enum Talent {
 	ELEMENTAL_REACH(344, 4), STRIKING_FORCE(345, 4), DIRECTED_POWER(346, 4),
 	//Feint T4
 	FEIGNED_RETREAT(347, 4), EXPOSE_WEAKNESS(348, 4), COUNTER_ABILITY(349, 4),
-
-	//Magnus T1
-	LAZY_MEAL(352), HARDENED_INTUTION(353), INERITA(354), BIO_ARMOR(355),
-	//Magnus T2
-	IRON_MEAL(356), UNDYING_REGENRATION(357), ENDURE(358), SCANNING(359), BREACHING_SEQUENCE(360), TARGETING_ARRAY(361),
-	//Magnus T3
-	REACTIVE_ARMOR(362, 3), RADIUS_BLAST(363, 3),
-	//Defender T3
-	DEFENCE_MATRIX(364, 3), SHOCKWAVE_ABSORB(365, 3), ARMED_SHIELD(366, 3),
-	//Captain T3
-	ENERGY_TRANSMISSION(367, 3), ADVANCED_SYSTEM(368, 3), ENHANCED_SHIP(369, 3),
-	//Dragon T3
-	OLD_MEMORY_I(370, 3), OLD_MEMORY_II(371, 3), OLD_MEMORY_III(372, 3),
 
 	//Artilia T1
 	LUXURIOUS_MEAL(384), EXPERIENCE_STACK(385), DISTURBANCE_DEFENCE(386), COMMAND_SYSTEM(387),
@@ -545,6 +545,16 @@ public enum Talent {
 	};
 	public static class identifyIdentify extends CounterBuff {}
 	public static class FrostWindTracker extends FlavourBuff{};
+	public static class BlastCoolDown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 100-10*Dungeon.hero.pointsInTalent(Talent.RADIUS_BLAST)); }
+	};
+	public static class ScanningCoolDown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / 90-5*Dungeon.hero.pointsInTalent(Talent.SCANNING)); }
+	};
 
 	int icon;
 	int maxPoints;
@@ -661,7 +671,7 @@ public enum Talent {
 			}
 		}
 
-		if (talent == HEIGHTENED_SENSES || talent == FARSIGHT){
+		if (talent == HEIGHTENED_SENSES || talent == FARSIGHT || talent == DATA_LINK || talent == TARGETING_ARRAY){
 			Dungeon.observe();
 		}
 
@@ -767,6 +777,10 @@ public enum Talent {
 		if (hero.hasTalent(SECRET_MEAL)){
 			//effectively 2/3 turns of invisibility
 			Buff.affect( hero, Invisibility.class, 1 + hero.pointsInTalent(SECRET_MEAL));
+		}
+		if (hero.hasTalent(IRON_MEAL)){
+			//effectively 7/14 amounts of barrier
+			Buff.affect(hero, Barrier.class).setShield(7*(hero.pointsInTalent(IRON_MEAL)));
 		}
 		if (hero.hasTalent(STRENGTHENING_MEAL)){
 			//3 bonus physical damage for next 2/3 attacks
@@ -1106,11 +1120,9 @@ public enum Talent {
 			case CARROLL:
 				Collections.addAll(tierTalents, STRENGTHENING_MEAL, ADVENTURERS_INTUITION, PATIENT_STRIKE, SPEEDY_MOVEMENT, REPAIRMENT);
 				break;
-				/*
 			case MAGNUS:
-				Collections.addAll(tierTalents, LAZY_MEAL, HARDENED_INTUTION, INERITA, BIO_ARMOR, REPAIRMENT);
+				Collections.addAll(tierTalents, LAZY_MEAL, HARDENED_INTUTION, INERITA, SHIELD_RECHARGE, REPAIRMENT);
 				break;
-				*/
 			case ARTILIA:
 				Collections.addAll(tierTalents, LUXURIOUS_MEAL, EXPERIENCE_STACK, DISTURBANCE_DEFENCE, COMMAND_SYSTEM, REPAIRMENT);
 				break;
@@ -1143,14 +1155,12 @@ public enum Talent {
 			case LANCE:
 				Collections.addAll(tierTalents, SECRET_MEAL, BLOOD_ENGRAVEMENT, COMPULSION, MOON_WALKING, OVERCOMING_WEAKNESS, WILD_HUNT);
 				break;
+			case MAGNUS:
+				Collections.addAll(tierTalents, IRON_MEAL, UNDYING_REGENRATION, ENDURE, SCANNING, BREACHING_SEQUENCE, TARGETING_ARRAY);
+				break;
 			case CARROLL:
 				Collections.addAll(tierTalents, FOCUSED_MEAL, RESTORED_AGILITY, WEAPON_RECHARGING, LETHAL_HASTE, SWIFT_EQUIP, EMERGENCY_AVOIDANCE);
 				break;
-				/*
-			case MAGNUS:
-				Collections.addAll(tierTalents, FROZEN_MEAL, IMMORTAL_REGENARATION);
-				break;
-				*/
 			case ARTILIA:
 				Collections.addAll(tierTalents, FROZEN_MEAL, ENIGMATIC_UPGRADE, MAGIC_MIRROR, HIGH_DIGNITY, TRAMPLE, DIGNIFIED_STEP);
 				break;
@@ -1183,14 +1193,12 @@ public enum Talent {
 			case LANCE:
 				Collections.addAll(tierTalents, BURNING_BLOOD, HAIL_MARY);
 				break;
+			case MAGNUS:
+				Collections.addAll(tierTalents, REACTIVE_ARMOR, RADIUS_BLAST);
+				break;
 			case CARROLL:
 				Collections.addAll(tierTalents, PRECISE_ASSAULT, DEADLY_FOLLOWUP);
 				break;
-				/*
-			case MAGNUS:
-				Collections.addAll(tierTalents);
-				break;
-				*/
 			case ARTILIA:
 				Collections.addAll(tierTalents, JACK_FROST, CHARISMA);
 				break;
@@ -1276,6 +1284,9 @@ public enum Talent {
 			case VLAD:
 				Collections.addAll(tierTalents, HUNGER_AND_THIRST, GREAT_TERROR, FITTEST_SURVIVAL);
 				break;
+			case DEFENDER:
+				Collections.addAll(tierTalents, DEFENCE_MATRIX, SHOCKWAVE_ABSORB, ARMED_SHIELD);
+				break;
 			case CHALLENGER:
 				Collections.addAll(tierTalents, SECONDARY_CHARGE, TWIN_UPGRADES, COMBINED_LETHALITY);
 				break;
@@ -1284,9 +1295,6 @@ public enum Talent {
 				break;
 			case CENOBITE:
 				Collections.addAll(tierTalents, UNENCUMBERED_SPIRIT, MONASTIC_VIGOR, COMBINED_ENERGY);
-				break;
-			case DEFENDER:
-				Collections.addAll(tierTalents);
 				break;
 			case CAPTAIN:
 				Collections.addAll(tierTalents, ENERGY_TRANSMISSION, ADVANCED_SYSTEM, ENHANCED_SHIP);

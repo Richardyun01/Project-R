@@ -1214,7 +1214,7 @@ public abstract class Level implements Bundlable {
 			
 			int viewDist = c.viewDistance;
 			if (c instanceof Hero){
-				viewDist *= 1f + 0.25f*((Hero) c).pointsInTalent(Talent.FARSIGHT);
+				viewDist *= 1f + 0.25f*((Hero) c).pointsInTalent(Talent.FARSIGHT)+ 0.15f*((Hero) c).pointsInTalent(Talent.TARGETING_ARRAY);
 			}
 			ShadowCaster.castShadow( cx, cy, fieldOfView, blocking, viewDist );
 			//GLog.p(Messages.get(Level.class, "hidden_trap", "updateFieldOfView "+viewDist));

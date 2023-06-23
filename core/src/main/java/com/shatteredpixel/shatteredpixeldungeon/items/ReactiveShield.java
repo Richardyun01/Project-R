@@ -1,11 +1,11 @@
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
-import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tacsight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
@@ -15,10 +15,10 @@ import com.watabou.noosa.audio.Sample;
 
 import java.util.ArrayList;
 
-public class TacMap extends Item{
+public class ReactiveShield extends Item{
 
     {
-        image = ItemSpriteSheet.TAC_MAP;
+        image = ItemSpriteSheet.SHIELD;
 
         defaultAction = AC_USE;
         usesTargeting = false;
@@ -41,14 +41,12 @@ public class TacMap extends Item{
 
         super.execute( hero, action );
 
-        if (hero.buff(TacMap.TacMapCooldown.class) != null) {
+        if (hero.buff(ReactiveShieldCooldown.class) != null) {
             GLog.w(Messages.get(this, "cooldown"));
         } else {
-            //Buff.affect(curUser, Foresight.class, Foresight.DURATION);
-            Buff.affect(curUser, Tacsight.class, Tacsight.DURATION);
-            Buff.affect(curUser, TacMap.TacMapCooldown.class, TacMap.TacMapCooldown.DURATION);
-            Sample.INSTANCE.play(Assets.Sounds.READ);
-            curUser.spendAndNext(Actor.TICK);
+            Buff.affect(curUser, ReactiveShieldBuff.class, ReactiveShieldBuff.DURATION);
+            Buff.affect(curUser, ReactiveShieldCooldown.class, ReactiveShieldCooldown.DURATION-5*hero.pointsInTalent(Talent.SHIELD_RECHARGE));
+            Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY);
         }
 
     }
@@ -68,7 +66,42 @@ public class TacMap extends Item{
         return -1;
     }
 
-    public static class TacMapCooldown extends FlavourBuff {
+    public static class ReactiveShieldBuff extends FlavourBuff {
+
+        {
+            type = buffType.NEUTRAL;
+            announced = false;
+        }
+
+        public static final float DURATION = 5f;
+
+        @Override
+        public int icon() {
+            return BuffIndicator.DEFENDING;
+        }
+
+        @Override
+        public void tintIcon(Image icon) {
+            icon.hardlight(0xDFFF40);
+        }
+
+        @Override
+        public float iconFadePercent() {
+            return Math.max(0, (DURATION - visualcooldown()) / DURATION);
+        }
+
+        @Override
+        public String toString() {
+            return Messages.get(this, "name");
+        }
+
+        @Override
+        public String desc() {
+            return Messages.get(this, "desc", dispTurns());
+        }
+    }
+
+    public static class ReactiveShieldCooldown extends FlavourBuff {
 
         {
             type = buffType.NEUTRAL;
@@ -89,7 +122,7 @@ public class TacMap extends Item{
 
         @Override
         public float iconFadePercent() {
-            return Math.max(0, (DURATION - visualcooldown()) / DURATION);
+            return Math.max(0, (DURATION - 5*Dungeon.hero.pointsInTalent(Talent.SHIELD_RECHARGE) - visualcooldown()) / DURATION);
         }
 
         @Override

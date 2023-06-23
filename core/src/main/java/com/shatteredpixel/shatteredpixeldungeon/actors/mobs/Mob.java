@@ -56,6 +56,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tacsight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
@@ -672,6 +673,9 @@ public abstract class Mob extends Char {
 		attack( enemy );
 		Invisibility.dispel(this);
 		spend( attackDelay() );
+		if (hero.hasTalent(Talent.REACTIVE_ARMOR)) {
+			HP -= 3*hero.pointsInTalent(Talent.REACTIVE_ARMOR);
+		}
 		super.onAttackComplete();
 	}
 	
@@ -875,6 +879,12 @@ public abstract class Mob extends Char {
 			if (cause == hero
 				&& hero.subClass == HeroSubClass.CAPTAIN) {
 				Buff.affect(Dungeon.hero, CaptainCombo.class).kill(enemy);
+			}
+			if (cause == hero
+					&& Dungeon.hero.hasTalent(Talent.SCANNING)
+					&& Dungeon.hero.buff(Talent.ScanningCoolDown.class) == null) {
+				Buff.affect(hero, Tacsight.class, 1+Dungeon.hero.pointsInTalent(Talent.SCANNING));
+				Buff.affect(hero, Talent.ScanningCoolDown.class, 90-5*Dungeon.hero.pointsInTalent(Talent.SCANNING));
 			}
 
 			if (Dungeon.hero.heroClass == HeroClass.CARROLL

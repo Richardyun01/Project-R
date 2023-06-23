@@ -68,7 +68,7 @@ public class Badges {
 		UNLOCK_NOISE				( 21 ),
 		UNLOCK_LANCE				( 22 ),
 		UNLOCK_CARROLL 				( 23 ),
-		//UNLOCK_MAGNUS				( 24 ),
+		UNLOCK_MAGNUS				( 24 ),
 		UNLOCK_ARTILIA 				( 24 ),
 		MONSTERS_SLAIN_1            ( 4 ),
 		MONSTERS_SLAIN_2            ( 5 ),
@@ -168,6 +168,7 @@ public class Badges {
 		VICTORY_HUNTRESS,
 		VICTORY_NOISE,
 		VICTORY_LANCE,
+		VICTORY_MAGNUS,
 		VICTORY_CARROLL,
 		VICTORY_ARTILIA,
 		VICTORY_ALL_CLASSES         ( 103, true ),
@@ -745,7 +746,7 @@ public class Badges {
 		firstBossClassBadges.put(HeroClass.NOISE, Badge.BOSS_SLAIN_1_NOISE);
 		firstBossClassBadges.put(HeroClass.LANCE, Badge.BOSS_SLAIN_1_LANCE);
 		firstBossClassBadges.put(HeroClass.CARROLL, Badge.BOSS_SLAIN_1_CARROLL);
-		//firstBossClassBadges.put(HeroClass.MAGNUS, Badge.BOSS_SLAIN_1_MAGNUS);
+		firstBossClassBadges.put(HeroClass.MAGNUS, Badge.BOSS_SLAIN_1_MAGNUS);
 		firstBossClassBadges.put(HeroClass.ARTILIA, Badge.BOSS_SLAIN_1_ARTILIA);
 	}
 
@@ -758,7 +759,7 @@ public class Badges {
 		victoryClassBadges.put(HeroClass.NOISE, Badge.VICTORY_NOISE);
 		victoryClassBadges.put(HeroClass.LANCE, Badge.VICTORY_LANCE);
 		victoryClassBadges.put(HeroClass.CARROLL, Badge.VICTORY_CARROLL);
-		//victoryClassBadges.put(HeroClass.MAGNUS, Badge.VICTORY_MAGNUS);
+		victoryClassBadges.put(HeroClass.MAGNUS, Badge.VICTORY_MAGNUS);
 		victoryClassBadges.put(HeroClass.ARTILIA, Badge.VICTORY_ARTILIA);
 	}
 
@@ -904,6 +905,9 @@ public class Badges {
 		case LANCE:
 			badge = Badge.MASTERY_LANCE;
 			break;
+		case MAGNUS:
+			badge = Badge.MASTERY_MAGNUS;
+			break;
 		case CARROLL:
 			badge = Badge.MASTERY_CARROLL;
 			break;
@@ -947,6 +951,15 @@ public class Badges {
 		if ((Statistics.enemiesSlain >= 200) && !isUnlocked(Badge.UNLOCK_LANCE)){
 			displayBadge( Badge.UNLOCK_LANCE );
 		}
+	}
+
+	public static void validateMagnusUnlock(){
+		/*
+		if ((Statistics.enemiesSlain >= 200) && !isUnlocked(Badge.UNLOCK_MAGNUS)){
+			displayBadge( Badge.UNLOCK_LANCE );
+		}
+		*/
+		displayBadge( Badge.UNLOCK_MAGNUS );
 	}
 
 	public static void validateCarrollUnlock(){
