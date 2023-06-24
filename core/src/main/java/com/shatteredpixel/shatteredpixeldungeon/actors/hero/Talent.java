@@ -215,9 +215,9 @@ public enum Talent {
 	TOXIC_WINE(315, 4), ALCOHOLIC_FRENZY(316, 4), HANGOVER(317, 4),
 
 	//Magnus T1
-	LAZY_MEAL(352), HARDENED_INTUTION(353), INERITA(354), SHIELD_RECHARGE(355),
+	FLOATING_MEAL(352), HARDENED_INTUTION(353), INERITA(354), SHIELD_RECHARGE(355),
 	//Magnus T2
-	IRON_MEAL(356), UNDYING_REGENRATION(357), ENDURE(358), SCANNING(359), BREACHING_SEQUENCE(360), TARGETING_ARRAY(361),
+	IRON_MEAL(356), UNDYING_REGENERATION(357), ENDURE(358), SCANNING(359), BREACHING_SEQUENCE(360), TARGETING_ARRAY(361),
 	//Magnus T3
 	REACTIVE_ARMOR(362, 3), RADIUS_BLAST(363, 3),
 	//Defender T3
@@ -802,10 +802,10 @@ public enum Talent {
 				PotionOfHealing.cure(hero);
 			}
 		}
-		if (hero.hasTalent(LAZY_MEAL)){
+		if (hero.hasTalent(FLOATING_MEAL)){
 			//additional turns and 7/12 turns of leviation
-			hero.spend( hero.pointsInTalent(LAZY_MEAL) );
-			Buff.affect( hero, Levitation.class, 2+5*hero.pointsInTalent(Talent.LAZY_MEAL));
+			hero.spend( hero.pointsInTalent(FLOATING_MEAL) );
+			Buff.affect( hero, Levitation.class, 2+5*hero.pointsInTalent(Talent.FLOATING_MEAL));
 		}
 		if (hero.hasTalent(FROZEN_MEAL)){
 			Buff.affect( hero, FrostImbue.class, 1+hero.pointsInTalent(Talent.FROZEN_MEAL));
@@ -894,8 +894,8 @@ public enum Talent {
 		if (hero.hasTalent(RESTORED_AGILITY)){
 			Buff.prolong(hero, RestoredAgilityTracker.class, hero.cooldown());
 		}
-		if (hero.hasTalent(UNDYING_REGENRATION)){
-			Buff.affect( hero, ImmortalBarrier.class).set(hero.pointsInTalent(UNDYING_REGENRATION), 2);
+		if (hero.hasTalent(UNDYING_REGENERATION)){
+			Buff.affect( hero, ImmortalBarrier.class).set(hero.pointsInTalent(UNDYING_REGENERATION)+1, 2);
 		}
 	}
 
@@ -1121,7 +1121,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, STRENGTHENING_MEAL, ADVENTURERS_INTUITION, PATIENT_STRIKE, SPEEDY_MOVEMENT, REPAIRMENT);
 				break;
 			case MAGNUS:
-				Collections.addAll(tierTalents, LAZY_MEAL, HARDENED_INTUTION, INERITA, SHIELD_RECHARGE, REPAIRMENT);
+				Collections.addAll(tierTalents, FLOATING_MEAL, HARDENED_INTUTION, INERITA, SHIELD_RECHARGE, REPAIRMENT);
 				break;
 			case ARTILIA:
 				Collections.addAll(tierTalents, LUXURIOUS_MEAL, EXPERIENCE_STACK, DISTURBANCE_DEFENCE, COMMAND_SYSTEM, REPAIRMENT);
@@ -1156,7 +1156,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, SECRET_MEAL, BLOOD_ENGRAVEMENT, COMPULSION, MOON_WALKING, OVERCOMING_WEAKNESS, WILD_HUNT);
 				break;
 			case MAGNUS:
-				Collections.addAll(tierTalents, IRON_MEAL, UNDYING_REGENRATION, ENDURE, SCANNING, BREACHING_SEQUENCE, TARGETING_ARRAY);
+				Collections.addAll(tierTalents, IRON_MEAL, UNDYING_REGENERATION, ENDURE, SCANNING, BREACHING_SEQUENCE, TARGETING_ARRAY);
 				break;
 			case CARROLL:
 				Collections.addAll(tierTalents, FOCUSED_MEAL, RESTORED_AGILITY, WEAPON_RECHARGING, LETHAL_HASTE, SWIFT_EQUIP, EMERGENCY_AVOIDANCE);

@@ -194,7 +194,7 @@ public class ItemSpriteSheet {
 	public static final int SPEED_LOADER     	= SPECIAL_ITEMS+0;
 	public static final int TEMP_SHIP     		= SPECIAL_ITEMS+1;
 	public static final int SHIELD	     		= SPECIAL_ITEMS+2;
-	public static final int BALE_EYE     		= SPECIAL_ITEMS+3;
+	public static final int MAGNUS_INFO    		= SPECIAL_ITEMS+3;
 	public static final int PRINCESS_MIRROR     = SPECIAL_ITEMS+4;
 	public static final int PSIONIC_NODE     	= SPECIAL_ITEMS+5;
 	public static final int SATELLITE_CANNON    = SPECIAL_ITEMS+6;
@@ -207,7 +207,7 @@ public class ItemSpriteSheet {
 		assignItemRect(SPEED_LOADER,          	15, 15);
 		assignItemRect(TEMP_SHIP,        		16, 16);
 		assignItemRect(SHIELD,       			14, 16);
-		assignItemRect(BALE_EYE,      			10, 16);
+		assignItemRect(MAGNUS_INFO,      		12, 13);
 		assignItemRect(PRINCESS_MIRROR,   		12, 14);
 		assignItemRect(PSIONIC_NODE,       		10, 16);
 		assignItemRect(SATELLITE_CANNON,       	16, 16);

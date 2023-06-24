@@ -442,6 +442,14 @@ public class Armor extends EquipableItem {
 		if (hero.hasTalent(Talent.PSYCHOTROPIC_CONTROL) && defender.buff(StimpackAdrenaline.class) != null) {
 			damage *= 1 - 0.1f * hero.pointsInTalent(Talent.PSYCHOTROPIC_CONTROL);
 		}
+
+		if (hero.hasTalent(Talent.ENDURE)) {
+			damage *= 1 - 0.05f * hero.pointsInTalent(Talent.ENDURE);
+		}
+
+		if (hero.hasTalent(Talent.REACTIVE_ARMOR)) {
+			damage *= 1 - 0.07f*hero.pointsInTalent(Talent.REACTIVE_ARMOR);
+		}
 		
 		if (!levelKnown && defender == Dungeon.hero) {
 			float uses = Math.min( availableUsesToID, Talent.itemIDSpeedFactor(Dungeon.hero, this) );

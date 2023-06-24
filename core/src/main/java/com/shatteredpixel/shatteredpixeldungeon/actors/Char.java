@@ -481,7 +481,7 @@ public abstract class Char extends Actor {
 						mob.damage(Dungeon.hero.damageRoll() - Math.max(enemy.drRoll(), enemy.drRoll()), this);
 					}
 				}
-				Buff.affect(hero, Talent.BlastCoolDown.class, 100-10*hero.pointsInTalent(Talent.RADIUS_BLAST));
+				Buff.affect(hero, Talent.BlastCoolDown.class, 110-10*hero.pointsInTalent(Talent.RADIUS_BLAST));
 			}
 
 			Dungeon.hero.busy();
@@ -585,12 +585,12 @@ public abstract class Char extends Actor {
 				level.adjacent(enemy.pos, hero. pos) &&
 				hero.belongings.armor != null &&
 				hero.belongings.attackingWeapon() instanceof MeleeWeapon) {
-				dmg += hero.belongings.armor.DRMax()*0.03f*hero.pointsInTalent(Talent.INERITA);
+				dmg += hero.belongings.armor.DRMax()*(0.005f+0.005f*hero.pointsInTalent(Talent.INERITA));
 			}
 
 			if (this instanceof Hero && hero.hasTalent(Talent.BREACHING_SEQUENCE) &&
 				(Dungeon.level.map[enemy.pos] == Terrain.DOOR || Dungeon.level.map[enemy.pos] == Terrain.OPEN_DOOR)) {
-				dmg *= (1 + 0.3*hero.pointsInTalent(Talent.BREACHING_SEQUENCE));
+				dmg *= (1 + 0.2*hero.pointsInTalent(Talent.BREACHING_SEQUENCE));
 			}
 
 			for (ChampionEnemy buff : buffs(ChampionEnemy.class)){

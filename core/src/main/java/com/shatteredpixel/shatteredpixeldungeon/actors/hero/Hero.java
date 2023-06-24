@@ -935,10 +935,6 @@ public class Hero extends Char {
 			dr *= 1.25f;
 		}
 
-		if (hasTalent(Talent.REACTIVE_ARMOR)) {
-			dr += Random.NormalIntRange(0, pointsInTalent(Talent.REACTIVE_ARMOR));
-		}
-
 		return dr;
 	}
 	
@@ -1821,8 +1817,8 @@ public class Hero extends Char {
 			}
 		}
 
-		if (hero.hasTalent(Talent.ENDURE)) {
-			dmg *= (1f - 0.1f*hero.pointsInTalent(Talent.ENDURE));
+		if (hero.heroClass == HeroClass.MAGNUS) {
+			dmg *= (1f - 0.005f*hero.lvl);
 		}
 
 		ReactiveShield.ReactiveShieldBuff shield = hero.buff(ReactiveShield.ReactiveShieldBuff.class);
@@ -2220,6 +2216,9 @@ public class Hero extends Char {
 					GLog.p( Messages.get(this, "new_talent") );
 					StatusPane.talentBlink = 10f;
 					WndHero.lastIdx = 1;
+				}
+				if (lvl >= 15) {
+					Badges.validateMagnusUnlock();
 				}
 			}
 			

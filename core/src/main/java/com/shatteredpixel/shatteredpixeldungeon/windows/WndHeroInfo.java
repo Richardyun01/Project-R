@@ -73,6 +73,9 @@ public class WndHeroInfo extends WndTabbed {
 			case NOISE:
 				tabIcon = new ItemSprite(ItemSpriteSheet.SPEED_LOADER, null);
 				break;
+			case MAGNUS:
+				tabIcon = new ItemSprite(ItemSpriteSheet.SHIELD, null);
+				break;
 			case LANCE:
 				tabIcon = new ItemSprite(ItemSpriteSheet.RUINSPEAR, null);
 				break;
@@ -217,6 +220,12 @@ public class WndHeroInfo extends WndTabbed {
 					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.APACHE_PISTOL),
 							new ItemSprite(ItemSpriteSheet.WAR_HAMMER),
 							new ItemSprite(ItemSpriteSheet.THROWING_SPIKE),
+							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
+					break;
+				case MAGNUS:
+					icons = new Image[]{ new ItemSprite(ItemSpriteSheet.SHIELD),
+							new ItemSprite(ItemSpriteSheet.MAGNUS_INFO),
+							new ItemSprite(ItemSpriteSheet.COMMONBLADE),
 							new ItemSprite(ItemSpriteSheet.SCROLL_ISAZ)};
 					break;
 				case ARTILIA:

@@ -954,11 +954,9 @@ public class Badges {
 	}
 
 	public static void validateMagnusUnlock(){
-		/*
-		if ((Statistics.enemiesSlain >= 200) && !isUnlocked(Badge.UNLOCK_MAGNUS)){
-			displayBadge( Badge.UNLOCK_LANCE );
+		if (Dungeon.hero.lvl >= 15 && !isUnlocked(Badge.UNLOCK_MAGNUS)) {
+			displayBadge( Badge.UNLOCK_MAGNUS );
 		}
-		*/
 		displayBadge( Badge.UNLOCK_MAGNUS );
 	}
 
