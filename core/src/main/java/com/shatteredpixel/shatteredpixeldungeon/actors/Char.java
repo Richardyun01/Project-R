@@ -52,6 +52,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corrosion;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Daze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Doom;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.DragonBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FireImbue;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
@@ -301,6 +302,14 @@ public abstract class Char extends Actor {
 
 			Dungeon.hero.busy();
 		}
+
+		if (c == Dungeon.hero){
+			if (hero.subClass == HeroSubClass.DRAGON && hero.buff(DragonBuff.class) == null) {
+				Buff.affect(hero, DragonBuff.class).indicate();
+			}
+
+			Dungeon.hero.busy();
+		}
 		
 		return true;
 	}
@@ -475,13 +484,13 @@ public abstract class Char extends Actor {
 				Buff.affect(enemy, Charm.class, Charm.DURATION).object = hero.id();
 			}
 
-			if (this instanceof Hero && hero.hasTalent(Talent.RADIUS_BLAST) && hero.buff(Talent.BlastCoolDown.class) == null) {
+			if (this instanceof Hero && hero.hasTalent(Talent.RADIUS_BLAST) && hero.buff(Talent.RadiusBlastCooldown.class) == null) {
 				for (Mob mob : (Mob[]) Dungeon.level.mobs.toArray(new Mob[0])) {
 					if (Dungeon.level.adjacent(mob.pos, enemy.pos) && mob.alignment != Char.Alignment.ALLY) {
 						mob.damage(Dungeon.hero.damageRoll() - Math.max(enemy.drRoll(), enemy.drRoll()), this);
 					}
 				}
-				Buff.affect(hero, Talent.BlastCoolDown.class, 110-10*hero.pointsInTalent(Talent.RADIUS_BLAST));
+				Buff.affect(hero, Talent.RadiusBlastCooldown.class, 110-10*hero.pointsInTalent(Talent.RADIUS_BLAST));
 			}
 
 			Dungeon.hero.busy();
@@ -860,6 +869,10 @@ public abstract class Char extends Actor {
 				speed *= 0.5f;
 		}
 		if (buff(CommandBuff.class) != null) speed *= 1.25f;
+		DragonBuff dragonBuff = hero.buff(DragonBuff.class);
+		if (dragonBuff != null && dragonBuff.isDragon()) {
+			speed *= 1.5f;
+		}
 		return speed;
 	}
 

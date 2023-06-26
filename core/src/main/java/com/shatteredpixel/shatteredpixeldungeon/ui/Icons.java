@@ -50,7 +50,7 @@ public enum Icons {
 	NOISE,
 	LANCE,
 	CARROLL,
-	//MAGNUS,
+	MAGNUS,
 	ARTILIA,
 
 	//grey icons, mainly used for buttons, spacing for 16x16
@@ -188,8 +188,11 @@ public enum Icons {
 			case CARROLL:
 				icon.frame( icon.texture.uvRectBySize( 112, 16, 13, 14 ) );
 				break;
+			case MAGNUS:
+				icon.frame( icon.texture.uvRectBySize( 128, 16, 14, 16 ) );
+				break;
 			case ARTILIA:
-				icon.frame( icon.texture.uvRectBySize( 128, 16, 12, 14 ) );
+				icon.frame( icon.texture.uvRectBySize( 144, 16, 12, 14 ) );
 				break;
 
 			case EXIT:
@@ -441,6 +444,8 @@ public enum Icons {
 			return get( LANCE );
 		case CARROLL:
 			return get( CARROLL );
+		case MAGNUS:
+			return get( MAGNUS );
 		case ARTILIA:
 			return get( ARTILIA );
 		default:

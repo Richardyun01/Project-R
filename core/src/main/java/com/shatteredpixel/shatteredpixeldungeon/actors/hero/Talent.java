@@ -214,19 +214,6 @@ public enum Talent {
 	//Blood Wine T4
 	TOXIC_WINE(315, 4), ALCOHOLIC_FRENZY(316, 4), HANGOVER(317, 4),
 
-	//Magnus T1
-	FLOATING_MEAL(352), HARDENED_INTUTION(353), INERITA(354), SHIELD_RECHARGE(355),
-	//Magnus T2
-	IRON_MEAL(356), UNDYING_REGENERATION(357), ENDURE(358), SCANNING(359), BREACHING_SEQUENCE(360), TARGETING_ARRAY(361),
-	//Magnus T3
-	REACTIVE_ARMOR(362, 3), RADIUS_BLAST(363, 3),
-	//Defender T3
-	DEFENCE_MATRIX(364, 3), SHOCKWAVE_ABSORB(365, 3), ARMED_SHIELD(366, 3),
-	//Captain T3
-	ENERGY_TRANSMISSION(367, 3), ADVANCED_SYSTEM(368, 3), ENHANCED_SHIP(369, 3),
-	//Dragon T3
-	OLD_MEMORY_I(370, 3), OLD_MEMORY_II(371, 3), OLD_MEMORY_III(372, 3),
-
 	//Carroll T1
 	STRENGTHENING_MEAL(320), ADVENTURERS_INTUITION(321), PATIENT_STRIKE(322), SPEEDY_MOVEMENT(323),
 	//Carroll T2
@@ -245,6 +232,19 @@ public enum Talent {
 	ELEMENTAL_REACH(344, 4), STRIKING_FORCE(345, 4), DIRECTED_POWER(346, 4),
 	//Feint T4
 	FEIGNED_RETREAT(347, 4), EXPOSE_WEAKNESS(348, 4), COUNTER_ABILITY(349, 4),
+
+	//Magnus T1
+	FLOATING_MEAL(352), HARDENED_INTUTION(353), INERITA(354), SHIELD_RECHARGE(355),
+	//Magnus T2
+	IRON_MEAL(356), UNDYING_REGENERATION(357), ENDURE(358), SCANNING(359), BREACHING_SEQUENCE(360), TARGETING_ARRAY(361),
+	//Magnus T3
+	REACTIVE_ARMOR(362, 3), RADIUS_BLAST(363, 3),
+	//Defender T3
+	DEFENCE_MATRIX(364, 3), SHOCKWAVE_ABSORB(365, 3), ARMED_SHIELD(366, 3),
+	//Captain T3
+	ENERGY_TRANSMISSION(367, 3), ADVANCED_SYSTEM(368, 3), ENHANCED_SHIP(369, 3),
+	//Dragon T3
+	OLD_MEMORY_I(370, 3), OLD_MEMORY_II(371, 3), OLD_MEMORY_III(372, 3),
 
 	//Artilia T1
 	LUXURIOUS_MEAL(384), EXPERIENCE_STACK(385), DISTURBANCE_DEFENCE(386), COMMAND_SYSTEM(387),
@@ -508,6 +508,33 @@ public enum Talent {
 		public boolean wepAbilUsed = false;
 	}
 	public static class CounterAbilityTacker extends FlavourBuff{};
+	public static class MagicMirrorCoolDown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / (20-5*Dungeon.hero.pointsInTalent(MAGIC_MIRROR))); }
+	};
+	public static class TrampleCoolDown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / (40-10*Dungeon.hero.pointsInTalent(Talent.TRAMPLE))); }
+	};
+	public static class identifyIdentify extends CounterBuff {}
+	public static class FrostWindTracker extends FlavourBuff{};
+	public static class ScanningCoolDown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / (90-5*Dungeon.hero.pointsInTalent(Talent.SCANNING))); }
+	};
+	public static class RadiusBlastCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / (110 - 10*Dungeon.hero.pointsInTalent(Talent.RADIUS_BLAST))); }
+	};
+	public static class EnergyTransmissionCooldown extends FlavourBuff{
+		public int icon() { return BuffIndicator.TIME; }
+		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
+		public float iconFadePercent() { return Math.max(0, visualcooldown() / (9 * Dungeon.hero.pointsInTalent(Talent.ENERGY_TRANSMISSION))); }
+	};
 	public static class CasCoolDown extends FlavourBuff{
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
@@ -532,28 +559,6 @@ public enum Talent {
 		public int icon() { return BuffIndicator.TIME; }
 		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
 		public float iconFadePercent() { return Math.max(0, visualcooldown() / (2500*(1-0.1f*Dungeon.hero.pointsInTalent(Talent.ENHANCED_SHIP)))); }
-	};
-	public static class MagicMirrorCoolDown extends FlavourBuff{
-		public int icon() { return BuffIndicator.TIME; }
-		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
-		public float iconFadePercent() { return Math.max(0, visualcooldown() / 20-5*Dungeon.hero.pointsInTalent(MAGIC_MIRROR)); }
-	};
-	public static class TrampleCoolDown extends FlavourBuff{
-		public int icon() { return BuffIndicator.TIME; }
-		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
-		public float iconFadePercent() { return Math.max(0, visualcooldown() / 40-10*Dungeon.hero.pointsInTalent(Talent.TRAMPLE)); }
-	};
-	public static class identifyIdentify extends CounterBuff {}
-	public static class FrostWindTracker extends FlavourBuff{};
-	public static class BlastCoolDown extends FlavourBuff{
-		public int icon() { return BuffIndicator.TIME; }
-		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
-		public float iconFadePercent() { return Math.max(0, visualcooldown() / 100-10*Dungeon.hero.pointsInTalent(Talent.RADIUS_BLAST)); }
-	};
-	public static class ScanningCoolDown extends FlavourBuff{
-		public int icon() { return BuffIndicator.TIME; }
-		public void tintIcon(Image icon) { icon.hardlight(0.35f, 0f, 0.7f); }
-		public float iconFadePercent() { return Math.max(0, visualcooldown() / 90-5*Dungeon.hero.pointsInTalent(Talent.SCANNING)); }
 	};
 
 	int icon;
@@ -1284,9 +1289,6 @@ public enum Talent {
 			case VLAD:
 				Collections.addAll(tierTalents, HUNGER_AND_THIRST, GREAT_TERROR, FITTEST_SURVIVAL);
 				break;
-			case DEFENDER:
-				Collections.addAll(tierTalents, DEFENCE_MATRIX, SHOCKWAVE_ABSORB, ARMED_SHIELD);
-				break;
 			case CHALLENGER:
 				Collections.addAll(tierTalents, SECONDARY_CHARGE, TWIN_UPGRADES, COMBINED_LETHALITY);
 				break;
@@ -1295,6 +1297,9 @@ public enum Talent {
 				break;
 			case CENOBITE:
 				Collections.addAll(tierTalents, UNENCUMBERED_SPIRIT, MONASTIC_VIGOR, COMBINED_ENERGY);
+				break;
+			case DEFENDER:
+				Collections.addAll(tierTalents, DEFENCE_MATRIX, SHOCKWAVE_ABSORB, ARMED_SHIELD);
 				break;
 			case CAPTAIN:
 				Collections.addAll(tierTalents, ENERGY_TRANSMISSION, ADVANCED_SYSTEM, ENHANCED_SHIP);

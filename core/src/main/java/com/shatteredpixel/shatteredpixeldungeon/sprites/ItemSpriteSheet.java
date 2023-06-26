@@ -202,6 +202,7 @@ public class ItemSpriteSheet {
 	public static final int LANCE_INFO_2		= SPECIAL_ITEMS+8;
 	public static final int BOUNTY				= SPECIAL_ITEMS+9;
 	public static final int ARTILIA_INFO_1		= SPECIAL_ITEMS+10;
+	public static final int MAGNUS_WING			= SPECIAL_ITEMS+11;
 
 	static{
 		assignItemRect(SPEED_LOADER,          	15, 15);
@@ -215,6 +216,7 @@ public class ItemSpriteSheet {
 		assignItemRect(LANCE_INFO_2,        	10, 15);
 		assignItemRect(BOUNTY,			       	16, 16);
 		assignItemRect(ARTILIA_INFO_1,        	10, 14);
+		assignItemRect(MAGNUS_WING,	        	14, 13);
 	}
 	
 	                                                                                    //16 free slots

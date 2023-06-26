@@ -53,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CenobiteEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CloseQuarters;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.DragonBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
@@ -77,6 +78,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Supercharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tacsight;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.UpgradeLevel;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WinterStorm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
@@ -310,6 +312,11 @@ public class Hero extends Char {
 
 		if (hasTalent(Talent.STRONGMAN)){
 			strBonus += (int)Math.floor(STR * (0.03f + 0.05f*pointsInTalent(Talent.STRONGMAN)));
+		}
+
+		DragonBuff dragonBuff = hero.buff(DragonBuff.class);
+		if (hasTalent(Talent.OLD_MEMORY_II) && (dragonBuff != null && dragonBuff.isDragon())) {
+			strBonus += (int)Math.floor(STR * (0.03f + 0.05f*pointsInTalent(Talent.OLD_MEMORY_II)));
 		}
 
 		return STR + strBonus;
@@ -1817,10 +1824,6 @@ public class Hero extends Char {
 			}
 		}
 
-		if (hero.heroClass == HeroClass.MAGNUS) {
-			dmg *= (1f - 0.005f*hero.lvl);
-		}
-
 		ReactiveShield.ReactiveShieldBuff shield = hero.buff(ReactiveShield.ReactiveShieldBuff.class);
 		if (shield != null){
 			dmg -= 999999;
@@ -2036,6 +2039,10 @@ public class Hero extends Char {
 
 			if (hero.subClass == HeroSubClass.BOUNTYHUNTER && hero.buff(BountyTracker.class) == null) {
 				Buff.affect(this, BountyTracker.class).indicate();
+			}
+
+			if (hero.subClass == HeroSubClass.DRAGON && hero.buff(DragonBuff.class) == null) {
+				Buff.affect(this, DragonBuff.class).indicate();
 			}
 
 			if (hero.hasTalent(Talent.DIGNIFIED_STEP) && Random.Int(200) < 1+pointsInTalent(Talent.DIGNIFIED_STEP)) {
@@ -2542,6 +2549,12 @@ public class Hero extends Char {
 					}
 				}.attachTo(enemy);
 			}
+		}
+
+		if (hit && hasTalent(Talent.ENERGY_TRANSMISSION) && buff(Talent.EnergyTransmissionCooldown.class) == null) {
+			Buff.affect(hero, UpgradeLevel.class, 3 * pointsInTalent(Talent.ENERGY_TRANSMISSION));
+			Item.updateQuickslot();
+			Buff.affect(hero, Talent.EnergyTransmissionCooldown.class, 9 * pointsInTalent(Talent.ENERGY_TRANSMISSION));
 		}
 
 		curAction = null;

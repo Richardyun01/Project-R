@@ -108,7 +108,7 @@ public class ReactiveShield extends Item{
             announced = false;
         }
 
-        public static final float DURATION = 200f;
+        public static final float DURATION = 50f;
 
         @Override
         public int icon() {

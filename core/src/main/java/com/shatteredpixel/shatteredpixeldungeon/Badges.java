@@ -68,7 +68,7 @@ public class Badges {
 		UNLOCK_NOISE				( 21 ),
 		UNLOCK_LANCE				( 22 ),
 		UNLOCK_CARROLL 				( 23 ),
-		UNLOCK_MAGNUS				( 24 ),
+		UNLOCK_MAGNUS				( 25 ),
 		UNLOCK_ARTILIA 				( 24 ),
 		MONSTERS_SLAIN_1            ( 4 ),
 		MONSTERS_SLAIN_2            ( 5 ),

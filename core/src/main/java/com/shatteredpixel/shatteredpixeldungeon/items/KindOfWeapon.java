@@ -21,12 +21,15 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items;
 
+import static com.shatteredpixel.shatteredpixeldungeon.Dungeon.hero;
+
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.DragonBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -240,6 +243,14 @@ abstract public class KindOfWeapon extends EquipableItem {
 
 	public int damageRoll( Char owner ) {
 		int critChance = 0;
+
+		DragonBuff dragonBuff = owner.buff(DragonBuff.class);
+		if (dragonBuff != null && dragonBuff.isDragon()) {
+			critChance += 2*hero.STR();
+			if (hero.hasTalent(Talent.OLD_MEMORY_III)) {
+				critChance += 2*dragonBuff.attackBonus(((Hero) owner).STR() - ((Hero) owner).belongings.armor.STRReq());
+			}
+		}
 
 		if (owner == Dungeon.hero && Dungeon.hero.belongings.weapon() instanceof MeleeWeapon) {
 			if ( critChance > 0 ) {

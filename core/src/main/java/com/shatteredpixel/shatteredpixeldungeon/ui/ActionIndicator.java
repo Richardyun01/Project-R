@@ -31,6 +31,7 @@ import com.watabou.noosa.Visual;
 
 public class ActionIndicator extends Tag {
 
+	int icon;
 	Visual primaryVis;
 	Visual secondVis;
 
@@ -156,6 +157,22 @@ public class ActionIndicator extends Tag {
 	public static void clearAction(Action action){
 		if (ActionIndicator.action == action) {
 			ActionIndicator.action = null;
+		}
+	}
+
+	public static void updateIcon(){
+		if (instance != null){
+			synchronized (instance) {
+				/*if (instance.icon != null) {
+					instance.icon.killAndErase();
+					instance.icon = null;
+				}*/
+				instance.icon = HeroIcon.NONE;
+				if (action != null) {
+					instance.icon = action.actionIcon();
+					instance.needsRefresh = true;
+				}
+			}
 		}
 	}
 

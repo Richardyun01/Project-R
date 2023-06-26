@@ -56,6 +56,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.PrincessMirror;
 import com.shatteredpixel.shatteredpixeldungeon.items.ReactiveShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
+import com.shatteredpixel.shatteredpixeldungeon.items.TengusMask;
 import com.shatteredpixel.shatteredpixeldungeon.items.Waterskin;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
@@ -118,7 +119,7 @@ public enum HeroClass {
 	NOISE( HeroSubClass.TRIGGERHAPPY, HeroSubClass.DEMOLITIONIST, HeroSubClass.BUNKER),
 	LANCE( HeroSubClass.PHALANX, HeroSubClass.TERCIO, HeroSubClass.VLAD ),
 	CARROLL( HeroSubClass.CHALLENGER, HeroSubClass.BOUNTYHUNTER, HeroSubClass.CENOBITE ),
-	MAGNUS( HeroSubClass.DEFENDER ),
+	MAGNUS( HeroSubClass.DEFENDER, HeroSubClass.CAPTAIN, HeroSubClass.DRAGON ),
 	//MAGNUS( HeroSubClass.DEFENDER, HeroSubClass.CAPTAIN, HeroSubClass.DRAGON ),
 	ARTILIA( HeroSubClass.PERETORIA, HeroSubClass.VALKYRIE, HeroSubClass.WINTERSTORM );
 	//VANGUARD( HeroSubClass.LIBRARIAN, HeroSubClass.DEVASTATOR, HeroSubClass.IMMORTAL );
@@ -190,6 +191,9 @@ public enum HeroClass {
 		plate.upgrade(8).collect();
 		 **/
 //erase this finish
+		new TengusMask().collect();
+		PotionOfExperience enchan = new PotionOfExperience();
+		enchan.quantity(100).collect();
 
 		switch (this) {
 			case WARRIOR:

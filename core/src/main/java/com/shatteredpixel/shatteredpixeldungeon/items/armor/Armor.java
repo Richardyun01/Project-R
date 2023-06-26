@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.StimpackAdrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
@@ -445,6 +446,10 @@ public class Armor extends EquipableItem {
 
 		if (hero.hasTalent(Talent.ENDURE)) {
 			damage *= 1 - 0.05f * hero.pointsInTalent(Talent.ENDURE);
+		}
+
+		if (hero.heroClass == HeroClass.MAGNUS) {
+			damage *= 1 - 0.005f*hero.lvl;
 		}
 
 		if (hero.hasTalent(Talent.REACTIVE_ARMOR)) {
