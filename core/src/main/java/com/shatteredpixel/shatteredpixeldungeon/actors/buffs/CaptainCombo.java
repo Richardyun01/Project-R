@@ -182,11 +182,11 @@ public class CaptainCombo extends Buff implements ActionIndicator.Action {
     }
 
     public enum ComboMove {
-        CAS(5, 0xFF00FF00),         // skill-1
-        SUPPLYI   (10, 0xFFCCFF00), // skill-2
-        RECON  (20, 0xFFFFFF00),    // skill-3
-        SUPPLYII (30, 0xFFFFCC00),  // skill-4
-        ANNIHILATION (40, 0xFFFF0000); // skill-5
+        CAS         (5, 0xFF00FF00),  // skill-1
+        SUPPLYI     (10, 0xFFCCFF00), // skill-2
+        RECON       (20, 0xFFFFFF00), // skill-3
+        SUPPLYII    (30, 0xFFFFCC00), // skill-4
+        ANNIHILATION(40, 0xFFFF0000); // skill-5
 
         public int comboReq, tintColor;
 

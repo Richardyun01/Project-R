@@ -997,6 +997,9 @@ public enum Talent {
 		if (hero.pointsInTalent(HUNTERS_INTUITION) == 2 && item instanceof MeleeWeapon && !(item instanceof FirearmWeapon)) {
 			item.identify();
 		}
+		if (hero.pointsInTalent(HARDENED_INTUTION) == 2 && item instanceof Armor) {
+			item.identify();
+		}
 	}
 
 	//note that IDing can happen in alchemy scene, so be careful with VFX here

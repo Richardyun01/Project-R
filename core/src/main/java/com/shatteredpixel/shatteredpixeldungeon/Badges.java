@@ -954,10 +954,9 @@ public class Badges {
 	}
 
 	public static void validateMagnusUnlock(){
-		if (Dungeon.hero.lvl >= 15 && !isUnlocked(Badge.UNLOCK_MAGNUS)) {
+		if (Dungeon.hero.lvl == 15 && !isUnlocked(Badge.UNLOCK_MAGNUS)) {
 			displayBadge( Badge.UNLOCK_MAGNUS );
 		}
-		displayBadge( Badge.UNLOCK_MAGNUS );
 	}
 
 	public static void validateCarrollUnlock(){

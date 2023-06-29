@@ -46,6 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CommandBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Corruption;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.DefenderBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Dread;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Haste;
@@ -673,9 +674,6 @@ public abstract class Mob extends Char {
 		attack( enemy );
 		Invisibility.dispel(this);
 		spend( attackDelay() );
-		if (hero.hasTalent(Talent.REACTIVE_ARMOR)) {
-			HP -= 4*hero.pointsInTalent(Talent.REACTIVE_ARMOR);
-		}
 		super.onAttackComplete();
 	}
 	
@@ -884,7 +882,7 @@ public abstract class Mob extends Char {
 					&& Dungeon.hero.hasTalent(Talent.SCANNING)
 					&& Dungeon.hero.buff(Talent.ScanningCoolDown.class) == null) {
 				Buff.affect(hero, Tacsight.class, 1+Dungeon.hero.pointsInTalent(Talent.SCANNING));
-				Buff.affect(hero, Talent.ScanningCoolDown.class, 95-5*Dungeon.hero.pointsInTalent(Talent.SCANNING));
+				Buff.affect(hero, Talent.ScanningCoolDown.class, 100-10*Dungeon.hero.pointsInTalent(Talent.SCANNING));
 			}
 
 			if (Dungeon.hero.heroClass == HeroClass.CARROLL
@@ -903,6 +901,15 @@ public abstract class Mob extends Char {
 						FirearmWeapon.Charger.killCount = 0;
 					}
 				}
+			}
+			if (Dungeon.hero.subClass == HeroSubClass.DEFENDER && Dungeon.hero.buff(DefenderBuff.class) != null) {
+				Buff.affect(hero, DefenderBuff.class).chargeCount++;
+				if (hero.hasTalent(Talent.DEFENCE_MATRIX)) {
+					if (Random.Int(10) < Dungeon.hero.pointsInTalent(Talent.DEFENCE_MATRIX)) {
+						Buff.affect(hero, DefenderBuff.class).chargeCount++;
+					}
+				}
+				Buff.affect(hero, DefenderBuff.class).countAddition();
 			}
 		}
 

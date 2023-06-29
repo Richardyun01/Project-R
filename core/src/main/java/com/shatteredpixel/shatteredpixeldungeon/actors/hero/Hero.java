@@ -53,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CenobiteEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.CloseQuarters;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.DefenderBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.DragonBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
@@ -799,7 +800,7 @@ public class Hero extends Char {
 		if (this.subClass == HeroSubClass.CAPTAIN) {
 			CaptainCombo combo = (CaptainCombo) buff(CaptainCombo.class);
 			if (combo != null) {
-				accuracy *= 0.3f * combo.getComboCount();
+				accuracy += 0.003f * combo.getComboCount();
 			}
 		}
 
@@ -1838,6 +1839,18 @@ public class Hero extends Char {
 			if (barrier.left <= 0) {
 				barrier.detach();
 			}
+			Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 0.75f, 1f);
+		}
+
+		DefenderBuff defenderBuff = hero.buff(DefenderBuff.class);
+		if (defenderBuff != null && defenderBuff.getDefenseLeft() > 0) {
+			dmg -= 99999;
+			if (hero.hasTalent(Talent.DEFENCE_MATRIX) && Random.Int(50) < hero.pointsInTalent(Talent.DEFENCE_MATRIX)) {
+				//don't spend the count
+			} else {
+				defenderBuff.defenseLeft--;
+			}
+			Camera.main.shake( 1.5f, 0.2f );
 			Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 0.75f, 1f);
 		}
 

@@ -77,7 +77,7 @@ public class ReactiveShield extends Item{
 
         @Override
         public int icon() {
-            return BuffIndicator.DEFENDING;
+            return BuffIndicator.REACT_SHIELD;
         }
 
         @Override

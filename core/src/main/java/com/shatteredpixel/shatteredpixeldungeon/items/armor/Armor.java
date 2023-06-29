@@ -454,6 +454,11 @@ public class Armor extends EquipableItem {
 
 		if (hero.hasTalent(Talent.REACTIVE_ARMOR)) {
 			damage *= 1 - 0.07f*hero.pointsInTalent(Talent.REACTIVE_ARMOR);
+			if (attacker.HP > 4*hero.pointsInTalent(Talent.REACTIVE_ARMOR) && !(attacker.properties().contains(Char.Property.BOSS))) {
+				attacker.HP -= 4*hero.pointsInTalent(Talent.REACTIVE_ARMOR);
+				attacker.sprite.bloodBurstA(attacker.sprite.center(), 4*hero.pointsInTalent(Talent.REACTIVE_ARMOR));
+				attacker.sprite.flash();
+			}
 		}
 		
 		if (!levelKnown && defender == Dungeon.hero) {
