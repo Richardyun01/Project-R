@@ -240,7 +240,7 @@ public enum Talent {
 	//Magnus T3
 	REACTIVE_ARMOR(362, 3), RADIUS_BLAST(363, 3),
 	//Defender T3
-	DEFENCE_MATRIX(364, 3), SHOCKWAVE_ABSORB(365, 3), ARMED_SHIELD(366, 3),
+	DEFENCE_MATRIX(364, 3), SHOCKWAVE_ABSORB(365, 3), ARMED_ARMOR(366, 3),
 	//Captain T3
 	ENERGY_TRANSMISSION(367, 3), ADVANCED_SYSTEM(368, 3), ENHANCED_SHIP(369, 3),
 	//Dragon T3
@@ -1302,7 +1302,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, UNENCUMBERED_SPIRIT, MONASTIC_VIGOR, COMBINED_ENERGY);
 				break;
 			case DEFENDER:
-				Collections.addAll(tierTalents, DEFENCE_MATRIX, SHOCKWAVE_ABSORB, ARMED_SHIELD);
+				Collections.addAll(tierTalents, DEFENCE_MATRIX, SHOCKWAVE_ABSORB, ARMED_ARMOR);
 				break;
 			case CAPTAIN:
 				Collections.addAll(tierTalents, ENERGY_TRANSMISSION, ADVANCED_SYSTEM, ENHANCED_SHIP);

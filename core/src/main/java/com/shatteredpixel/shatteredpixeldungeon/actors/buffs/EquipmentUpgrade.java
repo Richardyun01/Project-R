@@ -27,7 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 
-public class UpgradeLevel extends FlavourBuff {
+public class EquipmentUpgrade extends FlavourBuff {
 
     public static final float DURATION = 30f;
 
@@ -57,7 +57,11 @@ public class UpgradeLevel extends FlavourBuff {
     public static int increaseLevel( int level ){
         // This means that levels 1/2/3/4/5/6/7/8/9/...
         // Are now instead:       2/3/4/5/6/7/8/9/10/...
-        return level+1;
+        if (level < 0) {
+            return level;
+        } else {
+            return level+1;
+        }
     }
 
     @Override

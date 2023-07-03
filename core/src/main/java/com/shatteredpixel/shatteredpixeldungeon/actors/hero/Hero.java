@@ -56,6 +56,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.DefenderBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.DragonBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Drowsy;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.EquipmentUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.FlavourBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Foresight;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Frost;
@@ -79,7 +80,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Supercharge;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Tacsight;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.UpgradeLevel;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.WinterStorm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
@@ -1826,7 +1826,7 @@ public class Hero extends Char {
 		}
 
 		ReactiveShield.ReactiveShieldBuff shield = hero.buff(ReactiveShield.ReactiveShieldBuff.class);
-		if (shield != null){
+		if (shield != null && hero.buff(Chasm.Falling.class) == null){
 			dmg -= 999999;
 			shield.detach();
 			Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 0.75f, 1f);
@@ -1844,14 +1844,16 @@ public class Hero extends Char {
 
 		DefenderBuff defenderBuff = hero.buff(DefenderBuff.class);
 		if (defenderBuff != null && defenderBuff.getDefenseLeft() > 0) {
-			dmg -= 99999;
-			if (hero.hasTalent(Talent.DEFENCE_MATRIX) && Random.Int(50) < hero.pointsInTalent(Talent.DEFENCE_MATRIX)) {
-				//don't spend the count
-			} else {
-				defenderBuff.defenseLeft--;
+			if (hero.buff(Chasm.Falling.class) == null) {
+				dmg -= 99999;
+				if (hero.hasTalent(Talent.DEFENCE_MATRIX) && Random.Int(50) < hero.pointsInTalent(Talent.DEFENCE_MATRIX)) {
+					//don't spend the count
+				} else {
+					defenderBuff.defenseLeft--;
+				}
+				Camera.main.shake( 1.5f, 0.2f );
+				Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 0.75f, 1f);
 			}
-			Camera.main.shake( 1.5f, 0.2f );
-			Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 0.75f, 1f);
 		}
 
 		int preHP = HP + shielding();
@@ -2056,6 +2058,10 @@ public class Hero extends Char {
 
 			if (hero.subClass == HeroSubClass.DRAGON && hero.buff(DragonBuff.class) == null) {
 				Buff.affect(this, DragonBuff.class).indicate();
+			}
+
+			if (hero.subClass == HeroSubClass.DEFENDER && hero.buff(DefenderBuff.class) == null) {
+				Buff.affect(this, DefenderBuff.class);
 			}
 
 			if (hero.hasTalent(Talent.DIGNIFIED_STEP) && Random.Int(200) < 1+pointsInTalent(Talent.DIGNIFIED_STEP)) {
@@ -2565,7 +2571,7 @@ public class Hero extends Char {
 		}
 
 		if (hit && hasTalent(Talent.ENERGY_TRANSMISSION) && buff(Talent.EnergyTransmissionCooldown.class) == null) {
-			Buff.affect(hero, UpgradeLevel.class, 3 * pointsInTalent(Talent.ENERGY_TRANSMISSION));
+			Buff.affect(hero, EquipmentUpgrade.class, 3 * pointsInTalent(Talent.ENERGY_TRANSMISSION));
 			Item.updateQuickslot();
 			Buff.affect(hero, Talent.EnergyTransmissionCooldown.class, 9 * pointsInTalent(Talent.ENERGY_TRANSMISSION));
 		}

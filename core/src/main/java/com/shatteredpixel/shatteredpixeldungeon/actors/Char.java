@@ -539,7 +539,7 @@ public abstract class Char extends Actor {
 			}
 
 			if (this instanceof Hero && hero.buff(MurakumoCharge.class) != null && hero.belongings.weapon() instanceof Murakumo) {
-				dmg *= 1f + hero.buff(MurakumoCharge.class).getDamageFactor();
+				dmg *= (1f + hero.buff(MurakumoCharge.class).getDamageFactor());
 				Buff.detach(this, MurakumoCharge.class);
 			}
 
@@ -556,7 +556,7 @@ public abstract class Char extends Actor {
 					}
 				} else if (h.belongings.weapon() instanceof Kaleidoscope.Bullet ||
 						   h.belongings.weapon() instanceof Spark.Bullet) {
-					dmg *= 1 + 0.01f * buff(BulletHell.class).getCount();
+					dmg *= (1 + 0.01f * buff(BulletHell.class).getCount());
 				}
 			}
 
@@ -639,6 +639,10 @@ public abstract class Char extends Actor {
 
 			if (this.alignment == Alignment.ALLY && !(this instanceof Hero) && hero.hasTalent(Talent.CHARISMA)) {
 				dmg *= Math.pow(1.07f, hero.pointsInTalent(Talent.CHARISMA));
+			}
+
+			if (this instanceof Hero && hero.hasTalent(Talent.ARMED_ARMOR)) {
+				dmg *= (1 + 0.12f*hero.pointsInTalent(Talent.ARMED_ARMOR));
 			}
 			
 			int effectiveDamage = enemy.defenseProc( this, Math.round(dmg) );
