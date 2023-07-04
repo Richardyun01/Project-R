@@ -141,6 +141,7 @@ public class BuffIndicator extends Component {
 	public static final int REACT_SHIELD	= 90;
 	public static final int DEFENDER_BARRIER= 91;
 	public static final int DRAGON			= 92;
+	public static final int THRUST			= 92;
 
 	public static final int SIZE_SMALL  = 7;
 	public static final int SIZE_LARGE  = 16;

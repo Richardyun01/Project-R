@@ -90,6 +90,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.carroll.Challenge;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.magnus.Thruster;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.rogue.DeathMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Endure;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Elemental;
@@ -809,6 +810,10 @@ public abstract class Char extends Actor {
 		if (defender.buff( 		   AfterImageBuff.class) != null) 	defRoll *= INFINITE_EVASION;
 		if (defender.buff( Gungnir.TwilightStance.class) != null) 	defRoll *= INFINITE_EVASION;
 		if (defender.buff(	 		  		  Hex.class) != null) 	defRoll *= 0.8f;
+		//total evasion increase is 10%/21%/33%/46%, based on points in talent
+		if (defender.buff(	Thruster.ThrusterBuff.class) != null && hero.hasTalent(Talent.LIGHTWEIGHT_BOOSTER)) {
+			defRoll *= Math.pow(1.1f, Dungeon.hero.pointsInTalent(Talent.LIGHTWEIGHT_BOOSTER));
+		}
 		for (ChampionEnemy buff : defender.buffs(ChampionEnemy.class)){
 			defRoll *= buff.evasionAndAccuracyFactor();
 		}
@@ -877,6 +882,7 @@ public abstract class Char extends Actor {
 		if (dragonBuff != null && dragonBuff.isDragon()) {
 			speed *= 1.5f;
 		}
+		if (buff(Thruster.ThrusterBuff.class) != null) speed *= 2f + 0.25f*hero.pointsInTalent(Talent.LIGHTWEIGHT_BOOSTER);
 		return speed;
 	}
 

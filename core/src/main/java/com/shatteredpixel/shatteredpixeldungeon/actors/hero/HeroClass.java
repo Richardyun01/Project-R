@@ -42,6 +42,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.lance.Star
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.ElementalBlast;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WarpBeacon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.mage.WildMagic;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.magnus.ImmobileTrap;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.magnus.InrushBarrier;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.magnus.Thruster;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.noise.DangerClose;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.noise.SentryGun;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.noise.Stimpack;
@@ -426,10 +429,10 @@ public enum HeroClass {
 				return new ArmorAbility[]{new Stimpack(), new SentryGun(), new DangerClose()};
 			case LANCE:
 				return new ArmorAbility[]{new Starburst(), new AfterImage(), new BloodWine()};
-			case MAGNUS:
-				return new ArmorAbility[]{};
 			case CARROLL:
 				return new ArmorAbility[]{new Challenge(), new ElementalStrike(), new Feint()};
+			case MAGNUS:
+				return new ArmorAbility[]{new InrushBarrier(), new ImmobileTrap(), new Thruster()};
 			case ARTILIA:
 				return new ArmorAbility[]{new OffenceOrder(), new FrostWind(), new DeepStrike()};
 		}

@@ -90,6 +90,9 @@ public class HeroIcon extends Image {
 	public static final int CHALLENGE		= 40;
 	public static final int ELEMENTAL_STRIKE= 41;
 	public static final int FEINT			= 42;
+	public static final int INRUSHBARRIER	= 52;
+	public static final int IMMOBILETRAP	= 53;
+	public static final int THRUSTER		= 54;
 	public static final int COMMAND_ORDER 	= 46;
 	public static final int FROST_WIND	 	= 47;
 	public static final int DEEP_STRIKE		= 48;
