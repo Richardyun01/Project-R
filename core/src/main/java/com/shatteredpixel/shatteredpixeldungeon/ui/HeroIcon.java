@@ -58,12 +58,12 @@ public class HeroIcon extends Image {
 	public static final int CHALLENGER		= 37;
 	public static final int BOUNTY_HUNTER	= 38;
 	public static final int CENOBITE		= 39;
-	public static final int PERETORIA		= 43;
-	public static final int VALKYRIE		= 44;
-	public static final int WINTERSTORM		= 45;
-	public static final int DEFENDER		= 49;
-	public static final int CAPTAIN			= 50;
-	public static final int DRAGON			= 51;
+	public static final int DEFENDER		= 43;
+	public static final int CAPTAIN			= 44;
+	public static final int DRAGON			= 45;
+	public static final int PERETORIA		= 49;
+	public static final int VALKYRIE		= 50;
+	public static final int WINTERSTORM		= 51;
 	public static final int LIBRARIAN		= 55;
 	public static final int DEVASTATOR		= 56;
 	public static final int IMMORTAL		= 57;
@@ -90,12 +90,12 @@ public class HeroIcon extends Image {
 	public static final int CHALLENGE		= 40;
 	public static final int ELEMENTAL_STRIKE= 41;
 	public static final int FEINT			= 42;
-	public static final int INRUSHBARRIER	= 52;
-	public static final int IMMOBILETRAP	= 53;
-	public static final int THRUSTER		= 54;
-	public static final int COMMAND_ORDER 	= 46;
-	public static final int FROST_WIND	 	= 47;
-	public static final int DEEP_STRIKE		= 48;
+	public static final int INRUSHBARRIER	= 46;
+	public static final int IMMOBILETRAP	= 47;
+	public static final int THRUSTER		= 48;
+	public static final int COMMAND_ORDER 	= 52;
+	public static final int FROST_WIND	 	= 53;
+	public static final int DEEP_STRIKE		= 54;
 	public static final int RATMOGRIFY      = 20;
 
 	//action indicator visuals

@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.HuntressArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.LanceArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.LeatherArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.MageArmor;
+import com.shatteredpixel.shatteredpixeldungeon.items.armor.MagnusArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.MailArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.NoiseArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.PlateArmor;
@@ -580,9 +581,10 @@ public class Generator {
 					NoiseArmor.class,
 					LanceArmor.class,
 					CarrollArmor.class,
+					MagnusArmor.class,
 					ArtiliaArmor.class
 			};
-			ARMOR.probs = new float[]{ 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
+			ARMOR.probs = new float[]{ 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 			
 			//see Generator.randomMissile
 			MISSILE.classes = new Class<?>[]{};
