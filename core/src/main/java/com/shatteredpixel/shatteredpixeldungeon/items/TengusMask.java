@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LanceCombo;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
@@ -101,14 +102,10 @@ public class TengusMask extends Item {
 		
 		curUser.subClass = way;
 		Talent.initSubclassTalents(curUser);
-		
-		curUser.sprite.operate( curUser.pos );
-		Sample.INSTANCE.play( Assets.Sounds.MASTERY );
-		
-		Emitter e = curUser.sprite.centerEmitter();
-		e.pos(e.x-2, e.y-6, 4, 4);
-		e.start(Speck.factory(Speck.MASK), 0.05f, 20);
-		GLog.p( Messages.get(this, "used"));
+
+		if (way == HeroSubClass.ASSASSIN && curUser.invisible > 0){
+			Buff.affect(curUser, Preparation.class);
+		}
 
 		if (Dungeon.hero.subClass == HeroSubClass.POLARIS) {
 			new BowConverter().collect();
@@ -117,6 +114,13 @@ public class TengusMask extends Item {
 		if (Dungeon.hero.buff(LanceCombo.class) != null && Dungeon.hero.subClass != HeroSubClass.PHALANX) {
 			Buff.detach(Dungeon.hero, LanceCombo.class);
 		}
-
+		
+		curUser.sprite.operate( curUser.pos );
+		Sample.INSTANCE.play( Assets.Sounds.MASTERY );
+		
+		Emitter e = curUser.sprite.centerEmitter();
+		e.pos(e.x-2, e.y-6, 4, 4);
+		e.start(Speck.factory(Speck.MASK), 0.05f, 20);
+		GLog.p( Messages.get(this, "used"));
 	}
 }

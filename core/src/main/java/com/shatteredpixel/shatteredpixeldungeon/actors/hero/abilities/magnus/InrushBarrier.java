@@ -39,7 +39,7 @@ import com.watabou.noosa.particles.Emitter;
 public class InrushBarrier extends ArmorAbility {
 
     {
-        baseChargeUse = 40f;
+        baseChargeUse = 35f;
     }
 
     @Override

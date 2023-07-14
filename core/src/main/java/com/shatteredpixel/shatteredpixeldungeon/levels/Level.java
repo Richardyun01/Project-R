@@ -189,8 +189,9 @@ public abstract class Level implements Bundlable {
 	public void create() {
 
 		Random.pushGenerator( Dungeon.seedCurDepth() );
-		
-		if (!(Dungeon.bossLevel())) {
+
+		//TODO maybe just make this part of RegularLevel?
+		if (!Dungeon.bossLevel() && Dungeon.branch == 0) {
 
 			addItemToSpawn(Generator.random(Generator.Category.FOOD));
 
@@ -532,6 +533,27 @@ public abstract class Level implements Bundlable {
 			}
 		}
 		return null;
+	}
+
+	//some buff effects have special logic or are cancelled from the hero before transitioning levels
+	public static void beforeTransition(){
+		//time freeze effects need to resolve their pressed cells before transitioning
+		TimekeepersHourglass.timeFreeze timeFreeze = Dungeon.hero.buff(TimekeepersHourglass.timeFreeze.class);
+		if (timeFreeze != null) timeFreeze.disarmPresses();
+		Swiftthistle.TimeBubble timeBubble = Dungeon.hero.buff(Swiftthistle.TimeBubble.class);
+		if (timeBubble != null) timeBubble.disarmPresses();
+		//iron stomach does not persist through chasm falling
+		Talent.WarriorFoodImmunity foodImmune = Dungeon.hero.buff(Talent.WarriorFoodImmunity.class);
+		if (foodImmune != null) foodImmune.detach();
+
+		//spend the hero's partial turns,  so the hero cannot take partial turns between floors
+		Dungeon.hero.spendToWhole();
+		for (Char ch : Actor.chars()){
+			//also adjust any mobs that are now ahead of the hero due to this
+			if (ch.cooldown() < Dungeon.hero.cooldown()){
+				ch.spendToWhole();
+			}
+		}
 	}
 
 	public void seal(){

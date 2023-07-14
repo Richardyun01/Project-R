@@ -41,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.BitmapText;
+import com.watabou.noosa.Camera;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.Visual;
 import com.watabou.noosa.audio.Sample;
@@ -290,7 +291,9 @@ public class Preparation extends Buff implements ActionIndicator.Action {
 				for (int i : PathFinder.NEIGHBOURS8){
 					//cannot blink into a cell that's occupied or impassable, only over them
 					if (Actor.findChar(cell+i) != null)     continue;
-					if (!Dungeon.level.passable[cell+i])    continue;
+					if (!Dungeon.level.passable[cell+i] && !(target.flying && Dungeon.level.avoid[cell+i])) {
+						continue;
+					}
 
 					if (dest == -1 || PathFinder.distance[dest] > PathFinder.distance[cell+i]){
 						dest = cell+i;
@@ -305,6 +308,7 @@ public class Preparation extends Buff implements ActionIndicator.Action {
 
 				if (dest == -1 || PathFinder.distance[dest] == Integer.MAX_VALUE || Dungeon.hero.rooted){
 					GLog.w(Messages.get(Preparation.class, "out_of_reach"));
+					if (Dungeon.hero.rooted) Camera.main.shake( 1, 1f );
 					return;
 				}
 

@@ -26,7 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 public class MagnusArmor extends ClassArmor {
 
     {
-        image = ItemSpriteSheet.ARMOR_NOISE;
+        image = ItemSpriteSheet.ARMOR_MAGNUS;
     }
 
 }

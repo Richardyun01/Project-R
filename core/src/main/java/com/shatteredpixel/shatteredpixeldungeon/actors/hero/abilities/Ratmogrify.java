@@ -36,7 +36,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rat;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
-import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClassArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -51,7 +50,6 @@ import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class Ratmogrify extends ArmorAbility {
@@ -210,6 +208,10 @@ public class Ratmogrify extends ArmorAbility {
 		}
 
 		public Mob getOriginal(){
+			if (original != null) {
+				original.HP = HP;
+				original.pos = pos;
+			}
 			return original;
 		}
 
@@ -218,8 +220,8 @@ public class Ratmogrify extends ArmorAbility {
 		@Override
 		protected boolean act() {
 			if (timeLeft <= 0){
-				original.HP = HP;
-				original.pos = pos;
+				Mob original = getOriginal();
+				this.original = null;
 				original.clearTime();
 				GameScene.add(original);
 

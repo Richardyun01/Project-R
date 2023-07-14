@@ -56,6 +56,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.He
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.warrior.Shockwave;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.KingsCrown;
 import com.shatteredpixel.shatteredpixeldungeon.items.PrincessMirror;
 import com.shatteredpixel.shatteredpixeldungeon.items.ReactiveShield;
 import com.shatteredpixel.shatteredpixeldungeon.items.SpeedLoader;
@@ -195,8 +196,11 @@ public enum HeroClass {
 		 **/
 //erase this finish
 		new TengusMask().collect();
+		new KingsCrown().collect();
 		PotionOfExperience enchan = new PotionOfExperience();
 		enchan.quantity(100).collect();
+		RingOfEnergy plate = new RingOfEnergy();
+		plate.upgrade(100).collect();
 
 		switch (this) {
 			case WARRIOR:

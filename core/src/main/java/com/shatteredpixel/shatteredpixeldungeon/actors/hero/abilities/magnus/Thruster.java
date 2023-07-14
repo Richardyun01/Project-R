@@ -23,7 +23,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 public class Thruster extends ArmorAbility {
 
     {
-        baseChargeUse = 35f;
+        baseChargeUse = 30f;
     }
 
     @Override

@@ -396,8 +396,7 @@ public abstract class Char extends Actor {
 			
 			int dr = Math.round(enemy.drRoll() * AscensionChallenge.statModifier(enemy));
 
-			Barkskin bark = enemy.buff(Barkskin.class);
-			if (bark != null)   dr += Random.NormalIntRange( 0 , bark.level() );
+			dr += Random.NormalIntRange( 0 , Barkskin.currentLevel(this) );
 			
 			if (this instanceof Hero){
 				Hero h = (Hero)this;

@@ -46,7 +46,7 @@ import com.watabou.utils.Random;
 public class ImmobileTrap extends ArmorAbility {
 
     {
-        baseChargeUse = 55f;
+        baseChargeUse = 50f;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class ImmobileTrap extends ArmorAbility {
                 for (int i : PathFinder.NEIGHBOURS25) {
                     Char mob = Actor.findChar(target);
                     if (mob != null && mob != hero && mob.alignment != Char.Alignment.ALLY) {
-                        Buff.affect(mob, Blindness.class, 2f*hero.pointsInTalent(Talent.AREA_DENIAL));
+                        Buff.affect(mob, Blindness.class, 2*hero.pointsInTalent(Talent.AREA_DENIAL));
                     }
                 }
             }

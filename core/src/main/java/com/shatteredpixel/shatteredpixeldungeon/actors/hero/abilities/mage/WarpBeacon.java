@@ -27,7 +27,6 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.abilities.ArmorAbility;
@@ -178,9 +177,9 @@ public class WarpBeacon extends ArmorAbility {
 							}
 
 							TimekeepersHourglass.timeFreeze timeFreeze = hero.buff(TimekeepersHourglass.timeFreeze.class);
-							if (timeFreeze != null) timeFreeze.disarmPressedTraps();
+							if (timeFreeze != null) timeFreeze.disarmPresses();
 							Swiftthistle.TimeBubble timeBubble = hero.buff(Swiftthistle.TimeBubble.class);
-							if (timeBubble != null) timeBubble.disarmPressedTraps();
+							if (timeBubble != null) timeBubble.disarmPresses();
 							Invisibility.dispel();
 
 							InterlevelScene.mode = InterlevelScene.Mode.RETURN;
