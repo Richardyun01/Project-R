@@ -105,7 +105,7 @@ public class Chasm implements Hero.Doom {
 		TimekeepersHourglass.timeFreeze timeFreeze = Dungeon.hero.buff(TimekeepersHourglass.timeFreeze.class);
 		if (timeFreeze != null) timeFreeze.disarmPresses();
 		Swiftthistle.TimeBubble timeBubble = Dungeon.hero.buff(Swiftthistle.TimeBubble.class);
-		if (timeBubble != null) timeBubble.disarmPressedTraps();
+		if (timeBubble != null) timeBubble.disarmPresses();
 		
 		if (Dungeon.hero.isAlive()) {
 			Dungeon.hero.interrupt();
